@@ -1,32 +1,28 @@
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 import { Metadata } from "next"
-import { EB_Garamond, Public_Sans } from "next/font/google"
-import { ReactNode } from "react"
-import { AppProviders } from "@/components/providers/app-providers"
+import { EB_Garamond, Noto_Sans } from "next/font/google"
+import { ConvexClientProvider } from "@/components/convex-client-provider"
+import { SiteFrame } from "@/components/site-frame"
+// oxlint-disable-next-line import/no-unassigned-import
 import "@/globals.css"
 
-const garamond = EB_Garamond({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-garamond",
-})
-
-const publicSans = Public_Sans({
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-public-sans",
-})
+const display = EB_Garamond({ variable: "--font-display-source" })
+const body = Noto_Sans({ variable: "--font-body-source" })
 
 export const metadata: Metadata = {
-  title: { default: "Lily", template: "%s | Lily" },
-  description: "Lily web application",
+  title: { default: "Lily", template: "%s • Lily" },
 }
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function Layout({ children }: LayoutProps<"/">) {
   return (
-    <html className={`${garamond.variable} ${publicSans.variable}`} lang="en">
-      <body>
-        <AppProviders>{children}</AppProviders>
-      </body>
-    </html>
+    <ConvexAuthNextjsServerProvider>
+      <html lang="en" className={`${display.variable} ${body.variable}`}>
+        <body className="font-body antialiased">
+          <ConvexClientProvider>
+            <SiteFrame>{children}</SiteFrame>
+          </ConvexClientProvider>
+        </body>
+      </html>
+    </ConvexAuthNextjsServerProvider>
   )
 }

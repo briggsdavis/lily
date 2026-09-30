@@ -1,9 +1,7 @@
-import { SiteShell } from "@/components/layout/site-shell"
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <SiteShell tone="cream">
-      <h1 className="page-title">Home</h1>
-    </SiteShell>
+    <h1 className="font-display text-[clamp(3rem,10vw,8rem)] leading-[0.95] font-medium tracking-[-0.06em]">
+      Home
+    </h1>
   )
 }

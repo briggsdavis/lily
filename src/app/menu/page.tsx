@@ -1,9 +1,11 @@
-import { SiteShell } from "@/components/layout/site-shell"
+import { Metadata } from "next"
+
+export const metadata: Metadata = { title: "Menu" }
 
 export default function MenuPage() {
   return (
-    <SiteShell tone="green-pink">
-      <h1 className="page-title">Menu</h1>
-    </SiteShell>
+    <h1 className="font-display text-[clamp(3rem,10vw,8rem)] leading-[0.95] font-medium tracking-[-0.06em]">
+      Menu
+    </h1>
   )
 }
