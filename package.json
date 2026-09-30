@@ -1,33 +1,30 @@
 {
   "name": "lily",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:backend": "convex dev",
+    "dev": "bun --parallel dev:next dev:convex",
+    "dev:next": "next dev",
+    "dev:convex": "convex dev",
     "build": "next build",
-    "vercel-build": "convex deploy --cmd 'pnpm build'",
     "start": "next start",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "lint": "oxlint",
+    "format": "oxfmt"
   },
   "dependencies": {
-    "@auth/core": "0.41.1",
-    "@convex-dev/auth": "^0.0.96",
-    "convex": "^1.46.0",
-    "next": "16.3.7",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "@convex-dev/auth": "0.0.96",
+    "convex": "1.46.0",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.7",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  },
-  "packageManager": "pnpm@11.25.0"
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "26.6.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "oxfmt": "0.71.0",
+    "oxlint": "1.86.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2"
+  }
 }

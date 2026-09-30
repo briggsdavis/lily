@@ -1,5 +1,5 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
+import Link from "next/link"
+import type { ReactNode } from "react"
 
 const navigation = [
   { href: "/", label: "Home" },
@@ -7,17 +7,11 @@ const navigation = [
   { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-] as const;
+] as const
 
-type Tone = "cream" | "green-pink" | "green-cream" | "burgundy";
+type Tone = "cream" | "green-pink" | "green-cream" | "burgundy"
 
-export function SiteShell({
-  children,
-  tone,
-}: {
-  children: ReactNode;
-  tone: Tone;
-}) {
+export function SiteShell({ children, tone }: { children: ReactNode; tone: Tone }) {
   return (
     <div className="site-shell" data-tone={tone}>
       <header className="site-header">
@@ -34,5 +28,5 @@ export function SiteShell({
       </header>
       <main className="page-content">{children}</main>
     </div>
-  );
+  )
 }
