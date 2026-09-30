@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  sharp: false
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - '@convex-dev/auth@0.0.96'
