@@ -114,7 +114,7 @@ function AdminAuthForm() {
   }, [])
 
   return (
-    <div className="w-full max-w-md">
+    <div className="mx-auto w-full max-w-md">
       <div className="mb-8 flex gap-2 rounded-full border-[0.75px] border-current/30 p-1">
         <button
           aria-pressed={mode === "signIn"}
