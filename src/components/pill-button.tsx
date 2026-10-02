@@ -1,20 +1,24 @@
-import type { ReactNode } from "react"
+import { ReactNode } from "react"
 
 const colorStyles = {
   burgundy: {
-    button: "text-burgundy hover:text-cream",
+    button: "text-burgundy",
+    text: "text-cream",
     fill: "bg-burgundy",
   },
   forest: {
-    button: "text-dark-green hover:text-pink",
+    button: "text-dark-green",
+    text: "text-pink",
     fill: "bg-dark-green",
   },
   rose: {
-    button: "text-dark-green hover:text-burgundy",
+    button: "text-dark-green",
+    text: "text-burgundy",
     fill: "bg-pink",
   },
   clay: {
-    button: "text-orange-brown hover:text-cream",
+    button: "text-orange-brown",
+    text: "text-cream",
     fill: "bg-orange-brown",
   },
 } as const
@@ -32,14 +36,16 @@ export function PillButton({
 
   return (
     <button
-      className={`group relative isolate inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-7 py-3 text-sm font-semibold tracking-[0.08em] uppercase transition-[color,transform] duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] ${styles.button}`}
+      className={`group relative isolate inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-7 py-3 text-sm font-semibold uppercase transition-transform duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] ${styles.button}`}
       type="button"
     >
+      <span className="relative text-center">{children}</span>
       <span
         aria-hidden="true"
-        className={`absolute inset-0 -z-10 origin-bottom scale-y-0 rounded-[inherit] transition-transform duration-[1100ms] ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-y-100 group-focus-visible:scale-y-100 ${styles.fill}`}
-      />
-      <span className="relative text-center">{children}</span>
+        className={`pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit] px-7 py-3 text-center transition-[clip-path] duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0_0_0_0)] group-focus-visible:[clip-path:inset(0_0_0_0)] ${styles.fill} ${styles.text}`}
+      >
+        {children}
+      </span>
     </button>
   )
 }

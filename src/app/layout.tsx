@@ -1,8 +1,10 @@
-import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
+import { ConvexAuthNextjsServerProvider as ConvexAuth } from "@convex-dev/auth/nextjs/server"
 import { Metadata } from "next"
 import { EB_Garamond, Noto_Sans } from "next/font/google"
 import { ConvexClientProvider } from "@/components/convex-client-provider"
-import { SiteFrame } from "@/components/site-frame"
+import { Footer } from "@/components/footer"
+import { Navbar } from "@/components/navbar"
+import { SiteBackground } from "@/components/site-background"
 // oxlint-disable-next-line import/no-unassigned-import
 import "@/globals.css"
 
@@ -15,14 +17,18 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: LayoutProps<"/">) {
   return (
-    <ConvexAuthNextjsServerProvider>
-      <html lang="en" className={`${display.variable} ${body.variable}`}>
-        <body className="font-body antialiased">
+    <ConvexAuth>
+      <html lang="en" className={display.variable + " " + body.variable}>
+        <body className="flex min-h-dvh flex-col font-body antialiased">
           <ConvexClientProvider>
-            <SiteFrame>{children}</SiteFrame>
+            <SiteBackground>
+              <Navbar />
+              <main className="grow">{children}</main>
+              <Footer />
+            </SiteBackground>
           </ConvexClientProvider>
         </body>
       </html>
-    </ConvexAuthNextjsServerProvider>
+    </ConvexAuth>
   )
 }

@@ -12,3 +12,23 @@
   --color-cream: #fff3e0;
   --color-orange-brown: #8d6e50;
 }
+
+@layer components {
+  .animated-underline {
+    @apply relative inline-block no-underline;
+  }
+
+  .animated-underline::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 -bottom-1 h-px origin-right scale-x-0 bg-current transition-transform duration-300 ease-out motion-reduce:transition-none;
+  }
+
+  .animated-underline:hover::after,
+  .animated-underline:focus-visible::after {
+    @apply origin-left scale-x-100;
+  }
+
+  .animated-underline[aria-current="page"]::after {
+    @apply origin-left scale-x-100 transition-none;
+  }
+}

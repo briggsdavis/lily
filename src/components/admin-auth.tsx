@@ -3,8 +3,8 @@
 import { useAuthActions } from "@convex-dev/auth/react"
 import { useConvexAuth, useQuery } from "convex/react"
 import { useCallback, useState } from "react"
-import type { FormEvent } from "react"
-import { api } from "../../convex/_generated/api"
+import { SubmitEvent } from "react"
+import { api } from "#/_generated/api"
 
 type AuthMode = "signIn" | "signUp"
 
@@ -14,12 +14,15 @@ function authErrorMessage(error: unknown) {
   if (message.includes("ADMIN_ACCESS_DENIED")) {
     return "This email is not authorized to access the admin area."
   }
+
   if (message.includes("Invalid credentials")) {
     return "The email or password is incorrect."
   }
+
   if (message.includes("already exists")) {
-    return "An account already exists for this email. Sign in instead."
+    return "An account already exists for this email. Log in instead."
   }
+
   if (message.includes("Invalid password")) {
     return "Use a password with at least 8 characters."
   }
@@ -33,7 +36,7 @@ function AdminPanel() {
   const handleSignOut = useCallback(() => void signOut(), [signOut])
 
   if (viewer === undefined) {
-    return <p className="text-sm">Checking your access…</p>
+    return <p className="text-sm">Checking your access...</p>
   }
 
   if (viewer === null) {
@@ -41,11 +44,11 @@ function AdminPanel() {
       <div className="max-w-md space-y-6">
         <p>Your account no longer has access to this admin area.</p>
         <button
-          className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold tracking-[0.08em] uppercase transition-colors hover:bg-burgundy hover:text-cream"
+          className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold uppercase transition-colors hover:bg-burgundy hover:text-cream"
           onClick={handleSignOut}
           type="button"
         >
-          Sign out
+          Log out
         </button>
       </div>
     )
@@ -54,18 +57,18 @@ function AdminPanel() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-xs font-semibold tracking-[0.12em] uppercase opacity-65">Signed in as</p>
+        <p className="text-xs font-semibold uppercase opacity-65">Signed in as</p>
         <p className="mt-2 text-lg">{viewer.email}</p>
       </div>
-      <p className="max-w-lg text-lg leading-relaxed">
+      <p className="max-w-lg text-lg">
         The admin area is ready. There is nothing to manage here yet.
       </p>
       <button
-        className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold tracking-[0.08em] uppercase transition-colors hover:bg-burgundy hover:text-cream"
+        className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold uppercase transition-colors hover:bg-burgundy hover:text-cream"
         onClick={handleSignOut}
         type="button"
       >
-        Sign out
+        Log out
       </button>
     </div>
   )
@@ -78,7 +81,7 @@ function AdminAuthForm() {
   const { signIn } = useAuthActions()
 
   const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
+    async (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault()
       setError(null)
 
@@ -122,7 +125,7 @@ function AdminAuthForm() {
           onClick={showSignIn}
           type="button"
         >
-          Sign in
+          Log in
         </button>
         <button
           aria-pressed={mode === "signUp"}
@@ -130,15 +133,13 @@ function AdminAuthForm() {
           onClick={showSignUp}
           type="button"
         >
-          Create account
+          Sign up
         </button>
       </div>
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <label className="block">
-          <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">
-            Email
-          </span>
+          <span className="mb-2 block text-xs font-semibold uppercase">Email</span>
           <input
             autoComplete="email"
             className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
@@ -149,9 +150,7 @@ function AdminAuthForm() {
         </label>
 
         <label className="block">
-          <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">
-            Password
-          </span>
+          <span className="mb-2 block text-xs font-semibold uppercase">Password</span>
           <input
             autoComplete={mode === "signIn" ? "current-password" : "new-password"}
             className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
@@ -164,9 +163,7 @@ function AdminAuthForm() {
 
         {mode === "signUp" ? (
           <label className="block">
-            <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">
-              Confirm password
-            </span>
+            <span className="mb-2 block text-xs font-semibold uppercase">Confirm password</span>
             <input
               autoComplete="new-password"
               className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
@@ -187,7 +184,7 @@ function AdminAuthForm() {
           disabled={submitting}
           type="submit"
         >
-          {submitting ? "Please wait…" : mode === "signIn" ? "Sign in" : "Set password"}
+          {submitting ? "Please wait..." : mode === "signIn" ? "Log in" : "Sign up"}
         </button>
       </form>
     </div>
@@ -198,7 +195,7 @@ export function AdminAuth() {
   const { isAuthenticated, isLoading } = useConvexAuth()
 
   if (isLoading) {
-    return <p className="text-sm">Loading…</p>
+    return <p className="text-sm">Loading...</p>
   }
 
   return isAuthenticated ? <AdminPanel /> : <AdminAuthForm />
