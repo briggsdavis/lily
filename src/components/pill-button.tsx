@@ -32,7 +32,7 @@ export function PillButton({
 
   return (
     <button
-      className={`group relative isolate inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-7 py-3 text-sm font-semibold tracking-[0.08em] uppercase transition-[color,transform] duration-700 ease-out active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${styles.button}`}
+      className={`group relative isolate inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-7 py-3 text-sm font-semibold tracking-[0.08em] uppercase transition-[color,transform] duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] ${styles.button}`}
       type="button"
     >
       <span

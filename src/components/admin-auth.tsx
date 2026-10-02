@@ -136,10 +136,12 @@ function AdminAuthForm() {
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <label className="block">
-          <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">Email</span>
+          <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">
+            Email
+          </span>
           <input
             autoComplete="email"
-            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             name="email"
             required
             type="email"
@@ -147,10 +149,12 @@ function AdminAuthForm() {
         </label>
 
         <label className="block">
-          <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">Password</span>
+          <span className="mb-2 block text-xs font-semibold tracking-[0.12em] uppercase">
+            Password
+          </span>
           <input
             autoComplete={mode === "signIn" ? "current-password" : "new-password"}
-            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             minLength={8}
             name="password"
             required
@@ -165,7 +169,7 @@ function AdminAuthForm() {
             </span>
             <input
               autoComplete="new-password"
-              className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
               minLength={8}
               name="confirmPassword"
               required
