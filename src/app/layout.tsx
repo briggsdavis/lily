@@ -8,8 +8,8 @@ import { SiteBackground } from "@/components/site-background"
 // oxlint-disable-next-line import/no-unassigned-import
 import "@/globals.css"
 
-const display = EB_Garamond({ variable: "--font-display-source" })
-const body = Noto_Sans({ variable: "--font-body-source" })
+const display = EB_Garamond({ variable: "--font-display-source", subsets: ["latin"] })
+const body = Noto_Sans({ variable: "--font-body-source", subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: { default: "Lily", template: "%s • Lily" },
