@@ -13,22 +13,24 @@ const body = Noto_Sans({ variable: "--font-body-source", subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: { default: "Lily", template: "%s • Lily" },
+  description: "Lily is a neighborhood kitchen and cocktail bar built around seasonal plates and generous evenings.",
+  icons: { icon: "/primary logo.png" },
 }
 
 export default function Layout({ children }: LayoutProps<"/">) {
-  return (
-    <ConvexAuth>
-      <html lang="en" className={display.variable + " " + body.variable}>
-        <body className="flex min-h-dvh flex-col font-body antialiased">
-          <ConvexClientProvider>
-            <SiteBackground>
-              <Navbar />
-              <main className="grow">{children}</main>
-              <Footer />
-            </SiteBackground>
-          </ConvexClientProvider>
-        </body>
-      </html>
-    </ConvexAuth>
+  const document = (
+    <html lang="en" className={display.variable + " " + body.variable}>
+      <body className="flex min-h-dvh flex-col font-body antialiased">
+        <ConvexClientProvider>
+          <SiteBackground>
+            <Navbar />
+            <main className="site-main grow">{children}</main>
+            <Footer />
+          </SiteBackground>
+        </ConvexClientProvider>
+      </body>
+    </html>
   )
+
+  return process.env.NEXT_PUBLIC_CONVEX_URL ? <ConvexAuth>{document}</ConvexAuth> : document
 }

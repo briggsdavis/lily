@@ -1,18 +1,32 @@
+import Image from "next/image"
+import { TransitionLink } from "@/components/transition-link"
+
 const year = new Date().getFullYear()
 
 export function Footer() {
   return (
-    <footer className="flex items-center justify-between gap-4 px-5 py-6 text-xs md:px-8 xl:px-16">
-      <p>© {year} Cala Lily</p>
-
-      <a
-        className="animated-underline"
-        href="https://socialsatisfaction.agency"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Made by Social Satisfaction
-      </a>
+    <footer className="site-footer">
+      <div className="site-footer__brand">
+        <Image alt="" height={566} src="/beige decor.png" width={544} />
+        <p>Seasonal plates, garden drinks, and evenings with room to unfold.</p>
+      </div>
+      <nav aria-label="Footer">
+        <TransitionLink href="/menu">Menu</TransitionLink>
+        <TransitionLink href="/events">Events</TransitionLink>
+        <TransitionLink href="/about">About</TransitionLink>
+        <TransitionLink href="/contact">Reservations</TransitionLink>
+      </nav>
+      <div className="site-footer__meta">
+        <p>© {year} Lily</p>
+        <a
+          className="animated-underline"
+          href="https://socialsatisfaction.agency"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Made by Social Satisfaction
+        </a>
+      </div>
     </footer>
   )
 }
