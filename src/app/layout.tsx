@@ -1,4 +1,3 @@
-import { ConvexAuthNextjsServerProvider as ConvexAuth } from "@convex-dev/auth/nextjs/server"
 import { Metadata } from "next"
 import { EB_Garamond, Noto_Sans } from "next/font/google"
 import { ConvexClientProvider } from "@/components/convex-client-provider"
@@ -32,5 +31,5 @@ export default function Layout({ children }: LayoutProps<"/">) {
     </html>
   )
 
-  return process.env.NEXT_PUBLIC_CONVEX_URL ? <ConvexAuth>{document}</ConvexAuth> : document
+  return document
 }

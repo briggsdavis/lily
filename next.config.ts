@@ -1,5 +1,8 @@
 import { NextConfig } from "next"
 
-const config: NextConfig = {}
+const config: NextConfig = {
+  output: "export",
+  images: { unoptimized: true },
+}
 
 export default config
