@@ -7,7 +7,12 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-footer__brand parallax-shift" data-parallax="0.15">
-        <Image alt="Lily Kitchen and Cocktails" height={882} src="/primary logo.png" width={890} />
+        <Image
+          alt="Lily Kitchen and Cocktails"
+          height={882}
+          src="/beigeprimarylogo.png"
+          width={890}
+        />
         <p>Seasonal plates, garden drinks, and evenings with room to unfold.</p>
       </div>
       <nav aria-label="Footer" className="parallax-shift" data-parallax="0.1">

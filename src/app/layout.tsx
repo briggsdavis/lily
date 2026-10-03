@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: { default: "Lily", template: "%s • Lily" },
   description:
     "Lily is a Pittsburgh neighborhood kitchen and cocktail bar built around seasonal plates and generous evenings.",
-  icons: { icon: "/primary logo.png" },
+  icons: { icon: "/beigeprimarylogo.png" },
 }
 
 export default function Layout({ children }: LayoutProps<"/">) {

@@ -89,7 +89,7 @@ export function Navbar() {
             alt="Lily Kitchen and Cocktails"
             height={882}
             priority={current === "/"}
-            src="/primary logo.png"
+            src="/beigeprimarylogo.png"
             width={890}
           />
         </Link>
