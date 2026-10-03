@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -16,6 +17,52 @@ const routes = [
 export function Navbar() {
   const current = "/" + usePathname().split("/")[1]
   const [open, setOpen] = useState(false)
+  const [useCreamControls, setUseCreamControls] = useState(
+    current === "/menu" || current === "/events",
+  )
+
+  useEffect(() => {
+    const darkBackgrounds = new Set(["rgb(59, 65, 65)", "rgb(85, 58, 61)"])
+    let frame = 0
+
+    function updateControlColor() {
+      const actions = document.querySelector<HTMLElement>(".site-header__actions")
+      if (!actions) return
+
+      const bounds = actions.getBoundingClientRect()
+      const x = bounds.left + bounds.width / 2
+      const y = bounds.top + bounds.height / 2
+      const layers = document.elementsFromPoint(x, y)
+      let nextUseCream = false
+
+      for (const layer of layers) {
+        if (layer.closest(".site-header") || layer.closest(".menu-overlay")) continue
+
+        const background = window.getComputedStyle(layer).backgroundColor
+        if (background === "rgba(0, 0, 0, 0)" || background === "transparent") continue
+
+        nextUseCream = darkBackgrounds.has(background)
+        break
+      }
+
+      setUseCreamControls(nextUseCream)
+      frame = 0
+    }
+
+    function requestControlColorUpdate() {
+      if (frame) return
+      frame = window.requestAnimationFrame(updateControlColor)
+    }
+
+    updateControlColor()
+    window.addEventListener("scroll", requestControlColorUpdate, { passive: true })
+    window.addEventListener("resize", requestControlColorUpdate)
+    return () => {
+      window.removeEventListener("scroll", requestControlColorUpdate)
+      window.removeEventListener("resize", requestControlColorUpdate)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
+  }, [current])
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
@@ -34,22 +81,38 @@ export function Navbar() {
 
   return (
     <>
-      <header className="site-header">
+      <header
+        className={`site-header ${current === "/" ? "site-header--home" : ""} ${useCreamControls ? "site-header--cream-controls" : "site-header--brown-controls"}`}
+      >
         <Link aria-label="Lily home" className="brand-mark" href="/">
-          <span>Lily</span>
-          <small>Kitchen &amp; Cocktails</small>
+          <Image
+            alt="Lily Kitchen and Cocktails"
+            height={882}
+            priority={current === "/"}
+            src="/primary logo.png"
+            width={890}
+          />
         </Link>
 
-        <button
-          aria-expanded={open}
-          aria-label={open ? "Close navigation" : "Open navigation"}
-          className="menu-toggle"
-          onClick={() => setOpen((value) => !value)}
-          type="button"
-        >
-          <span />
-          <span />
-        </button>
+        <div className="site-header__actions">
+          <TransitionLink
+            aria-current={current === "/contact" ? "page" : undefined}
+            className="site-header__contact animated-underline"
+            href="/contact"
+          >
+            Contact
+          </TransitionLink>
+          <button
+            aria-expanded={open}
+            aria-label={open ? "Close navigation" : "Open navigation"}
+            className="menu-toggle"
+            onClick={() => setOpen((value) => !value)}
+            type="button"
+          >
+            <span />
+            <span />
+          </button>
+        </div>
       </header>
 
       <div aria-hidden={!open} className={`menu-overlay ${open ? "is-open" : ""}`}>
@@ -74,14 +137,15 @@ export function Navbar() {
           <div className="menu-overlay__contact">
             <p className="eyebrow">Visit</p>
             <address>
-              14 Garden Row<br />
-              Madrid, 28004
+              214 Smallman Street
+              <br />
+              Pittsburgh, PA 15222
             </address>
-            <a href="tel:+34915550142">+34 915 550 142</a>
+            <a href="tel:+14125550142">(412) 555-0142</a>
             <a href="mailto:hello@lilyrestaurant.com">hello@lilyrestaurant.com</a>
             <div className="menu-overlay__hours">
-              <p>Tue–Thu · 18:00–00:00</p>
-              <p>Fri–Sun · 13:00–00:30</p>
+              <p>Tue–Thu · 5:00 PM–11:00 PM</p>
+              <p>Fri–Sun · 12:00 PM–12:00 AM</p>
             </div>
           </div>
         </div>
