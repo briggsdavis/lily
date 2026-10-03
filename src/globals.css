@@ -221,6 +221,8 @@ a {
 .home-hero__logo img {
   width: min(45vw, 35rem);
   height: auto;
+  transform: translate3d(0, var(--parallax-y, 0), 0);
+  will-change: transform;
 }
 
 .home-hero__footer {
@@ -239,6 +241,10 @@ a {
   font-weight: 500;
   line-height: 1.02;
 }
+
+.home-hero__footer [data-reveal]:nth-child(1) { --reveal-delay: 120ms; }
+.home-hero__footer [data-reveal]:nth-child(2) { --reveal-delay: 260ms; }
+.home-hero__footer [data-reveal]:nth-child(3) { --reveal-delay: 420ms; }
 
 .text-link {
   display: inline-flex;
@@ -385,13 +391,20 @@ a {
   object-fit: cover;
 }
 
+.menu-card__image img,
+.about-preview__image img,
+.events-collage__item img {
+  transform: translate3d(0, var(--parallax-y, 0), 0) scale(1.1);
+  will-change: transform;
+}
+
 .menu-card__image img {
   transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1), filter 500ms ease;
 }
 
 .menu-card:hover .menu-card__image img,
 .menu-card:focus-visible .menu-card__image img {
-  transform: scale(1.045);
+  transform: translate3d(0, var(--parallax-y, 0), 0) scale(1.145);
   filter: saturate(1.08);
 }
 
@@ -412,6 +425,10 @@ a {
   animation: dish-roll 680ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.menu-card:nth-child(1) { --reveal-delay: 80ms; }
+.menu-card:nth-child(2) { --reveal-delay: 220ms; }
+.menu-card:nth-child(3) { --reveal-delay: 360ms; }
+
 .section-action {
   display: flex;
   justify-content: flex-end;
@@ -423,8 +440,13 @@ a {
   grid-template-columns: minmax(16rem, 0.72fr) minmax(20rem, 1.28fr);
   gap: clamp(3rem, 10vw, 12rem);
   align-items: center;
-  color: #8d6e50;
-  background: #fff3e0;
+  color: #fff3e0;
+  background: #553a3d;
+}
+
+.about-preview h2,
+.about-preview .eyebrow {
+  color: #bea2a7;
 }
 
 .about-preview__image {
@@ -457,8 +479,8 @@ a {
 }
 
 .events-preview {
-  color: #fff3e0;
-  background: #553a3d;
+  color: #8d6e50;
+  background: #fff3e0;
 }
 
 .events-preview__heading {
@@ -470,7 +492,7 @@ a {
 }
 
 .events-preview__heading h2 {
-  color: #bea2a7;
+  color: #553a3d;
 }
 
 .events-collage {
@@ -523,8 +545,8 @@ a {
 }
 
 .reserve-band {
-  color: #553a3d;
-  background: #bea2a7;
+  color: #bea2a7;
+  background: #3b4141;
 }
 
 .reserve-card {
@@ -722,8 +744,8 @@ a {
   gap: clamp(3rem, 8vw, 8rem);
   align-items: end;
   padding: clamp(4rem, 8vw, 7rem) var(--page-gutter) 1.5rem;
-  color: #bea2a7;
-  background: #3b4141;
+  color: #fff3e0;
+  background: #553a3d;
 }
 
 .site-footer__brand {
@@ -742,6 +764,7 @@ a {
   font-family: var(--font-display-source), serif;
   font-size: clamp(1.35rem, 2.3vw, 2.25rem);
   line-height: 1.15;
+  color: #bea2a7;
 }
 
 .site-footer nav {
@@ -773,6 +796,58 @@ a {
     filter: blur(0);
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.parallax-shift {
+  transform: translate3d(0, var(--parallax-y, 0), 0);
+  will-change: transform;
+}
+
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  filter: blur(18px);
+  transform: translate3d(0, 2rem, 0);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1050ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1050ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, filter, transform;
+}
+
+.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+}
+
+.section-intro [data-reveal]:nth-child(1),
+.about-preview__copy > [data-reveal]:nth-child(1),
+.events-preview__heading [data-reveal]:nth-child(1),
+.reserve-card > [data-reveal]:nth-child(1) { --reveal-delay: 40ms; }
+
+.section-intro [data-reveal]:nth-child(2),
+.about-preview__copy > [data-reveal]:nth-child(2),
+.events-preview__heading [data-reveal]:nth-child(2),
+.reserve-card > [data-reveal]:nth-child(2) { --reveal-delay: 180ms; }
+
+.section-intro > [data-reveal],
+.about-preview__paragraphs [data-reveal]:nth-child(1),
+.events-collage [data-reveal]:nth-child(2),
+.reserve-card > [data-reveal]:nth-child(3) { --reveal-delay: 320ms; }
+
+.about-preview__paragraphs [data-reveal]:nth-child(2),
+.events-collage [data-reveal]:nth-child(3),
+.reserve-card > [data-reveal]:nth-child(4) { --reveal-delay: 460ms; }
+
+.events-collage [data-reveal]:nth-child(4) { --reveal-delay: 560ms; }
+.events-collage [data-reveal]:nth-child(5) { --reveal-delay: 680ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-shift,
+  [data-parallax] {
+    transform: none !important;
   }
 }
 

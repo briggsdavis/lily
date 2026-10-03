@@ -39,9 +39,15 @@ export function MenuRotator() {
         const item = feature.items[(step + index) % feature.items.length]
 
         return (
-          <TransitionLink className="menu-card" href="/menu" key={feature.category}>
+          <TransitionLink className="menu-card" data-reveal href="/menu" key={feature.category}>
             <div className="menu-card__image">
-              <Image alt={feature.alt} fill sizes="(max-width: 800px) 90vw, 31vw" src={feature.image} />
+              <Image
+                alt={feature.alt}
+                data-parallax="0.055"
+                fill
+                sizes="(max-width: 800px) 90vw, 31vw"
+                src={feature.image}
+              />
             </div>
             <div className="menu-card__caption">
               <p className="eyebrow">{feature.category}</p>
