@@ -98,9 +98,9 @@ export function Navbar() {
           <TransitionLink
             aria-current={current === "/contact" ? "page" : undefined}
             className="site-header__contact animated-underline"
-            href="/contact"
+            href="/contact?reason=reservation"
           >
-            Contact
+            Reserve
           </TransitionLink>
           <button
             aria-expanded={open}

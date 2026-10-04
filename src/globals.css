@@ -846,6 +846,11 @@ a {
   line-height: 0.8;
 }
 
+.contact-page__visual-title {
+  view-transition-name: inquiry-visual-title;
+  animation: inquiry-title-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .contact-page__booking {
   display: flex;
   min-height: 100svh;
@@ -877,7 +882,7 @@ a {
 
 .reservation-form {
   display: grid;
-  gap: clamp(0.75rem, 1.5vh, 1rem);
+  gap: clamp(1.15rem, 2.25vh, 1.7rem);
 }
 
 .reservation-form__row {
@@ -896,6 +901,7 @@ a {
 }
 
 .field input,
+.field textarea,
 .picker-field__trigger {
   width: 100%;
   min-height: 2.8rem;
@@ -911,20 +917,105 @@ a {
 }
 
 .field input:focus,
+.field textarea:focus,
 .picker-field__trigger:focus-visible,
 .field.has-error .picker-field__trigger {
   border-color: currentColor;
   box-shadow: 0 1px 0 currentColor;
 }
 
-.field--date .picker-field__trigger {
-  border-bottom-color: transparent;
-  box-shadow: none;
-}
-
-.field input::placeholder {
+.field input::placeholder,
+.field textarea::placeholder {
   color: rgb(85 58 61 / 72%);
   opacity: 1;
+}
+
+.field textarea {
+  min-height: 4.8rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.inquiry-reason {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.inquiry-reason legend {
+  margin-bottom: 0.7rem;
+}
+
+.inquiry-reason__options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.45rem, 1vw, 0.75rem);
+}
+
+.inquiry-reason__options button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  overflow: hidden;
+  min-height: 3rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0.75px solid currentColor;
+  border-radius: 999px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.inquiry-reason__label {
+  position: relative;
+  text-align: center;
+}
+
+.inquiry-reason__fill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  padding: 0.65rem 0.75rem;
+  color: #fdf2e2;
+  background: #553a3d;
+  text-align: center;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 500ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.inquiry-reason__options button:hover,
+.inquiry-reason__options button:focus-visible,
+.inquiry-reason__options button.is-selected {
+  outline: none;
+}
+
+.inquiry-reason__options button:hover .inquiry-reason__fill,
+.inquiry-reason__options button:focus-visible .inquiry-reason__fill,
+.inquiry-reason__options button.is-selected .inquiry-reason__fill {
+  clip-path: inset(0 0 0 0);
+}
+
+.inquiry-reason.has-error .inquiry-reason__options button {
+  box-shadow: 0 0 0 1px #553a3d;
+}
+
+.field-error {
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+}
+
+.inquiry-fields {
+  display: grid;
+  gap: clamp(1.15rem, 2.25vh, 1.7rem);
+  view-transition-name: inquiry-fields;
+  animation: inquiry-fields-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .picker-field__trigger {
@@ -1045,6 +1136,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  view-transition-name: inquiry-footer;
 }
 
 .consent {
@@ -1075,6 +1167,81 @@ a {
   padding-left: 0.8rem;
   font-size: 0.85rem;
   line-height: 1.5;
+}
+
+@keyframes inquiry-title-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes inquiry-fields-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(0.65rem);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(inquiry-fields),
+::view-transition-group(inquiry-footer),
+::view-transition-group(inquiry-visual-title) {
+  animation-duration: 680ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(inquiry-fields),
+::view-transition-old(inquiry-visual-title) {
+  animation: inquiry-mode-out 360ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(inquiry-fields),
+::view-transition-new(inquiry-visual-title) {
+  animation: inquiry-mode-in 560ms 90ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-old(inquiry-footer),
+::view-transition-new(inquiry-footer) {
+  animation-duration: 420ms;
+  mix-blend-mode: normal;
+}
+
+@keyframes inquiry-mode-out {
+  to {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(-0.7rem);
+  }
+}
+
+@keyframes inquiry-mode-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(0.9rem);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
 .contact-details-band {

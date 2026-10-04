@@ -19,7 +19,7 @@ export function Footer() {
         <TransitionLink href="/menu">Menu</TransitionLink>
         <TransitionLink href="/events">Events</TransitionLink>
         <TransitionLink href="/about">About</TransitionLink>
-        <TransitionLink href="/contact">Reservations</TransitionLink>
+        <TransitionLink href="/contact?reason=reservation">Reservations</TransitionLink>
       </nav>
       <div className="site-footer__meta">
         <div className="site-footer__legal">

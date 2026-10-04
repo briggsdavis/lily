@@ -19,7 +19,7 @@ export default function HomePage() {
           </h1>
           <TransitionLink
             className="text-link home-hero__copy home-hero__copy--three"
-            href="/contact"
+            href="/contact?reason=reservation"
           >
             Reserve a table
           </TransitionLink>
@@ -131,7 +131,7 @@ export default function HomePage() {
           <h2 data-reveal>Make your reservation now.</h2>
           <p data-reveal>Join us for dinner, drinks, or the pleasure of both.</p>
           <span data-reveal>
-            <PillLink color="burgundy" href="/contact">
+            <PillLink color="burgundy" href="/contact?reason=reservation">
               Book a table
             </PillLink>
           </span>
