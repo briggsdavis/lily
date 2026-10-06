@@ -1,7 +1,7 @@
 "use client"
 
-import { useLayoutEffect } from "react"
 import { usePathname } from "next/navigation"
+import { useLayoutEffect } from "react"
 
 export function ScrollEffects() {
   const pathname = usePathname()

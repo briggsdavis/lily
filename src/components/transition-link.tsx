@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { ComponentProps, MouseEvent, ReactNode } from "react"
 import { useRouter } from "next/navigation"
+import { ComponentProps, MouseEvent, ReactNode } from "react"
 
 export function TransitionLink({
   children,
