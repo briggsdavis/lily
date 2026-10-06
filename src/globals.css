@@ -698,6 +698,7 @@ a {
 
 .about-preview__image {
   position: relative;
+  overflow: hidden;
   width: min(100%, 30rem);
   aspect-ratio: 9 / 16;
   justify-self: start;
