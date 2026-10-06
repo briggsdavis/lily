@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { AdminAuth } from "@/components/admin-auth"
+import { AdminClient } from "@/components/admin-client"
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -13,13 +13,7 @@ export default function AdminPage() {
           <p className="mb-3 text-xs font-semibold uppercase opacity-65">Private area</p>
           <h1 className="font-display text-5xl font-medium md:text-7xl xl:text-8xl">Admin</h1>
         </div>
-        {process.env.NEXT_PUBLIC_CONVEX_URL ? (
-          <AdminAuth />
-        ) : (
-          <p className="max-w-md text-sm leading-6">
-            The admin area is not configured in this environment.
-          </p>
-        )}
+        <AdminClient />
       </section>
     </div>
   )
