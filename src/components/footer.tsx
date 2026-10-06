@@ -18,6 +18,7 @@ export function Footer() {
       <nav aria-label="Footer" className="parallax-shift" data-parallax="0.1">
         <TransitionLink href="/menu">Menu</TransitionLink>
         <TransitionLink href="/events">Events</TransitionLink>
+        <TransitionLink href="/catering">Catering</TransitionLink>
         <TransitionLink href="/about">About</TransitionLink>
         <TransitionLink href="/contact?reason=reservation">Reservations</TransitionLink>
       </nav>

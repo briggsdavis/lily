@@ -809,6 +809,175 @@ a {
   line-height: 1.6;
 }
 
+.catering-hero {
+  display: grid;
+  min-height: 100svh;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(24rem, 1.28fr);
+  gap: clamp(2.5rem, 7vw, 8rem);
+  align-items: center;
+  padding: clamp(8rem, 14vh, 10rem) var(--page-gutter) clamp(4rem, 8vh, 7rem);
+  color: #876f54;
+  background: #fdf2e2;
+}
+
+.catering-hero__copy,
+.catering-menu__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.catering-hero__copy {
+  max-width: 31rem;
+}
+
+.catering-hero__copy h1 {
+  margin: 0.6rem 0 1.5rem;
+  color: #553a3d;
+  font-family: var(--font-display-source), serif;
+  font-size: clamp(3.2rem, 6vw, 6.5rem);
+  font-weight: 500;
+  line-height: 0.85;
+}
+
+.catering-hero__copy > p:not(.eyebrow) {
+  max-width: 37ch;
+  margin-bottom: 2rem;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.catering-hero__image,
+.catering-menu__image {
+  position: relative;
+  overflow: hidden;
+}
+
+.catering-hero__image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+.catering-hero__image img,
+.catering-menu__image img {
+  object-fit: cover;
+  transform: translate3d(0, var(--parallax-y, 0), 0) scale(1.1);
+  will-change: transform;
+}
+
+.catering-occasions {
+  color: #bea2a7;
+  background: #3b4141;
+}
+
+.catering-occasions__heading {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.7fr) minmax(18rem, 1.3fr);
+  gap: clamp(2rem, 8vw, 8rem);
+  margin-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.catering-occasions__heading h2,
+.catering-menu__copy h2,
+.catering-cta h2 {
+  font-family: var(--font-display-source), serif;
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.catering-occasions__heading h2 {
+  max-width: 11ch;
+}
+
+.catering-occasions__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.catering-occasions__grid article {
+  border-top: 1px solid rgb(190 162 167 / 50%);
+  padding: 1.25rem clamp(1.25rem, 3vw, 3rem) 0 0;
+}
+
+.catering-occasions__grid article + article {
+  border-left: 1px solid rgb(190 162 167 / 50%);
+  padding-left: clamp(1.25rem, 3vw, 3rem);
+}
+
+.catering-occasions__grid h3 {
+  margin: clamp(2.5rem, 5vw, 5rem) 0 1rem;
+  font-family: var(--font-display-source), serif;
+  font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.catering-occasions__grid article > p:last-child {
+  max-width: 32ch;
+  line-height: 1.7;
+}
+
+.catering-menu {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.85fr) minmax(20rem, 1.15fr);
+  gap: clamp(3rem, 10vw, 11rem);
+  align-items: center;
+  color: #876f54;
+  background: #fdf2e2;
+}
+
+.catering-menu__image {
+  width: min(100%, 34rem);
+  aspect-ratio: 4 / 5;
+}
+.catering-menu__copy {
+  max-width: 40rem;
+}
+
+.catering-menu__copy h2 {
+  max-width: 10ch;
+  margin: 0.65rem 0 clamp(2rem, 5vw, 4rem);
+  color: #553a3d;
+}
+
+.catering-menu__copy > p:not(.eyebrow) {
+  max-width: 54ch;
+  line-height: 1.75;
+}
+.catering-menu__copy > p + p {
+  margin-top: 1rem;
+}
+.catering-menu__copy > span {
+  margin-top: 2rem;
+}
+
+.catering-cta {
+  color: #bea2a7;
+  background: #553a3d;
+}
+
+.catering-cta__inner {
+  display: flex;
+  min-height: min(64vh, 42rem);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  padding: clamp(2.5rem, 8vw, 7rem);
+  text-align: center;
+}
+
+.catering-cta h2 {
+  max-width: 10ch;
+  margin: 0.8rem 0 1.4rem;
+}
+.catering-cta__inner > p:not(.eyebrow) {
+  max-width: 42ch;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
 .contact-page {
   display: grid;
   min-height: 100svh;
@@ -1516,8 +1685,39 @@ a {
 @media (max-width: 800px) {
   .section-intro,
   .about-preview,
+  .catering-hero,
+  .catering-menu,
   .contact-page {
     grid-template-columns: 1fr;
+  }
+
+  .catering-hero {
+    gap: 3rem;
+  }
+  .catering-hero__copy {
+    padding-top: 2rem;
+  }
+  .catering-hero__image {
+    aspect-ratio: 4 / 5;
+  }
+
+  .catering-occasions__heading,
+  .catering-occasions__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catering-occasions__heading {
+    gap: 1rem;
+  }
+
+  .catering-occasions__grid article + article {
+    margin-top: 2.5rem;
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .catering-menu__image {
+    width: min(100%, 28rem);
   }
 
   .section-intro__copy,
