@@ -33,7 +33,7 @@ export function HeroSlideshow() {
   }, [])
 
   return (
-    <div className="relative min-h-0 parallax-shift" data-parallax="0.14">
+    <div className="relative min-h-0">
       <div
         aria-label="Scenes from Lily"
         className="absolute inset-0 min-h-96 animate-hero-arrive overflow-hidden bg-pink animate-delay-100 md:min-h-0"

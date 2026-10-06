@@ -47,16 +47,20 @@ export default function PrivacyPage() {
         <Section title="Your choices">
           <p>
             You may ask to access, correct, or delete your personal information by contacting us at
-            <a className="border-b border-current" href="mailto:hello@lilyrestaurant.com"> hello@lilyrestaurant.com</a>.
+            <a className="border-b border-current" href="mailto:hello@lilyrestaurant.com">
+              {" "}
+              hello@lilyrestaurant.com
+            </a>
+            .
           </p>
         </Section>
         <Section title="Contact">
           <address className="not-italic">
             Lily Kitchen &amp; Cocktails
             <br />
-            214 Smallman Street
+            500 Grandview Crossing Dr
             <br />
-            Pittsburgh, PA 15222
+            Gibsonia, PA 15044
           </address>
         </Section>
       </div>

@@ -88,11 +88,13 @@ export function MenuRotator() {
 
         return (
           <div
-            className={`w-4/5 max-w-sm shrink-0 snap-center parallax-shift md:w-auto md:max-w-none ${columnOffsets[index]}`}
-            data-parallax={0.07 + index * 0.025}
+            className={`w-4/5 max-w-sm shrink-0 snap-center md:w-auto md:max-w-none ${columnOffsets[index]}`}
             key={feature.category}
           >
-            <div className="flex min-h-40 items-end pb-3 md:min-h-32 lg:min-h-44 lg:pb-4" data-reveal>
+            <div
+              className="flex min-h-40 items-end pb-3 md:min-h-32 lg:min-h-44 lg:pb-4"
+              data-reveal
+            >
               {index === 0 && (
                 <div>
                   <p className="eyebrow">From the kitchen</p>

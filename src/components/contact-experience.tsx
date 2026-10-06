@@ -55,7 +55,7 @@ export function ContactExperience() {
             src="/lily-botanical-cocktail-4x5.png"
           />
           <div className="absolute inset-x-5 bottom-8 z-1 md:inset-x-10 md:bottom-12 lg:inset-x-16 lg:bottom-20">
-            <p className="eyebrow">Lily · Pittsburgh</p>
+            <p className="eyebrow">Lily · Gibsonia</p>
             <h1
               className="mt-2 animate-inquiry-title font-display text-5xl font-medium [view-transition-name:inquiry-visual-title] lg:text-7xl"
               key={visualTitle}
@@ -76,13 +76,18 @@ export function ContactExperience() {
       <section className="grid items-start gap-6 border-t border-orange-brown/45 bg-cream px-page py-9 text-orange-brown md:grid-cols-3 md:gap-16 md:py-14 lg:gap-32 lg:py-18">
         <p className="eyebrow">Contact Lily</p>
         <div className="grid gap-4 text-sm md:col-span-2 md:grid-cols-3 md:gap-8 lg:gap-12">
-          <a className="w-max max-w-full border-b border-current" href="mailto:hello@lilyrestaurant.com">
+          <a
+            className="w-max max-w-full border-b border-current"
+            href="mailto:hello@lilyrestaurant.com"
+          >
             hello@lilyrestaurant.com
           </a>
-          <a className="w-max max-w-full border-b border-current" href="tel:+14125550142">
-            (412) 555-0142
+          <a className="w-max max-w-full border-b border-current" href="tel:+17245024572">
+            (724) 502-4572
           </a>
-          <address className="text-xs whitespace-nowrap not-italic sm:text-sm">214 Smallman Street, Pittsburgh, PA 15222</address>
+          <address className="text-xs whitespace-nowrap not-italic sm:text-sm">
+            500 Grandview Crossing Dr, Gibsonia, PA 15044
+          </address>
         </div>
       </section>
     </>

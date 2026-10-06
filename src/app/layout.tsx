@@ -13,8 +13,8 @@ const body = Noto_Sans({ variable: "--font-body-source", subsets: ["latin"] })
 export const metadata: Metadata = {
   title: { default: "Lily", template: "%s • Lily" },
   description:
-    "Lily is a Pittsburgh neighborhood kitchen and cocktail bar built around seasonal plates and generous evenings.",
-  icons: { icon: "/beigeprimarylogo.png" },
+    "Lily is a Gibsonia neighborhood kitchen and cocktail bar built around seasonal plates and generous evenings.",
+  icons: { icon: "/beige-primary-logo.png" },
 }
 
 export default function Layout({ children }: LayoutProps<"/">) {
@@ -28,7 +28,9 @@ export default function Layout({ children }: LayoutProps<"/">) {
         <SiteBackground>
           <ScrollEffects />
           <Navbar />
-          <main className="grow transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">{children}</main>
+          <main className="grow transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">
+            {children}
+          </main>
           <Footer />
         </SiteBackground>
       </body>

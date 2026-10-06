@@ -98,7 +98,7 @@ export function Navbar() {
             className="block h-auto w-full"
             height={882}
             priority={home}
-            src="/beigeprimarylogo.png"
+            src="/beige-primary-logo.png"
             width={890}
           />
         </Link>
@@ -151,11 +151,11 @@ export function Navbar() {
           >
             <p className="eyebrow">Visit</p>
             <address className="my-1.5 not-italic md:mt-2 md:mb-4">
-              214 Smallman Street
+              500 Grandview Crossing Dr
               <br />
-              Pittsburgh, PA 15222
+              Gibsonia, PA 15044
             </address>
-            <a href="tel:+14125550142">(412) 555-0142</a>
+            <a href="tel:+17245024572">(724) 502-4572</a>
             <a href="mailto:hello@lilyrestaurant.com">hello@lilyrestaurant.com</a>
             <div className="mt-1.5 md:mt-6">
               <p>Tue–Thu · 5:00 PM–11:00 PM</p>

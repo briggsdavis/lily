@@ -12,11 +12,7 @@ const AdminRuntime = dynamic(
 
 export function AdminClient() {
   if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
-    return (
-      <p className="max-w-md text-sm">
-        The admin area is not configured in this environment.
-      </p>
-    )
+    return <p className="max-w-md text-sm">The admin area is not configured in this environment.</p>
   }
 
   return <AdminRuntime />

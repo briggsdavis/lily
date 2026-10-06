@@ -4,7 +4,7 @@ import { PillLink } from "@/components/pill-button"
 
 export const metadata: Metadata = {
   title: "Catering",
-  description: "Seasonal catering from Lily for gatherings across Pittsburgh.",
+  description: "Seasonal catering from Lily for gatherings across Gibsonia.",
 }
 
 const occasions = [
@@ -41,7 +41,7 @@ export default function CateringPage() {
           </h1>
           <p className="mb-8 max-w-[37ch] text-base lg:text-lg" data-reveal>
             Seasonal plates, generous spreads, and the easy rhythm of Lily brought to tables across
-            Pittsburgh.
+            Gibsonia.
           </p>
           <span data-reveal>
             <PillLink color="burgundy" href="/contact?reason=events">
@@ -55,8 +55,7 @@ export default function CateringPage() {
         >
           <Image
             alt="A celebration table set with flowers and shared plates"
-            className="scale-110 object-cover parallax-shift"
-            data-parallax="0.12"
+            className="object-cover"
             fill
             priority
             sizes="(max-width: 800px) 100vw, 58vw"
@@ -65,11 +64,8 @@ export default function CateringPage() {
         </div>
       </section>
 
-      <section className="bg-dark-green text-pink section-pad">
-        <div
-          className="mb-16 grid gap-4 parallax-shift md:grid-cols-3 md:gap-16 lg:mb-28 lg:gap-32"
-          data-parallax="0.08"
-        >
+      <section className="bg-dark-green section-pad text-pink">
+        <div className="mb-16 grid gap-4 md:grid-cols-3 md:gap-16 lg:mb-28 lg:gap-32">
           <p className="eyebrow" data-reveal>
             Gather your way
           </p>
@@ -97,18 +93,20 @@ export default function CateringPage() {
         </div>
       </section>
 
-      <section className="grid items-center gap-12 bg-cream text-orange-brown section-pad md:grid-cols-2 md:gap-20 lg:gap-44">
-        <div className="relative aspect-4/5 w-full max-w-md overflow-hidden md:max-w-lg" data-reveal>
+      <section className="grid items-center gap-12 bg-cream section-pad text-orange-brown md:grid-cols-2 md:gap-20 lg:gap-44">
+        <div
+          className="relative aspect-4/5 w-full max-w-md overflow-hidden md:max-w-lg"
+          data-reveal
+        >
           <Image
             alt="A seasonal main dish prepared by Lily"
-            className="scale-110 object-cover parallax-shift"
-            data-parallax="0.14"
+            className="object-cover"
             fill
             sizes="(max-width: 800px) 100vw, 42vw"
             src="/lily-seasonal-main-dish-4x5.png"
           />
         </div>
-        <div className="flex max-w-2xl flex-col items-start parallax-shift" data-parallax="0.08">
+        <div className="flex max-w-2xl flex-col items-start">
           <p className="eyebrow" data-reveal>
             From our kitchen
           </p>
@@ -135,11 +133,8 @@ export default function CateringPage() {
         </div>
       </section>
 
-      <section className="bg-burgundy text-pink section-pad">
-        <div
-          className="flex min-h-[64vh] flex-col items-center justify-center border border-current p-10 text-center parallax-shift md:p-16 lg:p-28"
-          data-parallax="0.1"
-        >
+      <section className="bg-burgundy section-pad text-pink">
+        <div className="flex min-h-[64vh] flex-col items-center justify-center border border-current p-10 text-center md:p-16 lg:p-28">
           <p className="eyebrow" data-reveal>
             Begin with a conversation
           </p>

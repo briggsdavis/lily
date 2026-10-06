@@ -100,10 +100,6 @@
   @apply px-page py-24 md:py-32 lg:py-40;
 }
 
-@utility parallax-shift {
-  @apply translate-y-(--parallax-y) will-change-transform;
-}
-
 @utility eyebrow {
   @apply text-xs font-bold uppercase;
 }

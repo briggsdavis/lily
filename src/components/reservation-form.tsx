@@ -180,7 +180,14 @@ export function ReservationForm({
           <label className="sr-only" htmlFor="name">
             Name
           </label>
-          <input className="field-input" id="name" name="name" placeholder="Your name" required type="text" />
+          <input
+            className="field-input"
+            id="name"
+            name="name"
+            placeholder="Your name"
+            required
+            type="text"
+          />
         </div>
         <div className="relative grid">
           <label className="sr-only" htmlFor="email">
@@ -205,7 +212,7 @@ export function ReservationForm({
           className="field-input"
           id="phone"
           name="phone"
-          placeholder="+1 (412) 555-0100"
+          placeholder="+1 (724) 555-0100"
           required
           type="tel"
         />
@@ -320,7 +327,7 @@ export function ReservationForm({
                       return (
                         <button
                           aria-label={date.toLocaleDateString("en-US")}
-                          className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none enabled:hover:bg-burgundy enabled:hover:text-cream focus-visible:bg-burgundy focus-visible:text-cream disabled:cursor-default disabled:opacity-25 ${selected ? "bg-burgundy text-cream" : ""}`}
+                          className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none focus-visible:bg-burgundy focus-visible:text-cream enabled:hover:bg-burgundy enabled:hover:text-cream disabled:cursor-default disabled:opacity-25 ${selected ? "bg-burgundy text-cream" : ""}`}
                           disabled={disabled}
                           key={day}
                           onClick={() => chooseDate(day)}
@@ -402,9 +409,11 @@ export function ReservationForm({
         <label className="flex items-start gap-2.5 text-xs">
           <input className="mt-0.5 size-4 accent-burgundy" required type="checkbox" />
           <span>
-            I agree to Lily&apos;s <Link className="border-b border-current" href="/privacy">
+            I agree to Lily&apos;s{" "}
+            <Link className="border-b border-current" href="/privacy">
               privacy policy
-            </Link>.
+            </Link>
+            .
           </span>
         </label>
         <PillButton className="w-full sm:w-auto sm:min-w-44" color="burgundy" type="submit">
