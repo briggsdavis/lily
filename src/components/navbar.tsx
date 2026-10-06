@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { TransitionLink } from "@/components/transition-link"
 
 const routes = [
@@ -18,6 +18,8 @@ const routes = [
 export function Navbar() {
   const current = "/" + usePathname().split("/")[1]
   const [open, setOpen] = useState(false)
+  const actionsRef = useRef<HTMLDivElement>(null)
+  const home = current === "/"
   const [useCreamControls, setUseCreamControls] = useState(
     current === "/menu" || current === "/events",
   )
@@ -27,7 +29,7 @@ export function Navbar() {
     let frame = 0
 
     function updateControlColor() {
-      const actions = document.querySelector<HTMLElement>(".site-header__actions")
+      const actions = actionsRef.current
       if (!actions) return
 
       const bounds = actions.getBoundingClientRect()
@@ -37,7 +39,7 @@ export function Navbar() {
       let nextUseCream = false
 
       for (const layer of layers) {
-        if (layer.closest(".site-header") || layer.closest(".menu-overlay")) continue
+        if (layer.closest("[data-site-chrome]")) continue
 
         const background = window.getComputedStyle(layer).backgroundColor
         if (background === "rgba(0, 0, 0, 0)" || background === "transparent") continue
@@ -83,22 +85,28 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`site-header ${current === "/" ? "site-header--home" : ""} ${useCreamControls ? "site-header--cream-controls" : "site-header--brown-controls"}`}
+        className={`fixed inset-x-0 top-0 z-60 flex items-center justify-between px-page py-5 transition-colors duration-320 ${open || useCreamControls ? "text-cream" : "text-orange-brown"}`}
+        data-site-chrome
       >
-        <Link aria-label="Lily home" className="brand-mark" href="/">
+        <Link
+          aria-label="Lily home"
+          className={`block w-16 md:w-20 lg:w-24 ${home ? "animate-drop-in animate-delay-600" : ""}`}
+          href="/"
+        >
           <Image
             alt="Lily Kitchen and Cocktails"
+            className="block h-auto w-full"
             height={882}
-            priority={current === "/"}
+            priority={home}
             src="/beigeprimarylogo.png"
             width={890}
           />
         </Link>
 
-        <div className="site-header__actions">
+        <div className="flex items-center gap-4 lg:gap-6" ref={actionsRef}>
           <TransitionLink
             aria-current={current === "/contact" ? "page" : undefined}
-            className="site-header__contact animated-underline"
+            className={`animated-underline text-xs font-bold uppercase ${home ? "animate-drop-in animate-delay-700" : ""}`}
             href="/contact?reason=reservation"
           >
             Reserve
@@ -106,45 +114,50 @@ export function Navbar() {
           <button
             aria-expanded={open}
             aria-label={open ? "Close navigation" : "Open navigation"}
-            className="menu-toggle"
+            className={`group relative z-70 grid size-12 cursor-pointer place-content-center gap-2 rounded-full border border-current ${home ? "animate-drop-in animate-delay-820" : ""}`}
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
-            <span />
-            <span />
+            <span className="block h-px w-5 bg-current transition-transform duration-350 group-aria-expanded:translate-y-1 group-aria-expanded:rotate-45" />
+            <span className="block h-px w-5 bg-current transition-transform duration-350 group-aria-expanded:-translate-y-1 group-aria-expanded:-rotate-45" />
           </button>
         </div>
       </header>
 
-      <div aria-hidden={!open} className={`menu-overlay ${open ? "is-open" : ""}`}>
-        <div className="menu-overlay__inner">
-          <nav aria-label="Main" className="menu-overlay__nav">
-            <p className="eyebrow">Explore Lily</p>
+      <div
+        aria-hidden={!open}
+        className={`fixed inset-0 z-50 bg-zinc-900/90 text-cream backdrop-blur-xl transition-all duration-450 ${open ? "visible opacity-100" : "invisible opacity-0"}`}
+        data-site-chrome
+      >
+        <div className="grid min-h-full content-end items-end gap-8 px-page pt-28 pb-8 md:grid-cols-5 md:gap-16 md:pb-16 lg:gap-32">
+          <nav aria-label="Main" className="flex flex-col items-start md:col-span-3">
+            <p className="mb-5 eyebrow">Explore Lily</p>
             {routes.map((route, index) => (
               <TransitionLink
                 aria-current={route.href === current ? "page" : undefined}
-                className="menu-overlay__link"
+                className={`block w-full border-t border-cream/30 pt-1 pb-2 font-display text-4xl transition-colors duration-250 hover:text-pink focus-visible:text-pink aria-[current=page]:text-pink md:text-5xl lg:text-6xl ${open ? "animate-menu-item" : "opacity-0"}`}
                 href={route.href}
                 key={route.href}
                 onNavigate={() => setOpen(false)}
-                style={{ "--item-index": index } as React.CSSProperties}
+                style={{ "--animate-delay": `${110 + index * 65}ms` } as React.CSSProperties}
               >
-                <span>0{index + 1}</span>
                 {route.label}
               </TransitionLink>
             ))}
           </nav>
 
-          <div className="menu-overlay__contact">
+          <div
+            className={`flex max-w-sm flex-col items-start gap-1 pb-3 text-base md:col-span-2 md:gap-3 lg:text-lg ${open ? "animate-menu-item animate-delay-360" : "opacity-0"}`}
+          >
             <p className="eyebrow">Visit</p>
-            <address>
+            <address className="my-1.5 not-italic md:mt-2 md:mb-4">
               214 Smallman Street
               <br />
               Pittsburgh, PA 15222
             </address>
             <a href="tel:+14125550142">(412) 555-0142</a>
             <a href="mailto:hello@lilyrestaurant.com">hello@lilyrestaurant.com</a>
-            <div className="menu-overlay__hours">
+            <div className="mt-1.5 md:mt-6">
               <p>Tue–Thu · 5:00 PM–11:00 PM</p>
               <p>Fri–Sun · 12:00 PM–12:00 AM</p>
             </div>

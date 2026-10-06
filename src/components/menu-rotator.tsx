@@ -68,6 +68,8 @@ const features = [
   },
 ] as const
 
+const columnOffsets = ["", "md:mt-20", "md:mt-40"]
+
 export function MenuRotator() {
   const [step, setStep] = useState(0)
 
@@ -79,22 +81,22 @@ export function MenuRotator() {
   }, [])
 
   return (
-    <div className="menu-showcase__grid">
+    <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:gap-8">
       {features.map((feature, index) => {
         const slideIndex = Math.floor((step + 2 - index) / features.length) % feature.slides.length
         const activeSlide = feature.slides[slideIndex]
 
         return (
           <div
-            className="menu-showcase__column parallax-shift"
+            className={`w-4/5 max-w-sm shrink-0 snap-center parallax-shift md:w-auto md:max-w-none ${columnOffsets[index]}`}
             data-parallax={0.07 + index * 0.025}
             key={feature.category}
           >
-            <div className="menu-card-intro" data-reveal>
+            <div className="flex min-h-40 items-end pb-3 md:min-h-32 lg:min-h-44 lg:pb-4" data-reveal>
               {index === 0 && (
                 <div>
                   <p className="eyebrow">From the kitchen</p>
-                  <h2>
+                  <h2 className="mt-2 font-display text-4xl font-medium lg:text-6xl">
                     One garden,
                     <br />
                     three ways.
@@ -102,7 +104,7 @@ export function MenuRotator() {
                 </div>
               )}
               {index === 1 && (
-                <p>
+                <p className="max-w-sm text-base lg:text-lg">
                   The menu moves with the market. Bright drinks, generous plates, and desserts that
                   know exactly when to stop.
                 </p>
@@ -114,21 +116,21 @@ export function MenuRotator() {
               )}
             </div>
 
-            <TransitionLink className="menu-card" data-reveal href="/menu">
-              <div className="menu-card__image">
+            <TransitionLink className="group block reveal-delay-220" data-reveal href="/menu">
+              <div className="relative aspect-4/5 overflow-hidden">
                 {feature.slides.map((slide, imageIndex) => {
                   const position =
                     imageIndex === slideIndex
-                      ? "is-active"
+                      ? "z-2 group-hover:scale-112 group-hover:saturate-108 group-focus-visible:scale-112 group-focus-visible:saturate-108"
                       : imageIndex ===
                           (slideIndex + feature.slides.length - 1) % feature.slides.length
-                        ? "is-previous"
-                        : "is-next"
+                        ? "z-1 opacity-0 blur-sm"
+                        : "opacity-0 blur-sm"
 
                   return (
                     <Image
                       alt={imageIndex === slideIndex ? slide.alt : ""}
-                      className={`menu-card__image-slide ${position}`}
+                      className={`scale-108 object-cover transition duration-1300 ease-lily will-change-[opacity,filter,transform] ${position}`}
                       fill
                       key={slide.image}
                       sizes="(max-width: 800px) 90vw, 31vw"
@@ -137,21 +139,28 @@ export function MenuRotator() {
                   )
                 })}
               </div>
-              <div className="menu-card__caption">
+              <div className="flex items-center gap-4 border-b border-current pt-4 pb-5">
                 <p className="eyebrow">{feature.category}</p>
-                <div aria-live="polite" className="menu-card__name">
+                <div
+                  aria-live="polite"
+                  className="relative h-lh flex-1 overflow-hidden font-display text-xl md:text-2xl lg:text-3xl"
+                >
                   <span className="sr-only">{activeSlide.name}</span>
                   {feature.slides.map((slide, nameIndex) => {
                     const position =
                       nameIndex === slideIndex
-                        ? "is-active"
+                        ? ""
                         : nameIndex ===
                             (slideIndex + feature.slides.length - 1) % feature.slides.length
-                          ? "is-previous"
-                          : "is-next"
+                          ? "-translate-y-full opacity-0 blur-sm"
+                          : "translate-y-full opacity-0 blur-sm"
 
                     return (
-                      <span aria-hidden="true" className={position} key={slide.name}>
+                      <span
+                        aria-hidden="true"
+                        className={`absolute inset-x-0 top-0 transition duration-1000 ease-lily ${position}`}
+                        key={slide.name}
+                      >
                         {slide.name}
                       </span>
                     )

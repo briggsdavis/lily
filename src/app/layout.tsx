@@ -22,13 +22,13 @@ export default function Layout({ children }: LayoutProps<"/">) {
     <html
       data-scroll-behavior="smooth"
       lang="en"
-      className={display.variable + " " + body.variable}
+      className={`${display.variable} ${body.variable} scroll-smooth bg-cream motion-reduce:scroll-auto`}
     >
       <body className="flex min-h-dvh flex-col font-body antialiased">
         <SiteBackground>
           <ScrollEffects />
           <Navbar />
-          <main className="site-main grow">{children}</main>
+          <main className="grow transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">{children}</main>
           <Footer />
         </SiteBackground>
       </body>

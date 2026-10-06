@@ -33,12 +33,15 @@ export function HeroSlideshow() {
   }, [])
 
   return (
-    <div className="home-hero__parallax parallax-shift" data-parallax="0.14">
-      <div aria-label="Scenes from Lily" className="home-hero__media">
+    <div className="relative min-h-0 parallax-shift" data-parallax="0.14">
+      <div
+        aria-label="Scenes from Lily"
+        className="absolute inset-0 min-h-96 animate-hero-arrive overflow-hidden bg-pink animate-delay-100 md:min-h-0"
+      >
         {slides.map((slide, index) => (
           <Image
             alt={slide.alt}
-            className={`home-hero__slide ${index === activeSlide ? "is-active" : ""}`}
+            className={`object-cover transition duration-1200 ease-lily ${index === activeSlide ? "blur-none" : "scale-105 opacity-0 blur-lg"}`}
             fill
             key={slide.src}
             priority={index === 0}

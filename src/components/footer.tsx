@@ -5,25 +5,33 @@ const year = new Date().getFullYear()
 
 export function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="site-footer__brand parallax-shift" data-parallax="0.15">
+    <footer className="grid items-end gap-12 bg-burgundy px-page pt-16 pb-6 text-cream md:grid-cols-[1fr_auto] md:gap-20 md:pt-20 lg:gap-32 lg:pt-28">
+      <div
+        className="flex flex-col items-start gap-6 parallax-shift md:flex-row md:items-center lg:gap-12"
+        data-parallax="0.15"
+      >
         <Image
           alt="Lily Kitchen and Cocktails"
+          className="h-auto w-24 lg:w-32"
           height={882}
           src="/beigeprimarylogo.png"
           width={890}
         />
-        <p>Seasonal plates, garden drinks, and evenings with room to unfold.</p>
+        <p className="max-w-[28ch] font-display text-xl text-pink lg:text-2xl">Seasonal plates, garden drinks, and evenings with room to unfold.</p>
       </div>
-      <nav aria-label="Footer" className="parallax-shift" data-parallax="0.1">
+      <nav
+        aria-label="Footer"
+        className="grid gap-3 text-sm font-bold uppercase parallax-shift"
+        data-parallax="0.1"
+      >
         <TransitionLink href="/menu">Menu</TransitionLink>
         <TransitionLink href="/events">Events</TransitionLink>
         <TransitionLink href="/catering">Catering</TransitionLink>
         <TransitionLink href="/about">About</TransitionLink>
         <TransitionLink href="/contact?reason=reservation">Reservations</TransitionLink>
       </nav>
-      <div className="site-footer__meta">
-        <div className="site-footer__legal">
+      <div className="col-span-full flex flex-col items-start gap-4 border-t border-pink/40 pt-4 text-xs uppercase sm:flex-row sm:justify-between">
+        <div className="flex flex-wrap items-center gap-5">
           <p>© {year} Lily</p>
           <TransitionLink className="animated-underline" href="/privacy">
             Privacy policy
