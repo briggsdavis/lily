@@ -36,7 +36,8 @@ export function HeroSlideshow() {
     <div className="relative min-h-0">
       <div
         aria-label="Scenes from Lily"
-        className="absolute inset-0 min-h-96 animate-hero-arrive overflow-hidden bg-pink animate-delay-100 md:min-h-0"
+        className="hero-intro-media absolute inset-0 min-h-96 overflow-hidden bg-pink md:min-h-0"
+        data-nav-tone="image"
       >
         {slides.map((slide, index) => (
           <Image

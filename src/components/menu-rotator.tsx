@@ -1,50 +1,61 @@
 "use client"
 
-import Image from "next/image"
-import { CSSProperties, useState } from "react"
+import { CSSProperties, useEffect, useRef, useState } from "react"
+import { LayeredMedia } from "@/components/layered-media"
 import { PillLink } from "@/components/pill-button"
 
-const dishes = [
+const categories = [
   {
-    name: "Verbena gimlet",
-    price: "$15",
+    name: "Mains",
     description:
-      "Lemon verbena, dry gin, and fresh lime, shaken cold and served up with a single verbena leaf.",
-    image: "/lily-botanical-cocktail-4x5.png",
-    alt: "Botanical cocktail in a coupe glass",
-  },
-  {
-    name: "Market fish",
-    price: "$34",
-    description:
-      "The day's catch, crisp-skinned and set over roasted autumn vegetables with brown butter and herbs.",
+      "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
     image: "/lily-seasonal-main-dish-4x5.png",
-    alt: "Seasonal fish with autumn vegetables",
+    alt: "A seasonal main dish plated at Lily",
   },
   {
-    name: "Sweet corn ravioli",
-    price: "$27",
+    name: "Salads",
     description:
-      "Handmade pasta filled with sweet corn and ricotta, finished with chili butter and aged parmesan.",
-    image: "/menu-main-pasta-unsplash.jpg",
-    alt: "Seasonal pasta served at a restaurant table",
+      "Crisp leaves, market vegetables, fresh herbs, and bright dressings composed with a light touch.",
+    image: "/menu-main-plated-unsplash.jpg",
+    alt: "A bright plate of seasonal greens and vegetables",
   },
   {
-    name: "Rosemary sour",
-    price: "$14",
+    name: "Desserts",
     description:
-      "Bourbon, rosemary honey, and lemon with a silky foam and a few drops of bitters on top.",
-    image: "/menu-drink-red-unsplash.jpg",
-    alt: "Red aperitif poured at the bar",
+      "Floral, fruit-forward finishes and quietly indulgent classics made for one more shared course.",
+    image: "/lily-floral-dessert-4x5.png",
+    alt: "A floral seasonal dessert",
+  },
+  {
+    name: "Drinks",
+    description:
+      "Garden herbs, ripe fruit, thoughtful spirits, and cocktails designed to sit beautifully beside dinner.",
+    image: "/lily-botanical-cocktail-4x5.png",
+    alt: "A botanical cocktail in a coupe glass",
   },
 ] as const
 
 export function MenuRotator() {
   const [active, setActive] = useState(0)
+  const listRef = useRef<HTMLUListElement>(null)
+  const [listHeight, setListHeight] = useState(0)
+
+  useEffect(() => {
+    const list = listRef.current
+    if (!list) return
+
+    const measure = () => setListHeight(list.getBoundingClientRect().height)
+    const observer = new ResizeObserver(measure)
+    observer.observe(list)
+    measure()
+    return () => observer.disconnect()
+  }, [])
+
+  const media = categories.map(({ alt, image }) => ({ alt, src: image }))
 
   return (
     <div>
-      <div className="mb-14 grid items-end gap-8 md:mb-20 md:grid-cols-2 md:gap-12">
+      <div className="mb-7 grid items-end gap-8 md:mb-10 md:grid-cols-2 md:gap-12">
         <div data-reveal>
           <h2 className="font-display text-4xl font-medium whitespace-nowrap text-burgundy lg:text-6xl">
             Seasonal, by design.
@@ -60,57 +71,49 @@ export function MenuRotator() {
         </div>
       </div>
 
-      <div className="grid items-start gap-10 md:grid-cols-[5fr_7fr] md:items-center lg:gap-16">
-        <div
-          className="relative aspect-4/5 overflow-hidden bg-burgundy md:sticky md:top-28"
-          data-reveal
-        >
-          {dishes.map((dish, index) => (
-            <div
-              aria-hidden={index !== active}
-              className={`absolute inset-0 transition duration-1000 ease-lily ${index === active ? "opacity-100" : "opacity-0 blur-md"}`}
-              key={dish.image}
-            >
-              <Image
-                alt=""
-                className="scale-125 object-cover blur-2xl"
-                fill
-                sizes="(max-width: 768px) 90vw, 40vw"
-                src={dish.image}
-              />
-              <div className="absolute top-1/2 left-1/2 aspect-4/5 w-1/2 -translate-1/2 overflow-hidden">
-                <Image
-                  alt={index === active ? dish.alt : ""}
-                  className="object-cover"
-                  fill
-                  sizes="(max-width: 768px) 45vw, 20vw"
-                  src={dish.image}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+      <div
+        className="grid items-start gap-10 md:grid-cols-[5fr_7fr] lg:gap-16"
+        style={{ "--menu-list-height": `${listHeight}px` } as CSSProperties}
+      >
+        <LayeredMedia
+          active={active}
+          backgroundBlurClassName="blur-[9px]"
+          backgroundSizes="(max-width: 768px) 90vw, 40vw"
+          className="relative aspect-4/5 bg-burgundy md:aspect-auto md:h-[var(--menu-list-height)]"
+          foregroundAspectClassName="aspect-4/5"
+          foregroundSizes="(max-width: 768px) 45vw, 20vw"
+          items={media}
+        />
 
-        <ul>
-          {dishes.map((dish, index) => (
+        <ul ref={listRef}>
+          {categories.map((category, index) => (
             <li
               data-reveal
-              key={dish.name}
+              key={category.name}
               style={{ "--reveal-delay": `${120 + index * 100}ms` } as CSSProperties}
             >
               <button
                 aria-pressed={index === active}
-                className={`block w-full py-8 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy lg:py-10 ${index === 0 ? "pt-0 lg:pt-0" : ""} ${index < dishes.length - 1 ? "border-b border-burgundy/20" : "pb-0 lg:pb-0"}`}
+                className={`group relative block w-full py-8 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy lg:py-10 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
                 onClick={() => setActive(index)}
                 onFocus={() => setActive(index)}
                 onMouseEnter={() => setActive(index)}
                 type="button"
               >
-                <span className="flex items-baseline justify-between gap-6 font-display text-3xl text-burgundy uppercase md:text-4xl lg:text-5xl">
-                  <span>{dish.name}</span>
-                  <span className="shrink-0">{dish.price}</span>
+                <span className="font-display text-3xl text-burgundy uppercase md:text-4xl lg:text-5xl">
+                  {category.name}
                 </span>
-                <span className="mt-4 block max-w-xl text-sm md:text-base">{dish.description}</span>
+                <span className="mt-4 block max-w-xl text-sm md:text-base">
+                  {category.description}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-burgundy/20"
+                >
+                  <span className="absolute inset-x-0 bottom-0 h-[2.1px] opacity-0 blur-[1.5px] transition-[opacity,filter] duration-500 ease-lily group-hover:opacity-100 group-hover:blur-none group-hover:duration-0 group-focus-visible:opacity-100 group-focus-visible:blur-none group-focus-visible:duration-0">
+                    <span className="block h-full w-full origin-left bg-burgundy/90 group-hover:animate-[menu-line-draw_700ms_ease-in-out_both] group-focus-visible:animate-[menu-line-draw_700ms_ease-in-out_both]" />
+                  </span>
+                </span>
               </button>
             </li>
           ))}

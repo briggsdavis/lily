@@ -18,37 +18,44 @@ const routes = [
 export function Navbar() {
   const current = "/" + usePathname().split("/")[1]
   const [open, setOpen] = useState(false)
+  const logoRef = useRef<HTMLAnchorElement>(null)
   const actionsRef = useRef<HTMLDivElement>(null)
-  const home = current === "/"
+  const [useCreamLogo, setUseCreamLogo] = useState(
+    current === "/" || current === "/menu" || current === "/events" || current === "/contact",
+  )
   const [useCreamControls, setUseCreamControls] = useState(
-    current === "/menu" || current === "/events",
+    current === "/" || current === "/menu" || current === "/events",
   )
 
   useEffect(() => {
     const darkBackgrounds = new Set(["rgb(59, 65, 65)", "rgb(85, 58, 61)"])
     let frame = 0
 
-    function updateControlColor() {
-      const actions = actionsRef.current
-      if (!actions) return
-
-      const bounds = actions.getBoundingClientRect()
+    function lightOnDark(element: HTMLElement | null) {
+      if (!element) return false
+      const bounds = element.getBoundingClientRect()
       const x = bounds.left + bounds.width / 2
       const y = bounds.top + bounds.height / 2
       const layers = document.elementsFromPoint(x, y)
-      let nextUseCream = false
 
       for (const layer of layers) {
         if (layer.closest("[data-site-chrome]")) continue
 
+        const tone = layer.closest<HTMLElement>("[data-nav-tone]")?.dataset.navTone
+        if (tone) return tone !== "light"
+
         const background = window.getComputedStyle(layer).backgroundColor
         if (background === "rgba(0, 0, 0, 0)" || background === "transparent") continue
 
-        nextUseCream = darkBackgrounds.has(background)
-        break
+        return darkBackgrounds.has(background)
       }
 
-      setUseCreamControls(nextUseCream)
+      return false
+    }
+
+    function updateControlColor() {
+      setUseCreamLogo(lightOnDark(logoRef.current))
+      setUseCreamControls(lightOnDark(actionsRef.current))
       frame = 0
     }
 
@@ -82,31 +89,40 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", closeOnEscape)
   }, [])
 
+  const lightLogo = open || useCreamLogo
+  const lightControls = open || useCreamControls
+
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-60 flex items-center justify-between px-page py-5 transition-colors duration-320 ${open || useCreamControls ? "text-cream" : "text-orange-brown"}`}
+        className={`hero-intro-header fixed inset-x-0 top-0 z-60 flex items-center justify-between px-page py-5 transition-colors duration-320 ${lightControls ? "text-[#fff2e9]" : "text-[#917156]"}`}
         data-site-chrome
       >
-        <Link
-          aria-label="Lily home"
-          className={`block w-16 md:w-20 lg:w-24 ${home ? "animate-drop-in animate-delay-600" : ""}`}
-          href="/"
-        >
-          <Image
-            alt="Lily Kitchen and Cocktails"
-            className="block h-auto w-full"
-            height={882}
-            priority={home}
-            src="/beige-primary-logo.png"
-            width={890}
-          />
+        <Link aria-label="Lily home" className="block w-28 md:w-36 lg:w-44" href="/" ref={logoRef}>
+          <span className="relative block aspect-[2329/767]">
+            <Image
+              alt={lightLogo ? "" : "Lily Kitchen and Cocktails"}
+              className={`object-contain transition-opacity duration-320 ${lightLogo ? "opacity-0" : "opacity-100"}`}
+              fill
+              priority
+              sizes="(max-width: 768px) 7rem, (max-width: 1024px) 9rem, 11rem"
+              src="/PRIMARY-HORIZONTAL-BROWN.png"
+            />
+            <Image
+              alt={lightLogo ? "Lily Kitchen and Cocktails" : ""}
+              className={`object-contain transition-opacity duration-320 ${lightLogo ? "opacity-100" : "opacity-0"}`}
+              fill
+              priority
+              sizes="(max-width: 768px) 7rem, (max-width: 1024px) 9rem, 11rem"
+              src="/PRIMARY-HORIZONTAL-CREAM.png"
+            />
+          </span>
         </Link>
 
         <div className="flex items-center gap-4 lg:gap-6" ref={actionsRef}>
           <TransitionLink
             aria-current={current === "/contact" ? "page" : undefined}
-            className={`animated-underline text-xs font-bold uppercase ${home ? "animate-drop-in animate-delay-700" : ""}`}
+            className="animated-underline text-xs font-bold uppercase"
             href="/contact?reason=reservation"
           >
             Reserve
@@ -114,7 +130,7 @@ export function Navbar() {
           <button
             aria-expanded={open}
             aria-label={open ? "Close navigation" : "Open navigation"}
-            className={`group relative z-70 grid size-12 cursor-pointer place-content-center gap-2 rounded-full border border-current ${home ? "animate-drop-in animate-delay-820" : ""}`}
+            className="group relative z-70 grid size-12 cursor-pointer place-content-center gap-2 rounded-full border border-current"
             onClick={() => setOpen((value) => !value)}
             type="button"
           >

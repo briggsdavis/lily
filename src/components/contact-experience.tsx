@@ -1,13 +1,35 @@
 "use client"
 
-import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
+import { LayeredMedia } from "@/components/layered-media"
 import { InquiryReason, ReservationForm } from "@/components/reservation-form"
 
 const visualTitles: Record<Exclude<InquiryReason, null>, string> = {
   reservation: "Reservations",
   events: "Event inquiry",
   general: "General inquiry",
+}
+
+const inquiryVisuals = [
+  {
+    alt: "A dimly lit restaurant dining room with tables and chairs",
+    src: "/contact-reservation-unsplash.jpg",
+  },
+  {
+    alt: "A candlelit restaurant table set with plates for dinner",
+    src: "/contact-events-unsplash.jpg",
+  },
+  {
+    alt: "A cocktail with an orange garnish on a dark bar counter",
+    foregroundImageClassName: "object-[72%_center]",
+    src: "/contact-cocktail-unsplash.jpg",
+  },
+] as const
+
+const visualIndex: Record<Exclude<InquiryReason, null>, number> = {
+  reservation: 0,
+  events: 1,
+  general: 2,
 }
 
 type ViewTransitionDocument = Document & {
@@ -41,31 +63,43 @@ export function ContactExperience() {
   }
 
   const visualTitle = inquiryReason ? visualTitles[inquiryReason] : "Contact Lily"
+  const activeVisual = inquiryReason ? visualIndex[inquiryReason] : visualIndex.general
 
   return (
     <>
       <div className="grid min-h-svh bg-cream text-burgundy md:grid-cols-2">
-        <section className="relative min-h-[78svh] overflow-hidden text-cream after:absolute after:inset-x-0 after:top-1/2 after:bottom-0 after:bg-linear-to-b after:from-transparent after:to-zinc-900/70 md:sticky md:top-0 md:h-svh md:min-h-0 md:self-start">
-          <Image
-            alt="Lily botanical cocktail"
-            className="object-cover"
-            fill
+        <section
+          className="relative min-h-[78svh] overflow-hidden bg-burgundy text-cream md:sticky md:top-0 md:h-svh md:min-h-0 md:self-start"
+          data-nav-tone="image"
+        >
+          <LayeredMedia
+            active={activeVisual}
+            backgroundBlurClassName="blur-[9px]"
+            backgroundSizes="(max-width: 800px) 100vw, 50vw"
+            backgroundTransitionClassName="duration-[1600ms] ease-in-out"
+            caption={
+              <div key={visualTitle}>
+                <p className="eyebrow">Lily · Gibsonia</p>
+                <h1 className="mt-1 font-display text-3xl font-medium md:text-4xl lg:text-5xl">
+                  {visualTitle}
+                </h1>
+              </div>
+            }
+            className="absolute inset-0"
+            foregroundAspectClassName="aspect-4/5"
+            foregroundClassName="w-[43.5%] max-w-sm"
+            foregroundPositionClassName="left-6 md:left-10 lg:left-16"
+            foregroundSizes="(max-width: 800px) 58vw, 29vw"
+            foregroundTransitionDelayClassName="delay-[700ms]"
+            items={inquiryVisuals}
             priority
-            sizes="(max-width: 800px) 100vw, 50vw"
-            src="/lily-botanical-cocktail-4x5.png"
           />
-          <div className="absolute inset-x-5 bottom-8 z-1 md:inset-x-10 md:bottom-12 lg:inset-x-16 lg:bottom-20">
-            <p className="eyebrow">Lily · Gibsonia</p>
-            <h1
-              className="mt-2 animate-inquiry-title font-display text-5xl font-medium [view-transition-name:inquiry-visual-title] lg:text-7xl"
-              key={visualTitle}
-            >
-              {visualTitle}
-            </h1>
-          </div>
         </section>
 
-        <section className="flex flex-col justify-center px-6 pt-20 pb-8 md:min-h-svh md:px-10 md:pt-24 lg:px-16">
+        <section
+          className="flex flex-col justify-center px-6 pt-20 pb-8 md:min-h-svh md:px-10 md:pt-24 lg:px-16"
+          data-nav-tone="light"
+        >
           <ReservationForm
             inquiryReason={inquiryReason}
             onInquiryReasonChange={updateInquiryReason}
@@ -73,7 +107,10 @@ export function ContactExperience() {
         </section>
       </div>
 
-      <section className="grid items-start gap-6 border-t border-orange-brown/45 bg-cream px-page py-9 text-orange-brown md:grid-cols-3 md:gap-16 md:py-14 lg:gap-32 lg:py-18">
+      <section
+        className="grid items-start gap-6 border-t border-orange-brown/45 bg-cream px-page py-9 text-orange-brown md:grid-cols-3 md:gap-16 md:py-14 lg:gap-32 lg:py-18"
+        data-nav-tone="light"
+      >
         <p className="eyebrow">Contact Lily</p>
         <div className="grid gap-4 text-sm md:col-span-2 md:grid-cols-3 md:gap-8 lg:gap-12">
           <a

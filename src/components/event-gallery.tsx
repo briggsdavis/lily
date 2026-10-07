@@ -14,10 +14,10 @@ const base = "((100cqw - 2 * var(--gap)) / 3)"
 
 function cardSize(index: number, active: number | null): CSSProperties {
   if (active === null) return { width: `calc(${base})`, height: `calc(${base} * 1.25)` }
-  // The hovered card keeps its height and widens into a square.
-  if (index === active) return { width: `calc(${base} * 1.25)`, height: `calc(${base} * 1.25)` }
-  // The other two split the remaining width and keep 4:5.
-  return { width: `calc(${base} * 0.875)`, height: `calc(${base} * 1.09375)` }
+  // The active card grows 20% beyond the previous square treatment.
+  if (index === active) return { width: `calc(${base} * 1.5)`, height: `calc(${base} * 1.5)` }
+  // The other two split the remaining width and keep their 4:5 ratio.
+  return { width: `calc(${base} * 0.75)`, height: `calc(${base} * 0.9375)` }
 }
 
 export function EventGallery() {
@@ -29,13 +29,17 @@ export function EventGallery() {
         className="flex items-center gap-(--gap) [--gap:--spacing(3)] md:[--gap:--spacing(6)]"
         onMouseLeave={() => setActive(null)}
         // Fixed to the tallest card so the row never changes height mid-transition.
-        style={{ height: `calc(${base} * 1.25)` }}
+        style={{ height: `calc(${base} * 1.5)` }}
       >
         {images.map((image, index) => (
           <figure
-            className="relative shrink-0 overflow-hidden rounded-2xl transition-[width,height] duration-700 ease-lily md:rounded-3xl"
+            className={`relative shrink-0 overflow-hidden transition-[width,height,border-radius] duration-700 ease-lily ${
+              active === index ? "rounded-2xl md:rounded-3xl" : "rounded-none"
+            }`}
             key={image.src}
-            onPointerEnter={() => setActive(index)}
+            onPointerEnter={(event) => {
+              if (event.pointerType === "mouse") setActive(index)
+            }}
             style={cardSize(index, active)}
           >
             <Image

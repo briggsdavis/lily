@@ -49,6 +49,7 @@ export function ScrollRevealImage() {
   return (
     <section
       className="relative h-[390svh] bg-cream"
+      data-nav-tone="image"
       ref={sectionRef}
       style={{ "--open": 0, "--meet": 0 } as CSSProperties}
     >
@@ -62,7 +63,7 @@ export function ScrollRevealImage() {
             className="object-cover"
             fill
             sizes="100vw"
-            src="/hero-restaurant-unsplash.jpg"
+            src="/lily-romantic-interior-9x16.png"
           />
         </div>
 

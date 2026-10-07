@@ -2,6 +2,7 @@ import Image from "next/image"
 import { EventGallery } from "@/components/event-gallery"
 import { HeroSlideshow } from "@/components/hero-slideshow"
 import { MenuRotator } from "@/components/menu-rotator"
+import { NeighborhoodIntro } from "@/components/neighborhood-intro"
 import { PillLink } from "@/components/pill-button"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
 import { ScrollTilt } from "@/components/scroll-tilt"
@@ -11,18 +12,16 @@ export default function HomePage() {
   return (
     <div>
       <div>
-        <section className="sticky top-0 grid h-svh grid-rows-[1fr_auto] gap-5 px-page pt-24 pb-9 md:gap-8 md:pt-28 lg:pt-36">
+        <section className="sticky top-0 grid h-svh grid-rows-[1fr_auto] gap-3 px-page pt-[5.5rem] pb-5 md:gap-4 md:pt-[6.5rem] md:pb-6 lg:pt-[8.125rem]">
           <HeroSlideshow />
 
-          <div className="grid items-center gap-3 pt-4 md:grid-cols-[1fr_auto_1fr] md:gap-12 lg:gap-20">
-            <p className="animate-rise-in eyebrow animate-delay-1260">
-              Dining room &amp; cocktail bar · Gibsonia
-            </p>
-            <h1 className="max-w-xs animate-rise-in font-display text-2xl font-medium animate-delay-1410 md:max-w-none md:text-center md:whitespace-nowrap lg:text-3xl xl:text-4xl">
+          <div className="hero-intro-copy grid items-center gap-3 md:grid-cols-[1fr_auto_1fr] md:gap-12 lg:gap-20">
+            <p className="eyebrow">Dining room &amp; cocktail bar · Gibsonia</p>
+            <h1 className="max-w-xs font-display text-2xl font-medium md:max-w-none md:text-center md:whitespace-nowrap lg:text-3xl xl:text-4xl">
               Candlelit dinners, seasonal plates, considered cocktails.
             </h1>
             <TransitionLink
-              className="animated-underline w-max animate-rise-in eyebrow animate-delay-1560 md:justify-self-end"
+              className="animated-underline w-max eyebrow md:justify-self-end"
               href="/contact?reason=reservation"
             >
               Reserve a table
@@ -30,7 +29,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="relative grid min-h-svh place-items-center overflow-hidden bg-dark-green px-page text-pink">
+        <section
+          className="relative grid min-h-svh place-items-center overflow-hidden bg-dark-green px-page text-pink"
+          data-nav-tone="dark"
+        >
           <Image
             alt=""
             className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2"
@@ -38,21 +40,23 @@ export default function HomePage() {
             src="/stamp.svg"
             width={982}
           />
-          <p className="relative max-w-[48ch] text-center text-2xl font-extralight text-balance md:text-4xl lg:text-5xl">
-            Lily is an intimate dining room and cocktail bar in Gibsonia, where seasonal cooking,
-            attentive service, and carefully made drinks turn dinner into the main event of the
-            evening.
-          </p>
+          <NeighborhoodIntro />
         </section>
       </div>
 
-      <section className="overflow-hidden bg-cream section-pad text-orange-brown">
+      <section
+        className="overflow-hidden bg-cream px-page pt-14 pb-24 text-orange-brown md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
+        data-nav-tone="light"
+      >
         <MenuRotator />
       </section>
 
       <ScrollRevealImage />
 
-      <section className="grid items-center gap-12 bg-burgundy section-pad text-cream md:grid-cols-5 md:gap-20 lg:gap-40">
+      <section
+        className="grid items-center gap-12 bg-burgundy section-pad text-cream md:grid-cols-5 md:gap-20 lg:gap-40"
+        data-nav-tone="dark"
+      >
         <div
           className="relative aspect-9/16 w-full max-w-sm justify-self-start overflow-hidden md:col-span-2 md:max-w-md"
           data-reveal
@@ -90,9 +94,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-dark-green section-pad text-pink" id="home-events">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-16 flex flex-col items-start gap-8 md:mb-24 md:flex-row md:justify-between">
+      <section
+        className="bg-dark-green px-page pt-24 pb-12 text-pink md:pt-32 md:pb-16 lg:pt-40 lg:pb-20"
+        data-nav-tone="dark"
+        id="home-events"
+      >
+        <div>
+          <div className="mb-8 grid items-start gap-8 md:mb-12 md:grid-cols-3 md:gap-6">
             <div className="flex flex-col items-start gap-8">
               <h2 className="font-display text-4xl font-medium lg:text-6xl" data-reveal>
                 Tables made
@@ -105,24 +113,25 @@ export default function HomePage() {
                 </PillLink>
               </span>
             </div>
-            <div className="max-w-sm space-y-4 reveal-delay-320" data-reveal>
-              <p>
-                Throughout the year we host wine dinners, guest chef suppers, and seasonal tasting
-                menus in the dining room, each one built around what's at its peak.
-              </p>
-              <p>
-                Seating is limited and these evenings fill quickly, so we recommend reserving early
-                to secure your place.
-              </p>
-            </div>
+            <p className="reveal-delay-320" data-reveal>
+              Throughout the year we host wine dinners, guest chef suppers, and seasonal tasting
+              menus in the dining room, each one built around what's at its peak.
+            </p>
+            <p className="reveal-delay-460" data-reveal>
+              Seating is limited and these evenings fill quickly, so we recommend reserving early to
+              secure your place.
+            </p>
           </div>
 
           <EventGallery />
         </div>
       </section>
 
-      <section className="bg-cream section-pad text-burgundy">
-        <div className="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center overflow-hidden border border-current p-8 text-center md:p-16 lg:p-28">
+      <section
+        className="bg-cream px-page pt-12 pb-24 text-burgundy md:pt-16 md:pb-32 lg:pt-20 lg:pb-40"
+        data-nav-tone="light"
+      >
+        <div className="relative mx-auto flex min-h-[104vh] w-3/5 flex-col items-center justify-center overflow-hidden border border-current p-8 text-center md:p-16 lg:p-28">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-2 border border-current md:inset-3"
@@ -159,13 +168,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative grid h-svh place-items-center overflow-hidden px-page">
+      <section
+        className="relative grid h-svh place-items-center overflow-hidden px-page"
+        data-nav-tone="image"
+      >
         <Image
           alt="Shared plates spread across a table"
           className="object-cover"
           fill
           sizes="100vw"
-          src="/hero-food-unsplash.jpg"
+          src="/lily-event-table-16x10.png"
         />
         <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-cream p-8 text-burgundy md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
           <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl">

@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { EB_Garamond, Noto_Sans } from "next/font/google"
 import { Footer } from "@/components/footer"
+import { HeroIntroController } from "@/components/hero-intro-controller"
 import { Navbar } from "@/components/navbar"
 import { ScrollEffects } from "@/components/scroll-effects"
 import { SiteBackground } from "@/components/site-background"
@@ -21,13 +22,25 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: LayoutProps<"/">) {
   const document = (
-    <html lang="en" className={`${display.variable} ${body.variable} bg-cream`}>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} bg-cream`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(location.pathname==="/"&&!sessionStorage.getItem("lily-hero-intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}catch{}`,
+          }}
+        />
+      </head>
       <body className="flex min-h-dvh flex-col font-body antialiased">
         <SiteBackground>
+          <HeroIntroController />
           <SmoothScroll />
           <ScrollEffects />
           <Navbar />
-          <main className="grow transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">
+          <main className="relative z-10 min-h-svh grow bg-inherit transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">
             {children}
           </main>
           <Footer />
