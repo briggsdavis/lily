@@ -8,11 +8,12 @@
 }
 
 @theme {
-  --color-burgundy: #553a3d;
-  --color-pink: #bea2a7;
-  --color-dark-green: #3b4141;
+  --color-burgundy: #614046;
+  --color-pink: #c9a8b2;
+  --color-dark-green: #3d494d;
   --color-cream: #fdf2e2;
-  --color-orange-brown: #876f54;
+  --color-orange-brown: #967453;
+  --color-taupe: #55514a;
 
   --ease-lily: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);

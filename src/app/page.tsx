@@ -1,7 +1,10 @@
 import Image from "next/image"
+import { EventGallery } from "@/components/event-gallery"
 import { HeroSlideshow } from "@/components/hero-slideshow"
 import { MenuRotator } from "@/components/menu-rotator"
 import { PillLink } from "@/components/pill-button"
+import { ScrollRevealImage } from "@/components/scroll-reveal-image"
+import { ScrollTilt } from "@/components/scroll-tilt"
 import { TransitionLink } from "@/components/transition-link"
 
 export default function HomePage() {
@@ -43,11 +46,13 @@ export default function HomePage() {
         </section>
       </div>
 
-      <section className="overflow-hidden bg-burgundy section-pad text-cream">
+      <section className="overflow-hidden bg-cream section-pad text-orange-brown">
         <MenuRotator />
       </section>
 
-      <section className="grid items-center gap-12 bg-cream section-pad text-orange-brown md:grid-cols-5 md:gap-20 lg:gap-40">
+      <ScrollRevealImage />
+
+      <section className="grid items-center gap-12 bg-burgundy section-pad text-cream md:grid-cols-5 md:gap-20 lg:gap-40">
         <div
           className="relative aspect-9/16 w-full max-w-sm justify-self-start overflow-hidden md:col-span-2 md:max-w-md"
           data-reveal
@@ -61,11 +66,8 @@ export default function HomePage() {
           />
         </div>
         <div className="flex max-w-3xl flex-col items-start md:col-span-3">
-          <p className="eyebrow text-burgundy reveal-delay-40" data-reveal>
-            Our point of view
-          </p>
           <h2
-            className="mt-2.5 mb-10 max-w-[8ch] font-display text-4xl font-medium text-burgundy reveal-delay-180 md:mb-16 lg:text-6xl"
+            className="mb-10 max-w-[8ch] font-display text-4xl font-medium reveal-delay-180 md:mb-16 lg:text-6xl"
             data-reveal
           >
             A room for long evenings.
@@ -81,7 +83,7 @@ export default function HomePage() {
             </p>
           </div>
           <span data-reveal>
-            <PillLink color="burgundy" href="/about">
+            <PillLink color="cream" href="/about">
               Meet Lily
             </PillLink>
           </span>
@@ -89,91 +91,101 @@ export default function HomePage() {
       </section>
 
       <section className="bg-dark-green section-pad text-pink" id="home-events">
-        <div className="mb-16 flex flex-col items-start gap-8 md:mb-32 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="eyebrow reveal-delay-40" data-reveal>
-              Gather at Lily
-            </p>
-            <h2
-              className="mt-2.5 font-display text-4xl font-medium reveal-delay-180 lg:text-6xl"
-              data-reveal
-            >
-              Tables made
-              <br />
-              for a little more.
-            </h2>
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-16 flex flex-col items-start gap-8 md:mb-24 md:flex-row md:justify-between">
+            <div className="flex flex-col items-start gap-8">
+              <h2 className="font-display text-4xl font-medium lg:text-6xl" data-reveal>
+                Tables made
+                <br />
+                for a little more.
+              </h2>
+              <span className="reveal-delay-180" data-reveal>
+                <PillLink color="pink" href="/events">
+                  See upcoming events
+                </PillLink>
+              </span>
+            </div>
+            <div className="max-w-sm space-y-4 reveal-delay-320" data-reveal>
+              <p>
+                Throughout the year we host wine dinners, guest chef suppers, and long evenings on
+                the patio, each one built around what's in season.
+              </p>
+              <p>
+                Seats are limited and tend to go quickly, so take a look at what's coming up and
+                save yourself a place at the table.
+              </p>
+            </div>
           </div>
-          <span className="reveal-delay-180" data-reveal>
-            <PillLink color="pink" href="/events">
-              Plan an event
-            </PillLink>
-          </span>
-        </div>
 
-        <div className="grid items-start gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-8">
-          <figure className="relative aspect-4/5 w-3/4 overflow-hidden sm:w-full" data-reveal>
-            <Image
-              alt="A botanical cocktail prepared for an event"
-              className="object-cover"
-              fill
-              sizes="30vw"
-              src="/lily-botanical-cocktail-4x5.png"
-            />
-          </figure>
-          <div className="space-y-6 text-justify reveal-delay-320" data-reveal>
-            <p>
-              Birthday dinners, team suppers, and celebrations with no particular reason. Our
-              private table seats up to fourteen.
-            </p>
-            <p>
-              Choose a family-style menu, add a welcome cocktail, and let us take care of the shape
-              of the evening.
-            </p>
-          </div>
-          <figure className="relative aspect-3/4 overflow-hidden reveal-delay-460" data-reveal>
-            <Image
-              alt="A celebration table with flowers and shared plates"
-              className="object-cover"
-              fill
-              sizes="45vw"
-              src="/lily-event-table-16x10.png"
-            />
-          </figure>
-          <figure
-            className="relative aspect-2/3 w-3/4 justify-self-end overflow-hidden reveal-delay-560 sm:w-full"
-            data-reveal
-          >
-            <Image
-              alt="Lily dining room set for the evening"
-              className="object-cover"
-              fill
-              sizes="28vw"
-              src="/lily-romantic-interior-9x16.png"
-            />
-          </figure>
+          <EventGallery />
         </div>
       </section>
 
       <section className="bg-cream section-pad text-burgundy">
-        <div className="mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center border border-current p-8 text-center md:p-16 lg:p-28">
-          <p className="eyebrow reveal-delay-40" data-reveal>
-            Your table is waiting
-          </p>
+        <div className="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center overflow-hidden border border-current p-8 text-center md:p-16 lg:p-28">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-2 border border-current md:inset-3"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[min(90%,38rem)] -translate-1/2 bg-burgundy/7 mask-[url(/stamp.svg)] mask-contain mask-center mask-no-repeat"
+          />
+
           <h2
-            className="mt-4 mb-6 max-w-[9ch] font-display text-4xl font-medium reveal-delay-180 lg:text-6xl"
+            className="relative mb-6 max-w-[11ch] font-display text-5xl font-medium text-balance reveal-delay-180 md:text-6xl lg:text-8xl"
             data-reveal
           >
             Make your reservation now.
           </h2>
-          <p className="mb-8 max-w-[32ch] text-lg reveal-delay-320" data-reveal>
+          <p
+            className="relative mb-10 max-w-[32ch] text-lg text-orange-brown reveal-delay-320"
+            data-reveal
+          >
             Join us for dinner, drinks, or the pleasure of both.
           </p>
-          <span className="reveal-delay-460" data-reveal>
+          <span className="relative reveal-delay-460" data-reveal>
             <PillLink color="burgundy" href="/contact?reason=reservation">
               Book a table
             </PillLink>
           </span>
+
+          <div className="absolute inset-x-6 bottom-6 hidden justify-between text-sm text-orange-brown md:flex lg:inset-x-10 lg:bottom-9">
+            <a className="animated-underline" href="tel:+17245024572">
+              (724) 502-4572
+            </a>
+            <address className="not-italic">500 Grandview Crossing Dr, Gibsonia</address>
+          </div>
         </div>
+      </section>
+
+      <section className="relative grid h-svh place-items-center overflow-hidden px-page">
+        <Image
+          alt="Shared plates spread across a table"
+          className="object-cover"
+          fill
+          sizes="100vw"
+          src="/hero-food-unsplash.jpg"
+        />
+        <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-cream p-8 text-burgundy md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
+          <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl">
+            Bring the table home.
+          </h2>
+          <ul className="space-y-1 text-sm text-orange-brown md:justify-self-end md:text-right">
+            <li>Office tables</li>
+            <li>At-home celebrations</li>
+            <li>Full-service gatherings</li>
+          </ul>
+          <p className="max-w-[34ch] self-end text-orange-brown lg:text-lg">
+            From office lunches to full-service celebrations, we cook seasonal spreads for
+            gatherings across Gibsonia.
+          </p>
+          <div className="md:self-end md:justify-self-end">
+            <PillLink color="burgundy" href="/catering">
+              Explore catering
+            </PillLink>
+          </div>
+        </ScrollTilt>
       </section>
     </div>
   )
