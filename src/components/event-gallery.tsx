@@ -35,8 +35,7 @@ export function EventGallery() {
           <figure
             className="relative shrink-0 overflow-hidden rounded-2xl transition-[width,height] duration-700 ease-lily md:rounded-3xl"
             key={image.src}
-            onClick={() => setActive(index)}
-            onMouseEnter={() => setActive(index)}
+            onPointerEnter={() => setActive(index)}
             style={cardSize(index, active)}
           >
             <Image

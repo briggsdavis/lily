@@ -9,7 +9,7 @@ const dishes = [
     name: "Verbena gimlet",
     price: "$15",
     description:
-      "Garden lemon verbena, dry gin, and fresh lime, shaken cold and served up with a sprig from the patio.",
+      "Lemon verbena, dry gin, and fresh lime, shaken cold and served up with a single verbena leaf.",
     image: "/lily-botanical-cocktail-4x5.png",
     alt: "Botanical cocktail in a coupe glass",
   },
@@ -46,27 +46,21 @@ export function MenuRotator() {
     <div>
       <div className="mb-14 grid items-end gap-8 md:mb-20 md:grid-cols-2 md:gap-12">
         <div data-reveal>
-          <h2 className="font-display text-4xl font-medium text-burgundy lg:text-6xl">
-            One garden,
-            <br />
-            three ways.
+          <h2 className="font-display text-4xl font-medium whitespace-nowrap text-burgundy lg:text-6xl">
+            Seasonal, by design.
           </h2>
         </div>
         <div
           className="flex flex-col items-start gap-6 reveal-delay-180 md:items-end md:text-right"
           data-reveal
         >
-          <p className="max-w-sm text-base lg:text-lg">
-            The menu moves with the market. Bright drinks, generous plates, and desserts that know
-            exactly when to stop.
-          </p>
           <PillLink color="burgundy" href="/menu">
             View the menu
           </PillLink>
         </div>
       </div>
 
-      <div className="grid items-start gap-10 md:grid-cols-[5fr_7fr] lg:gap-16">
+      <div className="grid items-start gap-10 md:grid-cols-[5fr_7fr] md:items-center lg:gap-16">
         <div
           className="relative aspect-4/5 overflow-hidden bg-burgundy md:sticky md:top-28"
           data-reveal
@@ -106,7 +100,7 @@ export function MenuRotator() {
             >
               <button
                 aria-pressed={index === active}
-                className={`block w-full py-8 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy lg:py-10 ${index === 0 ? "pt-0 lg:pt-0" : ""} ${index < dishes.length - 1 ? "border-b border-burgundy/20" : ""}`}
+                className={`block w-full py-8 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burgundy lg:py-10 ${index === 0 ? "pt-0 lg:pt-0" : ""} ${index < dishes.length - 1 ? "border-b border-burgundy/20" : "pb-0 lg:pb-0"}`}
                 onClick={() => setActive(index)}
                 onFocus={() => setActive(index)}
                 onMouseEnter={() => setActive(index)}

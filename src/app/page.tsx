@@ -16,10 +16,10 @@ export default function HomePage() {
 
           <div className="grid items-center gap-3 pt-4 md:grid-cols-[1fr_auto_1fr] md:gap-12 lg:gap-20">
             <p className="animate-rise-in eyebrow animate-delay-1260">
-              Kitchen &amp; cocktails · Gibsonia
+              Dining room &amp; cocktail bar · Gibsonia
             </p>
             <h1 className="max-w-xs animate-rise-in font-display text-2xl font-medium animate-delay-1410 md:max-w-none md:text-center md:whitespace-nowrap lg:text-3xl xl:text-4xl">
-              Late lunches, candlelit dinners, lingering drinks.
+              Candlelit dinners, seasonal plates, considered cocktails.
             </h1>
             <TransitionLink
               className="animated-underline w-max animate-rise-in eyebrow animate-delay-1560 md:justify-self-end"
@@ -39,9 +39,9 @@ export default function HomePage() {
             width={982}
           />
           <p className="relative max-w-[48ch] text-center text-2xl font-extralight text-balance md:text-4xl lg:text-5xl">
-            Lily is a neighborhood kitchen and cocktail bar in Gibsonia, cooking with the seasons
-            and pouring drinks from the garden, for late lunches and evenings that ask you to stay a
-            little longer.
+            Lily is an intimate dining room and cocktail bar in Gibsonia, where seasonal cooking,
+            attentive service, and carefully made drinks turn dinner into the main event of the
+            evening.
           </p>
         </section>
       </div>
@@ -74,12 +74,12 @@ export default function HomePage() {
           </h2>
           <div className="mb-10 grid w-full gap-5 md:grid-cols-2 md:gap-12 lg:gap-20">
             <p className="reveal-delay-320" data-reveal>
-              Lily is a neighborhood kitchen shaped by the seasons and the people around our table.
-              We cook with a light touch, letting excellent produce lead.
+              Lily is a dining room shaped by the seasons. The kitchen cooks with precision and
+              restraint, letting exceptional ingredients lead each plate.
             </p>
             <p className="reveal-delay-460" data-reveal>
-              The bar follows the same rhythm: garden herbs, ripe fruit, thoughtful spirits, and
-              drinks designed to sit beautifully beside dinner.
+              The bar holds the same standard: classic technique, seasonal fruit and herbs, fine
+              spirits, and cocktails composed to sit beautifully beside dinner.
             </p>
           </div>
           <span data-reveal>
@@ -107,12 +107,12 @@ export default function HomePage() {
             </div>
             <div className="max-w-sm space-y-4 reveal-delay-320" data-reveal>
               <p>
-                Throughout the year we host wine dinners, guest chef suppers, and long evenings on
-                the patio, each one built around what's in season.
+                Throughout the year we host wine dinners, guest chef suppers, and seasonal tasting
+                menus in the dining room, each one built around what's at its peak.
               </p>
               <p>
-                Seats are limited and tend to go quickly, so take a look at what's coming up and
-                save yourself a place at the table.
+                Seating is limited and these evenings fill quickly, so we recommend reserving early
+                to secure your place.
               </p>
             </div>
           </div>
@@ -136,13 +136,13 @@ export default function HomePage() {
             className="relative mb-6 max-w-[11ch] font-display text-5xl font-medium text-balance reveal-delay-180 md:text-6xl lg:text-8xl"
             data-reveal
           >
-            Make your reservation now.
+            Reserve your table.
           </h2>
           <p
             className="relative mb-10 max-w-[32ch] text-lg text-orange-brown reveal-delay-320"
             data-reveal
           >
-            Join us for dinner, drinks, or the pleasure of both.
+            Join us in the dining room for dinner, cocktails, or both.
           </p>
           <span className="relative reveal-delay-460" data-reveal>
             <PillLink color="burgundy" href="/contact?reason=reservation">
@@ -172,13 +172,13 @@ export default function HomePage() {
             Bring the table home.
           </h2>
           <ul className="space-y-1 text-sm text-orange-brown md:justify-self-end md:text-right">
-            <li>Office tables</li>
-            <li>At-home celebrations</li>
-            <li>Full-service gatherings</li>
+            <li>Corporate dining</li>
+            <li>Private celebrations</li>
+            <li>Full-service events</li>
           </ul>
           <p className="max-w-[34ch] self-end text-orange-brown lg:text-lg">
-            From office lunches to full-service celebrations, we cook seasonal spreads for
-            gatherings across Gibsonia.
+            From executive lunches to private celebrations, we bring Lily's seasonal menus and
+            polished service to gatherings across Gibsonia.
           </p>
           <div className="md:self-end md:justify-self-end">
             <PillLink color="burgundy" href="/catering">

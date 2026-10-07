@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { FormEvent, useEffect, useMemo, useState } from "react"
 import { PillButton } from "@/components/pill-button"
 
@@ -406,16 +405,6 @@ export function ReservationForm({
       )}
 
       <div className="flex flex-col items-stretch gap-4 [view-transition-name:inquiry-footer] sm:flex-row sm:items-center sm:justify-between">
-        <label className="flex items-start gap-2.5 text-xs">
-          <input className="mt-0.5 size-4 accent-burgundy" required type="checkbox" />
-          <span>
-            I agree to Lily&apos;s{" "}
-            <Link className="border-b border-current" href="/privacy">
-              privacy policy
-            </Link>
-            .
-          </span>
-        </label>
         <PillButton className="w-full sm:w-auto sm:min-w-44" color="burgundy" type="submit">
           {inquiryReason === "reservation" ? "Reserve" : "Send inquiry"}
         </PillButton>

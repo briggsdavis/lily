@@ -4,24 +4,25 @@ import { PillLink } from "@/components/pill-button"
 
 export const metadata: Metadata = {
   title: "Catering",
-  description: "Seasonal catering from Lily for gatherings across Gibsonia.",
+  description:
+    "Seasonal menus and polished service from Lily for private and corporate events across Gibsonia.",
 }
 
 const occasions = [
   [
     "01",
-    "Office tables",
-    "Generous lunches and working dinners, delivered ready to share with the whole room.",
+    "Corporate dining",
+    "Refined lunches and client dinners, presented ready to serve and composed for the room.",
   ],
   [
     "02",
-    "At-home celebrations",
-    "Seasonal food for birthdays, showers, and evenings that deserve more time around the table.",
+    "Private celebrations",
+    "Seasonal menus for birthdays, showers, and milestones, prepared with the same care as our dining room.",
   ],
   [
     "03",
-    "Full-service gatherings",
-    "A considered menu, thoughtful drinks, and a team to carry the occasion from arrival to last pour.",
+    "Full-service events",
+    "A tailored menu, a curated bar, and a professional team to guide the evening from arrival to the final pour.",
   ],
 ] as const
 
@@ -40,8 +41,8 @@ export default function CateringPage() {
             Catering
           </h1>
           <p className="mb-8 max-w-[37ch] text-base lg:text-lg" data-reveal>
-            Seasonal plates, generous spreads, and the easy rhythm of Lily brought to tables across
-            Gibsonia.
+            Seasonal menus, polished service, and the care of Lily's dining room, brought to
+            gatherings across Gibsonia.
           </p>
           <span data-reveal>
             <PillLink color="burgundy" href="/contact?reason=events">
@@ -73,7 +74,7 @@ export default function CateringPage() {
             className="max-w-[11ch] font-display text-4xl font-medium md:col-span-2 lg:text-6xl"
             data-reveal
           >
-            Made for the shape of your day.
+            Tailored to the occasion.
           </h2>
         </div>
         <div className="grid md:grid-cols-3">
@@ -117,13 +118,12 @@ export default function CateringPage() {
             Menus that move with the market.
           </h2>
           <p className="max-w-[54ch]" data-reveal>
-            We build each menu around the season, the setting, and how you want your guests to feel.
-            Choose from passed bites, family-style tables, or individually composed meals, with
-            cocktails and wine available alongside.
+            We build each menu around the season, the setting, and the experience you want for your
+            guests. Choose from passed canapes, family-style service, or plated courses, with
+            cocktails and wine pairings available.
           </p>
           <p className="mt-4 max-w-[54ch]" data-reveal>
-            Vegetarian and dietary accommodations are happily considered as we shape the menu
-            together.
+            Vegetarian and dietary requirements are always welcome as we shape the menu together.
           </p>
           <span className="mt-8" data-reveal>
             <PillLink color="burgundy" href="/contact?reason=events">
@@ -145,8 +145,8 @@ export default function CateringPage() {
             Bring Lily to the table.
           </h2>
           <p className="mb-8 max-w-[42ch]" data-reveal>
-            Share your date, guest count, and a little about the occasion. Our team will be in touch
-            with the next steps.
+            Share your date, guest count, and a few details about the occasion. Our events team will
+            follow up to begin planning.
           </p>
           <span data-reveal>
             <PillLink color="pink" href="/contact?reason=events">
