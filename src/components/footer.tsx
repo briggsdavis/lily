@@ -86,10 +86,10 @@ export function Footer() {
             <Image
               alt="Lily Kitchen and Cocktails"
               className="block h-auto w-full"
-              height={882}
+              height={2062}
               sizes="(max-width: 768px) 7rem, 9rem"
-              src="/beige-primary-logo.png"
-              width={890}
+              src="/PRIMARY-VERTICAL-BROWN.png"
+              width={1465}
             />
           </TransitionLink>
 
