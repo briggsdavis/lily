@@ -1,6 +1,5 @@
 import Image from "next/image"
 import { EventGallery } from "@/components/event-gallery"
-import { HeroSlideshow } from "@/components/hero-slideshow"
 import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
 import { PillLink } from "@/components/pill-button"
@@ -11,38 +10,75 @@ import { TransitionLink } from "@/components/transition-link"
 export default function HomePage() {
   return (
     <div>
-      <div>
-        <section className="sticky top-0 grid h-svh grid-rows-[1fr_auto] gap-3 px-page pt-[5.5rem] pb-5 md:gap-4 md:pt-[6.5rem] md:pb-6 lg:pt-[8.125rem]">
-          <HeroSlideshow />
-
-          <div className="hero-intro-copy grid items-center gap-3 md:grid-cols-[1fr_auto_1fr] md:gap-12 lg:gap-20">
-            <p className="eyebrow">Dining room &amp; cocktail bar · Gibsonia</p>
-            <h1 className="max-w-xs font-display text-2xl font-medium md:max-w-none md:text-center md:whitespace-nowrap lg:text-3xl xl:text-4xl">
-              Candlelit dinners, seasonal plates, considered cocktails.
-            </h1>
-            <TransitionLink
-              className="animated-underline w-max eyebrow md:justify-self-end"
-              href="/contact?reason=reservation"
-            >
-              Reserve a table
-            </TransitionLink>
-          </div>
-        </section>
-
-        <section
-          className="relative grid min-h-svh place-items-center overflow-hidden bg-dark-green px-page text-pink"
-          data-nav-tone="dark"
-        >
+      <section
+        className="relative isolate h-svh min-h-[44rem] overflow-hidden bg-zinc-950 text-cream"
+        data-nav-tone="image"
+      >
+        <div className="hero-intro-media absolute inset-0">
           <Image
-            alt=""
-            className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2"
-            height={1004}
-            src="/stamp.svg"
-            width={982}
+            alt="Lily's warmly lit dining room set for the evening"
+            className="object-cover object-[58%_center] md:object-center"
+            fill
+            priority
+            sizes="100vw"
+            src="/hero-restaurant-unsplash.jpg"
           />
-          <NeighborhoodIntro />
-        </section>
-      </div>
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.82)_0%,rgba(8,7,5,0.42)_48%,rgba(8,7,5,0.68)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.38)_0%,transparent_38%,rgba(8,7,5,0.84)_100%)]" />
+        </div>
+
+        <div className="hero-intro-copy relative grid h-svh min-h-[44rem] grid-rows-[1fr_auto] px-page pt-28 pb-7 md:pt-32 md:pb-9 lg:pb-10">
+          <div className="grid content-start gap-9 md:grid-cols-12 md:gap-8 lg:gap-12">
+            <div className="md:col-span-7 lg:col-span-6">
+              <p className="mb-4 eyebrow text-cream/65">Lily · Gibsonia</p>
+              <h1 className="max-w-[13ch] font-display text-[2.65rem] leading-[0.98] font-medium text-balance sm:text-5xl md:text-[3.4rem] lg:text-6xl">
+                The dining room glows as the evening draws everyone to the table.
+              </h1>
+              <TransitionLink
+                className="mt-8 inline-flex min-h-14 min-w-44 items-center justify-center border border-cream/55 px-7 text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 hover:border-cream hover:bg-cream hover:text-zinc-950 focus-visible:border-cream focus-visible:bg-cream focus-visible:text-zinc-950 focus-visible:outline-none md:mt-10"
+                href="/contact?reason=reservation"
+              >
+                Reserve a table
+              </TransitionLink>
+            </div>
+
+            <p className="max-w-[31ch] text-sm leading-7 text-cream/75 md:col-span-4 md:col-start-9 md:mt-14 lg:col-span-3 lg:col-start-10 lg:text-base lg:leading-8">
+              A neighborhood kitchen and cocktail bar shaped by the seasons, with considered plates,
+              garden-led drinks, and warm service made for long evenings.
+            </p>
+          </div>
+
+          <div className="flex items-end justify-between gap-8">
+            <Image
+              alt="Lily Kitchen and Cocktails"
+              className="h-auto w-44 sm:w-56 md:w-72 lg:w-80"
+              height={767}
+              priority
+              sizes="(max-width: 640px) 11rem, (max-width: 768px) 14rem, (max-width: 1024px) 18rem, 20rem"
+              src="/PRIMARY-HORIZONTAL-CREAM.png"
+              width={2329}
+            />
+            <p className="hidden text-right text-[0.65rem] font-bold tracking-[0.22em] text-cream/55 uppercase sm:block">
+              Seasonal kitchen · Considered cocktails
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative grid min-h-svh place-items-center overflow-hidden bg-dark-green px-page text-pink"
+        data-nav-tone="dark"
+      >
+        <Image
+          alt=""
+          className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2 opacity-65"
+          height={1004}
+          src="/stamp.svg"
+          width={982}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(201,168,178,0.08),transparent_32%),radial-gradient(circle_at_78%_65%,rgba(253,242,226,0.06),transparent_28%)]" />
+        <NeighborhoodIntro />
+      </section>
 
       <section
         className="overflow-hidden bg-cream px-page pt-14 pb-24 text-orange-brown md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
