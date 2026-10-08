@@ -1,10 +1,10 @@
 import Image from "next/image"
+import { EventsShowcase } from "@/components/events-showcase"
 import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
 import { PillLink } from "@/components/pill-button"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
 import { ScrollTilt } from "@/components/scroll-tilt"
-import { TransitionLink } from "@/components/transition-link"
 
 export default function HomePage() {
   return (
@@ -29,21 +29,23 @@ export default function HomePage() {
         <div className="hero-intro-copy relative grid h-svh min-h-[44rem] grid-rows-[1fr_auto] px-page pt-28 pb-7 md:pt-32 md:pb-9 lg:pb-10">
           <div className="grid content-start gap-9 md:grid-cols-12 md:gap-8 lg:gap-12">
             <div className="md:col-span-7 lg:col-span-6">
-              <p className="mb-4 eyebrow text-cream/65">Lily · Gibsonia</p>
-              <h1 className="max-w-[13ch] font-display text-[2.65rem] leading-[0.98] font-medium text-balance sm:text-5xl md:text-[3.4rem] lg:text-6xl">
-                The dining room glows as the evening draws everyone to the table.
+              <h1 className="font-display text-[1.9875rem] leading-[0.98] font-medium sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
+                <span className="block">The room glows</span>
+                <span className="block">into the evening.</span>
               </h1>
-              <TransitionLink
-                className="mt-8 inline-flex min-h-14 min-w-44 items-center justify-center border border-cream/55 px-7 text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 hover:border-cream hover:bg-cream hover:text-zinc-950 focus-visible:border-cream focus-visible:bg-cream focus-visible:text-zinc-950 focus-visible:outline-none md:mt-10"
-                href="/contact?reason=reservation"
-              >
-                Reserve a table
-              </TransitionLink>
+              <div className="mt-8 md:mt-10">
+                <PillLink color="cream" href="/contact?reason=reservation">
+                  Reserve a table
+                </PillLink>
+              </div>
             </div>
 
-            <p className="max-w-[31ch] text-sm leading-7 text-cream/75 md:col-span-4 md:col-start-9 md:mt-14 lg:col-span-3 lg:col-start-10 lg:text-base lg:leading-8">
-              A neighborhood kitchen and cocktail bar shaped by the seasons, with considered plates,
-              garden-led drinks, and warm service made for long evenings.
+            <p className="text-sm leading-7 text-cream/75 md:col-span-6 md:col-start-7 md:justify-self-end md:text-right lg:text-base lg:leading-8">
+              <span className="lg:block">A neighborhood kitchen and cocktail bar</span>{" "}
+              <span className="lg:block">shaped by the seasons, with considered plates,</span>{" "}
+              <span className="lg:block">
+                garden-led drinks, and warm service made for long evenings.
+              </span>
             </p>
           </div>
 
@@ -80,8 +82,8 @@ export default function HomePage() {
       </section>
 
       <section
-        className="overflow-hidden bg-cream px-page pt-14 pb-24 text-orange-brown md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
-        data-nav-tone="light"
+        className="overflow-hidden bg-[#623f49] px-page pt-14 pb-24 text-[#fff2e9] md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
+        data-nav-tone="dark"
       >
         <MenuRotator />
       </section>
@@ -89,7 +91,7 @@ export default function HomePage() {
       <ScrollRevealImage />
 
       <section
-        className="grid items-center gap-12 bg-burgundy section-pad text-cream md:grid-cols-5 md:gap-20 lg:gap-40"
+        className="grid items-center gap-12 bg-[#535349] section-pad text-[#fff2e9] md:grid-cols-5 md:gap-20 lg:gap-40"
         data-nav-tone="dark"
       >
         <div
@@ -105,10 +107,7 @@ export default function HomePage() {
           />
         </div>
         <div className="flex max-w-3xl flex-col items-start md:col-span-3">
-          <h2
-            className="mb-10 max-w-[8ch] font-display text-4xl font-medium reveal-delay-180 md:mb-16 lg:text-6xl"
-            data-reveal
-          >
+          <h2 className="mb-10 max-w-[8ch] font-display text-4xl font-medium text-[#caaab2] md:mb-16 lg:text-6xl">
             A room for long evenings.
           </h2>
           <div className="mb-10 grid w-full gap-5 md:grid-cols-2 md:gap-12 lg:gap-20">
@@ -130,6 +129,47 @@ export default function HomePage() {
       </section>
 
       <section
+        className="relative isolate grid h-svh min-h-[42rem] overflow-hidden px-page py-24 text-cream md:py-28 lg:py-32"
+        data-nav-tone="image"
+        id="home-story"
+      >
+        <Image
+          alt="Candlelit tables prepared for an evening at Lily"
+          className="object-cover object-[52%_center]"
+          fill
+          sizes="100vw"
+          src="/contact-events-unsplash.jpg"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,8,5,0.72)_0%,rgba(10,8,5,0.18)_48%,rgba(10,8,5,0.62)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,5,0.18)_0%,transparent_40%,rgba(10,8,5,0.55)_100%)]" />
+
+        <div className="relative flex h-full flex-col justify-between gap-16">
+          <h2 className="font-display text-[1.6875rem] leading-[1.02] font-medium sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]">
+            <span className="block">Season-led cooking,</span>
+            <span className="block">served with warmth.</span>
+          </h2>
+
+          <div className="flex max-w-sm flex-col items-start self-end md:max-w-md">
+            <p className="mb-7 text-sm leading-7 text-cream/85 md:text-base md:leading-8">
+              Guided by the market and grounded in generous hospitality, Lily brings thoughtful
+              plates and considered cocktails to the table, made to be shared over an unhurried
+              evening.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <PillLink color="cream" href="/contact?reason=reservation">
+                Reserve a table
+              </PillLink>
+              <PillLink color="cream" href="/menu">
+                View the menu
+              </PillLink>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <EventsShowcase />
+
+      <section
         className="bg-cream px-page pt-12 pb-24 text-burgundy md:pt-16 md:pb-32 lg:pt-20 lg:pb-40"
         data-nav-tone="light"
       >
@@ -143,19 +183,13 @@ export default function HomePage() {
             className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[min(90%,38rem)] -translate-1/2 bg-burgundy/7 mask-[url(/stamp.svg)] mask-contain mask-center mask-no-repeat"
           />
 
-          <h2
-            className="relative mb-6 max-w-[11ch] font-display text-5xl font-medium text-balance reveal-delay-180 md:text-6xl lg:text-8xl"
-            data-reveal
-          >
+          <h2 className="relative mb-6 max-w-[11ch] font-display text-5xl font-medium text-balance md:text-6xl lg:text-8xl">
             Reserve your table.
           </h2>
-          <p
-            className="relative mb-10 max-w-[32ch] text-lg text-orange-brown reveal-delay-320"
-            data-reveal
-          >
+          <p className="relative mb-10 max-w-[32ch] text-lg text-orange-brown">
             Join us in the dining room for dinner, cocktails, or both.
           </p>
-          <span className="relative reveal-delay-460" data-reveal>
+          <span className="relative">
             <PillLink color="burgundy" href="/contact?reason=reservation">
               Book a table
             </PillLink>

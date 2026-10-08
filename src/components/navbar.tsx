@@ -98,12 +98,7 @@ export function Navbar() {
         className={`hero-intro-header fixed inset-x-0 top-0 z-60 flex items-center justify-between px-page py-5 transition-colors duration-320 ${lightControls ? "text-[#fff2e9]" : "text-[#917156]"}`}
         data-site-chrome
       >
-        <Link
-          aria-label="Lily home"
-          className={`block w-28 transition-opacity duration-500 md:w-36 lg:w-44 ${current !== "/" || open ? "opacity-100" : "pointer-events-none opacity-0"}`}
-          href="/"
-          ref={logoRef}
-        >
+        <Link aria-label="Lily home" className="block w-28 md:w-36 lg:w-44" href="/" ref={logoRef}>
           <span className="relative block aspect-[2329/767]">
             <Image
               alt={lightLogo ? "" : "Lily Kitchen and Cocktails"}

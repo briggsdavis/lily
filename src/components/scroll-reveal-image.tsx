@@ -48,7 +48,7 @@ export function ScrollRevealImage() {
 
   return (
     <section
-      className="relative h-[390svh] bg-cream"
+      className="relative h-[390svh] bg-[#623f49]"
       data-nav-tone="image"
       ref={sectionRef}
       style={{ "--open": 0, "--meet": 0 } as CSSProperties}
