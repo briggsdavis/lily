@@ -4,23 +4,20 @@ import Image from "next/image"
 import { CSSProperties, useState } from "react"
 
 const images = [
-  { src: "/lily-botanical-cocktail-4x5.png", alt: "A botanical cocktail prepared for an event" },
-  { src: "/lily-event-table-16x10.png", alt: "A celebration table with flowers and shared plates" },
-  { src: "/lily-romantic-interior-9x16.png", alt: "Lily dining room set for the evening" },
+  { src: "/lily-seasonal-main-dish-4x5.png", alt: "A seasonal main dish plated at Lily" },
+  { src: "/lily-floral-dessert-4x5.png", alt: "A floral dessert finished for the table" },
+  { src: "/lily-botanical-cocktail-4x5.png", alt: "A botanical cocktail mixed at Lily" },
 ] as const
 
-// Width of one card when nothing is hovered. Cards are 4:5 portrait.
 const base = "((100cqw - 2 * var(--gap)) / 3)"
 
 function cardSize(index: number, active: number | null): CSSProperties {
   if (active === null) return { width: `calc(${base})`, height: `calc(${base} * 1.25)` }
-  // The active card grows 20% beyond the previous square treatment.
   if (index === active) return { width: `calc(${base} * 1.5)`, height: `calc(${base} * 1.5)` }
-  // The other two split the remaining width and keep their 4:5 ratio.
   return { width: `calc(${base} * 0.75)`, height: `calc(${base} * 0.9375)` }
 }
 
-export function EventGallery() {
+export function MenuGallery() {
   const [active, setActive] = useState<number | null>(null)
 
   return (
@@ -28,7 +25,6 @@ export function EventGallery() {
       <div
         className="flex items-center gap-(--gap) [--gap:--spacing(3)] md:[--gap:--spacing(6)]"
         onMouseLeave={() => setActive(null)}
-        // Fixed to the tallest card so the row never changes height mid-transition.
         style={{ height: `calc(${base} * 1.5)` }}
       >
         {images.map((image, index) => (

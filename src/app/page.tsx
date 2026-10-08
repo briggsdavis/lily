@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { EventGallery } from "@/components/event-gallery"
 import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
 import { PillLink } from "@/components/pill-button"
@@ -127,39 +126,6 @@ export default function HomePage() {
               Meet Lily
             </PillLink>
           </span>
-        </div>
-      </section>
-
-      <section
-        className="bg-dark-green px-page pt-24 pb-12 text-pink md:pt-32 md:pb-16 lg:pt-40 lg:pb-20"
-        data-nav-tone="dark"
-        id="home-events"
-      >
-        <div>
-          <div className="mb-8 grid items-start gap-8 md:mb-12 md:grid-cols-3 md:gap-6">
-            <div className="flex flex-col items-start gap-8">
-              <h2 className="font-display text-4xl font-medium lg:text-6xl" data-reveal>
-                Tables made
-                <br />
-                for a little more.
-              </h2>
-              <span className="reveal-delay-180" data-reveal>
-                <PillLink color="pink" href="/events">
-                  See upcoming events
-                </PillLink>
-              </span>
-            </div>
-            <p className="reveal-delay-320" data-reveal>
-              Throughout the year we host wine dinners, guest chef suppers, and seasonal tasting
-              menus in the dining room, each one built around what's at its peak.
-            </p>
-            <p className="reveal-delay-460" data-reveal>
-              Seating is limited and these evenings fill quickly, so we recommend reserving early to
-              secure your place.
-            </p>
-          </div>
-
-          <EventGallery />
         </div>
       </section>
 
