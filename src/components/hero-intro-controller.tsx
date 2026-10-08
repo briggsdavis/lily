@@ -1,27 +1,38 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { useEffect } from "react"
+import { useLayoutEffect } from "react"
 
-const storageKey = "lily-hero-intro-seen"
+const cleanupDelay = 2400
 
 export function HeroIntroController() {
   const pathname = usePathname()
 
-  useEffect(() => {
-    if (pathname !== "/") return
-
+  useLayoutEffect(() => {
     const root = document.documentElement
-    if (!root.classList.contains("hero-intro-pending")) return
+    if (pathname !== "/") {
+      root.classList.remove("hero-intro-pending", "hero-intro-running")
+      return
+    }
 
-    root.classList.add("hero-intro-running")
-    window.sessionStorage.setItem(storageKey, "true")
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      root.classList.remove("hero-intro-pending", "hero-intro-running")
+      return
+    }
+
+    root.classList.add("hero-intro-pending")
+    root.classList.remove("hero-intro-running")
+
+    const startFrame = window.requestAnimationFrame(() => {
+      root.classList.add("hero-intro-running")
+    })
 
     const timer = window.setTimeout(() => {
       root.classList.remove("hero-intro-pending", "hero-intro-running")
-    }, 3050)
+    }, cleanupDelay)
 
     return () => {
+      window.cancelAnimationFrame(startFrame)
       window.clearTimeout(timer)
       root.classList.remove("hero-intro-pending", "hero-intro-running")
     }

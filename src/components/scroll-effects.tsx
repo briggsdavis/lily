@@ -7,6 +7,8 @@ export function ScrollEffects() {
   const pathname = usePathname()
 
   useLayoutEffect(() => {
+    if (window.location.pathname !== pathname) return
+
     const root = document.documentElement
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"))
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches

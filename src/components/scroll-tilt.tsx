@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useRef } from "react"
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => 1 - (1 - value) ** 2
+const initialTilt = { transform: "rotate(8deg)" }
 
 export function ScrollTilt({ children, className }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -50,7 +51,7 @@ export function ScrollTilt({ children, className }: { children: ReactNode; class
     <div
       className={`origin-top-left will-change-transform ${className ?? ""}`}
       ref={ref}
-      style={{ transform: "rotate(8deg)" }}
+      style={initialTilt}
     >
       {children}
     </div>

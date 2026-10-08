@@ -5,16 +5,23 @@ export default function NotFound() {
   return (
     <div className="grid min-h-svh items-center gap-8 bg-cream px-page pt-28 pb-12 text-orange-brown md:grid-cols-2 md:gap-16 lg:gap-32 lg:pt-40 lg:pb-24">
       <div className="flex max-w-lg flex-col items-start">
-        <p className="eyebrow">Error 404</p>
-        <h1 className="mt-2.5 mb-5 max-w-[8ch] font-display text-5xl font-medium text-burgundy lg:text-7xl">
+        <p className="eyebrow" data-reveal>
+          Error 404
+        </p>
+        <h1
+          className="mt-2.5 mb-5 max-w-[8ch] font-display text-5xl font-medium text-burgundy reveal-delay-120 lg:text-7xl"
+          data-reveal
+        >
           This table is empty.
         </h1>
-        <p className="mb-8 max-w-[39ch]">
+        <p className="mb-8 max-w-[39ch] reveal-delay-240" data-reveal>
           The page you were looking for is no longer on the menu. Let&apos;s bring you back to Lily.
         </p>
-        <PillLink color="burgundy" href="/">
-          Return home
-        </PillLink>
+        <span className="reveal-delay-360" data-reveal>
+          <PillLink color="burgundy" href="/">
+            Return home
+          </PillLink>
+        </span>
       </div>
       <div className="relative aspect-4/5 w-4/5 max-w-sm justify-self-center overflow-hidden md:w-full md:max-w-xl md:justify-self-end">
         <Image

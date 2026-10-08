@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ComponentProps, MouseEvent, ReactNode } from "react"
+import { ComponentProps, MouseEvent, ReactNode, useCallback } from "react"
 
 export function TransitionLink({
   children,
@@ -17,29 +17,32 @@ export function TransitionLink({
 }) {
   const router = useRouter()
 
-  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey ||
-      typeof href !== "string" ||
-      href.startsWith("#")
-    ) {
-      return
-    }
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        typeof href !== "string" ||
+        href.startsWith("#")
+      ) {
+        return
+      }
 
-    event.preventDefault()
-    onNavigate?.()
-    document.documentElement.classList.add("route-leaving")
+      event.preventDefault()
+      onNavigate?.()
+      document.documentElement.classList.add("route-leaving")
 
-    window.setTimeout(() => {
-      router.push(href)
-      window.setTimeout(() => document.documentElement.classList.remove("route-leaving"), 320)
-    }, 260)
-  }
+      window.setTimeout(() => {
+        router.push(href)
+        window.setTimeout(() => document.documentElement.classList.remove("route-leaving"), 320)
+      }, 260)
+    },
+    [href, onNavigate, router],
+  )
 
   return (
     <Link className={className} href={href} onClick={handleClick} {...props}>

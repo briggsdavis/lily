@@ -19,17 +19,17 @@ export default function MenuPage() {
             The menu
           </p>
           <h1
-            className="max-w-[10ch] font-display text-5xl leading-none font-medium md:text-6xl lg:text-7xl"
+            className="max-w-[10ch] font-display text-5xl leading-none font-medium reveal-delay-120 md:text-6xl lg:text-7xl"
             data-reveal
           >
             A menu led by the season.
           </h1>
         </div>
-        <p className="max-w-[34ch] leading-7 reveal-delay-180 md:pt-8" data-reveal>
+        <p className="max-w-[34ch] leading-7 reveal-delay-240 md:pt-8" data-reveal>
           We begin with what is best now: market vegetables, carefully sourced fish and meat, and
           handmade pasta shaped with a light touch.
         </p>
-        <p className="max-w-[34ch] leading-7 reveal-delay-320 md:pt-8" data-reveal>
+        <p className="max-w-[34ch] leading-7 reveal-delay-360 md:pt-8" data-reveal>
           The menu is composed for the table, from bright first plates through generous mains,
           floral desserts, and cocktails designed to sit beautifully beside dinner.
         </p>

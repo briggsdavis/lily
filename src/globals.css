@@ -14,53 +14,24 @@
   --color-cream: #fdf2e2;
   --color-orange-brown: #967453;
   --color-taupe: #55514a;
+  --color-mauve: #623f49;
+  --color-olive-charcoal: #535349;
+  --color-blush: #caaab2;
+  --color-warm-white: #fff2e9;
+  --color-bronze: #957859;
+  --color-brand-brown: #917156;
 
   --ease-lily: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
 
-  --animate-hero-arrive: hero-arrive 1150ms var(--ease-lily) var(--animate-delay) both;
-  --animate-rise-in: rise-in 850ms var(--ease-lily) var(--animate-delay) both;
   --animate-menu-item: rise-in 620ms var(--ease-lily) var(--animate-delay) both;
-  --animate-drop-in: drop-in 750ms var(--ease-lily) var(--animate-delay) both;
-  --animate-rule-in: rule-in 850ms var(--ease-lily) var(--animate-delay) both;
-  --animate-inquiry-title: inquiry-title-in 520ms var(--ease-lily) both;
   --animate-inquiry-fields: inquiry-fields-in 480ms var(--ease-lily) both;
-
-  @keyframes hero-arrive {
-    from {
-      opacity: 0;
-      filter: blur(24px);
-      transform: scale(0.985);
-    }
-  }
 
   @keyframes rise-in {
     from {
       opacity: 0;
       filter: blur(14px);
       transform: translateY(1rem);
-    }
-  }
-
-  @keyframes drop-in {
-    from {
-      opacity: 0;
-      filter: blur(12px);
-      transform: translateY(-0.65rem);
-    }
-  }
-
-  @keyframes rule-in {
-    from {
-      transform: scaleX(0);
-    }
-  }
-
-  @keyframes inquiry-title-in {
-    from {
-      opacity: 0;
-      filter: blur(10px);
-      transform: translateY(0.5rem);
     }
   }
 
@@ -147,21 +118,21 @@
 
 .hero-intro-pending .hero-intro-media,
 .hero-intro-pending .hero-intro-header,
-.hero-intro-pending .hero-intro-copy {
+.hero-intro-pending .hero-stagger {
   opacity: 0;
   filter: blur(28px);
 }
 
 .hero-intro-running .hero-intro-media {
-  animation: first-load-focus 1500ms var(--ease-lily) both;
+  animation: first-load-focus 1350ms var(--ease-lily) both;
 }
 
 .hero-intro-running .hero-intro-header {
-  animation: first-load-focus 1500ms 750ms var(--ease-lily) both;
+  animation: first-load-focus 1100ms 180ms var(--ease-lily) both;
 }
 
-.hero-intro-running .hero-intro-copy {
-  animation: first-load-focus 1500ms 1500ms var(--ease-lily) both;
+.hero-intro-running .hero-stagger {
+  animation: first-load-focus 1050ms var(--animate-delay) var(--ease-lily) both;
 }
 
 /* Scroll reveal, driven by scroll-effects.tsx */
@@ -174,13 +145,35 @@
     filter 1050ms var(--ease-lily),
     transform 1050ms var(--ease-lily);
   transition-delay: var(--reveal-delay);
-  will-change: opacity, filter, transform;
 }
 
 .reveal-ready [data-reveal].is-visible {
   opacity: 1;
   filter: blur(0);
   transform: translate3d(0, 0, 0);
+}
+
+@media (max-width: 47.999rem) {
+  .reveal-ready [data-reveal] {
+    filter: blur(12px);
+    transform: translate3d(0, 1rem, 0);
+    transition-duration: 780ms, 850ms, 850ms;
+    transition-delay: min(var(--reveal-delay), 240ms);
+  }
+
+  .reveal-ready [data-reveal].is-visible {
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
 }
 
 @keyframes inquiry-mode-out {

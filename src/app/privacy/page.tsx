@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "Privacy Policy" }
 
 function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <section className="border-t border-orange-brown/45 pt-4">
+    <section className="border-t border-orange-brown/45 pt-4" data-reveal>
       <h2 className="mb-3 font-display text-2xl font-medium text-burgundy lg:text-3xl">{title}</h2>
       <div className="max-w-[58ch]">{children}</div>
     </section>
@@ -16,11 +16,18 @@ export default function PrivacyPage() {
   return (
     <article className="mx-auto grid max-w-7xl gap-12 px-page pt-32 pb-20 text-orange-brown md:grid-cols-5 md:gap-20 lg:gap-40 lg:pt-48 lg:pb-36">
       <header className="self-start md:sticky md:top-32 md:col-span-2">
-        <p className="eyebrow">Lily Kitchen &amp; Cocktails</p>
-        <h1 className="mt-2.5 mb-4 max-w-[8ch] font-display text-5xl font-medium text-burgundy lg:text-6xl">
+        <p className="eyebrow" data-reveal>
+          Lily Kitchen &amp; Cocktails
+        </p>
+        <h1
+          className="mt-2.5 mb-4 max-w-[8ch] font-display text-5xl font-medium text-burgundy reveal-delay-120 lg:text-6xl"
+          data-reveal
+        >
           Privacy policy
         </h1>
-        <p className="text-xs uppercase">Last updated October 4, 2026</p>
+        <p className="text-xs uppercase reveal-delay-240" data-reveal>
+          Last updated October 4, 2026
+        </p>
       </header>
 
       <div className="grid gap-10 md:col-span-3">

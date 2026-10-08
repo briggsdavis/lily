@@ -7,6 +7,10 @@ const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => 1 - (1 - value) ** 3
 const phase = (progress: number, start: number, end: number) =>
   ease(clamp((progress - start) / (end - start)))
+const initialProgress = { "--open": 0, "--meet": 0 } as CSSProperties
+const revealClip = { clipPath: "inset(0 calc((1 - var(--open)) * 50%))" }
+const leftWordPosition = { transform: "translateX(calc((1 - var(--meet)) * -100vw))" }
+const rightWordPosition = { transform: "translateX(calc((1 - var(--meet)) * 100vw))" }
 
 export function ScrollRevealImage() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -48,15 +52,15 @@ export function ScrollRevealImage() {
 
   return (
     <section
-      className="relative h-[390svh] bg-[#623f49]"
+      className="relative h-[390svh] bg-mauve"
       data-nav-tone="image"
       ref={sectionRef}
-      style={{ "--open": 0, "--meet": 0 } as CSSProperties}
+      style={initialProgress}
     >
       <div className="sticky top-0 h-svh overflow-hidden">
         <div
           className="absolute inset-0 overflow-hidden will-change-[clip-path]"
-          style={{ clipPath: "inset(0 calc((1 - var(--open)) * 50%))" }}
+          style={revealClip}
         >
           <Image
             alt="Lily's dining room in the evening"
@@ -68,16 +72,10 @@ export function ScrollRevealImage() {
         </div>
 
         <p className="absolute inset-0 flex flex-col items-center justify-center px-page text-center font-display text-4xl font-medium whitespace-nowrap text-cream md:text-6xl xl:flex-row xl:gap-[0.2em] 2xl:text-7xl">
-          <span
-            className="block will-change-transform"
-            style={{ transform: "translateX(calc((1 - var(--meet)) * -100vw))" }}
-          >
+          <span className="block will-change-transform" style={leftWordPosition}>
             Come for dinner,
           </span>
-          <span
-            className="block will-change-transform"
-            style={{ transform: "translateX(calc((1 - var(--meet)) * 100vw))" }}
-          >
+          <span className="block will-change-transform" style={rightWordPosition}>
             stay for the evening.
           </span>
         </p>

@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent, useEffect, useMemo, useState } from "react"
+import { FormEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { PillButton } from "@/components/pill-button"
 
 const guestOptions = Array.from({ length: 8 }, (_, index) => index + 1)
@@ -83,8 +83,14 @@ export function ReservationForm({
     ).getDate()
 
     return [
-      ...Array.from({ length: firstWeekday }, () => null),
-      ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+      ...Array.from({ length: firstWeekday }, (_, index) => ({
+        day: null,
+        key: `blank-${calendarMonth.getFullYear()}-${calendarMonth.getMonth()}-${index}`,
+      })),
+      ...Array.from({ length: daysInMonth }, (_, index) => ({
+        day: index + 1,
+        key: `day-${index + 1}`,
+      })),
     ]
   }, [calendarMonth])
 
@@ -106,32 +112,71 @@ export function ReservationForm({
     }
   }, [])
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (!inquiryReason) {
-      setReasonError(true)
-      return
-    }
-    if (inquiryReason === "reservation" && !selectedDate) {
-      setDateError(true)
-      setOpenPicker("date")
-      return
-    }
-    setSubmitted(true)
-  }
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      if (!inquiryReason) {
+        setReasonError(true)
+        return
+      }
+      if (inquiryReason === "reservation" && !selectedDate) {
+        setDateError(true)
+        setOpenPicker("date")
+        return
+      }
+      setSubmitted(true)
+    },
+    [inquiryReason, selectedDate],
+  )
 
-  function chooseReason(reason: Exclude<InquiryReason, null>) {
-    setReasonError(false)
-    setSubmitted(false)
-    setOpenPicker(null)
-    onInquiryReasonChange(reason)
-  }
+  const chooseReason = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const reason = event.currentTarget.dataset.reason as Exclude<InquiryReason, null> | undefined
+      if (!reason || !inquiryOptions.some((option) => option.value === reason)) return
+      setReasonError(false)
+      setSubmitted(false)
+      setOpenPicker(null)
+      onInquiryReasonChange(reason)
+    },
+    [onInquiryReasonChange],
+  )
 
-  function chooseDate(day: number) {
-    setSelectedDate(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), day))
-    setDateError(false)
+  const togglePicker = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const picker = event.currentTarget.dataset.pickerTrigger as Exclude<Picker, null> | undefined
+    if (!picker) return
+    setOpenPicker((current) => (current === picker ? null : picker))
+  }, [])
+
+  const chooseGuests = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const nextGuests = Number(event.currentTarget.dataset.guests)
+    if (!guestOptions.includes(nextGuests)) return
+    setGuests(nextGuests)
     setOpenPicker(null)
-  }
+  }, [])
+
+  const changeCalendarMonth = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const offset = Number(event.currentTarget.dataset.monthOffset)
+    if (!Number.isInteger(offset)) return
+    setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + offset, 1))
+  }, [])
+
+  const chooseDate = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const day = Number(event.currentTarget.dataset.day)
+      if (!Number.isInteger(day)) return
+      setSelectedDate(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), day))
+      setDateError(false)
+      setOpenPicker(null)
+    },
+    [calendarMonth],
+  )
+
+  const chooseTime = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const nextTime = event.currentTarget.dataset.time
+    if (!nextTime || !timeOptions.includes(nextTime)) return
+    setTime(nextTime)
+    setOpenPicker(null)
+  }, [])
 
   const formattedDate = selectedDate
     ? new Intl.DateTimeFormat("en-US", {
@@ -153,8 +198,9 @@ export function ReservationForm({
             <button
               aria-pressed={inquiryReason === option.value}
               className={`group relative isolate inline-flex min-h-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-3 py-2.5 text-xs font-bold uppercase outline-none ${reasonError ? "ring-1 ring-burgundy" : ""}`}
+              data-reason={option.value}
               key={option.value}
-              onClick={() => chooseReason(option.value)}
+              onClick={chooseReason}
               type="button"
             >
               <span className="relative text-center">{option.label}</span>
@@ -225,7 +271,8 @@ export function ReservationForm({
               <button
                 aria-expanded={openPicker === "guests"}
                 className={pickerTriggerClass}
-                onClick={() => setOpenPicker(openPicker === "guests" ? null : "guests")}
+                data-picker-trigger="guests"
+                onClick={togglePicker}
                 type="button"
               >
                 <span>
@@ -239,11 +286,9 @@ export function ReservationForm({
                     <button
                       aria-pressed={option === guests}
                       className={pickerOptionClass}
+                      data-guests={option}
                       key={option}
-                      onClick={() => {
-                        setGuests(option)
-                        setOpenPicker(null)
-                      }}
+                      onClick={chooseGuests}
                       type="button"
                     >
                       {option} {option === 1 ? "guest" : "guests"}
@@ -262,7 +307,8 @@ export function ReservationForm({
               <button
                 aria-expanded={openPicker === "date"}
                 className={`${pickerTriggerClass} ${dateError ? "border-current! shadow-[0_1px_0_currentColor]!" : ""}`}
-                onClick={() => setOpenPicker(openPicker === "date" ? null : "date")}
+                data-picker-trigger="date"
+                onClick={togglePicker}
                 type="button"
               >
                 <span>{formattedDate}</span>
@@ -274,15 +320,12 @@ export function ReservationForm({
                     <button
                       aria-label="Previous month"
                       className={calendarNavClass}
+                      data-month-offset="-1"
                       disabled={
                         calendarMonth.getFullYear() === today.getFullYear() &&
                         calendarMonth.getMonth() === today.getMonth()
                       }
-                      onClick={() =>
-                        setCalendarMonth(
-                          new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1),
-                        )
-                      }
+                      onClick={changeCalendarMonth}
                       type="button"
                     >
                       &larr;
@@ -296,11 +339,8 @@ export function ReservationForm({
                     <button
                       aria-label="Next month"
                       className={calendarNavClass}
-                      onClick={() =>
-                        setCalendarMonth(
-                          new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1),
-                        )
-                      }
+                      data-month-offset="1"
+                      onClick={changeCalendarMonth}
                       type="button"
                     >
                       &rarr;
@@ -312,8 +352,8 @@ export function ReservationForm({
                         {weekday}
                       </span>
                     ))}
-                    {calendarDays.map((day, index) => {
-                      if (!day) return <span aria-hidden="true" key={`blank-${index}`} />
+                    {calendarDays.map(({ day, key }) => {
+                      if (!day) return <span aria-hidden="true" key={key} />
 
                       const date = new Date(
                         calendarMonth.getFullYear(),
@@ -327,9 +367,10 @@ export function ReservationForm({
                         <button
                           aria-label={date.toLocaleDateString("en-US")}
                           className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none focus-visible:bg-burgundy focus-visible:text-cream enabled:hover:bg-burgundy enabled:hover:text-cream disabled:cursor-default disabled:opacity-25 ${selected ? "bg-burgundy text-cream" : ""}`}
+                          data-day={day}
                           disabled={disabled}
-                          key={day}
-                          onClick={() => chooseDate(day)}
+                          key={key}
+                          onClick={chooseDate}
                           type="button"
                         >
                           {day}
@@ -346,7 +387,8 @@ export function ReservationForm({
               <button
                 aria-expanded={openPicker === "time"}
                 className={pickerTriggerClass}
-                onClick={() => setOpenPicker(openPicker === "time" ? null : "time")}
+                data-picker-trigger="time"
+                onClick={togglePicker}
                 type="button"
               >
                 <span>{time}</span>
@@ -358,11 +400,9 @@ export function ReservationForm({
                     <button
                       aria-pressed={option === time}
                       className={pickerOptionClass}
+                      data-time={option}
                       key={option}
-                      onClick={() => {
-                        setTime(option)
-                        setOpenPicker(null)
-                      }}
+                      onClick={chooseTime}
                       type="button"
                     >
                       {option}

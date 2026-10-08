@@ -3,16 +3,16 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { TransitionLink } from "@/components/transition-link"
 
 const routes = [
-  { href: "/", label: "Home" },
-  { href: "/menu", label: "Menu" },
-  { href: "/events", label: "Events" },
-  { href: "/catering", label: "Catering" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { delay: "animate-delay-110", href: "/", label: "Home" },
+  { delay: "animate-delay-175", href: "/menu", label: "Menu" },
+  { delay: "animate-delay-240", href: "/events", label: "Events" },
+  { delay: "animate-delay-305", href: "/catering", label: "Catering" },
+  { delay: "animate-delay-370", href: "/about", label: "About" },
+  { delay: "animate-delay-435", href: "/contact", label: "Contact" },
 ] as const
 
 export function Navbar() {
@@ -26,8 +26,12 @@ export function Navbar() {
   const [useCreamControls, setUseCreamControls] = useState(
     current === "/" || current === "/menu" || current === "/events",
   )
+  const closeMenu = useCallback(() => setOpen(false), [])
+  const toggleMenu = useCallback(() => setOpen((value) => !value), [])
 
   useEffect(() => {
+    if (window.location.pathname.split("/")[1] !== current.slice(1)) return
+
     const darkBackgrounds = new Set(["rgb(59, 65, 65)", "rgb(85, 58, 61)"])
     let frame = 0
 
@@ -95,7 +99,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`hero-intro-header fixed inset-x-0 top-0 z-60 flex items-center justify-between px-page py-5 transition-colors duration-320 ${lightControls ? "text-[#fff2e9]" : "text-[#917156]"}`}
+        className={`hero-intro-header fixed inset-x-0 top-0 z-60 flex items-center justify-between px-page py-5 transition-colors duration-320 ${lightControls ? "text-warm-white" : "text-brand-brown"}`}
         data-site-chrome
       >
         <Link aria-label="Lily home" className="block w-28 md:w-36 lg:w-44" href="/" ref={logoRef}>
@@ -131,7 +135,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-label={open ? "Close navigation" : "Open navigation"}
             className="group relative z-70 grid size-12 cursor-pointer place-content-center gap-2 rounded-full border border-current"
-            onClick={() => setOpen((value) => !value)}
+            onClick={toggleMenu}
             type="button"
           >
             <span className="block h-px w-5 bg-current transition-transform duration-350 group-aria-expanded:translate-y-1 group-aria-expanded:rotate-45" />
@@ -148,14 +152,13 @@ export function Navbar() {
         <div className="grid min-h-full content-end items-end gap-8 px-page pt-28 pb-8 md:grid-cols-5 md:gap-16 md:pb-16 lg:gap-32">
           <nav aria-label="Main" className="flex flex-col items-start md:col-span-3">
             <p className="mb-5 eyebrow">Explore Lily</p>
-            {routes.map((route, index) => (
+            {routes.map((route) => (
               <TransitionLink
                 aria-current={route.href === current ? "page" : undefined}
-                className={`block w-full border-t border-cream/30 pt-1 pb-2 font-display text-4xl transition-colors duration-250 hover:text-pink focus-visible:text-pink aria-[current=page]:text-pink md:text-5xl lg:text-6xl ${open ? "animate-menu-item" : "opacity-0"}`}
+                className={`block w-full border-t border-cream/30 pt-1 pb-2 font-display text-4xl transition-colors duration-250 hover:text-pink focus-visible:text-pink aria-[current=page]:text-pink md:text-5xl lg:text-6xl ${open ? `animate-menu-item ${route.delay}` : "opacity-0"}`}
                 href={route.href}
                 key={route.href}
-                onNavigate={() => setOpen(false)}
-                style={{ "--animate-delay": `${110 + index * 65}ms` } as React.CSSProperties}
+                onNavigate={closeMenu}
               >
                 {route.label}
               </TransitionLink>

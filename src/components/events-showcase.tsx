@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { MouseEvent, useCallback, useState } from "react"
 import { PillLink } from "@/components/pill-button"
 
 const events = [
@@ -37,6 +37,10 @@ const events = [
 
 export function EventsShowcase() {
   const [active, setActive] = useState(0)
+  const selectEvent = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const index = Number(event.currentTarget.dataset.eventIndex)
+    if (Number.isInteger(index) && events[index]) setActive(index)
+  }, [])
 
   return (
     <section
@@ -45,14 +49,20 @@ export function EventsShowcase() {
       id="home-events"
     >
       <div className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:items-end md:gap-16">
-        <h2 className="font-display text-4xl leading-tight font-medium md:text-5xl lg:text-6xl">
+        <h2
+          className="font-display text-4xl leading-tight font-medium md:text-5xl lg:text-6xl"
+          data-reveal
+        >
           Private celebrations
         </h2>
-        <div className="flex w-full max-w-[52ch] flex-col items-start gap-6 md:justify-self-end">
+        <div
+          className="flex w-full max-w-[52ch] flex-col items-start gap-6 reveal-delay-180 md:justify-self-end"
+          data-reveal
+        >
           <PillLink color="pink" href="/events">
             Explore events
           </PillLink>
-          <p className="text-base leading-relaxed text-[#fff2e9] md:text-lg">
+          <p className="text-base leading-relaxed text-warm-white md:text-lg">
             <span className="lg:block">Wine dinners, seasonal suppers, and celebrations.</span>{" "}
             <span className="lg:block">Evenings remembered after the last glass is poured.</span>
           </p>
@@ -76,7 +86,7 @@ export function EventsShowcase() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.04)_25%,rgba(8,7,5,0.28)_55%,rgba(8,7,5,0.94)_100%)]" />
 
         <div className="relative flex min-h-[34rem] flex-col justify-between p-6 md:min-h-[37rem] md:p-10 lg:p-14">
-          <div className="grid max-w-xl" aria-live="polite">
+          <div className="grid max-w-xl" aria-live="polite" data-reveal>
             {events.map((event, index) => (
               <div
                 aria-hidden={index !== active}
@@ -91,7 +101,7 @@ export function EventsShowcase() {
             ))}
           </div>
 
-          <div>
+          <div className="reveal-delay-180" data-reveal>
             <p className="mb-4 eyebrow text-cream/55">Choose an evening</p>
             <div className="grid max-w-2xl grid-cols-4 gap-2 md:gap-4">
               {events.map((event, index) => (
@@ -99,8 +109,9 @@ export function EventsShowcase() {
                   aria-label={`Show ${event.label}`}
                   aria-pressed={active === index}
                   className="group relative aspect-4/3 cursor-pointer overflow-hidden opacity-70 transition-[opacity,transform] duration-300 outline-none hover:scale-[1.02] hover:opacity-100 focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 aria-pressed:opacity-100"
+                  data-event-index={index}
                   key={event.src}
-                  onClick={() => setActive(index)}
+                  onClick={selectEvent}
                   type="button"
                 >
                   <Image

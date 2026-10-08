@@ -35,23 +35,23 @@ export default function CateringPage() {
             Lily, wherever you gather
           </p>
           <h1
-            className="mt-2.5 mb-6 font-display text-5xl font-medium text-burgundy md:text-6xl lg:text-8xl"
+            className="mt-2.5 mb-6 font-display text-5xl font-medium text-burgundy reveal-delay-120 md:text-6xl lg:text-8xl"
             data-reveal
           >
             Catering
           </h1>
-          <p className="mb-8 max-w-[37ch] text-base lg:text-lg" data-reveal>
+          <p className="mb-8 max-w-[37ch] text-base reveal-delay-240 lg:text-lg" data-reveal>
             Seasonal menus, polished service, and the care of Lily's dining room, brought to
             gatherings across Gibsonia.
           </p>
-          <span data-reveal>
+          <span className="reveal-delay-360" data-reveal>
             <PillLink color="burgundy" href="/contact?reason=events">
               Start an inquiry
             </PillLink>
           </span>
         </div>
         <div
-          className="relative aspect-4/5 w-full overflow-hidden md:col-span-3 md:aspect-16/10"
+          className="relative aspect-4/5 w-full overflow-hidden reveal-delay-180 md:col-span-3 md:aspect-16/10"
           data-reveal
         >
           <Image
@@ -71,7 +71,7 @@ export default function CateringPage() {
             Gather your way
           </p>
           <h2
-            className="max-w-[11ch] font-display text-4xl font-medium md:col-span-2 lg:text-6xl"
+            className="max-w-[11ch] font-display text-4xl font-medium reveal-delay-120 md:col-span-2 lg:text-6xl"
             data-reveal
           >
             Tailored to the occasion.
@@ -112,20 +112,20 @@ export default function CateringPage() {
             From our kitchen
           </p>
           <h2
-            className="mt-2.5 mb-8 max-w-[10ch] font-display text-4xl font-medium text-burgundy md:mb-12 lg:mb-16 lg:text-6xl"
+            className="mt-2.5 mb-8 max-w-[10ch] font-display text-4xl font-medium text-burgundy reveal-delay-120 md:mb-12 lg:mb-16 lg:text-6xl"
             data-reveal
           >
             Menus that move with the market.
           </h2>
-          <p className="max-w-[54ch]" data-reveal>
+          <p className="max-w-[54ch] reveal-delay-240" data-reveal>
             We build each menu around the season, the setting, and the experience you want for your
             guests. Choose from passed canapes, family-style service, or plated courses, with
             cocktails and wine pairings available.
           </p>
-          <p className="mt-4 max-w-[54ch]" data-reveal>
+          <p className="mt-4 max-w-[54ch] reveal-delay-320" data-reveal>
             Vegetarian and dietary requirements are always welcome as we shape the menu together.
           </p>
-          <span className="mt-8" data-reveal>
+          <span className="mt-8 reveal-delay-460" data-reveal>
             <PillLink color="burgundy" href="/contact?reason=events">
               Tell us about your gathering
             </PillLink>
@@ -139,16 +139,16 @@ export default function CateringPage() {
             Begin with a conversation
           </p>
           <h2
-            className="mt-3 mb-6 max-w-[10ch] font-display text-4xl font-medium lg:text-6xl"
+            className="mt-3 mb-6 max-w-[10ch] font-display text-4xl font-medium reveal-delay-120 lg:text-6xl"
             data-reveal
           >
             Bring Lily to the table.
           </h2>
-          <p className="mb-8 max-w-[42ch]" data-reveal>
+          <p className="mb-8 max-w-[42ch] reveal-delay-240" data-reveal>
             Share your date, guest count, and a few details about the occasion. Our events team will
             follow up to begin planning.
           </p>
-          <span data-reveal>
+          <span className="reveal-delay-360" data-reveal>
             <PillLink color="pink" href="/contact?reason=events">
               Inquire about catering
             </PillLink>

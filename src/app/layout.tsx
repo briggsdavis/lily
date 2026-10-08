@@ -13,6 +13,9 @@ import "@/globals.css"
 
 const display = EB_Garamond({ variable: "--font-display-source", subsets: ["latin"] })
 const body = Noto_Sans({ variable: "--font-body-source", subsets: ["latin"] })
+const heroIntroScript = {
+  __html: `try{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}catch{}`,
+}
 
 export const metadata: Metadata = {
   title: { default: "Lily", template: "%s • Lily" },
@@ -28,11 +31,7 @@ export default function Layout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(location.pathname==="/"&&!sessionStorage.getItem("lily-hero-intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}catch{}`,
-          }}
-        />
+        <script dangerouslySetInnerHTML={heroIntroScript} />
       </head>
       <body className="flex min-h-dvh flex-col font-body antialiased">
         <SiteBackground>
