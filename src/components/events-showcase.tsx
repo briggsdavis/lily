@@ -44,28 +44,28 @@ export function EventsShowcase() {
 
   return (
     <section
-      className="bg-dark-green px-page py-24 text-pink md:py-32 lg:py-40"
+      className="bg-dark-green px-page pt-14 pb-24 text-pink md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
       data-nav-tone="dark"
       id="home-events"
     >
-      <div className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:items-end md:gap-16">
+      <div className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(25rem,1.15fr)_auto] lg:items-center lg:gap-10">
         <h2
           className="font-display text-4xl leading-tight font-medium md:text-5xl lg:text-6xl"
           data-reveal
         >
           Private celebrations
         </h2>
-        <div
-          className="flex w-full max-w-[52ch] flex-col items-start gap-6 reveal-delay-180 md:justify-self-end"
+        <p
+          className="max-w-[52ch] text-base leading-relaxed text-warm-white reveal-delay-180 md:text-lg lg:justify-self-center"
           data-reveal
         >
+          <span className="lg:block">Wine dinners, seasonal suppers, and celebrations.</span>{" "}
+          <span className="lg:block">Evenings remembered after the last glass is poured.</span>
+        </p>
+        <div className="reveal-delay-320 lg:justify-self-end" data-reveal>
           <PillLink color="pink" href="/events">
             Explore events
           </PillLink>
-          <p className="text-base leading-relaxed text-warm-white md:text-lg">
-            <span className="lg:block">Wine dinners, seasonal suppers, and celebrations.</span>{" "}
-            <span className="lg:block">Evenings remembered after the last glass is poured.</span>
-          </p>
         </div>
       </div>
 

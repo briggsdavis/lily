@@ -70,8 +70,8 @@ export function LayeredMedia({
           key={`foreground-${item.src}`}
         >
           <div
-            className={`relative overflow-hidden transition-[opacity,filter] ${foregroundTransitionClassName} ${foregroundTransitionDelayClassName} ${foregroundAspectClassName} ${
-              index === active ? "opacity-100 blur-none" : "opacity-0 blur-md"
+            className={`relative overflow-hidden transition-[clip-path] ${foregroundTransitionClassName} ${foregroundTransitionDelayClassName} ${foregroundAspectClassName} ${
+              index === active ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(100%_0_0_0)]"
             }`}
           >
             <Image

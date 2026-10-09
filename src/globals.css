@@ -88,7 +88,7 @@
 }
 
 @utility field-input {
-  @apply min-h-11 w-full appearance-none rounded-none border-0 border-b border-burgundy/45 bg-transparent py-2.5 text-sm outline-none placeholder:text-burgundy/70 focus-visible:border-current focus-visible:shadow-[0_1px_0_currentColor];
+  @apply min-h-11 w-full appearance-none rounded-none border-0 border-b border-b-current/45 bg-transparent py-2.5 text-sm outline-none placeholder:text-current/65 focus-visible:border-current focus-visible:shadow-[0_1px_0_currentColor];
 }
 
 /*
@@ -124,6 +124,19 @@
       3.5px 3.5px
     );
   }
+}
+
+@utility menu-l-hand-reveal {
+  clip-path: polygon(
+    0 0,
+    3.5px 0,
+    3.5px 10px,
+    12px 10px,
+    12px calc(100% - 12px),
+    100% calc(100% - 12px),
+    100% 100%,
+    0 100%
+  );
 }
 
 @utility animated-underline {
@@ -221,13 +234,35 @@
   }
 }
 
-@keyframes menu-line-draw {
-  from {
-    transform: scaleX(0);
+@keyframes menu-l-hand-draw {
+  0% {
+    clip-path: polygon(0 0, 3.5px 0, 3.5px 0, 12px 0, 12px 0, 12px 0, 0 0, 0 0);
   }
 
-  to {
-    transform: scaleX(1);
+  52% {
+    clip-path: polygon(
+      0 0,
+      3.5px 0,
+      3.5px 10px,
+      12px 10px,
+      12px 100%,
+      12px 100%,
+      0 100%,
+      0 0
+    );
+  }
+
+  100% {
+    clip-path: polygon(
+      0 0,
+      3.5px 0,
+      3.5px 10px,
+      12px 10px,
+      12px calc(100% - 12px),
+      100% calc(100% - 12px),
+      100% 100%,
+      0 100%
+    );
   }
 }
 

@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
 import { TransitionLink } from "@/components/transition-link"
 
 const routes = [
@@ -15,39 +14,32 @@ const routes = [
 
 export function Navbar() {
   const current = "/" + usePathname().split("/")[1]
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 8)
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    return () => window.removeEventListener("scroll", update)
-  }, [])
 
   return (
-    <header
-      className="hero-intro-header fixed inset-x-0 top-0 z-60 grid grid-cols-[1fr_auto_1fr] items-center bg-transparent px-page py-5 transition-colors duration-500 ease-lily data-scrolled:bg-burgundy data-scrolled:text-cream"
-      data-scrolled={scrolled || undefined}
-      data-site-chrome
-    >
-      <TransitionLink aria-label="Lily home" className="justify-self-start" href="/">
-        <Image
-          alt=""
-          className="size-10 md:size-12"
-          height={48}
-          preload
-          src="/FAVICON-VALLEY.svg"
-          width={48}
-        />
-      </TransitionLink>
-
-      <nav aria-label="Main" className="border-hand relative px-8 py-3">
-        <ul className="flex items-center gap-6 md:gap-10">
+    <header className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-3 py-5 md:px-4">
+      <nav
+        aria-label="Main"
+        className="border-hand pointer-events-auto relative max-w-full overflow-x-auto rounded-[3px] bg-transparent px-2.5 py-3 text-cream shadow-lg shadow-burgundy/15 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-7 md:py-4"
+        data-site-chrome
+      >
+        <ul className="flex w-max items-center gap-2 md:gap-8">
+          <li className="shrink-0 border-r border-cream/30 pr-2 md:pr-8">
+            <TransitionLink aria-current={current === "/" ? "page" : undefined} href="/">
+              <Image
+                alt="Lily — home"
+                className="h-auto w-[3.15rem] md:w-[5.6rem]"
+                height={767}
+                preload
+                src="/PRIMARY-HORIZONTAL-CREAM.png"
+                width={2329}
+              />
+            </TransitionLink>
+          </li>
           {routes.map((route) => (
-            <li key={route.href}>
+            <li className="shrink-0" key={route.href}>
               <TransitionLink
                 aria-current={route.href === current ? "page" : undefined}
-                className="animated-underline font-display text-sm font-bold uppercase md:text-base"
+                className="animated-underline font-display text-[0.6rem] font-bold uppercase md:text-base"
                 href={route.href}
               >
                 {route.label}
@@ -56,13 +48,6 @@ export function Navbar() {
           ))}
         </ul>
       </nav>
-
-      <TransitionLink
-        className="animated-underline justify-self-end font-display text-sm font-bold uppercase md:text-base"
-        href="/contact?reason=reservation"
-      >
-        Reserve
-      </TransitionLink>
     </header>
   )
 }

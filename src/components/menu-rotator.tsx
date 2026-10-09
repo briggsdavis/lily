@@ -110,26 +110,24 @@ export function MenuRotator() {
             <li className={revealDelayClasses[index]} data-reveal key={category.name}>
               <button
                 aria-pressed={index === active}
-                className={`group relative block w-full py-8 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bronze lg:py-10 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
+                className={`group relative block w-full py-8 text-left focus-visible:outline-none md:pl-7 lg:py-10 lg:pl-9 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
                 data-category-index={index}
                 onClick={selectCategory}
                 onFocus={selectCategory}
                 onMouseEnter={selectCategory}
                 type="button"
               >
+                <span
+                  aria-hidden="true"
+                  className="menu-l-hand-reveal pointer-events-none absolute inset-y-1 left-0 hidden h-[calc(100%-0.5rem)] w-full text-cream opacity-0 blur-[6px] transition-[opacity,filter] duration-500 ease-lily group-hover:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-hover:opacity-100 group-hover:blur-none group-focus-visible:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-focus-visible:opacity-100 group-focus-visible:blur-none md:block"
+                >
+                  <span className="border-hand relative block h-full w-[calc(100%+12px)] rounded-[3px]" />
+                </span>
                 <span className="font-display text-3xl text-warm-white uppercase md:text-4xl lg:text-5xl">
                   {category.name}
                 </span>
                 <span className="mt-4 block max-w-xl text-sm md:text-base">
                   {category.description}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-blush/20"
-                >
-                  <span className="absolute inset-x-0 bottom-0 h-[2.1px] opacity-0 blur-[1.5px] transition-[opacity,filter] duration-500 ease-lily group-hover:opacity-100 group-hover:blur-none group-hover:duration-0 group-focus-visible:opacity-100 group-focus-visible:blur-none group-focus-visible:duration-0">
-                    <span className="block h-full w-full origin-left bg-bronze group-hover:animate-[menu-line-draw_700ms_ease-in-out_both] group-focus-visible:animate-[menu-line-draw_700ms_ease-in-out_both]" />
-                  </span>
                 </span>
               </button>
             </li>

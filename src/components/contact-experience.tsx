@@ -105,8 +105,8 @@ export function ContactExperience() {
         </section>
 
         <section
-          className="flex flex-col justify-center px-6 pt-20 pb-8 md:min-h-svh md:px-10 md:pt-24 lg:px-16"
-          data-nav-tone="light"
+          className="flex flex-col justify-center bg-olive-charcoal px-6 pt-20 pb-8 text-warm-white md:min-h-svh md:px-10 md:pt-24 lg:px-16"
+          data-nav-tone="dark"
         >
           <ReservationForm
             inquiryReason={inquiryReason}
@@ -116,8 +116,8 @@ export function ContactExperience() {
       </div>
 
       <section
-        className="grid items-start gap-6 border-t border-orange-brown/45 bg-cream px-page py-9 text-orange-brown md:grid-cols-3 md:gap-16 md:py-14 lg:gap-32 lg:py-18"
-        data-nav-tone="light"
+        className="grid items-start gap-6 border-t border-warm-white/30 bg-olive-charcoal px-page pt-9 pb-[calc(12svh+3rem)] text-warm-white md:grid-cols-3 md:gap-16 md:pt-14 md:pb-[calc(12svh+5rem)] lg:gap-32 lg:pt-18"
+        data-nav-tone="dark"
       >
         <p className="eyebrow" data-reveal>
           Contact Lily
