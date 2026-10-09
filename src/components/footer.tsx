@@ -49,11 +49,11 @@ export function Footer() {
   return (
     <div className="relative z-20 -mt-[12svh]" ref={triggerRef}>
       <footer
-        className="flex min-h-[50svh] flex-col bg-cream px-page py-8 text-burgundy will-change-transform md:py-10"
-        data-nav-tone="light"
+        className="flex min-h-[50svh] flex-col bg-deep-brown px-page py-8 text-cream will-change-transform md:py-10"
+        data-nav-tone="dark"
         ref={footerRef}
       >
-        <div className="flex flex-col gap-4 border-t border-burgundy/35 pt-4 text-xs sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-cream/35 pt-4 text-xs sm:flex-row sm:items-start sm:justify-between">
           <div className="flex flex-col items-start gap-1">
             <p>© {year} Lily. All rights reserved.</p>
             <a
@@ -80,14 +80,15 @@ export function Footer() {
         </div>
 
         <div className="mt-auto grid items-end gap-12 pt-14 sm:grid-cols-[1fr_auto] md:gap-20">
-          <TransitionLink aria-label="Lily home" className="block w-28 md:w-36" href="/">
+          <TransitionLink aria-label="Lily home" className="block w-36 md:w-48" href="/">
             <Image
               alt="Lily Kitchen and Cocktails"
               className="block h-auto w-full"
-              height={2062}
-              sizes="(max-width: 768px) 7rem, 9rem"
-              src="/PRIMARY-VERTICAL-BROWN.png"
-              width={1465}
+              height={767}
+              loading="eager"
+              sizes="(max-width: 768px) 9rem, 12rem"
+              src="/PRIMARY-HORIZONTAL-CREAM.png"
+              width={2329}
             />
           </TransitionLink>
 

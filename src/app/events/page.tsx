@@ -1,13 +1,18 @@
 import { Metadata } from "next"
+import { EventsExperience } from "@/components/events-experience"
+import { EventsHero } from "@/components/events-hero"
 
-export const metadata: Metadata = { title: "Events" }
+export const metadata: Metadata = {
+  title: "Events",
+  description:
+    "Discover seasonal suppers, wine dinners, cocktail evenings, and private gatherings at Lily in Gibsonia.",
+}
 
 export default function EventsPage() {
   return (
-    <div className="px-5 py-16 md:px-8 md:py-24 xl:px-16 xl:py-40">
-      <h1 className="font-display text-4xl font-medium md:text-5xl xl:text-6xl" data-reveal>
-        Events
-      </h1>
+    <div className="bg-events-gray">
+      <EventsHero />
+      <EventsExperience />
     </div>
   )
 }

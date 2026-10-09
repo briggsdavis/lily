@@ -35,7 +35,7 @@ export function Navbar() {
     <header className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-3 py-5 md:px-4">
       <nav
         aria-label="Main"
-        className="border-hand pointer-events-auto relative w-full max-w-sm overflow-hidden rounded-[3px] bg-zinc-950/90 px-3 py-3 text-cream shadow-lg shadow-burgundy/15 backdrop-blur-md md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:bg-transparent md:px-7 md:py-4 md:backdrop-blur-none md:[&::-webkit-scrollbar]:hidden"
+        className="border-hand pointer-events-auto relative w-full max-w-sm overflow-hidden rounded-[3px] bg-transparent px-3 py-3 text-cream backdrop-blur-md md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-7 md:py-4 md:backdrop-blur-none md:[&::-webkit-scrollbar]:hidden"
         data-site-chrome
       >
         <div className="flex items-center md:hidden">

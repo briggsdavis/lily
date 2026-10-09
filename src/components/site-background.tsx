@@ -1,11 +1,12 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 
 const tones: Record<string, string> = {
   menu: "bg-dark-green text-pink",
-  events: "bg-dark-green text-cream",
+  events: "bg-events-gray text-cream",
+  catering: "bg-events-gray text-cream",
   contact: "bg-burgundy text-pink",
 }
 

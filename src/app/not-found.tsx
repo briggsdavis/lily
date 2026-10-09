@@ -30,7 +30,7 @@ export default function NotFound() {
           fill
           priority
           sizes="(max-width: 800px) 100vw, 46vw"
-          src="/lily-romantic-interior-9x16.png"
+          src="/lily-romantic-interior-9x16.webp"
         />
       </div>
     </div>

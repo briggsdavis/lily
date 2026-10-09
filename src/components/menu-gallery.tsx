@@ -4,9 +4,9 @@ import Image from "next/image"
 import { CSSProperties, PointerEvent, useCallback, useMemo, useState } from "react"
 
 const images = [
-  { src: "/lily-seasonal-main-dish-4x5.png", alt: "A seasonal main dish plated at Lily" },
-  { src: "/lily-floral-dessert-4x5.png", alt: "A floral dessert finished for the table" },
-  { src: "/lily-botanical-cocktail-4x5.png", alt: "A botanical cocktail mixed at Lily" },
+  { src: "/lily-seasonal-main-dish-4x5.webp", alt: "A seasonal main dish plated at Lily" },
+  { src: "/lily-floral-dessert-4x5.webp", alt: "A floral dessert finished for the table" },
+  { src: "/lily-botanical-cocktail-4x5.webp", alt: "A botanical cocktail mixed at Lily" },
 ] as const
 
 const base = "((100cqw - 2 * var(--gap)) / 3)"

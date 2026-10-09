@@ -17,7 +17,7 @@ const categories = [
     name: "Mains",
     description:
       "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
-    image: "/lily-seasonal-main-dish-4x5.png",
+    image: "/lily-seasonal-main-dish-4x5.webp",
     alt: "A seasonal main dish plated at Lily",
   },
   {
@@ -31,14 +31,14 @@ const categories = [
     name: "Desserts",
     description:
       "Floral, fruit-forward finishes and quietly indulgent classics made for one more shared course.",
-    image: "/lily-floral-dessert-4x5.png",
+    image: "/lily-floral-dessert-4x5.webp",
     alt: "A floral seasonal dessert",
   },
   {
     name: "Drinks",
     description:
       "Garden herbs, ripe fruit, thoughtful spirits, and cocktails designed to sit beautifully beside dinner.",
-    image: "/lily-botanical-cocktail-4x5.png",
+    image: "/lily-botanical-cocktail-4x5.webp",
     alt: "A botanical cocktail in a coupe glass",
   },
 ] as const
@@ -119,7 +119,7 @@ export function MenuRotator() {
               >
                 <span
                   aria-hidden="true"
-                  className="menu-l-hand-reveal pointer-events-none absolute inset-y-1 left-0 hidden h-[calc(100%-0.5rem)] w-full text-cream opacity-0 blur-[6px] transition-[opacity,filter] duration-500 ease-lily group-hover:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-hover:opacity-100 group-hover:blur-none group-focus-visible:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-focus-visible:opacity-100 group-focus-visible:blur-none md:block"
+                  className="pointer-events-none absolute inset-y-1 left-0 hidden h-[calc(100%-0.5rem)] w-full text-cream opacity-0 blur-[6px] transition-[opacity,filter] duration-500 ease-lily menu-l-hand-reveal group-hover:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-hover:opacity-100 group-hover:blur-none group-focus-visible:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-focus-visible:opacity-100 group-focus-visible:blur-none md:block"
                 >
                   <span className="border-hand relative block h-full w-[calc(100%+12px)] rounded-[3px]" />
                 </span>

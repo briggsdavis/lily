@@ -237,14 +237,14 @@ export default function HomePage() {
           className="object-cover"
           fill
           sizes="100vw"
-          src="/lily-event-table-16x10.png"
+          src="/lily-event-table-16x10.webp"
         />
-        <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-cream p-8 text-burgundy md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
+        <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-deep-brown p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
           <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl" data-reveal>
             Bring the table home.
           </h2>
           <ul
-            className="space-y-1 text-sm text-orange-brown reveal-delay-180 md:justify-self-end md:text-right"
+            className="space-y-1 text-sm text-cream/75 reveal-delay-180 md:justify-self-end md:text-right"
             data-reveal
           >
             <li>Corporate dining</li>
@@ -252,14 +252,14 @@ export default function HomePage() {
             <li>Full-service events</li>
           </ul>
           <p
-            className="max-w-[34ch] self-end text-orange-brown reveal-delay-320 lg:text-lg"
+            className="max-w-[34ch] self-end text-cream/75 reveal-delay-320 lg:text-lg"
             data-reveal
           >
             From executive lunches to private celebrations, we bring Lily's seasonal menus and
             polished service to gatherings across Gibsonia.
           </p>
           <div className="reveal-delay-460 md:self-end md:justify-self-end" data-reveal>
-            <PillLink color="burgundy" href="/catering">
+            <PillLink color="cream" href="/catering">
               Explore catering
             </PillLink>
           </div>

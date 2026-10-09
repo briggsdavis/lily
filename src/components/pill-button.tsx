@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import type { MouseEventHandler, ReactNode } from "react"
 import { TransitionLink } from "@/components/transition-link"
 
 const colorStyles = {
@@ -40,18 +40,24 @@ export function PillButton({
   children,
   color = "burgundy",
   className = "",
+  disabled = false,
+  onClick,
   type = "button",
 }: {
   children: ReactNode
   className?: string
   color?: PillButtonColor
+  disabled?: boolean
+  onClick?: MouseEventHandler<HTMLButtonElement>
   type?: "button" | "submit"
 }) {
   const styles = colorStyles[color]
 
   return (
     <button
-      className={`group relative isolate inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-7 py-3 text-sm font-semibold uppercase transition-transform duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] ${styles.button} ${className}`}
+      className={`group relative isolate inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-7 py-3 text-sm font-semibold uppercase transition-transform duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 ${styles.button} ${className}`}
+      disabled={disabled}
+      onClick={onClick}
       type={type}
     >
       <span className="relative text-center">{children}</span>

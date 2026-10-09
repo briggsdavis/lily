@@ -10,14 +10,14 @@ const events = [
     description: ["The season at its peak,", "shared around the table."],
     imageClassName: "object-center",
     label: "Seasonal suppers",
-    src: "/lily-event-table-16x10.png",
+    src: "/lily-event-table-16x10.webp",
   },
   {
     alt: "Lily's candlelit dining room prepared for a wine dinner",
     description: ["Plates for each pour,", "served without hurry."],
     imageClassName: "object-center",
     label: "Wine dinners",
-    src: "/lily-romantic-interior-9x16.png",
+    src: "/lily-romantic-interior-9x16.webp",
   },
   {
     alt: "A long candlelit table ready for a private celebration",
@@ -31,7 +31,7 @@ const events = [
     description: ["Garden-led drinks,", "and one more round."],
     imageClassName: "object-center",
     label: "Cocktail evenings",
-    src: "/lily-botanical-cocktail-4x5.png",
+    src: "/lily-botanical-cocktail-4x5.webp",
   },
 ] as const
 
