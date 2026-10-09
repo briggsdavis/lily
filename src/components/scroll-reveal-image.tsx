@@ -57,7 +57,7 @@ export function ScrollRevealImage() {
       ref={sectionRef}
       style={initialProgress}
     >
-      <div className="sticky top-0 h-svh overflow-hidden">
+      <div className="sticky top-0 h-dvh overflow-hidden">
         <div
           className="absolute inset-0 overflow-hidden will-change-[clip-path]"
           style={revealClip}

@@ -188,17 +188,17 @@ export default function HomePage() {
       <EventsShowcase />
 
       <section
-        className="bg-cream px-page pt-12 pb-24 text-burgundy md:pt-16 md:pb-32 lg:pt-20 lg:pb-40"
-        data-nav-tone="light"
+        className="bg-mauve px-page pt-12 pb-24 text-cream md:pt-16 md:pb-32 lg:pt-20 lg:pb-40"
+        data-nav-tone="dark"
       >
-        <div className="relative mx-auto flex min-h-[104vh] w-3/5 flex-col items-center justify-center overflow-hidden border border-current p-8 text-center md:p-16 lg:p-28">
+        <div className="relative mx-auto flex min-h-[34rem] w-full max-w-md flex-col items-center justify-center overflow-hidden border border-current p-8 text-center md:min-h-[104vh] md:w-3/5 md:max-w-none md:p-16 lg:p-28">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-2 border border-current md:inset-3"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[min(90%,38rem)] -translate-1/2 bg-burgundy/7 mask-[url(/stamp.svg)] mask-contain mask-center mask-no-repeat"
+            className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[min(90%,38rem)] -translate-1/2 bg-cream/8 mask-[url(/stamp.svg)] mask-contain mask-center mask-no-repeat"
           />
 
           <h2
@@ -208,18 +208,18 @@ export default function HomePage() {
             Reserve your table.
           </h2>
           <p
-            className="relative mb-10 max-w-[32ch] text-lg text-orange-brown reveal-delay-180"
+            className="relative mb-10 max-w-[32ch] text-lg text-cream/80 reveal-delay-180"
             data-reveal
           >
             Join us in the dining room for dinner, cocktails, or both.
           </p>
           <span className="relative reveal-delay-320" data-reveal>
-            <PillLink color="burgundy" href="/contact?reason=reservation">
+            <PillLink color="cream" href="/contact?reason=reservation">
               Book a table
             </PillLink>
           </span>
 
-          <div className="absolute inset-x-6 bottom-6 hidden justify-between text-sm text-orange-brown md:flex lg:inset-x-10 lg:bottom-9">
+          <div className="absolute inset-x-6 bottom-6 hidden justify-between text-sm text-cream/80 md:flex lg:inset-x-10 lg:bottom-9">
             <a className="animated-underline" href="tel:+17245024572">
               (724) 502-4572
             </a>
