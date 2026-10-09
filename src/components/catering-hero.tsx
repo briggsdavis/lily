@@ -1,32 +1,33 @@
+import Image from "next/image"
 import { ParallaxHero } from "@/components/parallax-hero"
 
 export function CateringHero() {
   return (
     <ParallaxHero
       alt="A generous garden platter prepared for a catered gathering"
+      parallax="strong"
       size="half"
       src="/catering/catering-hero.webp"
     >
-      <div className="grid h-full content-end gap-7 px-page pt-32 pb-12 md:grid-cols-[minmax(18rem,0.72fr)_minmax(30rem,1.28fr)] md:items-end md:gap-16 md:pb-14 lg:pb-16">
-        <div>
-          <p className="mb-3 eyebrow text-cream/65" data-reveal>
-            From Lily&apos;s kitchen
-          </p>
+      <div className="grid h-full place-items-center px-page pt-24 pb-10 text-center">
+        <div className="flex flex-col items-center gap-6">
+          <Image
+            alt="Lily Kitchen and Cocktails"
+            className="h-auto w-28 reveal-delay-120 md:w-36 lg:w-40"
+            data-reveal
+            height={2062}
+            loading="eager"
+            sizes="(max-width: 767px) 7rem, (max-width: 1023px) 9rem, 10rem"
+            src="/PRIMARY-VERTICAL-WHITE.png"
+            width={1465}
+          />
           <h1
-            className="font-display text-5xl leading-none font-medium reveal-delay-120 md:text-6xl lg:text-7xl"
+            className="font-display text-[clamp(2rem,8vw,3.6rem)] leading-none font-medium whitespace-nowrap reveal-delay-240"
             data-reveal
           >
-            <span className="block">Catering for</span>
-            <span className="block">the table.</span>
+            Catering for the table.
           </h1>
         </div>
-        <p
-          className="justify-self-end text-sm leading-6 text-cream/85 reveal-delay-240 md:max-w-[55rem]"
-          data-reveal
-        >
-          Seasonal dishes, generous platters, and polished details for gatherings across Gibsonia.
-          Browse the collection and choose the portions that suit your table.
-        </p>
       </div>
     </ParallaxHero>
   )

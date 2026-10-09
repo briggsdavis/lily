@@ -11,12 +11,14 @@ export function ParallaxHero({
   alt,
   children,
   imagePosition = "center",
+  parallax = "standard",
   size = "standard",
   src,
 }: {
   alt: string
   children: ReactNode
   imagePosition?: "center" | "events"
+  parallax?: "standard" | "strong"
   size?: "half" | "standard"
   src: string
 }) {
@@ -33,7 +35,9 @@ export function ParallaxHero({
     const update = () => {
       frame = 0
       const bounds = section.getBoundingClientRect()
-      const offset = clamp(-bounds.top * 0.16, 0, window.innerHeight * 0.14)
+      const strength = parallax === "strong" ? 0.28 : 0.16
+      const maximumOffset = parallax === "strong" ? 0.22 : 0.14
+      const offset = clamp(-bounds.top * strength, 0, window.innerHeight * maximumOffset)
       media.style.transform = `translate3d(0, ${offset}px, 0)`
     }
     const schedule = () => {
@@ -68,17 +72,20 @@ export function ParallaxHero({
       observer.disconnect()
       stopListening()
     }
-  }, [])
+  }, [parallax])
 
   return (
     <section
       className={`relative isolate overflow-hidden text-cream ${
-        size === "half" ? "h-[56dvh] min-h-[30rem]" : "h-[68dvh] min-h-[34rem]"
+        size === "half" ? "h-[64dvh] min-h-[34rem]" : "h-[68dvh] min-h-[34rem]"
       }`}
       data-nav-tone="image"
       ref={sectionRef}
     >
-      <div className="absolute inset-x-0 -inset-y-[14%] will-change-transform" ref={mediaRef}>
+      <div
+        className={`absolute inset-x-0 will-change-transform ${parallax === "strong" ? "-inset-y-[30%]" : "-inset-y-[14%]"}`}
+        ref={mediaRef}
+      >
         <Image
           alt={alt}
           className={`object-cover ${imagePosition === "events" ? "object-[52%_center]" : "object-center"}`}

@@ -80,15 +80,15 @@ export function Footer() {
         </div>
 
         <div className="mt-auto grid items-end gap-12 pt-14 sm:grid-cols-[1fr_auto] md:gap-20">
-          <TransitionLink aria-label="Lily home" className="block w-36 md:w-48" href="/">
+          <TransitionLink aria-label="Lily home" className="block w-28 md:w-36" href="/">
             <Image
               alt="Lily Kitchen and Cocktails"
               className="block h-auto w-full"
-              height={767}
+              height={2062}
               loading="eager"
-              sizes="(max-width: 768px) 9rem, 12rem"
-              src="/PRIMARY-HORIZONTAL-CREAM.png"
-              width={2329}
+              sizes="(max-width: 768px) 7rem, 9rem"
+              src="/PRIMARY-VERTICAL-WHITE.png"
+              width={1465}
             />
           </TransitionLink>
 
