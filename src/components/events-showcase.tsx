@@ -90,7 +90,7 @@ export function EventsShowcase() {
             {events.map((event, index) => (
               <div
                 aria-hidden={index !== active}
-                className={`col-start-1 row-start-1 transition-[opacity,filter,transform] duration-[1200ms] ease-lily ${index === active ? "translate-y-0 opacity-100 blur-none" : "pointer-events-none translate-y-2 opacity-0 blur-md"}`}
+                className={`col-start-1 row-start-1 transition-[opacity,filter] duration-[1200ms] ease-lily ${index === active ? "opacity-100 blur-none" : "pointer-events-none opacity-0 blur-md"}`}
                 key={event.label}
               >
                 <p className="font-display text-3xl leading-[1.08] font-medium md:text-4xl lg:text-5xl">

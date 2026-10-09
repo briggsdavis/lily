@@ -54,7 +54,7 @@ export function Footer() {
         ref={footerRef}
       >
         <div className="flex flex-col gap-4 border-t border-burgundy/35 pt-4 text-xs sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col items-start gap-1">
             <p>© {year} Lily. All rights reserved.</p>
             <a
               className="animated-underline"
@@ -75,9 +75,7 @@ export function Footer() {
             <a className="animated-underline w-max sm:self-end" href="tel:+17245024572">
               (724) 502-4572
             </a>
-            <address className="mt-1 not-italic">
-              500 Grandview Crossing Dr, Gibsonia, PA 15044
-            </address>
+            <address className="not-italic">500 Grandview Crossing Dr, Gibsonia, PA 15044</address>
           </div>
         </div>
 

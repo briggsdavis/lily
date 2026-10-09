@@ -20,7 +20,7 @@ export function LayeredMedia({
   foregroundClassName = "w-1/2",
   foregroundImageClassName = "",
   foregroundPositionClassName = "left-1/2 -translate-x-1/2",
-  foregroundTransitionClassName = "duration-[1400ms] ease-in-out",
+  foregroundTransitionClassName = "duration-1000 ease-lily",
   foregroundTransitionDelayClassName = "",
   foregroundSizes,
   items,
@@ -70,10 +70,8 @@ export function LayeredMedia({
           key={`foreground-${item.src}`}
         >
           <div
-            className={`relative overflow-hidden transition-[clip-path,filter] ${foregroundTransitionClassName} ${foregroundTransitionDelayClassName} ${foregroundAspectClassName} ${
-              index === active
-                ? "blur-none [clip-path:inset(0_0_0_0)]"
-                : "blur-md [clip-path:inset(100%_0_0_0)]"
+            className={`relative overflow-hidden transition-[opacity,filter] ${foregroundTransitionClassName} ${foregroundTransitionDelayClassName} ${foregroundAspectClassName} ${
+              index === active ? "opacity-100 blur-none" : "opacity-0 blur-md"
             }`}
           >
             <Image
