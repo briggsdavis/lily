@@ -28,15 +28,15 @@ function EventImageStack({
   sizes: string
 }) {
   return (
-    <div aria-hidden="true" className={`relative overflow-hidden bg-zinc-950/20 ${className}`}>
+    <div aria-hidden="true" className={`relative overflow-hidden ${className}`}>
       {events.map((event, index) => {
         const src = side === "left" ? event.leftImage : event.rightImage
         return (
           <div
-            className={`absolute inset-0 transition-[clip-path,filter] duration-900 ease-lily ${
+            className={`absolute inset-0 transition-[clip-path] duration-900 ease-lily ${
               index === active
-                ? "z-10 blur-none [clip-path:inset(0_0_0_0)]"
-                : "z-0 blur-md [clip-path:inset(100%_0_0_0)]"
+                ? "z-10 [clip-path:inset(0_0_0_0)]"
+                : "z-0 [clip-path:inset(100%_0_0_0)]"
             }`}
             key={`${side}-${src}`}
           >
@@ -70,11 +70,29 @@ function EventList({
     const eventItems = Array.from(
       listRef.current?.querySelectorAll<HTMLElement>("[data-event-item]") ?? [],
     )
+    let pointerPosition: { x: number; y: number } | null = null
     let frame = 0
 
     const updateActiveEvent = () => {
       frame = 0
-      if (!desktopQuery.matches) return
+      if (!desktopQuery.matches || !listRef.current?.getClientRects().length) return
+
+      if (pointerPosition) {
+        const hoveredItem = document
+          .elementFromPoint(pointerPosition.x, pointerPosition.y)
+          ?.closest<HTMLElement>("[data-event-item]")
+        const hoveredIndex = Number(hoveredItem?.dataset.eventIndex)
+
+        if (
+          hoveredItem &&
+          listRef.current?.contains(hoveredItem) &&
+          Number.isInteger(hoveredIndex) &&
+          events[hoveredIndex]
+        ) {
+          onActivate(hoveredIndex)
+          return
+        }
+      }
 
       const viewportFocus = window.innerHeight * 0.5
       let closestIndex = 0
@@ -97,14 +115,21 @@ function EventList({
       if (frame) return
       frame = window.requestAnimationFrame(updateActiveEvent)
     }
+    const trackPointer = (event: PointerEvent) => {
+      if (event.pointerType === "mouse") {
+        pointerPosition = { x: event.clientX, y: event.clientY }
+      }
+    }
 
     updateActiveEvent()
+    window.addEventListener("pointermove", trackPointer, { passive: true })
     window.addEventListener("scroll", queueUpdate, { passive: true })
     window.addEventListener("resize", queueUpdate)
     desktopQuery.addEventListener("change", queueUpdate)
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener("pointermove", trackPointer)
       window.removeEventListener("scroll", queueUpdate)
       window.removeEventListener("resize", queueUpdate)
       desktopQuery.removeEventListener("change", queueUpdate)
@@ -131,7 +156,12 @@ function EventList({
       {events.map((event, index) => {
         const isExpanded = expanded === index
         return (
-          <article className="border-b border-pink/35" data-event-item key={event.title}>
+          <article
+            className="border-b border-pink/35"
+            data-event-index={index}
+            data-event-item
+            key={event.title}
+          >
             <button
               aria-controls={`event-details-${index}`}
               aria-expanded={isExpanded}
