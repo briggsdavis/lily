@@ -35,9 +35,13 @@ export function Navbar() {
     <header className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-3 py-5 md:px-4">
       <nav
         aria-label="Main"
-        className="border-hand pointer-events-auto relative w-full max-w-sm overflow-hidden rounded-[3px] bg-transparent px-3 py-3 text-cream backdrop-blur-md md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-7 md:py-4 md:backdrop-blur-none md:[&::-webkit-scrollbar]:hidden"
+        className="border-hand pointer-events-auto relative isolate w-full max-w-sm overflow-hidden rounded-[3px] bg-transparent px-3 py-3 text-cream md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-7 md:py-4 md:[&::-webkit-scrollbar]:hidden"
         data-site-chrome
       >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 rounded-[3px] backdrop-blur-md"
+        />
         <div className="flex items-center md:hidden">
           <TransitionLink
             aria-current={current === "/" ? "page" : undefined}

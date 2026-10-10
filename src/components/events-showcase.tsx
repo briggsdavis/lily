@@ -20,10 +20,10 @@ const events = [
     src: "/lily-romantic-interior-9x16.webp",
   },
   {
-    alt: "A long candlelit table ready for a private celebration",
-    description: ["A candlelit room,", "shaped for your gathering."],
+    alt: "A long candlelit table ready for an evening at Lily",
+    description: ["Pull up a chair,", "and enjoy the evening."],
     imageClassName: "object-[52%_center]",
-    label: "Private celebrations",
+    label: "Evenings at Lily",
     src: "/contact-events-unsplash.jpg",
   },
   {
@@ -53,14 +53,16 @@ export function EventsShowcase() {
           className="font-display text-4xl leading-tight font-medium md:text-5xl lg:text-6xl"
           data-reveal
         >
-          Private celebrations
+          What's on at Lily
         </h2>
         <p
           className="max-w-[52ch] text-base leading-relaxed text-warm-white reveal-delay-180 md:text-lg lg:justify-self-center"
           data-reveal
         >
-          <span className="lg:block">Wine dinners, seasonal suppers, and celebrations.</span>{" "}
-          <span className="lg:block">Evenings remembered after the last glass is poured.</span>
+          <span className="lg:block">
+            Join us for wine dinners, seasonal suppers, and cocktail evenings.
+          </span>{" "}
+          <span className="lg:block">See what's coming up and find your next night out.</span>
         </p>
         <div className="reveal-delay-320 lg:justify-self-end" data-reveal>
           <PillLink color="pink" href="/events">
@@ -74,7 +76,7 @@ export function EventsShowcase() {
           <Image
             alt={index === active ? event.alt : ""}
             aria-hidden={index !== active}
-            className={`object-cover transition-[opacity,transform,filter] duration-[1800ms] ease-lily ${event.imageClassName} ${index === active ? "scale-100 opacity-100 blur-none" : "scale-105 opacity-0 blur-lg"}`}
+            className={`object-cover transition-opacity duration-500 ease-lily ${event.imageClassName} ${index === active ? "opacity-100" : "opacity-0"}`}
             fill
             key={event.src}
             sizes="(max-width: 768px) calc(100vw - 2.5rem), calc(100vw - 8rem)"
@@ -108,7 +110,7 @@ export function EventsShowcase() {
                 <button
                   aria-label={`Show ${event.label}`}
                   aria-pressed={active === index}
-                  className="group relative aspect-4/3 cursor-pointer overflow-hidden opacity-70 transition-[opacity,transform] duration-300 outline-none hover:scale-[1.02] hover:opacity-100 focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 aria-pressed:opacity-100"
+                  className="relative aspect-4/3 cursor-pointer overflow-hidden opacity-70 transition-opacity duration-300 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 aria-pressed:opacity-100"
                   data-event-index={index}
                   key={event.src}
                   onClick={selectEvent}
@@ -116,7 +118,7 @@ export function EventsShowcase() {
                 >
                   <Image
                     alt=""
-                    className={`object-cover transition-transform duration-700 ease-lily group-hover:scale-105 ${event.imageClassName}`}
+                    className={`object-cover ${event.imageClassName}`}
                     fill
                     sizes="(max-width: 768px) 22vw, 14vw"
                     src={event.src}
