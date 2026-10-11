@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import { AboutEvening } from "@/components/about-evening"
+import { AboutHero } from "@/components/about-hero"
 import { AboutMarquee } from "@/components/about-marquee"
 import { AboutPeople } from "@/components/about-people"
 import { AboutTimeline } from "@/components/about-timeline"
@@ -14,8 +15,10 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div>
+      <AboutHero />
+
       <section
-        className="relative isolate overflow-hidden bg-mauve px-page pt-32 pb-14 text-warm-white md:pt-40 md:pb-20"
+        className="relative isolate overflow-hidden bg-mauve px-page py-14 text-warm-white md:py-20"
         data-nav-tone="dark"
       >
         <Image
@@ -27,12 +30,12 @@ export default function AboutPage() {
           width={1235}
         />
         <div className="relative z-10 grid gap-8 md:grid-cols-12 md:gap-8 lg:gap-12">
-          <h1
+          <h2
             className="font-display text-5xl leading-[0.98] font-medium text-blush md:col-span-7 lg:text-7xl"
             data-reveal
           >
             A familiar room, a new chapter.
-          </h1>
+          </h2>
           <p
             className="max-w-md text-base leading-8 text-warm-white/80 reveal-delay-180 md:col-span-5 md:self-end"
             data-reveal

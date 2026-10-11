@@ -1,10 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import { SyntheticEvent, useCallback, useState } from "react"
 
 const people = [
   {
     name: "Rick Rivero",
+    image: "/about/rick-rivero.webp",
     role: "Chef and co-owner",
     since: "2001",
     text: "Born in Spain, Rick cooked his way through Europe and America before opening Cala Lily. He retired in 2026 after 25 years at the stove.",
@@ -12,6 +14,7 @@ const people = [
   },
   {
     name: "Paul Anzaldi",
+    image: "/about/paul-anzaldi.webp",
     role: "Co-owner and general manager",
     since: "2001",
     text: "After thirty years in information technology, Paul turned to hospitality and ran the business side of the room from day one.",
@@ -19,6 +22,7 @@ const people = [
   },
   {
     name: "Ron Jelinek",
+    image: "/about/ron-jelinek.webp",
     role: "Grill master",
     since: "2001",
     text: "Ron has been at the grill since the first night, turning out steaks and chops, and a few of the desserts too.",
@@ -40,7 +44,7 @@ export function AboutPeople() {
         return (
           <button
             aria-expanded={open}
-            className={`group relative flex min-w-0 flex-col justify-between overflow-hidden p-6 text-left transition-[flex-grow] duration-700 ease-lily focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream md:basis-0 md:p-8 ${person.color} ${
+            className={`group relative isolate flex min-w-0 flex-col justify-between overflow-hidden p-6 text-left transition-[flex-grow] duration-700 ease-lily focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream md:basis-0 md:p-8 ${person.color} ${
               open ? "min-h-72 md:grow-[4]" : "min-h-24 md:grow-[1]"
             }`}
             data-index={index}
@@ -50,6 +54,19 @@ export function AboutPeople() {
             onMouseEnter={select}
             type="button"
           >
+            <Image
+              alt={`Portrait of ${person.name}`}
+              className={`-z-10 object-cover transition-[opacity,filter,scale] duration-700 ease-lily ${
+                open ? "scale-100 opacity-100 grayscale-0" : "scale-105 opacity-35 grayscale"
+              }`}
+              fill
+              sizes="(max-width: 767px) 100vw, 60vw"
+              src={person.image}
+            />
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(8,7,5,0.35)_0%,transparent_35%,rgba(8,7,5,0.85)_100%)]"
+            />
             <span className="font-display text-5xl font-medium opacity-60 transition-opacity duration-500 group-hover:opacity-100 md:text-7xl">
               {person.since}
             </span>
