@@ -4,21 +4,23 @@ export function EventsHero() {
   return (
     <ParallaxHero
       alt="A candlelit table prepared for an evening gathering at Lily"
-      imagePosition="events"
+      imageClassName="object-[52%_center]"
       src="/contact-events-unsplash.jpg"
     >
-      <div className="flex h-full flex-col justify-end px-page pt-32 pb-12 md:pb-16 lg:pb-20">
-        <p className="mb-3 eyebrow text-cream/65" data-reveal>
-          Gather at Lily
-        </p>
-        <h1
-          className="max-w-[8ch] font-display text-6xl leading-none font-medium reveal-delay-120 md:text-8xl lg:text-9xl"
-          data-reveal
-        >
-          Events
-        </h1>
+      <div className="grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
+        <div className="flex flex-col justify-end px-page pt-28 pb-8 md:pt-32 md:pb-14 lg:pb-16">
+          <p className="mb-3 eyebrow text-cream/65" data-reveal>
+            Gather at Lily
+          </p>
+          <h1
+            className="max-w-[8ch] font-display text-6xl leading-none font-medium reveal-delay-120 md:text-8xl lg:text-9xl"
+            data-reveal
+          >
+            Events
+          </h1>
+        </div>
         <p
-          className="mt-6 max-w-[38ch] text-base leading-7 text-cream/85 reveal-delay-240 md:text-lg"
+          className="m-5 max-w-[34ch] self-start justify-self-end text-right text-sm leading-7 text-cream/90 reveal-delay-240 md:mx-10 md:mt-0 md:mb-14 md:self-end md:text-base lg:mx-16 lg:mb-16 lg:leading-8"
           data-reveal
         >
           Seasonal suppers, thoughtful pours, and evenings made to linger over.

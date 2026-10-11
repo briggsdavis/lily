@@ -6,26 +6,29 @@ import { SyntheticEvent, useCallback, useState } from "react"
 const people = [
   {
     name: "Rick Rivero",
-    image: "/about/rick-rivero.webp",
     role: "Chef and co-owner",
     since: "2001",
     text: "Born in Spain, Rick cooked his way through Europe and America before opening Cala Lily. He retired in 2026 after 25 years at the stove.",
+    image: "/about-rick-kitchen.webp",
+    imageAlt: "A chef finishing plates beneath warm kitchen lights",
     color: "bg-mauve text-warm-white",
   },
   {
     name: "Paul Anzaldi",
-    image: "/about/paul-anzaldi.webp",
     role: "Co-owner and general manager",
-    since: "2001",
-    text: "After thirty years in information technology, Paul turned to hospitality and ran the business side of the room from day one.",
+    since: "2008",
+    text: "After thirty years in information technology, Paul turned to hospitality and brought a steady hand to the business side of the room.",
+    image: "/about-paul-kitchen.webp",
+    imageAlt: "A chef carefully seasoning a finished plate",
     color: "bg-dark-green text-pink",
   },
   {
     name: "Ron Jelinek",
-    image: "/about/ron-jelinek.webp",
     role: "Grill master",
-    since: "2001",
-    text: "Ron has been at the grill since the first night, turning out steaks and chops, and a few of the desserts too.",
+    since: "2016",
+    text: "Ron works the grill with a practiced hand, turning out steaks and chops, and a few of the desserts too.",
+    image: "/about-ron-kitchen.webp",
+    imageAlt: "A chef spooning sauce over a plated lobster dish",
     color: "bg-deep-brown text-cream",
   },
 ] as const
@@ -44,8 +47,9 @@ export function AboutPeople() {
         return (
           <button
             aria-expanded={open}
-            className={`group relative isolate flex min-w-0 flex-col justify-between overflow-hidden p-6 text-left transition-[flex-grow] duration-700 ease-lily focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream md:basis-0 md:p-8 ${person.color} ${
-              open ? "min-h-72 md:grow-[4]" : "min-h-24 md:grow-[1]"
+            aria-label={`${person.name}, ${person.role}, since ${person.since}`}
+            className={`group relative min-w-0 overflow-hidden text-left transition-[flex-grow] duration-[1100ms] ease-lily focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream motion-reduce:transition-none md:basis-0 ${person.color} ${
+              open ? "min-h-[32rem] md:min-h-0 md:grow-[5]" : "min-h-28 md:min-h-0 md:grow-[1]"
             }`}
             data-index={index}
             key={person.name}
@@ -54,37 +58,54 @@ export function AboutPeople() {
             onMouseEnter={select}
             type="button"
           >
-            <Image
-              alt={`Portrait of ${person.name}`}
-              className={`-z-10 object-cover transition-[opacity,filter,scale] duration-700 ease-lily ${
-                open ? "scale-100 opacity-100 grayscale-0" : "scale-105 opacity-35 grayscale"
-              }`}
-              fill
-              sizes="(max-width: 767px) 100vw, 60vw"
-              src={person.image}
-            />
             <span
-              aria-hidden="true"
-              className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(8,7,5,0.35)_0%,transparent_35%,rgba(8,7,5,0.85)_100%)]"
-            />
-            <span className="font-display text-5xl font-medium opacity-60 transition-opacity duration-500 group-hover:opacity-100 md:text-7xl">
-              {person.since}
-            </span>
-            <span className="block">
-              <span className="block font-display text-3xl font-medium md:text-4xl">
-                {person.name}
-              </span>
-              <span className="mt-1 block text-sm opacity-75">{person.role}</span>
-              <span
-                className={`grid transition-[grid-template-rows,opacity,filter] duration-700 ease-lily ${
-                  open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 blur-md"
-                }`}
-              >
-                <span className="block min-h-0 overflow-hidden">
-                  <span className="mt-4 block max-w-md text-sm leading-7 md:text-base">
-                    {person.text}
+              className={`grid h-full min-h-0 transition-[grid-template-columns] duration-[1100ms] ease-lily motion-reduce:transition-none ${
+                open
+                  ? "md:grid-cols-[minmax(13rem,0.9fr)_minmax(14rem,1.1fr)]"
+                  : "md:grid-cols-[minmax(0,1fr)_minmax(0,0fr)]"
+              }`}
+            >
+              <span className="flex min-h-0 flex-col justify-between p-6 md:p-8">
+                <span className="font-display text-5xl font-medium opacity-60 transition-opacity duration-700 ease-lily group-hover:opacity-100 motion-reduce:transition-none md:text-7xl">
+                  {person.since}
+                </span>
+                <span className="block">
+                  <span className="block font-display text-3xl font-medium md:text-4xl">
+                    {person.name}
+                  </span>
+                  <span className="mt-1 block text-sm opacity-75">{person.role}</span>
+                  <span
+                    className={`grid transition-[grid-template-rows,opacity,filter] duration-[900ms] ease-lily motion-reduce:transition-none ${
+                      open
+                        ? "grid-rows-[1fr] opacity-100 delay-150"
+                        : "grid-rows-[0fr] opacity-0 blur-sm delay-0"
+                    }`}
+                  >
+                    <span className="block min-h-0 overflow-hidden">
+                      <span className="mt-4 block max-w-sm text-sm leading-7 md:text-base">
+                        {person.text}
+                      </span>
+                    </span>
                   </span>
                 </span>
+              </span>
+              <span
+                aria-hidden={!open}
+                className={`relative block overflow-hidden transition-[height,opacity,filter] duration-[1100ms] ease-lily motion-reduce:transition-none md:h-full ${
+                  open ? "h-64 opacity-100 delay-100" : "h-0 opacity-0 blur-sm delay-0"
+                }`}
+              >
+                <Image
+                  alt={person.imageAlt}
+                  className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-lily motion-reduce:transition-none ${
+                    open ? "scale-100" : "scale-[1.04]"
+                  }`}
+                  height={1400}
+                  sizes="(max-width: 767px) calc(100vw - 2.5rem), 34vw"
+                  src={person.image}
+                  width={1000}
+                />
+                <span className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,8,5,0.18),transparent_45%)]" />
               </span>
             </span>
           </button>

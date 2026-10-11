@@ -5,6 +5,7 @@ export function CateringHero() {
   return (
     <ParallaxHero
       alt="A generous garden platter prepared for a catered gathering"
+      imageClassName="object-center"
       parallax="strong"
       size="half"
       src="/catering/catering-hero.webp"

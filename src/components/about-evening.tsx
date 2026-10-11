@@ -19,7 +19,7 @@ export function AboutEvening() {
 
   return (
     <section
-      className="relative isolate flex min-h-[80svh] flex-col justify-between gap-16 overflow-hidden px-page pt-14 pb-[calc(12svh+3.5rem)] text-cream md:pt-20 md:pb-[calc(12svh+5rem)]"
+      className="relative isolate flex min-h-[80svh] flex-col justify-between gap-16 overflow-hidden px-page pt-14 pb-[calc(12svh+3.5rem)] text-cream md:min-h-svh md:pt-20 md:pb-[calc(12svh+5rem)]"
       data-nav-tone="image"
     >
       {choices.map((choice, index) => (
@@ -34,38 +34,39 @@ export function AboutEvening() {
           src={choice.image}
         />
       ))}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,8,5,0.55)_0%,rgba(10,8,5,0.35)_50%,rgba(10,8,5,0.75)_100%)]" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(135deg,rgba(10,8,5,0.7)_0%,rgba(10,8,5,0.16)_52%,rgba(10,8,5,0.68)_100%)]" />
 
-      <p className="max-w-xs text-sm leading-7 text-cream/85 md:text-base" data-reveal>
-        However you spend it, the table is ready. Choose your evening.
-      </p>
+      <div
+        className="flex max-w-[12ch] flex-wrap items-baseline gap-x-[0.35em] font-display text-6xl leading-[1.05] font-medium md:max-w-none md:text-8xl lg:text-[9rem]"
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- Generic button group; no native element fits.
+        role="group"
+        aria-label="Choose your evening"
+        data-reveal
+      >
+        {choices.map((choice, index) => (
+          <button
+            aria-pressed={index === active}
+            className={`cursor-pointer transition-[color,opacity] duration-500 ease-lily focus-visible:underline focus-visible:outline-none ${
+              index === active ? "opacity-100" : "opacity-40 hover:opacity-80"
+            }`}
+            data-index={index}
+            key={choice.label}
+            onClick={select}
+            onFocus={select}
+            onMouseEnter={select}
+            type="button"
+          >
+            {choice.label}
+            {index < choices.length - 1 ? <span aria-hidden="true">,</span> : "."}
+          </button>
+        ))}
+      </div>
 
-      <div>
-        <div
-          className="flex flex-wrap items-baseline gap-x-[0.35em] font-display text-6xl leading-[1.05] font-medium md:text-8xl lg:text-[9rem]"
-          // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- Generic button group; no native element fits.
-          role="group"
-          aria-label="Choose your evening"
-        >
-          {choices.map((choice, index) => (
-            <button
-              aria-pressed={index === active}
-              className={`cursor-pointer transition-[color,opacity] duration-500 ease-lily focus-visible:underline focus-visible:outline-none ${
-                index === active ? "opacity-100" : "opacity-40 hover:opacity-80"
-              }`}
-              data-index={index}
-              key={choice.label}
-              onClick={select}
-              onFocus={select}
-              onMouseEnter={select}
-              type="button"
-            >
-              {choice.label}
-              {index < choices.length - 1 ? <span aria-hidden="true">,</span> : "."}
-            </button>
-          ))}
-        </div>
-        <div className="mt-8 flex flex-wrap items-center gap-4 md:mt-12">
+      <div className="max-w-md self-end">
+        <p className="mb-7 text-sm leading-7 text-cream/85 md:text-base md:leading-8" data-reveal>
+          However you spend it, the table is ready. Choose your evening.
+        </p>
+        <div className="flex flex-wrap items-center gap-4 reveal-delay-180" data-reveal>
           <PillLink color="cream" href="/contact?reason=reservation">
             Reserve for {choices[active].label.toLowerCase()}
           </PillLink>

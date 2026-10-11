@@ -10,14 +10,18 @@ const clamp = (value: number, minimum: number, maximum: number) =>
 export function ParallaxHero({
   alt,
   children,
-  imagePosition = "center",
+  imageClassName = "object-center",
+  layout = "cover",
+  panelClassName = "bg-events-gray",
   parallax = "standard",
   size = "standard",
   src,
 }: {
   alt: string
   children: ReactNode
-  imagePosition?: "center" | "events"
+  imageClassName?: string
+  layout?: "cover" | "split"
+  panelClassName?: string
   parallax?: "standard" | "strong"
   size?: "half" | "standard"
   src: string
@@ -82,21 +86,46 @@ export function ParallaxHero({
       data-nav-tone="image"
       ref={sectionRef}
     >
-      <div
-        className={`absolute inset-x-0 will-change-transform ${parallax === "strong" ? "-inset-y-[30%]" : "-inset-y-[14%]"}`}
-        ref={mediaRef}
-      >
-        <Image
-          alt={alt}
-          className={`object-cover ${imagePosition === "events" ? "object-[52%_center]" : "object-center"}`}
-          fill
-          loading="eager"
-          sizes="100vw"
-          src={src}
-        />
-      </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.78)_0%,rgba(8,7,5,0.3)_58%,rgba(8,7,5,0.58)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.34)_0%,transparent_38%,rgba(8,7,5,0.82)_100%)]" />
+      {layout === "split" ? (
+        <div className="absolute inset-0 grid grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
+          <div className={panelClassName} />
+          <div className="relative overflow-hidden bg-zinc-950">
+            <div
+              className={`absolute inset-x-0 will-change-transform ${parallax === "strong" ? "-inset-y-[30%]" : "-inset-y-[18%]"}`}
+              ref={mediaRef}
+            >
+              <Image
+                alt={alt}
+                className={`object-cover ${imageClassName}`}
+                fill
+                preload
+                sizes="(max-width: 767px) 100vw, 50vw"
+                src={src}
+              />
+            </div>
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.42)_0%,rgba(8,7,5,0.06)_60%,rgba(8,7,5,0.28)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.48)_0%,transparent_52%,rgba(8,7,5,0.3)_100%)]" />
+          </div>
+        </div>
+      ) : (
+        <>
+          <div
+            className={`absolute inset-x-0 will-change-transform ${parallax === "strong" ? "-inset-y-[30%]" : "-inset-y-[14%]"}`}
+            ref={mediaRef}
+          >
+            <Image
+              alt={alt}
+              className={`object-cover ${imageClassName}`}
+              fill
+              preload
+              sizes="100vw"
+              src={src}
+            />
+          </div>
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.78)_0%,rgba(8,7,5,0.3)_58%,rgba(8,7,5,0.58)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.34)_0%,transparent_38%,rgba(8,7,5,0.82)_100%)]" />
+        </>
+      )}
       <div className="relative h-full">{children}</div>
     </section>
   )
