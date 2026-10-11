@@ -5,7 +5,8 @@ import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 const copy =
   "Lily is a neighborhood kitchen and cocktail bar in Gibsonia, cooking with the seasons and pouring drinks from the garden, for late lunches and evenings that ask you to stay a little longer."
 
-const words = copy.split(" ").map((word, index) => ({ id: `${word}-${index}`, word }))
+const toWords = (text: string) =>
+  text.split(" ").map((word, index) => ({ id: `${word}-${index}`, word }))
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const unrevealedColor = [201, 168, 178] as const
 const revealedColor = [253, 242, 226] as const
@@ -17,7 +18,8 @@ function revealColor(progress: number) {
   return `rgb(${channels.join(" ")})`
 }
 
-export function NeighborhoodIntro() {
+export function NeighborhoodIntro({ text = copy }: { text?: string }) {
+  const words = useMemo(() => toWords(text), [text])
   const ref = useRef<HTMLParagraphElement>(null)
   const [progress, setProgress] = useState(0)
   const wordStyles = useMemo(
@@ -32,7 +34,7 @@ export function NeighborhoodIntro() {
           transform: `translate3d(0, ${(1 - wordProgress) * 0.16}em, 0)`,
         } as CSSProperties
       }),
-    [progress],
+    [progress, words],
   )
 
   useEffect(() => {
