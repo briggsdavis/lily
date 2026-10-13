@@ -4,14 +4,16 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef } from "react"
 import { TransitionLink } from "@/components/transition-link"
-import { hasReserveCta, siteRoutes } from "@/data/site-navigation"
+import { hasReserveCta, siteRoutes, topLevelSection } from "@/data/site-navigation"
 
 const year = new Date().getFullYear()
 
 export function Footer() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLElement>(null)
-  const overlapsReserve = hasReserveCta(usePathname())
+  const pathname = usePathname()
+  const overlapsReserve = hasReserveCta(pathname)
+  const usesMauveBackground = topLevelSection(pathname) === "contact"
 
   useEffect(() => {
     const footer = footerRef.current
@@ -46,7 +48,7 @@ export function Footer() {
   return (
     <div className={`relative z-20 ${overlapsReserve ? "-mt-10 md:-mt-14" : ""}`} ref={wrapperRef}>
       <footer
-        className="bg-deep-brown px-page py-10 text-cream will-change-transform md:py-12"
+        className={`${usesMauveBackground ? "bg-mauve" : "bg-deep-brown"} px-page py-10 text-cream will-change-transform md:py-12`}
         data-nav-tone="dark"
         ref={footerRef}
       >

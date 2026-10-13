@@ -2,10 +2,25 @@
 
 import { usePathname } from "next/navigation"
 import { PillLink } from "@/components/pill-button"
-import { hasReserveCta } from "@/data/site-navigation"
+import { ReserveNavigationMarquee } from "@/components/reserve-navigation-marquee"
+import { hasReserveCta, topLevelSection } from "@/data/site-navigation"
 
 export function ReserveCta() {
-  if (!hasReserveCta(usePathname())) return null
+  const pathname = usePathname()
+  const includesReservation = hasReserveCta(pathname)
+
+  if (!includesReservation) {
+    if (topLevelSection(pathname) !== "contact") return null
+
+    return (
+      <section
+        className="overflow-hidden bg-mauve px-page py-14 text-cream md:py-20"
+        data-nav-tone="dark"
+      >
+        <ReserveNavigationMarquee />
+      </section>
+    )
+  }
 
   return (
     <section
@@ -38,6 +53,9 @@ export function ReserveCta() {
             Book a table
           </PillLink>
         </span>
+      </div>
+      <div className="mt-14 md:mt-20">
+        <ReserveNavigationMarquee />
       </div>
     </section>
   )

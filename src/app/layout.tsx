@@ -15,7 +15,7 @@ import "@/globals.css"
 const display = EB_Garamond({ variable: "--font-display-source", subsets: ["latin"] })
 const body = Noto_Sans({ variable: "--font-body-source", subsets: ["latin"] })
 const heroIntroScript = {
-  __html: `try{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}catch{}`,
+  __html: `try{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!sessionStorage.getItem("lily:hero-intro-seen")){document.documentElement.classList.add("hero-intro-pending")}}catch{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}`,
 }
 
 export const metadata: Metadata = {
