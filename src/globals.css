@@ -22,6 +22,8 @@
   --color-bronze: #957859;
   --color-brand-brown: #917156;
   --color-deep-brown: #5e331f;
+  --color-dark-maroon: #35161a;
+  --color-espresso: #2a1c14;
 
   --ease-lily: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
@@ -164,6 +166,22 @@
   a {
     -webkit-tap-highlight-color: transparent;
   }
+}
+
+/* A restrained paper-like grain keeps the solid brand fields from feeling digitally flat. */
+:where(
+  .bg-burgundy,
+  .bg-cream,
+  .bg-dark-green,
+  .bg-dark-maroon,
+  .bg-espresso,
+  .bg-deep-brown,
+  .bg-events-gray,
+  .bg-mauve,
+  .bg-olive-charcoal,
+  .bg-taupe
+) {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
 }
 
 .hero-intro-pending .hero-intro-media,

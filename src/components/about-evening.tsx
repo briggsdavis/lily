@@ -19,7 +19,7 @@ export function AboutEvening() {
 
   return (
     <section
-      className="relative isolate flex min-h-[80svh] flex-col justify-between gap-16 overflow-hidden px-page pt-14 pb-[calc(12svh+3.5rem)] text-cream md:min-h-svh md:pt-20 md:pb-[calc(12svh+5rem)]"
+      className="relative isolate flex min-h-[80svh] flex-col justify-between gap-16 overflow-hidden px-page pt-14 pb-10 text-cream md:min-h-svh md:pt-20 md:pb-14"
       data-nav-tone="image"
     >
       {choices.map((choice, index) => (
@@ -62,9 +62,10 @@ export function AboutEvening() {
         ))}
       </div>
 
-      <div className="max-w-md self-end">
+      <div className="mt-auto max-w-xl self-end">
         <p className="mb-7 text-sm leading-7 text-cream/85 md:text-base md:leading-8" data-reveal>
-          However you spend it, the table is ready. Choose your evening.
+          <span className="block">However you spend it, the table is ready.</span>
+          <span className="block">Choose your evening.</span>
         </p>
         <div className="flex flex-wrap items-center gap-4 reveal-delay-180" data-reveal>
           <PillLink color="cream" href="/contact?reason=reservation">

@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { MouseEvent, SyntheticEvent } from "react"
 import { flushSync } from "react-dom"
+import { PillLink } from "@/components/pill-button"
 import { events, weekdays } from "@/data/events"
 
 type ViewMode = "events" | "calendar"
@@ -165,7 +166,7 @@ function EventList({
             <button
               aria-controls={`event-details-${index}`}
               aria-expanded={isExpanded}
-              className="group grid w-full cursor-pointer gap-4 py-7 text-left outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-inset sm:grid-cols-[minmax(8rem,0.7fr)_minmax(0,1.3fr)_auto] sm:items-start md:py-9 lg:min-h-[42vh] lg:content-start lg:py-16"
+              className="group grid w-full cursor-pointer gap-4 py-7 text-left outline-none focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-inset sm:grid-cols-[minmax(8rem,0.7fr)_minmax(0,1.3fr)_auto] sm:items-start md:py-8 lg:py-10"
               data-event-index={index}
               onClick={toggleSelectedEvent}
               onFocus={activateEvent}
@@ -198,9 +199,14 @@ function EventList({
               inert={!isExpanded}
             >
               <div className="overflow-hidden">
-                <p className="max-w-[46ch] pb-8 text-sm leading-7 text-cream/75 sm:ml-[calc(35%+0.5rem)] md:pb-10 md:text-base">
-                  {event.description}
-                </p>
+                <div className="flex max-w-[46ch] flex-col items-start gap-6 pb-8 sm:ml-[calc(35%+0.5rem)] md:pb-10">
+                  <p className="text-sm leading-7 text-cream/75 md:text-base">
+                    {event.description}
+                  </p>
+                  <PillLink color="pink" href="/contact?reason=events">
+                    Sign up
+                  </PillLink>
+                </div>
               </div>
             </div>
           </article>
@@ -244,12 +250,10 @@ function ViewSelector({ mode, onChange }: { mode: ViewMode; onChange: (mode: Vie
 }
 
 function EventsSectionHeader({
-  eyebrow,
   mode,
   onChange,
   sticky = false,
 }: {
-  eyebrow: string
   mode: ViewMode
   onChange: (mode: ViewMode) => void
   sticky?: boolean
@@ -258,16 +262,13 @@ function EventsSectionHeader({
     <header
       className={`flex flex-col gap-6 border-b border-pink/35 pb-7 sm:flex-row sm:items-end sm:justify-between ${
         sticky
-          ? "mb-10 lg:sticky lg:top-20 lg:z-30 lg:mb-0 lg:bg-events-gray lg:pt-4 lg:pb-5 lg:before:pointer-events-none lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-20 lg:before:bg-events-gray"
+          ? "mb-10 lg:sticky lg:top-20 lg:z-30 lg:mb-0 lg:bg-dark-maroon lg:pt-4 lg:pb-5 lg:before:pointer-events-none lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-20 lg:before:bg-dark-maroon"
           : "mb-8"
       }`}
     >
-      <div>
-        <p className="mb-2 eyebrow text-pink/70">{eyebrow}</p>
-        <h2 className="font-display text-4xl font-medium text-pink md:text-5xl lg:text-6xl">
-          Lily Events Calendar
-        </h2>
-      </div>
+      <h2 className="font-display text-4xl font-medium tracking-[0.04em] text-pink uppercase md:text-5xl lg:text-6xl">
+        Whats on
+      </h2>
       <ViewSelector mode={mode} onChange={onChange} />
     </header>
   )
@@ -339,12 +340,12 @@ export function EventsExperience() {
   )
 
   return (
-    <section className="min-h-dvh bg-events-gray text-cream" data-nav-tone="dark">
+    <section className="min-h-dvh bg-dark-maroon text-cream" data-nav-tone="dark">
       <div className="[view-transition-name:events-view]">
         {mode === "events" ? (
           <div className="min-h-dvh px-page pt-20 lg:pt-28">
             <div>
-              <EventsSectionHeader eyebrow="What's on" mode={mode} onChange={switchMode} sticky />
+              <EventsSectionHeader mode={mode} onChange={switchMode} sticky />
 
               <div className="hidden grid-cols-[minmax(9rem,0.6fr)_minmax(28rem,1.8fr)_minmax(11rem,0.7fr)] items-start gap-10 lg:grid xl:grid-cols-[minmax(10rem,0.7fr)_minmax(24rem,1.45fr)_minmax(16rem,0.9fr)] xl:gap-16">
                 <div className="sticky top-40 flex h-[calc(100dvh-11rem)] items-center">
@@ -358,7 +359,7 @@ export function EventsExperience() {
                 <div className="relative">
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none sticky top-[11.5rem] z-20 -mb-16 h-16 bg-linear-to-b from-events-gray via-events-gray/80 to-transparent [mask-image:linear-gradient(to_bottom,black_0%,black_45%,transparent_100%)] backdrop-blur-[6px]"
+                    className="pointer-events-none sticky top-[11.5rem] z-20 -mb-16 h-16 bg-linear-to-b from-dark-maroon via-dark-maroon/80 to-transparent [mask-image:linear-gradient(to_bottom,black_0%,black_45%,transparent_100%)] backdrop-blur-[6px]"
                   />
                   <EventList expanded={expanded} onActivate={setActive} onToggle={toggleEvent} />
                 </div>
@@ -386,8 +387,8 @@ export function EventsExperience() {
             <div aria-hidden="true" className="h-64 lg:h-80" />
           </div>
         ) : (
-          <div className="min-h-dvh bg-events-gray px-page pt-20 pb-64 lg:pt-28 lg:pb-80">
-            <EventsSectionHeader eyebrow="Plan an evening" mode={mode} onChange={switchMode} />
+          <div className="min-h-dvh bg-dark-maroon px-page pt-20 pb-64 lg:pt-28 lg:pb-80">
+            <EventsSectionHeader mode={mode} onChange={switchMode} />
 
             <div className="mb-5 flex items-center justify-between">
               <button
@@ -399,7 +400,7 @@ export function EventsExperience() {
               >
                 &larr;
               </button>
-              <h3 className="font-display text-2xl md:text-3xl">
+              <h3 className="font-display text-2xl uppercase md:text-3xl">
                 {monthFormatter.format(calendarMonth)}
               </h3>
               <button

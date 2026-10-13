@@ -103,6 +103,7 @@ export function MenuRotator() {
           foregroundAspectClassName="aspect-4/5"
           foregroundSizes="(max-width: 768px) 45vw, 20vw"
           items={media}
+          priority
         />
 
         <ul ref={listRef}>

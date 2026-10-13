@@ -11,7 +11,7 @@ const people = [
     text: "Born in Spain, Rick cooked his way through Europe and America before opening Cala Lily. He retired in 2026 after 25 years at the stove.",
     image: "/about-rick-kitchen.webp",
     imageAlt: "A chef finishing plates beneath warm kitchen lights",
-    color: "bg-mauve text-warm-white",
+    color: "bg-dark-maroon text-warm-white",
   },
   {
     name: "Paul Anzaldi",
@@ -20,7 +20,7 @@ const people = [
     text: "After thirty years in information technology, Paul turned to hospitality and brought a steady hand to the business side of the room.",
     image: "/about-paul-kitchen.webp",
     imageAlt: "A chef carefully seasoning a finished plate",
-    color: "bg-dark-green text-pink",
+    color: "bg-dark-maroon text-pink",
   },
   {
     name: "Ron Jelinek",
@@ -29,7 +29,7 @@ const people = [
     text: "Ron works the grill with a practiced hand, turning out steaks and chops, and a few of the desserts too.",
     image: "/about-ron-kitchen.webp",
     imageAlt: "A chef spooning sauce over a plated lobster dish",
-    color: "bg-deep-brown text-cream",
+    color: "bg-dark-maroon text-cream",
   },
 ] as const
 
@@ -41,7 +41,7 @@ export function AboutPeople() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-2 md:h-[30rem] md:flex-row md:gap-3 lg:h-[34rem]">
+    <div className="flex flex-col md:h-[36rem] md:flex-row lg:h-[40.8rem]">
       {people.map((person, index) => {
         const open = index === active
         return (

@@ -10,40 +10,9 @@ export const metadata: Metadata = {
 
 export default function MenuLayout({ children }: { children: ReactNode }) {
   return (
-    <section
-      className="min-h-svh bg-dark-green px-page pt-32 pb-0 text-pink md:pt-40 lg:pt-48"
-      data-nav-tone="dark"
-    >
-      <div className="mb-10 grid items-start gap-8 md:mb-14 md:grid-cols-3 md:gap-6 lg:mb-16">
-        <div>
-          <p className="mb-3 eyebrow text-pink/70" data-reveal>
-            The menu
-          </p>
-          <p
-            className="max-w-[10ch] font-display text-4xl leading-none font-medium reveal-delay-120 md:text-5xl lg:text-[3.6rem]"
-            data-reveal
-          >
-            Led by the season.
-          </p>
-        </div>
-        <p
-          className="w-full text-sm leading-6 text-pretty text-cream reveal-delay-240 md:pt-8"
-          data-reveal
-        >
-          We begin with what is best now: market vegetables, carefully sourced fish and meat, and
-          handmade pasta shaped with a light touch.
-        </p>
-        <p
-          className="w-full text-sm leading-6 text-pretty text-cream reveal-delay-360 md:pt-8"
-          data-reveal
-        >
-          The menu is composed for the table, from bright first plates through generous mains,
-          floral desserts, and cocktails designed to sit beautifully beside dinner.
-        </p>
-      </div>
-
+    <section className="min-h-svh bg-espresso text-pink" data-nav-tone="dark">
       <MenuGallery />
-      {children}
+      <div className="px-page">{children}</div>
     </section>
   )
 }

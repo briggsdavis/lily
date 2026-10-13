@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
 
 const tones: Record<string, string> = {
-  menu: "bg-dark-green text-pink",
-  events: "bg-events-gray text-cream",
-  catering: "bg-events-gray text-cream",
+  menu: "bg-espresso text-pink",
+  events: "bg-dark-maroon text-cream",
+  catering: "bg-espresso text-cream",
   contact: "bg-burgundy text-pink",
 }
 

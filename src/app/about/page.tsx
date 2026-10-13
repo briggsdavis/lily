@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import type { Metadata } from "next"
 import { AboutEvening } from "@/components/about-evening"
 import { AboutHero } from "@/components/about-hero"
 import { AboutMarquee } from "@/components/about-marquee"
@@ -20,13 +20,7 @@ export default function AboutPage() {
 
       <AboutMarquee />
 
-      <section className="bg-taupe px-page py-14 text-warm-white md:py-20" data-nav-tone="dark">
-        <h2
-          className="mb-10 font-display text-4xl font-medium text-blush md:mb-14 lg:text-6xl"
-          data-reveal
-        >
-          The hands behind it.
-        </h2>
+      <section className="bg-dark-maroon text-warm-white" data-nav-tone="dark">
         <AboutPeople />
       </section>
 

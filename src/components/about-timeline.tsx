@@ -29,6 +29,7 @@ const stages = [
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const stageAt = (progress: number) => (progress < 0.33 ? 0 : progress < 0.72 ? 1 : 2)
+const initialProgressStyle = { transform: "scaleX(0)" }
 
 export function AboutTimeline() {
   const ref = useRef<HTMLElement>(null)
@@ -126,7 +127,7 @@ export function AboutTimeline() {
             <span
               className="absolute inset-0 origin-left bg-cream"
               ref={barRef}
-              style={{ transform: "scaleX(0)" }}
+              style={initialProgressStyle}
             />
           </span>
           <span>2026</span>

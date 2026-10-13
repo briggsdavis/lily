@@ -105,7 +105,7 @@ export function ContactExperience() {
         </section>
 
         <section
-          className="flex flex-col justify-center bg-olive-charcoal px-6 pt-20 pb-8 text-warm-white md:min-h-svh md:px-10 md:pt-24 lg:px-16"
+          className="flex flex-col justify-center bg-dark-maroon px-6 pt-20 pb-8 text-warm-white md:min-h-svh md:px-10 md:pt-24 lg:px-16"
           data-nav-tone="dark"
         >
           <ReservationForm
@@ -114,32 +114,6 @@ export function ContactExperience() {
           />
         </section>
       </div>
-
-      <section
-        className="grid items-start gap-6 border-t border-warm-white/30 bg-olive-charcoal px-page pt-9 pb-[calc(12svh+3rem)] text-warm-white md:grid-cols-3 md:gap-16 md:pt-14 md:pb-[calc(12svh+5rem)] lg:gap-32 lg:pt-18"
-        data-nav-tone="dark"
-      >
-        <p className="eyebrow" data-reveal>
-          Contact Lily
-        </p>
-        <div
-          className="grid gap-4 text-sm reveal-delay-180 md:col-span-2 md:grid-cols-3 md:gap-8 lg:gap-12"
-          data-reveal
-        >
-          <a
-            className="w-max max-w-full border-b border-current"
-            href="mailto:hello@lilyrestaurant.com"
-          >
-            hello@lilyrestaurant.com
-          </a>
-          <a className="w-max max-w-full border-b border-current" href="tel:+17245024572">
-            (724) 502-4572
-          </a>
-          <address className="text-xs whitespace-nowrap not-italic sm:text-sm">
-            500 Grandview Crossing Dr, Gibsonia, PA 15044
-          </address>
-        </div>
-      </section>
     </>
   )
 }

@@ -44,25 +44,27 @@ export function EventsShowcase() {
 
   return (
     <section
-      className="bg-dark-green px-page pt-14 pb-24 text-pink md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
+      className="bg-dark-maroon px-page pt-14 pb-24 text-pink md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
       data-nav-tone="dark"
       id="home-events"
     >
-      <div className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(25rem,1.15fr)_auto] lg:items-center lg:gap-10">
+      <div className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-10">
         <h2
           className="font-display text-4xl leading-tight font-medium md:text-5xl lg:text-6xl"
           data-reveal
         >
-          What's on at Lily
+          EVENTS
         </h2>
         <p
-          className="max-w-[52ch] text-base leading-relaxed text-warm-white reveal-delay-180 md:text-lg lg:justify-self-center"
+          className="max-w-none text-base leading-relaxed text-warm-white reveal-delay-180 lg:justify-self-center xl:text-lg"
           data-reveal
         >
-          <span className="lg:block">
+          <span className="lg:block lg:whitespace-nowrap">
             Join us for wine dinners, seasonal suppers, and cocktail evenings.
           </span>{" "}
-          <span className="lg:block">See what's coming up and find your next night out.</span>
+          <span className="lg:block lg:whitespace-nowrap">
+            See what's coming up and find your next night out.
+          </span>
         </p>
         <div className="reveal-delay-320 lg:justify-self-end" data-reveal>
           <PillLink color="pink" href="/events">

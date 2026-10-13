@@ -1,8 +1,9 @@
-import { Metadata } from "next"
+import type { Metadata } from "next"
 import { EB_Garamond, Noto_Sans } from "next/font/google"
 import { Footer } from "@/components/footer"
 import { HeroIntroController } from "@/components/hero-intro-controller"
 import { Navbar } from "@/components/navbar"
+import { ReserveCta } from "@/components/reserve-cta"
 import { ScrollEffects } from "@/components/scroll-effects"
 import { SiteBackground } from "@/components/site-background"
 import { SmoothScroll } from "@/components/smooth-scroll"
@@ -42,6 +43,7 @@ export default function Layout({ children }: LayoutProps<"/">) {
           <main className="relative z-10 min-h-svh grow bg-inherit transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">
             {children}
           </main>
+          <ReserveCta />
           <Footer />
         </SiteBackground>
       </body>

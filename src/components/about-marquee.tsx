@@ -3,13 +3,12 @@
 import { useEffect, useRef } from "react"
 
 const rows = [
-  { text: "Same address. Same number. Same team.", direction: 1 },
-  { text: "New seasons. New menu. New evenings.", direction: -1 },
+  { text: "CHARMING · SEASONAL · WARM · CONSIDERED ·", direction: 1 },
+  { text: "INTIMATE · GENEROUS · UNHURRIED · GATHERED ·", direction: -1 },
 ] as const
 
 export function AboutMarquee() {
   const sectionRef = useRef<HTMLElement>(null)
-  const rowRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -21,8 +20,7 @@ export function AboutMarquee() {
       frame = 0
       const bounds = section.getBoundingClientRect()
       const progress = (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height)
-      rowRefs.current.forEach((row, index) => {
-        if (!row) return
+      section.querySelectorAll<HTMLElement>("[data-marquee-row]").forEach((row, index) => {
         const travel = row.scrollWidth / 2
         const offset = (progress * 0.9 + index * 0.15) * travel
         const x = rows[index].direction === 1 ? -offset : offset - travel
@@ -54,10 +52,8 @@ export function AboutMarquee() {
           className={`flex w-max whitespace-nowrap will-change-transform ${
             index === 0 ? "text-cream" : "text-pink/60 transition-colors hover:text-cream"
           }`}
+          data-marquee-row
           key={row.text}
-          ref={(node) => {
-            rowRefs.current[index] = node
-          }}
         >
           {[0, 1, 2, 3].map((copy) => (
             <span

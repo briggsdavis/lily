@@ -53,10 +53,10 @@ export default function HomePage() {
             <div className="flex items-end justify-between gap-8">
               <Image
                 alt="Lily Kitchen and Cocktails"
-                className="hero-stagger h-auto w-44 animate-delay-900 sm:w-56 md:w-72 lg:w-80"
+                className="hero-stagger h-auto w-[16.5rem] animate-delay-900 sm:w-[21rem] md:w-[27rem] lg:w-[30rem]"
                 height={767}
                 priority
-                sizes="(max-width: 640px) 11rem, (max-width: 768px) 14rem, (max-width: 1024px) 18rem, 20rem"
+                sizes="(max-width: 640px) 16.5rem, (max-width: 768px) 21rem, (max-width: 1024px) 27rem, 30rem"
                 src="/PRIMARY-HORIZONTAL-CREAM.png"
                 width={2329}
               />
@@ -68,7 +68,7 @@ export default function HomePage() {
         </section>
 
         <section
-          className="relative z-10 grid min-h-svh place-items-center overflow-hidden bg-dark-green px-page text-pink"
+          className="relative z-10 grid min-h-svh place-items-center overflow-hidden bg-deep-brown px-page text-pink"
           data-nav-tone="dark"
         >
           <Image
@@ -103,22 +103,22 @@ export default function HomePage() {
       <ScrollRevealImage />
 
       <section
-        className="grid items-center gap-14 bg-olive-charcoal section-pad text-warm-white md:grid-cols-2 md:gap-20 lg:gap-32"
+        className="relative isolate grid min-h-svh items-center gap-14 overflow-hidden bg-espresso section-pad text-warm-white md:grid-cols-2 md:gap-20 lg:gap-32"
         data-nav-tone="dark"
       >
-        <div className="flex max-w-2xl flex-col items-start">
+        <div className="relative z-10 flex max-w-3xl flex-col items-start md:max-w-[45vw]">
           <h2
-            className="mb-10 max-w-[8ch] font-display text-4xl font-medium text-blush md:mb-16 lg:text-6xl"
+            className="mb-8 font-display text-5xl font-medium tracking-[0.04em] text-blush uppercase md:mb-10 lg:text-7xl"
             data-reveal
           >
-            A room for long evenings.
+            About
           </h2>
-          <div className="mb-10 grid w-full gap-5 md:grid-cols-2 md:gap-12 lg:gap-20">
-            <p className="reveal-delay-320" data-reveal>
+          <div className="mb-10 grid w-full gap-x-12 gap-y-7 md:grid-cols-2 lg:gap-x-20">
+            <p className="reveal-delay-180" data-reveal>
               Lily is a dining room shaped by the seasons. The kitchen cooks with precision and
               restraint, letting exceptional ingredients lead each plate.
             </p>
-            <p className="reveal-delay-460" data-reveal>
+            <p className="reveal-delay-320" data-reveal>
               The bar holds the same standard: classic technique, seasonal fruit and herbs, fine
               spirits, and cocktails composed to sit beautifully beside dinner.
             </p>
@@ -132,7 +132,7 @@ export default function HomePage() {
         <Image
           alt=""
           aria-hidden="true"
-          className="h-auto w-full max-w-lg justify-self-center md:justify-self-end"
+          className="absolute top-1/2 -right-[35vw] h-auto w-[85vw] -translate-y-1/2 opacity-85 md:-right-[6vw] md:w-[56vw]"
           data-reveal
           height={1004}
           src="/STAMP-BROWN.svg"
@@ -155,23 +155,22 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,8,5,0.72)_0%,rgba(10,8,5,0.18)_48%,rgba(10,8,5,0.62)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,5,0.18)_0%,transparent_40%,rgba(10,8,5,0.55)_100%)]" />
 
-        <div className="relative flex h-full flex-col justify-between gap-16">
-          <h2
-            className="font-display text-[1.6875rem] leading-[1.02] font-medium sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
-            data-reveal
-          >
-            <span className="block">Season-led cooking,</span>
-            <span className="block">served with warmth.</span>
-          </h2>
-
-          <div className="flex max-w-sm flex-col items-start self-end md:max-w-md">
-            <p
-              className="mb-7 text-sm leading-7 text-cream/85 reveal-delay-180 md:text-base md:leading-8"
+        <div className="relative flex h-full items-start">
+          <div className="flex max-w-lg flex-col items-start">
+            <h2
+              className="font-display text-[1.6875rem] leading-[1.02] font-medium sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
               data-reveal
             >
-              Guided by the market and grounded in generous hospitality, Lily brings thoughtful
-              plates and considered cocktails to the table, made to be shared over an unhurried
-              evening.
+              <span className="block">Season-led cooking,</span>
+              <span className="block">served with warmth.</span>
+            </h2>
+            <p
+              className="mt-8 mb-7 max-w-[38ch] text-sm leading-7 text-cream/85 reveal-delay-180 md:mt-10 md:text-base md:leading-8"
+              data-reveal
+            >
+              <span className="md:block">Market-led plates and considered cocktails,</span>{" "}
+              <span className="md:block">grounded in generous hospitality and made</span>{" "}
+              <span className="md:block">for sharing over an unhurried evening.</span>
             </p>
             <div className="flex flex-wrap gap-3 reveal-delay-320" data-reveal>
               <PillLink color="cream" href="/contact?reason=reservation">
@@ -188,47 +187,6 @@ export default function HomePage() {
       <EventsShowcase />
 
       <section
-        className="bg-mauve px-page pt-12 pb-24 text-cream md:pt-16 md:pb-32 lg:pt-20 lg:pb-40"
-        data-nav-tone="dark"
-      >
-        <div className="relative mx-auto flex min-h-[34rem] w-full max-w-md flex-col items-center justify-center overflow-hidden border border-current p-8 text-center md:min-h-[104vh] md:w-3/5 md:max-w-none md:p-16 lg:p-28">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-2 border border-current md:inset-3"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[min(90%,38rem)] -translate-1/2 bg-cream/8 mask-[url(/stamp.svg)] mask-contain mask-center mask-no-repeat"
-          />
-
-          <h2
-            className="relative mb-6 max-w-[11ch] font-display text-5xl font-medium text-balance md:text-6xl lg:text-8xl"
-            data-reveal
-          >
-            Reserve your table.
-          </h2>
-          <p
-            className="relative mb-10 max-w-[32ch] text-lg text-cream/80 reveal-delay-180"
-            data-reveal
-          >
-            Join us in the dining room for dinner, cocktails, or both.
-          </p>
-          <span className="relative reveal-delay-320" data-reveal>
-            <PillLink color="cream" href="/contact?reason=reservation">
-              Book a table
-            </PillLink>
-          </span>
-
-          <div className="absolute inset-x-6 bottom-6 hidden justify-between text-sm text-cream/80 md:flex lg:inset-x-10 lg:bottom-9">
-            <a className="animated-underline" href="tel:+17245024572">
-              (724) 502-4572
-            </a>
-            <address className="not-italic">500 Grandview Crossing Dr, Gibsonia</address>
-          </div>
-        </div>
-      </section>
-
-      <section
         className="relative grid h-svh place-items-center overflow-hidden px-page"
         data-nav-tone="image"
       >
@@ -239,7 +197,7 @@ export default function HomePage() {
           sizes="100vw"
           src="/lily-event-table-16x10.webp"
         />
-        <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-deep-brown p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
+        <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
           <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl" data-reveal>
             Bring the table home.
           </h2>

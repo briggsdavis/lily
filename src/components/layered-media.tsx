@@ -56,7 +56,7 @@ export function LayeredMedia({
             alt=""
             className="scale-110 object-cover"
             fill
-            priority={priority}
+            priority={priority && index === active}
             sizes={backgroundSizes}
             src={item.src}
           />
@@ -78,7 +78,7 @@ export function LayeredMedia({
               alt={index === active ? item.alt : ""}
               className={`object-cover ${foregroundImageClassName} ${item.foregroundImageClassName ?? ""}`}
               fill
-              priority={priority}
+              priority={priority && index === active}
               sizes={foregroundSizes}
               src={item.src}
             />

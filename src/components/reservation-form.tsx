@@ -41,13 +41,13 @@ function dateValue(date: Date) {
 }
 
 const inquiryFieldsClass =
-  "grid animate-inquiry-fields gap-5 [view-transition-name:inquiry-fields] md:gap-6"
+  "relative z-20 grid animate-inquiry-fields gap-5 [view-transition-name:inquiry-fields] md:gap-6"
 const pickerTriggerClass =
   "field-input flex cursor-pointer items-center justify-between gap-3 text-left"
 const pickerMenuClass =
-  "absolute top-full left-0 z-20 mt-2 grid max-h-52 w-full overflow-y-auto border border-pink/50 bg-olive-charcoal p-1.5 text-warm-white shadow-xl shadow-zinc-950/20"
+  "absolute top-full left-0 z-50 mt-2 grid max-h-52 w-full overflow-y-auto border border-pink/50 bg-dark-maroon p-1.5 text-warm-white shadow-xl shadow-zinc-950/40"
 const pickerOptionClass =
-  "cursor-pointer px-3 py-2 text-left outline-none hover:bg-cream hover:text-olive-charcoal focus-visible:bg-cream focus-visible:text-olive-charcoal aria-pressed:bg-cream aria-pressed:text-olive-charcoal"
+  "cursor-pointer px-3 py-2 text-left outline-none hover:bg-cream hover:text-dark-maroon focus-visible:bg-cream focus-visible:text-dark-maroon aria-pressed:bg-cream aria-pressed:text-dark-maroon"
 const calendarNavClass =
   "grid size-8 cursor-pointer place-items-center border border-transparent outline-none enabled:hover:border-current enabled:focus-visible:border-current disabled:cursor-default disabled:opacity-25"
 
@@ -201,7 +201,6 @@ export function ReservationForm({
               data-reason={option.value}
               key={option.value}
               onClick={chooseReason}
-              onMouseEnter={chooseReason}
               type="button"
             >
               <span className="relative text-center">{option.label}</span>
@@ -316,7 +315,7 @@ export function ReservationForm({
                 <span aria-hidden="true">+</span>
               </button>
               {openPicker === "date" && (
-                <div className="absolute top-full left-0 z-20 mt-2 w-80 max-w-[calc(100vw-2.5rem)] border border-pink/50 bg-olive-charcoal p-3 text-warm-white shadow-xl shadow-zinc-950/20">
+                <div className="absolute top-full left-0 z-50 mt-2 w-80 max-w-[calc(100vw-2.5rem)] border border-pink/50 bg-dark-maroon p-3 text-warm-white shadow-xl shadow-zinc-950/40">
                   <div className="mb-2.5 grid grid-cols-[auto_1fr_auto] items-center text-center">
                     <button
                       aria-label="Previous month"
@@ -367,7 +366,7 @@ export function ReservationForm({
                       return (
                         <button
                           aria-label={date.toLocaleDateString("en-US")}
-                          className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none focus-visible:bg-cream focus-visible:text-olive-charcoal enabled:hover:bg-cream enabled:hover:text-olive-charcoal disabled:cursor-default disabled:opacity-25 ${selected ? "bg-cream text-olive-charcoal" : ""}`}
+                          className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none focus-visible:bg-cream focus-visible:text-dark-maroon enabled:hover:bg-cream enabled:hover:text-dark-maroon disabled:cursor-default disabled:opacity-25 ${selected ? "bg-cream text-dark-maroon" : ""}`}
                           data-day={day}
                           disabled={disabled}
                           key={key}
@@ -445,7 +444,7 @@ export function ReservationForm({
         </div>
       )}
 
-      <div className="flex flex-col items-stretch gap-4 [view-transition-name:inquiry-footer] sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative z-0 flex flex-col items-stretch gap-4 [view-transition-name:inquiry-footer] sm:flex-row sm:items-center sm:justify-between">
         <PillButton className="w-full sm:w-auto sm:min-w-44" color="cream" type="submit">
           {inquiryReason === "reservation" ? "Reserve" : "Send inquiry"}
         </PillButton>

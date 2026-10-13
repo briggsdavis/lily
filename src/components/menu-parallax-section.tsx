@@ -76,9 +76,7 @@ export function MenuParallaxSection({ children, index }: { children: ReactNode; 
     >
       <div
         className={`px-5 py-14 will-change-transform md:px-10 md:py-20 lg:px-16 lg:py-24 ${
-          index === 0
-            ? "bg-events-gray"
-            : "bg-olive-charcoal shadow-[0_-24px_48px_rgba(20,18,16,0.14)]"
+          index === 0 ? "bg-espresso" : "bg-espresso shadow-[0_-24px_48px_rgba(20,18,16,0.3)]"
         }`}
         data-reveal
         ref={panelRef}

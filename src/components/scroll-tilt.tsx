@@ -4,7 +4,8 @@ import { ReactNode, useEffect, useRef } from "react"
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => 1 - (1 - value) ** 2
-const initialTilt = { transform: "rotate(8deg)" }
+const maximumTilt = 10.8
+const initialTilt = { transform: `rotate(${maximumTilt}deg)` }
 
 export function ScrollTilt({ children, className }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -14,7 +15,7 @@ export function ScrollTilt({ children, className }: { children: ReactNode; class
     if (!element) return
 
     const apply = (tilt: number) => {
-      element.style.transform = `rotate(${tilt * 8}deg)`
+      element.style.transform = `rotate(${tilt * maximumTilt}deg)`
     }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

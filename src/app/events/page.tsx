@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import type { Metadata } from "next"
 import { EventsExperience } from "@/components/events-experience"
 import { EventsHero } from "@/components/events-hero"
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function EventsPage() {
   return (
-    <div className="bg-events-gray">
+    <div className="bg-dark-maroon">
       <EventsHero />
       <EventsExperience />
     </div>

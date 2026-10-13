@@ -4,16 +4,7 @@ import type { MenuCategory } from "@/data/menu"
 
 export function MenuSections({ category }: { category: MenuCategory }) {
   return (
-    <div className="mt-20 md:mt-28 lg:mt-36">
-      <header className="mb-12 text-center md:mb-16" data-reveal>
-        <p className="mb-3 text-xs font-bold tracking-[0.12em] text-pink/65 uppercase">
-          Seasonal menu
-        </p>
-        <h1 className="font-display text-5xl leading-none font-medium text-warm-white md:text-7xl">
-          {category.name}
-        </h1>
-      </header>
-
+    <div>
       <div>
         {category.sections.map((section, index) => {
           const imageOnRight = index % 2 === 1

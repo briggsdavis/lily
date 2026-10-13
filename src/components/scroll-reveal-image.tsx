@@ -2,15 +2,19 @@
 
 import Image from "next/image"
 import { CSSProperties, useEffect, useRef } from "react"
+import { PillLink } from "@/components/pill-button"
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const ease = (value: number) => 1 - (1 - value) ** 3
-const phase = (progress: number, start: number, end: number) =>
-  ease(clamp((progress - start) / (end - start)))
-const initialProgress = { "--open": 0, "--meet": 0 } as CSSProperties
+const ease = (value: number) => value * value * (3 - 2 * value)
+const initialProgress = { "--open": 0, "--meet": 0, "--reserve": 0 } as CSSProperties
 const revealClip = { clipPath: "inset(0 calc((1 - var(--open)) * 50%))" }
 const leftWordPosition = { transform: "translateX(calc((1 - var(--meet)) * -100vw))" }
 const rightWordPosition = { transform: "translateX(calc((1 - var(--meet)) * 100vw))" }
+const reserveButtonStyle = {
+  filter: "blur(calc((1 - var(--reserve)) * 12px))",
+  opacity: "var(--reserve)",
+  transform: "translateY(calc((1 - var(--reserve)) * 1rem))",
+} as CSSProperties
 
 export function ScrollRevealImage() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -19,22 +23,30 @@ export function ScrollRevealImage() {
     const section = sectionRef.current
     if (!section) return
 
-    const apply = (open: number, meet: number) => {
+    const apply = (open: number, meet: number, reserve: number) => {
       section.style.setProperty("--open", String(open))
       section.style.setProperty("--meet", String(meet))
+      section.style.setProperty("--reserve", String(reserve))
     }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      apply(1, 1)
+      apply(1, 1, 1)
       return
     }
 
     let frame = 0
     const update = () => {
       frame = 0
-      const distance = section.offsetHeight - window.innerHeight
-      const progress = clamp(-section.getBoundingClientRect().top / distance)
-      apply(clamp(progress / 0.46), phase(progress, 0.57, 0.93))
+      const viewport = window.innerHeight
+      const sectionTop = section.getBoundingClientRect().top
+      const revealStart = viewport * 0.88
+      const scrolledIntoReveal = revealStart - sectionTop
+
+      const open = ease(clamp(scrolledIntoReveal / (viewport * 1.15)))
+      const meet = ease(clamp((scrolledIntoReveal - viewport * 0.55) / (viewport * 0.85)))
+      const reserve = ease(clamp((scrolledIntoReveal - viewport * 1.1) / (viewport * 0.5)))
+
+      apply(open, meet, reserve)
     }
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(update)
@@ -52,7 +64,7 @@ export function ScrollRevealImage() {
 
   return (
     <section
-      className="relative h-[390svh] bg-mauve"
+      className="relative h-[280svh] bg-mauve"
       data-nav-tone="image"
       ref={sectionRef}
       style={initialProgress}
@@ -79,6 +91,15 @@ export function ScrollRevealImage() {
             stay for the evening.
           </span>
         </p>
+
+        <div
+          className="absolute inset-x-0 top-[62%] z-10 flex justify-center will-change-[opacity,filter,transform]"
+          style={reserveButtonStyle}
+        >
+          <PillLink color="cream" href="/contact?reason=reservation">
+            Reserve a table
+          </PillLink>
+        </div>
       </div>
     </section>
   )
