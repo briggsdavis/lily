@@ -1,9 +1,11 @@
 "use client"
 
+import { useMutation } from "convex/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useMemo } from "react"
 import { LayeredMedia } from "@/components/layered-media"
 import { InquiryReason, ReservationForm } from "@/components/reservation-form"
+import { submitContactRef } from "@/lib/admin-api"
 
 const visualTitles: Record<Exclude<InquiryReason, null>, string> = {
   reservation: "Reservations",
@@ -37,7 +39,9 @@ type ViewTransitionDocument = Document & {
   startViewTransition?: (update: () => Promise<void> | void) => void
 }
 
-export function ContactExperience() {
+type SubmitContact = Parameters<typeof ReservationForm>[0]["onSubmitInquiry"]
+
+export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: SubmitContact } = {}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const queryReason = searchParams.get("reason")
@@ -111,9 +115,15 @@ export function ContactExperience() {
           <ReservationForm
             inquiryReason={inquiryReason}
             onInquiryReasonChange={updateInquiryReason}
+            onSubmitInquiry={onSubmitInquiry}
           />
         </section>
       </div>
     </>
   )
+}
+
+export function ConnectedContactExperience() {
+  const submit = useMutation(submitContactRef)
+  return <ContactExperience onSubmitInquiry={submit} />
 }

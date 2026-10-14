@@ -10,8 +10,13 @@
 
 import type * as admin from "../admin.js";
 import type * as adminAccess from "../adminAccess.js";
+import type * as adminGuard from "../adminGuard.js";
+import type * as analytics from "../analytics.js";
 import type * as auth from "../auth.js";
+import type * as cms from "../cms.js";
+import type * as files from "../files.js";
 import type * as http from "../http.js";
+import type * as inquiries from "../inquiries.js";
 
 import type {
   ApiFromModules,
@@ -22,8 +27,13 @@ import type {
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   adminAccess: typeof adminAccess;
+  adminGuard: typeof adminGuard;
+  analytics: typeof analytics;
   auth: typeof auth;
+  cms: typeof cms;
+  files: typeof files;
   http: typeof http;
+  inquiries: typeof inquiries;
 }>;
 
 /**

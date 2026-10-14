@@ -12,10 +12,29 @@ const dietaryOptions = ["Gluten-Free", "Vegan", "Vegetarian", "Nut Allergy"] as 
 const fieldClass =
   "field-input text-cream placeholder:text-cream/45 focus-visible:border-pink focus-visible:shadow-[0_1px_0_#c9a8b2]"
 
-export function CateringInquiryForm() {
+export function CateringInquiryForm({
+  onSubmitInquiry,
+}: {
+  onSubmitInquiry?: (values: {
+    deliveryAddress?: string
+    dietaryNotes?: string
+    dietaryRestrictions: string[]
+    email: string
+    eventDate: string
+    fulfillment: "delivery" | "pickup"
+    fullName: string
+    guestCount: number
+    menuSelection: string
+    phone: string
+    serviceTime: string
+    specialInstructions?: string
+  }) => Promise<unknown>
+}) {
   const [step, setStep] = useState(0)
   const [fulfillment, setFulfillment] = useState<"delivery" | "pickup">("delivery")
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState("")
 
   const chooseFulfillment = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.value === "delivery" || event.currentTarget.value === "pickup") {
@@ -26,15 +45,39 @@ export function CateringInquiryForm() {
   const goBack = useCallback(() => setStep((current) => Math.max(0, current - 1)), [])
 
   const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
       if (step < steps.length - 1) {
         setStep((current) => current + 1)
         return
       }
-      setSubmitted(true)
+      const form = event.currentTarget
+      const data = new FormData(form)
+      setSubmitting(true)
+      setSubmitError("")
+      try {
+        await onSubmitInquiry?.({
+          deliveryAddress: String(data.get("deliveryAddress") || "") || undefined,
+          dietaryNotes: String(data.get("dietaryNotes") || "") || undefined,
+          dietaryRestrictions: data.getAll("dietaryRestrictions").map(String),
+          email: String(data.get("email") || ""),
+          eventDate: String(data.get("eventDate") || ""),
+          fulfillment,
+          fullName: String(data.get("fullName") || ""),
+          guestCount: Number(data.get("guestCount")),
+          menuSelection: String(data.get("menuSelection") || ""),
+          phone: String(data.get("phone") || ""),
+          serviceTime: String(data.get("serviceTime") || ""),
+          specialInstructions: String(data.get("specialInstructions") || "") || undefined,
+        })
+        setSubmitted(true)
+      } catch {
+        setSubmitError("We could not send your inquiry. Please try again.")
+      } finally {
+        setSubmitting(false)
+      }
     },
-    [step],
+    [fulfillment, onSubmitInquiry, step],
   )
 
   const restart = useCallback((event: MouseEvent<HTMLButtonElement>) => {
@@ -297,10 +340,19 @@ export function CateringInquiryForm() {
                   ) : (
                     <span />
                   )}
-                  <PillButton color="cream" type="submit">
-                    {step === steps.length - 1 ? "Complete inquiry" : "Continue"}
+                  <PillButton color="cream" disabled={submitting} type="submit">
+                    {submitting
+                      ? "Sending…"
+                      : step === steps.length - 1
+                        ? "Complete inquiry"
+                        : "Continue"}
                   </PillButton>
                 </div>
+                {submitError ? (
+                  <p className="text-sm text-pink" role="alert">
+                    {submitError}
+                  </p>
+                ) : null}
               </form>
             )}
           </div>

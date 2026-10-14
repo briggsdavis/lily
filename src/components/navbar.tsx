@@ -1,19 +1,29 @@
 "use client"
 
+import { useQuery } from "convex/react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, SyntheticEvent } from "react"
 import { TransitionLink } from "@/components/transition-link"
 import { menuCategories } from "@/data/menu"
 import { siteRoutes, topLevelPath } from "@/data/site-navigation"
+import { publicMenuPagesRef } from "@/lib/admin-api"
 
-export function Navbar() {
+type NavCategory = {
+  description: string
+  image: string
+  imageAlt: string
+  name: string
+  slug: string
+}
+
+export function Navbar({ categories = menuCategories }: { categories?: readonly NavCategory[] }) {
   const pathname = usePathname()
   const current = topLevelPath(pathname)
   const routeMenuCategory = Math.max(
     0,
-    menuCategories.findIndex((category) => category.slug === pathname.split("/")[2]),
+    categories.findIndex((category) => category.slug === pathname.split("/")[2]),
   )
   const [menuOpen, setMenuOpen] = useState(false)
   const [menuPanelOpen, setMenuPanelOpen] = useState(false)
@@ -29,10 +39,13 @@ export function Navbar() {
     setMenuOpen(false)
     setMenuPanelOpen(false)
   }, [])
-  const selectMenuCategory = useCallback((event: SyntheticEvent<HTMLElement>) => {
-    const index = Number(event.currentTarget.dataset.menuIndex)
-    if (Number.isInteger(index) && menuCategories[index]) setActiveMenuCategory(index)
-  }, [])
+  const selectMenuCategory = useCallback(
+    (event: SyntheticEvent<HTMLElement>) => {
+      const index = Number(event.currentTarget.dataset.menuIndex)
+      if (Number.isInteger(index) && categories[index]) setActiveMenuCategory(index)
+    },
+    [categories],
+  )
   const closePanelAfterBlur = useCallback((event: FocusEvent<HTMLDivElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget)) setMenuPanelOpen(false)
   }, [])
@@ -171,7 +184,7 @@ export function Navbar() {
           inert={!menuPanelOpen}
         >
           <div className="relative z-10 grid content-center divide-y divide-cream/25">
-            {menuCategories.map((category, index) => (
+            {categories.map((category, index) => (
               <TransitionLink
                 className={`group block py-5 transition-opacity duration-300 outline-none first:pt-0 last:pb-0 ${index === activeMenuCategory ? "opacity-100" : "opacity-55 hover:opacity-100 focus-visible:opacity-100"}`}
                 data-menu-index={index}
@@ -194,7 +207,7 @@ export function Navbar() {
           </div>
 
           <div className="relative z-10 aspect-4/3 overflow-hidden bg-mauve">
-            {menuCategories.map((category, index) => (
+            {categories.map((category, index) => (
               <Image
                 alt={index === activeMenuCategory ? category.imageAlt : ""}
                 aria-hidden={index !== activeMenuCategory}
@@ -211,4 +224,19 @@ export function Navbar() {
       </div>
     </header>
   )
+}
+
+export function ConnectedNavbar() {
+  const pages = useQuery(publicMenuPagesRef, {})
+  const categories = useMemo(() => {
+    if (!pages?.length) return menuCategories
+    return pages.map((page) => ({
+      description: page.description,
+      image: page.heroImage,
+      imageAlt: page.heroImageAlt,
+      name: page.title,
+      slug: page.slug,
+    }))
+  }, [pages])
+  return <Navbar categories={categories} />
 }

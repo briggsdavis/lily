@@ -1,12 +1,8 @@
 "use client"
 
+import type { ReactNode } from "react"
 import { AdminAuth } from "@/components/admin-auth"
-import { ConvexClientProvider } from "@/components/convex-client-provider"
 
-export function AdminRuntime() {
-  return (
-    <ConvexClientProvider>
-      <AdminAuth />
-    </ConvexClientProvider>
-  )
+export function AdminRuntime({ children }: { children?: ReactNode }) {
+  return <AdminAuth>{children}</AdminAuth>
 }

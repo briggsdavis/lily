@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import { CmsMenuPage } from "@/components/cms-menu"
 import { MenuSections } from "@/components/menu-sections"
 import {
   getMenuCategory,
@@ -17,7 +18,7 @@ function resolveCategory(value: string) {
   return getMenuCategory(value)
 }
 
-export const dynamicParams = false
+export const dynamicParams = true
 
 export function generateStaticParams(): Array<{ category: MenuCategorySlug }> {
   return menuCategorySlugs.map((category) => ({ category }))
@@ -25,7 +26,9 @@ export function generateStaticParams(): Array<{ category: MenuCategorySlug }> {
 
 export async function generateMetadata({ params }: MenuCategoryPageProps): Promise<Metadata> {
   const { category: slug } = await params
-  const category = resolveCategory(slug)
+  if (!isMenuCategorySlug(slug))
+    return { title: "Menu", description: "Explore Lily's current menu." }
+  const category = getMenuCategory(slug)
 
   return {
     title: `${category.name} Menu`,
@@ -35,6 +38,7 @@ export async function generateMetadata({ params }: MenuCategoryPageProps): Promi
 
 export default async function MenuCategoryPage({ params }: MenuCategoryPageProps) {
   const { category: slug } = await params
+  if (process.env.NEXT_PUBLIC_CONVEX_URL) return <CmsMenuPage slug={slug} />
   const category = resolveCategory(slug)
 
   return <MenuSections category={category} />

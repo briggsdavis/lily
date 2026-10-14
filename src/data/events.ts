@@ -1,4 +1,8 @@
 export type LilyEvent = {
+  action?: {
+    href: string
+    label: string
+  }
   dateLabel: string
   day: number
   description: string
@@ -12,6 +16,7 @@ export type LilyEvent = {
 
 export const events: readonly LilyEvent[] = [
   {
+    action: { href: "/contact?reason=events", label: "Sign up" },
     dateLabel: "Friday, October 23",
     day: 23,
     description:
@@ -24,6 +29,7 @@ export const events: readonly LilyEvent[] = [
     year: 2026,
   },
   {
+    action: { href: "/contact?reason=events", label: "Sign up" },
     dateLabel: "Friday, November 6",
     day: 6,
     description:
@@ -36,6 +42,7 @@ export const events: readonly LilyEvent[] = [
     year: 2026,
   },
   {
+    action: { href: "/contact?reason=events", label: "Sign up" },
     dateLabel: "Saturday, November 14",
     day: 14,
     description:
@@ -48,6 +55,7 @@ export const events: readonly LilyEvent[] = [
     year: 2026,
   },
   {
+    action: { href: "/contact?reason=events", label: "Sign up" },
     dateLabel: "Sunday, November 22",
     day: 22,
     description:

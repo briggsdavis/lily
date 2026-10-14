@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
+import { CmsMenuGallery } from "@/components/cms-menu"
 import { MenuGallery } from "@/components/menu-gallery"
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 export default function MenuLayout({ children }: { children: ReactNode }) {
   return (
     <section className="min-h-svh bg-espresso text-pink" data-nav-tone="dark">
-      <MenuGallery />
+      {process.env.NEXT_PUBLIC_CONVEX_URL ? <CmsMenuGallery /> : <MenuGallery />}
       <div className="px-page">{children}</div>
     </section>
   )

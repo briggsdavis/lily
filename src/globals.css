@@ -24,6 +24,7 @@
   --color-deep-brown: #5e331f;
   --color-dark-maroon: #35161a;
   --color-espresso: #2a1c14;
+  --color-wine: #5a2631;
 
   --ease-lily: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
@@ -56,6 +57,18 @@
       opacity: 1;
       filter: blur(0);
     }
+  }
+}
+
+.admin-chart-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: admin-chart-draw 900ms var(--ease-lily) forwards;
+}
+
+@keyframes admin-chart-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -181,7 +194,8 @@
   .bg-olive-charcoal,
   .bg-taupe
 ) {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='96' height='96' viewBox='0 0 96 96' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.026'/%3E%3C/svg%3E");
+  background-size: 96px 96px;
 }
 
 .hero-intro-pending .hero-intro-media,

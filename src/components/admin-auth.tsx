@@ -2,8 +2,8 @@
 
 import { useAuthActions } from "@convex-dev/auth/react"
 import { useConvexAuth, useQuery } from "convex/react"
+import type { ReactNode, SubmitEvent } from "react"
 import { useCallback, useState } from "react"
-import { SubmitEvent } from "react"
 import { api } from "#/_generated/api"
 
 type AuthMode = "signIn" | "signUp"
@@ -30,7 +30,7 @@ function authErrorMessage(error: unknown) {
   return "Something went wrong. Please try again."
 }
 
-function AdminPanel() {
+function AdminPanel({ children }: { children?: ReactNode }) {
   const viewer = useQuery(api.admin.viewer)
   const { signOut } = useAuthActions()
   const handleSignOut = useCallback(() => void signOut(), [signOut])
@@ -44,7 +44,7 @@ function AdminPanel() {
       <div className="max-w-md space-y-6">
         <p>Your account no longer has access to this admin area.</p>
         <button
-          className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold uppercase transition-colors hover:bg-burgundy hover:text-cream"
+          className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold uppercase hover:bg-burgundy hover:text-cream"
           onClick={handleSignOut}
           type="button"
         >
@@ -53,6 +53,8 @@ function AdminPanel() {
       </div>
     )
   }
+
+  if (children) return children
 
   return (
     <div className="space-y-8">
@@ -64,7 +66,7 @@ function AdminPanel() {
         The admin area is ready. There is nothing to manage here yet.
       </p>
       <button
-        className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold uppercase transition-colors hover:bg-burgundy hover:text-cream"
+        className="rounded-full border-[0.75px] border-current px-6 py-3 text-sm font-semibold uppercase hover:bg-burgundy hover:text-cream"
         onClick={handleSignOut}
         type="button"
       >
@@ -121,7 +123,7 @@ function AdminAuthForm() {
       <div className="mb-8 flex gap-2 rounded-full border-[0.75px] border-current/30 p-1">
         <button
           aria-pressed={mode === "signIn"}
-          className="flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors aria-pressed:bg-burgundy aria-pressed:text-cream"
+          className="flex-1 rounded-full px-4 py-2 text-sm font-semibold aria-pressed:bg-burgundy aria-pressed:text-cream"
           onClick={showSignIn}
           type="button"
         >
@@ -129,7 +131,7 @@ function AdminAuthForm() {
         </button>
         <button
           aria-pressed={mode === "signUp"}
-          className="flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors aria-pressed:bg-burgundy aria-pressed:text-cream"
+          className="flex-1 rounded-full px-4 py-2 text-sm font-semibold aria-pressed:bg-burgundy aria-pressed:text-cream"
           onClick={showSignUp}
           type="button"
         >
@@ -142,7 +144,7 @@ function AdminAuthForm() {
           <span className="mb-2 block text-xs font-semibold uppercase">Email</span>
           <input
             autoComplete="email"
-            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             name="email"
             required
             type="email"
@@ -153,7 +155,7 @@ function AdminAuthForm() {
           <span className="mb-2 block text-xs font-semibold uppercase">Password</span>
           <input
             autoComplete={mode === "signIn" ? "current-password" : "new-password"}
-            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             minLength={8}
             name="password"
             required
@@ -166,7 +168,7 @@ function AdminAuthForm() {
             <span className="mb-2 block text-xs font-semibold uppercase">Confirm password</span>
             <input
               autoComplete="new-password"
-              className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
               minLength={8}
               name="confirmPassword"
               required
@@ -180,7 +182,7 @@ function AdminAuthForm() {
         </output>
 
         <button
-          className="w-full rounded-full border-[0.75px] border-current bg-burgundy px-6 py-3 font-semibold text-cream transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:cursor-wait disabled:opacity-60"
+          className="w-full rounded-full border-[0.75px] border-current bg-burgundy px-6 py-3 font-semibold text-cream hover:bg-dark-maroon disabled:cursor-wait disabled:opacity-60"
           disabled={submitting}
           type="submit"
         >
@@ -191,12 +193,12 @@ function AdminAuthForm() {
   )
 }
 
-export function AdminAuth() {
+export function AdminAuth({ children }: { children?: ReactNode }) {
   const { isAuthenticated, isLoading } = useConvexAuth()
 
   if (isLoading) {
     return <p className="text-sm">Loading...</p>
   }
 
-  return isAuthenticated ? <AdminPanel /> : <AdminAuthForm />
+  return isAuthenticated ? <AdminPanel>{children}</AdminPanel> : <AdminAuthForm />
 }

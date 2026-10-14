@@ -1,12 +1,9 @@
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 import type { Metadata } from "next"
 import { EB_Garamond, Noto_Sans } from "next/font/google"
-import { Footer } from "@/components/footer"
-import { HeroIntroController } from "@/components/hero-intro-controller"
-import { Navbar } from "@/components/navbar"
-import { ReserveCta } from "@/components/reserve-cta"
-import { ScrollEffects } from "@/components/scroll-effects"
-import { SiteBackground } from "@/components/site-background"
-import { SmoothScroll } from "@/components/smooth-scroll"
+import { AnalyticsTracker } from "@/components/analytics-tracker"
+import { ConvexClientProvider } from "@/components/convex-client-provider"
+import { SiteFrame } from "@/components/site-frame"
 // oxlint-disable-next-line import/no-unassigned-import
 import "lenis/dist/lenis.css"
 // oxlint-disable-next-line import/no-unassigned-import
@@ -24,7 +21,7 @@ export const metadata: Metadata = {
     "Lily is an intimate dining room and cocktail bar in Gibsonia, serving seasonal cooking and considered cocktails with polished service.",
 }
 
-export default function Layout({ children }: LayoutProps<"/">) {
+export default async function Layout({ children }: LayoutProps<"/">) {
   const document = (
     <html
       lang="en"
@@ -35,17 +32,12 @@ export default function Layout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={heroIntroScript} />
       </head>
       <body className="flex min-h-dvh flex-col font-body antialiased">
-        <SiteBackground>
-          <HeroIntroController />
-          <SmoothScroll />
-          <ScrollEffects />
-          <Navbar />
-          <main className="relative z-10 min-h-svh grow bg-inherit transition duration-320 route-leaving:opacity-35 route-leaving:blur-lg">
-            {children}
-          </main>
-          <ReserveCta />
-          <Footer />
-        </SiteBackground>
+        <ConvexAuthNextjsServerProvider>
+          <ConvexClientProvider>
+            {process.env.NEXT_PUBLIC_CONVEX_URL ? <AnalyticsTracker /> : null}
+            <SiteFrame>{children}</SiteFrame>
+          </ConvexClientProvider>
+        </ConvexAuthNextjsServerProvider>
       </body>
     </html>
   )

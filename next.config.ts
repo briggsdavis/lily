@@ -1,8 +1,7 @@
 import { NextConfig } from "next"
 
 const config: NextConfig = {
-  output: "export",
-  images: { unoptimized: true },
+  images: { remotePatterns: [{ protocol: "https", hostname: "**" }], unoptimized: true },
 }
 
 export default config

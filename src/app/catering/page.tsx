@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { CateringHero } from "@/components/catering-hero"
 import { CateringInquiryForm } from "@/components/catering-inquiry-form"
+import { ConnectedCateringForm } from "@/components/connected-catering-form"
 
 export const metadata: Metadata = {
   title: "Catering",
@@ -11,7 +12,7 @@ export default function CateringPage() {
   return (
     <div className="bg-espresso">
       <CateringHero />
-      <CateringInquiryForm />
+      {process.env.NEXT_PUBLIC_CONVEX_URL ? <ConnectedCateringForm /> : <CateringInquiryForm />}
     </div>
   )
 }

@@ -54,9 +54,21 @@ const calendarNavClass =
 export function ReservationForm({
   inquiryReason,
   onInquiryReasonChange,
+  onSubmitInquiry,
 }: {
   inquiryReason: InquiryReason
   onInquiryReasonChange: (reason: Exclude<InquiryReason, null>) => void
+  onSubmitInquiry?: (values: {
+    date?: string
+    email: string
+    guests?: number
+    message?: string
+    name: string
+    phone: string
+    reason: Exclude<InquiryReason, null>
+    specialRequests?: string
+    time?: string
+  }) => Promise<unknown>
 }) {
   const [today] = useState(() => {
     const value = new Date()
@@ -73,6 +85,8 @@ export function ReservationForm({
   const [submitted, setSubmitted] = useState(false)
   const [dateError, setDateError] = useState(false)
   const [reasonError, setReasonError] = useState(false)
+  const [submitError, setSubmitError] = useState("")
+  const [submitting, setSubmitting] = useState(false)
 
   const calendarDays = useMemo(() => {
     const firstWeekday = calendarMonth.getDay()
@@ -113,7 +127,7 @@ export function ReservationForm({
   }, [])
 
   const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
       if (!inquiryReason) {
         setReasonError(true)
@@ -124,9 +138,31 @@ export function ReservationForm({
         setOpenPicker("date")
         return
       }
-      setSubmitted(true)
+      const form = event.currentTarget
+      const data = new FormData(form)
+      setSubmitting(true)
+      setSubmitError("")
+      try {
+        await onSubmitInquiry?.({
+          date: String(data.get("date") || "") || undefined,
+          email: String(data.get("email") || ""),
+          guests: inquiryReason === "reservation" ? Number(data.get("guests")) : undefined,
+          message: String(data.get("message") || "") || undefined,
+          name: String(data.get("name") || ""),
+          phone: String(data.get("phone") || ""),
+          reason: inquiryReason,
+          specialRequests: String(data.get("specialRequests") || "") || undefined,
+          time: String(data.get("time") || "") || undefined,
+        })
+        setSubmitted(true)
+        form.reset()
+      } catch {
+        setSubmitError("We could not send your inquiry. Please try again.")
+      } finally {
+        setSubmitting(false)
+      }
     },
-    [inquiryReason, selectedDate],
+    [inquiryReason, onSubmitInquiry, selectedDate],
   )
 
   const chooseReason = useCallback(
@@ -445,10 +481,21 @@ export function ReservationForm({
       )}
 
       <div className="relative z-0 flex flex-col items-stretch gap-4 [view-transition-name:inquiry-footer] sm:flex-row sm:items-center sm:justify-between">
-        <PillButton className="w-full sm:w-auto sm:min-w-44" color="cream" type="submit">
-          {inquiryReason === "reservation" ? "Reserve" : "Send inquiry"}
+        <PillButton
+          className="w-full sm:w-auto sm:min-w-44"
+          color="cream"
+          disabled={submitting}
+          type="submit"
+        >
+          {submitting ? "Sending…" : inquiryReason === "reservation" ? "Reserve" : "Send inquiry"}
         </PillButton>
       </div>
+
+      {submitError ? (
+        <p className="text-sm text-pink" role="alert">
+          {submitError}
+        </p>
+      ) : null}
 
       {submitted && (
         <output className="border-l-2 border-current pl-3 text-sm">

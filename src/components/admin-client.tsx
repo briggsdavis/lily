@@ -1,6 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import type { ReactNode } from "react"
 
 const AdminRuntime = dynamic(
   () => import("@/components/admin-runtime").then((module) => module.AdminRuntime),
@@ -10,10 +11,10 @@ const AdminRuntime = dynamic(
   },
 )
 
-export function AdminClient() {
+export function AdminClient({ children }: { children?: ReactNode }) {
   if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
     return <p className="max-w-md text-sm">The admin area is not configured in this environment.</p>
   }
 
-  return <AdminRuntime />
+  return <AdminRuntime>{children}</AdminRuntime>
 }

@@ -1,11 +1,13 @@
 "use client"
 
+import { useQuery } from "convex/react"
 import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { MouseEvent, SyntheticEvent } from "react"
 import { flushSync } from "react-dom"
 import { PillLink } from "@/components/pill-button"
-import { events, weekdays } from "@/data/events"
+import { events as fallbackEvents, weekdays, type LilyEvent } from "@/data/events"
+import { publicEventsRef, type EventRecord } from "@/lib/admin-api"
 
 type ViewMode = "events" | "calendar"
 
@@ -21,12 +23,14 @@ function EventImageStack({
   imageClassName = "",
   side,
   sizes,
+  events,
 }: {
   active: number
   className: string
   imageClassName?: string
   side: "left" | "right"
   sizes: string
+  events: readonly LilyEvent[]
 }) {
   return (
     <div aria-hidden="true" className={`relative overflow-hidden ${className}`}>
@@ -56,10 +60,12 @@ function EventImageStack({
 }
 
 function EventList({
+  events,
   expanded,
   onActivate,
   onToggle,
 }: {
+  events: readonly LilyEvent[]
   expanded: number | null
   onActivate: (index: number) => void
   onToggle: (index: number) => void
@@ -135,21 +141,21 @@ function EventList({
       window.removeEventListener("resize", queueUpdate)
       desktopQuery.removeEventListener("change", queueUpdate)
     }
-  }, [onActivate])
+  }, [events, onActivate])
 
   const activateEvent = useCallback(
     (event: SyntheticEvent<HTMLButtonElement>) => {
       const index = Number(event.currentTarget.dataset.eventIndex)
       if (Number.isInteger(index) && events[index]) onActivate(index)
     },
-    [onActivate],
+    [events, onActivate],
   )
   const toggleSelectedEvent = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       const index = Number(event.currentTarget.dataset.eventIndex)
       if (Number.isInteger(index) && events[index]) onToggle(index)
     },
-    [onToggle],
+    [events, onToggle],
   )
 
   return (
@@ -203,9 +209,11 @@ function EventList({
                   <p className="text-sm leading-7 text-cream/75 md:text-base">
                     {event.description}
                   </p>
-                  <PillLink color="pink" href="/contact?reason=events">
-                    Sign up
-                  </PillLink>
+                  {event.action ? (
+                    <PillLink color="pink" href={event.action.href}>
+                      {event.action.label}
+                    </PillLink>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -213,6 +221,139 @@ function EventList({
         )
       })}
     </div>
+  )
+}
+
+function CalendarEventModal({
+  events,
+  eventIndex,
+  open,
+  onClose,
+}: {
+  events: readonly LilyEvent[]
+  eventIndex: number
+  open: boolean
+  onClose: () => void
+}) {
+  const event = events[eventIndex]
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLElement>(null)
+  const dialogTitleId = `calendar-event-title-${eventIndex}`
+
+  useEffect(() => {
+    if (!open) return
+
+    const previouslyFocused = document.activeElement as HTMLElement | null
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    closeButtonRef.current?.focus()
+
+    const handleDialogKeyboard = (keyboardEvent: KeyboardEvent) => {
+      if (keyboardEvent.key === "Escape") {
+        onClose()
+        return
+      }
+      if (keyboardEvent.key !== "Tab") return
+
+      const focusable = Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      )
+      const first = focusable[0]
+      const last = focusable.at(-1)
+      if (!first || !last) return
+
+      if (keyboardEvent.shiftKey && document.activeElement === first) {
+        keyboardEvent.preventDefault()
+        last.focus()
+      } else if (!keyboardEvent.shiftKey && document.activeElement === last) {
+        keyboardEvent.preventDefault()
+        first.focus()
+      }
+    }
+
+    window.addEventListener("keydown", handleDialogKeyboard)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", handleDialogKeyboard)
+      previouslyFocused?.focus()
+    }
+  }, [onClose, open])
+
+  return (
+    <dialog
+      open
+      aria-labelledby={dialogTitleId}
+      aria-hidden={!open}
+      aria-modal="true"
+      className={`fixed inset-0 z-80 m-0 grid h-full max-h-none w-full max-w-none overflow-y-auto border-0 bg-dark-maroon/75 p-4 text-cream transition-[opacity,backdrop-filter] duration-500 ease-lily motion-reduce:transition-none sm:p-8 ${
+        open
+          ? "pointer-events-auto opacity-100 backdrop-blur-md"
+          : "pointer-events-none opacity-0 backdrop-blur-none"
+      }`}
+      inert={!open}
+    >
+      <button
+        aria-label="Close event details"
+        className="fixed inset-0 cursor-default"
+        onClick={onClose}
+        tabIndex={-1}
+        type="button"
+      />
+      <section
+        className={`relative isolate z-10 m-auto grid w-full max-w-5xl overflow-hidden border border-pink/50 bg-events-gray text-cream shadow-[0_32px_100px_rgba(10,4,5,0.55)] transition-[opacity,filter,transform] duration-700 ease-lily motion-reduce:transition-none md:grid-cols-[minmax(16rem,0.85fr)_minmax(0,1.15fr)] ${
+          open
+            ? "translate-y-0 scale-100 opacity-100 blur-none"
+            : "translate-y-5 scale-[0.985] opacity-0 blur-xl"
+        }`}
+        ref={dialogRef}
+      >
+        <button
+          aria-label="Close event details"
+          className="absolute top-4 right-4 z-20 grid size-11 cursor-pointer place-items-center rounded-full border border-cream/60 bg-dark-maroon/35 text-2xl leading-none text-cream backdrop-blur-md transition-colors hover:bg-cream hover:text-dark-green focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+          onClick={onClose}
+          ref={closeButtonRef}
+          type="button"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+
+        <div className="relative min-h-64 overflow-hidden sm:min-h-80 md:min-h-[34rem]">
+          <Image
+            alt={event.title}
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 42vw"
+            src={event.rightImage}
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-events-gray/80 via-transparent to-black/15 md:bg-linear-to-r md:from-transparent md:to-events-gray/30" />
+        </div>
+
+        <div className="relative flex flex-col items-start justify-center px-6 py-10 sm:px-10 sm:py-12 lg:px-14">
+          <p className="eyebrow text-pink">{event.dateLabel}</p>
+          <h3
+            className="mt-3 max-w-[12ch] font-display text-4xl leading-none font-medium text-warm-white sm:text-5xl lg:text-6xl"
+            id={dialogTitleId}
+          >
+            {event.title}
+          </h3>
+          <p className="mt-5 text-xs font-bold tracking-[0.12em] text-pink uppercase">
+            {event.time}
+          </p>
+          <p className="mt-7 max-w-[42ch] text-sm leading-7 text-cream/75 sm:text-base sm:leading-8">
+            {event.description}
+          </p>
+          {event.action ? (
+            <div className="mt-9">
+              <PillLink color="pink" href={event.action.href}>
+                {event.action.label}
+              </PillLink>
+            </div>
+          ) : null}
+        </div>
+      </section>
+    </dialog>
   )
 }
 
@@ -274,12 +415,14 @@ function EventsSectionHeader({
   )
 }
 
-export function EventsExperience() {
+function EventsView({ events }: { events: readonly LilyEvent[] }) {
   const [mode, setMode] = useState<ViewMode>("events")
   const [active, setActive] = useState(0)
   const [expanded, setExpanded] = useState<number | null>(null)
   const [calendarMonth, setCalendarMonth] = useState(() => new Date(2026, 9, 1))
   const [calendarEvent, setCalendarEvent] = useState<number | null>(null)
+  const [calendarModalOpen, setCalendarModalOpen] = useState(false)
+  const calendarModalTimer = useRef<number | null>(null)
 
   const switchMode = useCallback(
     (nextMode: ViewMode) => {
@@ -305,13 +448,35 @@ export function EventsExperience() {
     const offset = Number(event.currentTarget.dataset.monthOffset)
     if (!Number.isInteger(offset)) return
     setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + offset, 1))
+    setCalendarModalOpen(false)
     setCalendarEvent(null)
   }, [])
 
-  const selectCalendarEvent = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    const index = Number(event.currentTarget.dataset.calendarEvent)
-    if (Number.isInteger(index) && events[index]) setCalendarEvent(index)
+  const selectCalendarEvent = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const index = Number(event.currentTarget.dataset.calendarEvent)
+      if (!Number.isInteger(index) || !events[index]) return
+      if (calendarModalTimer.current) window.clearTimeout(calendarModalTimer.current)
+      setCalendarEvent(index)
+      window.requestAnimationFrame(() => setCalendarModalOpen(true))
+    },
+    [events],
+  )
+
+  const closeCalendarEvent = useCallback(() => {
+    setCalendarModalOpen(false)
+    calendarModalTimer.current = window.setTimeout(() => {
+      setCalendarEvent(null)
+      calendarModalTimer.current = null
+    }, 700)
   }, [])
+
+  useEffect(
+    () => () => {
+      if (calendarModalTimer.current) window.clearTimeout(calendarModalTimer.current)
+    },
+    [],
+  )
 
   const calendarDays = useMemo(() => {
     const year = calendarMonth.getFullYear()
@@ -336,7 +501,7 @@ export function EventsExperience() {
           ({ event }) =>
             event.year === calendarMonth.getFullYear() && event.month === calendarMonth.getMonth(),
         ),
-    [calendarMonth],
+    [calendarMonth, events],
   )
 
   return (
@@ -354,6 +519,7 @@ export function EventsExperience() {
                     className="aspect-4/3 w-full max-w-[15rem]"
                     side="left"
                     sizes="15rem"
+                    events={events}
                   />
                 </div>
                 <div className="relative">
@@ -361,7 +527,12 @@ export function EventsExperience() {
                     aria-hidden="true"
                     className="pointer-events-none sticky top-[11.5rem] z-20 -mb-16 h-16 bg-linear-to-b from-dark-maroon via-dark-maroon/80 to-transparent [mask-image:linear-gradient(to_bottom,black_0%,black_45%,transparent_100%)] backdrop-blur-[6px]"
                   />
-                  <EventList expanded={expanded} onActivate={setActive} onToggle={toggleEvent} />
+                  <EventList
+                    events={events}
+                    expanded={expanded}
+                    onActivate={setActive}
+                    onToggle={toggleEvent}
+                  />
                 </div>
                 <div className="sticky top-40 flex h-[calc(100dvh-11rem)] items-center justify-end">
                   <EventImageStack
@@ -369,6 +540,7 @@ export function EventsExperience() {
                     className="aspect-4/5 w-full max-w-sm"
                     side="right"
                     sizes="24vw"
+                    events={events}
                   />
                 </div>
               </div>
@@ -380,8 +552,14 @@ export function EventsExperience() {
                   imageClassName="object-center"
                   side="right"
                   sizes="calc(100vw - 2.5rem)"
+                  events={events}
                 />
-                <EventList expanded={expanded} onActivate={setActive} onToggle={toggleEvent} />
+                <EventList
+                  events={events}
+                  expanded={expanded}
+                  onActivate={setActive}
+                  onToggle={toggleEvent}
+                />
               </div>
             </div>
             <div aria-hidden="true" className="h-64 lg:h-80" />
@@ -463,19 +641,74 @@ export function EventsExperience() {
             </div>
 
             {calendarEvent !== null ? (
-              <div className="mt-4 grid gap-3 border-l-2 border-pink pl-4 md:grid-cols-[1fr_2fr] md:gap-8">
-                <div>
-                  <p className="eyebrow text-pink">{events[calendarEvent].dateLabel}</p>
-                  <p className="mt-1 font-display text-xl">{events[calendarEvent].title}</p>
-                </div>
-                <p className="max-w-2xl text-sm leading-6 text-cream/70">
-                  {events[calendarEvent].description}
-                </p>
-              </div>
+              <CalendarEventModal
+                events={events}
+                eventIndex={calendarEvent}
+                onClose={closeCalendarEvent}
+                open={calendarModalOpen}
+              />
             ) : null}
           </div>
         )}
       </div>
     </section>
+  )
+}
+
+function toLilyEvents(records: EventRecord[]): LilyEvent[] {
+  const output: LilyEvent[] = []
+  for (const record of records) {
+    const start = new Date(`${record.date}T12:00:00`)
+    if (Number.isNaN(start.valueOf())) continue
+    const limit = new Date(start)
+    limit.setMonth(limit.getMonth() + 18)
+    let cursor = new Date(start)
+    do {
+      output.push({
+        action:
+          record.buttonLabel && record.buttonLink
+            ? { href: record.buttonLink, label: record.buttonLabel }
+            : undefined,
+        dateLabel: cursor.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        }),
+        day: cursor.getDate(),
+        description: record.description,
+        leftImage: record.leftImage,
+        month: cursor.getMonth(),
+        rightImage: record.rightImage,
+        time: record.time,
+        title: record.title,
+        year: cursor.getFullYear(),
+      })
+      if (record.recurrence === "weekly")
+        cursor = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate() + 7)
+      else if (record.recurrence === "monthly")
+        cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, cursor.getDate())
+      else break
+    } while (cursor <= limit)
+  }
+  return output.toSorted(
+    (a, b) =>
+      new Date(a.year, a.month, a.day).valueOf() - new Date(b.year, b.month, b.day).valueOf(),
+  )
+}
+
+function ConnectedEventsExperience() {
+  const records = useQuery(publicEventsRef, {})
+  const events = useMemo(
+    () => (records?.length ? toLilyEvents(records) : [...fallbackEvents]),
+    [records],
+  )
+  return <EventsView events={events} />
+}
+
+export function EventsExperience() {
+  return process.env.NEXT_PUBLIC_CONVEX_URL ? (
+    <ConnectedEventsExperience />
+  ) : (
+    <EventsView events={fallbackEvents} />
   )
 }
