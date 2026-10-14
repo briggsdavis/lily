@@ -70,7 +70,7 @@ export function AdminArchive() {
       <div className="mb-6 flex flex-wrap gap-2">
         {(["menu", "events", "contact", "catering"] as const).map((item) => (
           <button
-            className={`min-h-11 border px-4 text-sm font-bold capitalize ${collection === item ? "border-wine bg-wine text-cream" : "border-deep-brown/25 hover:border-wine"}`}
+            className={`min-h-11 rounded-xl border px-4 text-sm font-semibold capitalize shadow-sm ${collection === item ? "border-deep-brown bg-deep-brown text-white" : "border-deep-brown/10 bg-white hover:border-deep-brown/30"}`}
             key={item}
             onClick={() => setCollection(item)}
             type="button"
@@ -82,11 +82,11 @@ export function AdminArchive() {
       <div className="grid gap-3">
         {rows?.map((row) => (
           <article
-            className="flex flex-wrap items-center justify-between gap-4 border border-deep-brown/15 bg-white/20 p-5"
+            className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-deep-brown/10 bg-white p-5 shadow-sm"
             key={row._id}
           >
             <div>
-              <h2 className="font-display text-2xl">{label(row)}</h2>
+              <h2 className="text-lg font-semibold">{label(row)}</h2>
               <p className="mt-1 text-xs uppercase opacity-60">
                 Archived {collection.slice(0, -1) || collection}
               </p>
@@ -97,8 +97,8 @@ export function AdminArchive() {
           </article>
         ))}
         {rows?.length === 0 ? (
-          <div className="border border-dashed border-deep-brown/25 p-10 text-center">
-            <p className="font-display text-3xl">Nothing archived</p>
+          <div className="rounded-2xl border border-dashed border-deep-brown/20 bg-white p-10 text-center shadow-sm">
+            <p className="text-xl font-semibold">Nothing archived</p>
             <p className="mt-2 text-sm opacity-65">
               Deleted items remain recoverable here until the archive is cleared.
             </p>

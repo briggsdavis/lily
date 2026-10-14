@@ -140,7 +140,7 @@ function AdminAuthForm() {
   }, [])
 
   return (
-    <section className="relative grid min-h-dvh place-items-center overflow-hidden bg-cream px-5 py-14 text-deep-brown sm:px-8">
+    <section className="relative grid min-h-dvh place-items-center overflow-hidden bg-[#f6f5f2] px-5 py-14 font-sans text-deep-brown sm:px-8">
       <div
         aria-hidden="true"
         className="absolute -top-32 -left-24 size-80 rounded-full bg-mauve/12 blur-3xl"
@@ -149,95 +149,90 @@ function AdminAuthForm() {
         aria-hidden="true"
         className="absolute -right-32 -bottom-40 size-96 rounded-full bg-wine/10 blur-3xl"
       />
-      <div className="relative w-full max-w-lg border border-deep-brown/25 bg-cream p-2 shadow-[0_28px_90px_rgba(53,22,26,0.16)]">
-        <div className="border border-deep-brown/15 px-6 py-8 sm:px-10 sm:py-10">
-          <header className="mb-8 border-b border-deep-brown/15 pb-7 text-center">
-            <p className="font-display text-4xl text-wine">Lily</p>
-            <p className="mt-1 text-[0.65rem] font-bold tracking-[0.18em] text-deep-brown/55 uppercase">
-              Administration
-            </p>
-            <h1 className="mt-7 font-display text-3xl sm:text-4xl">
-              {mode === "signIn" ? "Welcome back" : "Create your access"}
-            </h1>
-            <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-deep-brown/65">
-              {mode === "signIn"
-                ? "Log in to manage Lily's menus, events, and inquiries."
-                : "Approved administrators can choose their password and create an account."}
-            </p>
-          </header>
-          <div className="mb-8 flex gap-2 rounded-full border-[0.75px] border-current/30 p-1">
-            <button
-              aria-pressed={mode === "signIn"}
-              className="flex-1 rounded-full px-4 py-2 text-sm font-semibold aria-pressed:bg-burgundy aria-pressed:text-cream"
-              onClick={showSignIn}
-              type="button"
-            >
-              Log in
-            </button>
-            <button
-              aria-pressed={mode === "signUp"}
-              className="flex-1 rounded-full px-4 py-2 text-sm font-semibold aria-pressed:bg-burgundy aria-pressed:text-cream"
-              onClick={showSignUp}
-              type="button"
-            >
-              Sign up
-            </button>
-          </div>
+      <div className="relative w-full max-w-lg rounded-3xl border border-deep-brown/10 bg-white px-6 py-8 shadow-[0_28px_90px_rgba(53,22,26,0.12)] sm:px-10 sm:py-10">
+        <header className="mb-8 border-b border-deep-brown/10 pb-7 text-center">
+          <p className="text-lg font-semibold tracking-tight">Lily Admin</p>
+          <h1 className="mt-7 text-3xl font-semibold tracking-tight sm:text-4xl">
+            {mode === "signIn" ? "Welcome back" : "Create your access"}
+          </h1>
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-deep-brown/65">
+            {mode === "signIn"
+              ? "Log in to manage Lily's menus, events, and inquiries."
+              : "Approved administrators can choose their password and create an account."}
+          </p>
+        </header>
+        <div className="mb-8 flex gap-2 rounded-full border-[0.75px] border-current/30 p-1">
+          <button
+            aria-pressed={mode === "signIn"}
+            className="flex-1 rounded-full px-4 py-2 text-sm font-semibold aria-pressed:bg-burgundy aria-pressed:text-cream"
+            onClick={showSignIn}
+            type="button"
+          >
+            Log in
+          </button>
+          <button
+            aria-pressed={mode === "signUp"}
+            className="flex-1 rounded-full px-4 py-2 text-sm font-semibold aria-pressed:bg-burgundy aria-pressed:text-cream"
+            onClick={showSignUp}
+            type="button"
+          >
+            Sign up
+          </button>
+        </div>
 
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            <label className="block">
-              <span className="mb-2 block text-xs font-semibold uppercase">Email</span>
-              <input
-                autoComplete="email"
-                className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
-                name="email"
-                required
-                type="email"
-              />
-            </label>
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold uppercase">Email</span>
+            <input
+              autoComplete="email"
+              className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              name="email"
+              required
+              type="email"
+            />
+          </label>
 
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold uppercase">Password</span>
+            <input
+              autoComplete={mode === "signIn" ? "current-password" : "new-password"}
+              className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              minLength={8}
+              name="password"
+              required
+              type="password"
+            />
+          </label>
+
+          {mode === "signUp" ? (
             <label className="block">
-              <span className="mb-2 block text-xs font-semibold uppercase">Password</span>
+              <span className="mb-2 block text-xs font-semibold uppercase">Confirm password</span>
               <input
-                autoComplete={mode === "signIn" ? "current-password" : "new-password"}
+                autoComplete="new-password"
                 className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                 minLength={8}
-                name="password"
+                name="confirmPassword"
                 required
                 type="password"
               />
             </label>
+          ) : null}
 
-            {mode === "signUp" ? (
-              <label className="block">
-                <span className="mb-2 block text-xs font-semibold uppercase">Confirm password</span>
-                <input
-                  autoComplete="new-password"
-                  className="w-full rounded-full border-[0.75px] border-current bg-transparent px-5 py-3 outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
-                  minLength={8}
-                  name="confirmPassword"
-                  required
-                  type="password"
-                />
-              </label>
-            ) : null}
+          <output
+            aria-live="polite"
+            className="block min-h-6 border-l-2 border-transparent pl-3 text-sm text-burgundy not-empty:border-wine empty:border-transparent"
+          >
+            {error}
+          </output>
 
-            <output
-              aria-live="polite"
-              className="block min-h-6 border-l-2 border-transparent pl-3 text-sm text-burgundy not-empty:border-wine empty:border-transparent"
-            >
-              {error}
-            </output>
-
-            <button
-              className="w-full rounded-full border-[0.75px] border-current bg-burgundy px-6 py-3 font-semibold text-cream hover:bg-dark-maroon disabled:cursor-wait disabled:opacity-60"
-              disabled={submitting}
-              type="submit"
-            >
-              {submitting ? "Please wait..." : mode === "signIn" ? "Log in" : "Sign up"}
-            </button>
-          </form>
-        </div>
+          <button
+            className="w-full rounded-full border-[0.75px] border-current bg-burgundy px-6 py-3 font-semibold text-cream hover:bg-dark-maroon disabled:cursor-wait disabled:opacity-60"
+            disabled={submitting}
+            type="submit"
+          >
+            {submitting ? "Please wait..." : mode === "signIn" ? "Log in" : "Sign up"}
+          </button>
+        </form>
       </div>
     </section>
   )

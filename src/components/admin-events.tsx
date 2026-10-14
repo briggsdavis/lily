@@ -39,7 +39,7 @@ export function AdminEvents() {
     setError("")
     try {
       const { _id, ...value } = editing
-      await save({ ...value, id: _id })
+      await save({ ...value, id: _id, leftImageAlt: value.title, rightImageAlt: value.title })
       setEditing(null)
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Unable to save the event.")
@@ -59,8 +59,8 @@ export function AdminEvents() {
         {events === undefined ? (
           <p>Loading events…</p>
         ) : events.length === 0 ? (
-          <div className="border border-dashed border-deep-brown/25 p-10 text-center">
-            <p className="font-display text-3xl">No events yet</p>
+          <div className="rounded-2xl border border-dashed border-deep-brown/20 bg-white p-10 text-center shadow-sm">
+            <p className="text-xl font-semibold">No events yet</p>
             <p className="mt-2 text-sm opacity-70">
               Create the first event to add it to the public calendar.
             </p>
@@ -68,10 +68,10 @@ export function AdminEvents() {
         ) : (
           events.map((event) => (
             <article
-              className="grid gap-4 border border-deep-brown/15 bg-white/20 p-5 sm:grid-cols-[100px_1fr_auto] sm:items-center"
+              className="grid gap-4 rounded-2xl border border-deep-brown/10 bg-white p-5 shadow-sm sm:grid-cols-[100px_1fr_auto] sm:items-center"
               key={event._id}
             >
-              <div className="grid size-20 place-items-center bg-wine text-center text-cream">
+              <div className="grid size-20 place-items-center rounded-xl bg-deep-brown text-center text-white">
                 <span className="text-xs uppercase">
                   {event.date
                     ? new Date(`${event.date}T12:00:00`).toLocaleDateString(undefined, {
@@ -79,20 +79,20 @@ export function AdminEvents() {
                       })
                     : "Date"}
                 </span>
-                <strong className="font-display text-3xl">
+                <strong className="text-2xl font-semibold">
                   {event.date ? Number(event.date.slice(-2)) : "—"}
                 </strong>
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="font-display text-2xl">{event.title}</h2>
+                  <h2 className="text-lg font-semibold">{event.title}</h2>
                   <span
-                    className={`px-2 py-1 text-[10px] font-bold uppercase ${event.active ? "bg-green-800 text-white" : "bg-deep-brown/10"}`}
+                    className={`rounded-full px-2 py-1 text-[10px] font-semibold ${event.active ? "bg-green-100 text-green-800" : "bg-deep-brown/10"}`}
                   >
                     {event.active ? "Active" : "Inactive"}
                   </span>
                   {event.recurrence !== "none" ? (
-                    <span className="bg-mauve/60 px-2 py-1 text-[10px] font-bold uppercase">
+                    <span className="rounded-full bg-mauve/60 px-2 py-1 text-[10px] font-semibold">
                       {event.recurrence}
                     </span>
                   ) : null}
@@ -173,7 +173,7 @@ export function AdminEvents() {
                 </select>
               </label>
             </div>
-            <label className="flex min-h-11 items-center gap-3 border border-deep-brown/20 px-3">
+            <label className="flex min-h-11 items-center gap-3 rounded-xl border border-deep-brown/15 bg-white px-3 shadow-sm">
               <input
                 checked={editing.active}
                 onChange={(e) => setEditing({ ...editing, active: e.currentTarget.checked })}
@@ -182,32 +182,18 @@ export function AdminEvents() {
               Active and visible on the site
             </label>
             <div className="grid gap-5 sm:grid-cols-2">
-              <div className="grid gap-3">
+              <div>
                 <ImageField
                   label="Left hover image"
                   onChange={(leftImage) => setEditing({ ...editing, leftImage })}
                   value={editing.leftImage}
                 />
-                <input
-                  aria-label="Left image description"
-                  className={adminInput}
-                  onChange={(e) => setEditing({ ...editing, leftImageAlt: e.currentTarget.value })}
-                  placeholder="Image description"
-                  value={editing.leftImageAlt}
-                />
               </div>
-              <div className="grid gap-3">
+              <div>
                 <ImageField
                   label="Right hover image"
                   onChange={(rightImage) => setEditing({ ...editing, rightImage })}
                   value={editing.rightImage}
-                />
-                <input
-                  aria-label="Right image description"
-                  className={adminInput}
-                  onChange={(e) => setEditing({ ...editing, rightImageAlt: e.currentTarget.value })}
-                  placeholder="Image description"
-                  value={editing.rightImageAlt}
                 />
               </div>
             </div>

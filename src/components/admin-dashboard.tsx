@@ -50,16 +50,16 @@ export function AdminDashboard() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="eyebrow text-wine">Overview</p>
-          <h1 className="mt-2 font-display text-5xl font-medium md:text-6xl">Dashboard</h1>
+          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Dashboard</h1>
+          <p className="mt-1 text-sm text-deep-brown/60">Your site at a glance.</p>
         </div>
-        <div className="flex w-fit border border-deep-brown/20 p-1">
+        <div className="flex w-fit rounded-xl border border-deep-brown/10 bg-white p-1 shadow-sm">
           {ranges.map((range) => (
             <button
               aria-pressed={days === range.days}
-              className="min-w-12 px-3 py-2 text-xs font-bold hover:bg-wine/8 aria-pressed:bg-wine aria-pressed:text-cream"
+              className="min-w-12 rounded-lg px-3 py-2 text-xs font-semibold hover:bg-stone-100 aria-pressed:bg-deep-brown aria-pressed:text-white"
               key={range.days}
               onClick={() => setDays(range.days)}
               type="button"
@@ -73,22 +73,26 @@ export function AdminDashboard() {
       <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {metrics.length
           ? metrics.map(([label, value]) => (
-              <article className="border border-deep-brown/15 bg-white/25 p-5" key={label}>
-                <p className="text-xs font-bold tracking-[0.08em] text-wine uppercase">{label}</p>
-                <p className="mt-4 font-display text-4xl">{value.toLocaleString()}</p>
+              <article
+                className="rounded-2xl border border-deep-brown/10 bg-white p-5 shadow-sm"
+                key={label}
+              >
+                <p className="text-sm font-medium text-deep-brown/60">{label}</p>
+                <p className="mt-4 text-3xl font-semibold tracking-tight">
+                  {value.toLocaleString()}
+                </p>
               </article>
             ))
           : Array.from({ length: 5 }, (_, index) => (
-              <div className="h-28 bg-deep-brown/8" key={index} />
+              <div className="h-28 rounded-2xl bg-deep-brown/8" key={index} />
             ))}
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_19rem]">
-        <section className="border border-deep-brown/15 bg-white/25 p-5 md:p-8">
+        <section className="rounded-2xl border border-deep-brown/10 bg-white p-5 shadow-sm md:p-8">
           <div className="mb-8 flex items-center justify-between">
             <div>
-              <p className="eyebrow text-wine">Traffic</p>
-              <h2 className="mt-1 font-display text-3xl">Visits over time</h2>
+              <h2 className="text-xl font-semibold tracking-tight">Visits over time</h2>
             </div>
             <p className="text-sm text-deep-brown/55">Last {days} days</p>
           </div>
@@ -129,24 +133,24 @@ export function AdminDashboard() {
           </div>
         </section>
         <aside className="grid content-start gap-4">
-          <h2 className="font-display text-3xl">Needs attention</h2>
+          <h2 className="text-xl font-semibold tracking-tight">Needs attention</h2>
           <Link
-            className="group border border-wine bg-wine p-5 text-cream hover:bg-dark-maroon"
+            className="group rounded-2xl border border-deep-brown bg-deep-brown p-5 text-white shadow-sm hover:bg-deep-brown/90"
             href="/admin/contact"
           >
             <p className="text-xs font-bold text-cream/65 uppercase">New contact inquiries</p>
             <div className="mt-4 flex items-end justify-between">
-              <span className="font-display text-5xl">{data?.newContact ?? "—"}</span>
+              <span className="text-4xl font-semibold">{data?.newContact ?? "—"}</span>
               <span className="group-hover:translate-x-1">→</span>
             </div>
           </Link>
           <Link
-            className="group border border-deep-brown/20 p-5 hover:border-wine hover:bg-wine/5"
+            className="group rounded-2xl border border-deep-brown/10 bg-white p-5 shadow-sm hover:border-deep-brown/25"
             href="/admin/catering"
           >
             <p className="text-xs font-bold text-wine uppercase">New catering inquiries</p>
             <div className="mt-4 flex items-end justify-between">
-              <span className="font-display text-5xl">{data?.newCatering ?? "—"}</span>
+              <span className="text-4xl font-semibold">{data?.newCatering ?? "—"}</span>
               <span className="group-hover:translate-x-1">→</span>
             </div>
           </Link>

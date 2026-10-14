@@ -6,10 +6,10 @@ import { useCallback, useState } from "react"
 import { generateUploadUrlRef, resolveUploadRef } from "@/lib/admin-api"
 
 export const adminInput =
-  "min-h-11 w-full border border-deep-brown/25 bg-white/30 px-3 py-2 text-sm outline-none focus:border-wine focus:ring-1 focus:ring-wine"
+  "min-h-11 w-full rounded-xl border border-deep-brown/15 bg-white px-3.5 py-2.5 text-sm shadow-sm outline-none transition-[border-color,box-shadow] focus:border-deep-brown/45 focus:ring-4 focus:ring-deep-brown/8"
 
 export function AdminHeader({
-  eyebrow,
+  eyebrow: _eyebrow,
   title,
   actions,
 }: {
@@ -18,10 +18,11 @@ export function AdminHeader({
   title: string
 }) {
   return (
-    <header className="mb-9 flex flex-col gap-5 border-b border-deep-brown/15 pb-7 sm:flex-row sm:items-end sm:justify-between">
+    <header className="mb-8 flex flex-col gap-5 border-b border-deep-brown/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="eyebrow text-wine">{eyebrow}</p>
-        <h1 className="mt-2 font-display text-5xl font-medium md:text-6xl">{title}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-deep-brown md:text-4xl">
+          {title}
+        </h1>
       </div>
       {actions}
     </header>
@@ -35,13 +36,13 @@ export function AdminButton({
 }: ButtonHTMLAttributes<HTMLButtonElement> & { kind?: "primary" | "secondary" | "danger" }) {
   const tone =
     kind === "primary"
-      ? "border-wine bg-wine text-cream hover:bg-dark-maroon"
+      ? "border-deep-brown bg-deep-brown text-white hover:bg-deep-brown/90"
       : kind === "danger"
-        ? "border-red-800/40 text-red-900 hover:bg-red-900 hover:text-cream"
-        : "border-deep-brown/30 hover:border-wine hover:bg-wine/5"
+        ? "border-red-200 bg-white text-red-800 hover:bg-red-50"
+        : "border-deep-brown/15 bg-white hover:border-deep-brown/30 hover:bg-stone-50"
   return (
     <button
-      className={`min-h-11 border px-4 text-sm font-bold ${tone} disabled:cursor-wait disabled:opacity-45`}
+      className={`min-h-11 rounded-xl border px-4 text-sm font-semibold shadow-sm transition-colors ${tone} disabled:cursor-wait disabled:opacity-45`}
       {...props}
     >
       {children}
@@ -87,14 +88,14 @@ export function ImageField({
 
   return (
     <label className="grid gap-2">
-      <span className="text-xs font-bold text-wine uppercase">{label}</span>
+      <span className="text-sm font-medium text-deep-brown">{label}</span>
       {value ? (
         <span
-          className="block h-28 bg-cover bg-center"
+          className="block h-32 rounded-xl bg-cover bg-center shadow-sm"
           style={{ backgroundImage: `url(${value})` }}
         />
       ) : null}
-      <span className="grid min-h-11 cursor-pointer place-items-center border border-dashed border-deep-brown/35 px-3 text-sm hover:border-wine hover:bg-wine/5">
+      <span className="grid min-h-11 cursor-pointer place-items-center rounded-xl border border-dashed border-deep-brown/25 bg-white px-3 text-sm font-medium shadow-sm transition-colors hover:border-deep-brown/45 hover:bg-stone-50">
         <input
           accept="image/*"
           className="sr-only"
@@ -104,13 +105,6 @@ export function ImageField({
         />
         {uploading ? "Uploading…" : value ? "Replace image" : "Choose image"}
       </span>
-      <input
-        className={adminInput}
-        onChange={(event) => onChange(event.currentTarget.value)}
-        placeholder="Or paste an image URL/path"
-        type="text"
-        value={value}
-      />
     </label>
   )
 }
@@ -127,7 +121,7 @@ export function AdminModal({
   return (
     <dialog
       aria-labelledby="admin-modal-title"
-      className="fixed inset-0 z-100 m-0 grid h-full max-h-none w-full max-w-none overflow-y-auto border-0 bg-dark-maroon/65 p-4 text-deep-brown backdrop-blur-sm"
+      className="fixed inset-0 z-100 m-0 grid h-full max-h-none w-full max-w-none overflow-y-auto border-0 bg-deep-brown/55 p-4 text-deep-brown backdrop-blur-sm"
       open
     >
       <button
@@ -137,14 +131,14 @@ export function AdminModal({
         tabIndex={-1}
         type="button"
       />
-      <section className="relative z-10 m-auto w-full max-w-3xl border border-deep-brown/20 bg-cream p-5 shadow-2xl md:p-8">
+      <section className="relative z-10 m-auto w-full max-w-3xl rounded-3xl border border-white/50 bg-[#f8f7f4] p-5 shadow-2xl md:p-8">
         <div className="mb-6 flex items-start justify-between gap-6">
-          <h2 className="font-display text-3xl" id="admin-modal-title">
+          <h2 className="text-2xl font-semibold tracking-tight" id="admin-modal-title">
             {title}
           </h2>
           <button
             aria-label="Close dialog"
-            className="grid size-10 place-items-center border border-deep-brown/25 hover:bg-wine hover:text-cream"
+            className="grid size-10 place-items-center rounded-full border border-deep-brown/15 bg-white text-xl shadow-sm hover:bg-stone-100"
             onClick={onClose}
             type="button"
           >

@@ -3,12 +3,20 @@
 import { useAuthActions } from "@convex-dev/auth/react"
 import { useMutation, useQuery } from "convex/react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import type { ReactNode } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import type { DragEvent, ReactNode } from "react"
 import { useCallback, useEffect, useState } from "react"
+import { AdminButton, AdminModal, ImageField, adminInput } from "@/components/admin-ui"
 import { events as initialEvents } from "@/data/events"
 import { menuCategories } from "@/data/menu"
-import { adminEventsRef, adminMenuPagesRef, initializeContentRef } from "@/lib/admin-api"
+import {
+  adminEventsRef,
+  adminMenuPagesRef,
+  initializeContentRef,
+  reorderMenuPagesRef,
+  saveMenuPageRef,
+  type MenuPageRecord,
+} from "@/lib/admin-api"
 
 const links = [
   { href: "/admin", label: "Dashboard" },
@@ -17,6 +25,13 @@ const links = [
   { href: "/admin/contact", label: "Contact" },
   { href: "/admin/archive", label: "Archive" },
 ] as const
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
 
 function NavLink({
   href,
@@ -32,7 +47,7 @@ function NavLink({
   return (
     <Link
       aria-current={active ? "page" : undefined}
-      className="flex min-h-11 items-center border-l-2 border-transparent px-4 text-sm font-semibold hover:border-wine hover:bg-wine/5 aria-[current=page]:border-wine aria-[current=page]:bg-wine aria-[current=page]:text-cream"
+      className="mx-2 flex min-h-10 items-center rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white aria-[current=page]:bg-white/14 aria-[current=page]:text-white"
       href={href}
       onClick={onNavigate}
     >
@@ -41,15 +56,59 @@ function NavLink({
   )
 }
 
+function Chevron() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-4 text-white/45 transition-transform duration-200 group-open:rotate-180"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path d="m7 10 5 5 5-5" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+    </svg>
+  )
+}
+
+type NewPage = {
+  description: string
+  firstImage: string
+  firstSide: "left" | "right"
+  firstTitle: string
+  heroImage: string
+  title: string
+}
+const blankPage = (): NewPage => ({
+  description: "",
+  firstImage: "",
+  firstSide: "left",
+  firstTitle: "",
+  heroImage: "",
+  title: "",
+})
+
 export function AdminShell({ children }: { children: ReactNode }) {
   const pages = useQuery(adminMenuPagesRef, { archived: false })
   const events = useQuery(adminEventsRef, { archived: false })
   const initializeContent = useMutation(initializeContentRef)
+  const reorderPages = useMutation(reorderMenuPagesRef)
+  const savePage = useMutation(saveMenuPageRef)
+  const router = useRouter()
   const { signOut } = useAuthActions()
   const [open, setOpen] = useState(false)
+  const [orderedPages, setOrderedPages] = useState<MenuPageRecord[]>([])
+  const [draggedId, setDraggedId] = useState<string | null>(null)
+  const [creating, setCreating] = useState(false)
+  const [newPage, setNewPage] = useState(blankPage)
+  const [createError, setCreateError] = useState("")
+  const [saving, setSaving] = useState(false)
   const close = useCallback(() => setOpen(false), [])
   const toggle = useCallback(() => setOpen((value) => !value), [])
   const logout = useCallback(() => void signOut(), [signOut])
+
+  useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
+    if (pages) setOrderedPages(pages)
+  }, [pages])
 
   useEffect(() => {
     if (!pages || !events || (pages.length && events.length)) return
@@ -94,40 +153,129 @@ export function AdminShell({ children }: { children: ReactNode }) {
     void initializeContent({ events: seededEvents, pages: seededPages })
   }, [events, initializeContent, pages])
 
+  async function dropPage(event: DragEvent, targetId: string) {
+    event.preventDefault()
+    if (!draggedId || draggedId === targetId) return
+    const next = [...orderedPages]
+    const [moved] = next.splice(
+      next.findIndex((page) => page._id === draggedId),
+      1,
+    )
+    next.splice(
+      next.findIndex((page) => page._id === targetId),
+      0,
+      moved,
+    )
+    setOrderedPages(next)
+    setDraggedId(null)
+    await reorderPages({ ids: next.map((page) => page._id) })
+  }
+
+  async function createPage() {
+    if (
+      !newPage.title ||
+      !newPage.description ||
+      !newPage.heroImage ||
+      !newPage.firstTitle ||
+      !newPage.firstImage
+    ) {
+      setCreateError("Complete the page details and first section before creating the page.")
+      return
+    }
+    setSaving(true)
+    setCreateError("")
+    try {
+      const baseSlug = slugify(newPage.title) || "menu"
+      const taken = new Set(orderedPages.map((page) => page.slug))
+      let slug = baseSlug
+      let suffix = 2
+      while (taken.has(slug)) slug = `${baseSlug}-${suffix++}`
+      const id = await savePage({
+        archived: false,
+        description: newPage.description,
+        heroImage: newPage.heroImage,
+        heroImageAlt: newPage.title,
+        order: orderedPages.length,
+        sections: [
+          {
+            backgroundColor: "cream",
+            image: newPage.firstImage,
+            imageAlt: newPage.firstTitle,
+            imageSide: newPage.firstSide,
+            items: [],
+            key: crypto.randomUUID(),
+            title: newPage.firstTitle,
+          },
+        ],
+        slug,
+        title: newPage.title,
+      })
+      setCreating(false)
+      setNewPage(blankPage())
+      close()
+      router.push(`/admin/menu/${id}`)
+    } catch (error) {
+      setCreateError(error instanceof Error ? error.message : "Unable to create the menu page.")
+    } finally {
+      setSaving(false)
+    }
+  }
+
   const sidebar = (
-    <div className="flex h-full flex-col bg-deep-brown text-cream">
-      <div className="border-b border-cream/20 px-6 py-7">
-        <p className="font-display text-3xl">Lily</p>
-        <p className="mt-1 text-[0.65rem] font-bold tracking-[0.16em] text-cream/55 uppercase">
-          Administration
-        </p>
+    <div className="flex h-full flex-col bg-deep-brown text-white">
+      <div className="border-b border-white/10 px-5 py-6">
+        <p className="text-lg font-semibold tracking-tight">Lily Admin</p>
       </div>
-      <nav aria-label="Admin" className="flex-1 overflow-y-auto py-5">
+      <nav aria-label="Admin" className="flex-1 overflow-y-auto py-4">
         <NavLink href="/admin" label="Dashboard" onNavigate={close} />
         <details className="group">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between px-4 text-sm font-semibold hover:bg-cream/8">
-            Page editor <span className="text-cream/45 group-open:rotate-45">+</span>
+          <summary className="mx-2 flex min-h-10 cursor-pointer list-none items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white">
+            Page editor <Chevron />
           </summary>
-          <div className="ml-4 border-l border-cream/20">
-            <NavLink href="/admin/pages/home" label="Home" onNavigate={close} />
-            <NavLink href="/admin/pages/about" label="About" onNavigate={close} />
+          <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-200 group-open:grid-rows-[1fr] group-open:opacity-100">
+            <div className="overflow-hidden pl-3">
+              <NavLink href="/admin/pages/home" label="Home" onNavigate={close} />
+              <NavLink href="/admin/pages/about" label="About" onNavigate={close} />
+            </div>
           </div>
         </details>
         <details className="group" open>
-          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between px-4 text-sm font-semibold hover:bg-cream/8">
-            Menu editor <span className="text-cream/45 group-open:rotate-45">+</span>
+          <summary className="mx-2 flex min-h-10 cursor-pointer list-none items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white">
+            Menu editor <Chevron />
           </summary>
-          <div className="ml-4 border-l border-cream/20">
-            <NavLink href="/admin/menu" label="Manage pages" onNavigate={close} />
-            <NavLink href="/admin/menu/new" label="Add menu page" onNavigate={close} />
-            {(pages ?? []).map((page) => (
-              <NavLink
-                href={`/admin/menu/${page._id}`}
-                label={page.title}
-                key={page._id}
-                onNavigate={close}
-              />
-            ))}
+          <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-200 group-open:grid-rows-[1fr] group-open:opacity-100">
+            <div className="overflow-hidden pl-3">
+              {orderedPages.map((page) => (
+                <div
+                  className="group/page flex items-center gap-1 pr-3"
+                  draggable
+                  key={page._id}
+                  onDragEnd={() => setDraggedId(null)}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDragStart={() => setDraggedId(page._id)}
+                  onDrop={(event) => void dropPage(event, page._id)}
+                >
+                  <span className="cursor-grab text-white/25 select-none group-hover/page:text-white/55">
+                    ⋮⋮
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <NavLink
+                      href={`/admin/menu/${page._id}`}
+                      label={page.title}
+                      onNavigate={close}
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                aria-label="Add menu page"
+                className="mx-3 my-2 grid size-8 place-items-center rounded-lg border border-dashed border-white/25 text-lg text-white/65 transition-colors hover:border-white/50 hover:bg-white/8 hover:text-white"
+                onClick={() => setCreating(true)}
+                type="button"
+              >
+                +
+              </button>
+            </div>
           </div>
         </details>
         {links.slice(1).map((link) => (
@@ -135,7 +283,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         ))}
       </nav>
       <button
-        className="m-4 min-h-11 border border-cream/35 px-4 text-left text-sm font-semibold hover:bg-cream hover:text-deep-brown"
+        className="m-4 min-h-10 rounded-lg border border-white/15 px-3 text-left text-sm font-medium text-white/70 transition-colors hover:bg-white/8 hover:text-white"
         onClick={logout}
         type="button"
       >
@@ -145,13 +293,13 @@ export function AdminShell({ children }: { children: ReactNode }) {
   )
 
   return (
-    <div className="min-h-dvh bg-cream text-deep-brown lg:grid lg:grid-cols-[17rem_1fr]">
+    <div className="min-h-dvh bg-[#f6f5f2] font-sans text-deep-brown lg:grid lg:grid-cols-[17rem_1fr]">
       <aside className="sticky top-0 hidden h-dvh lg:block">{sidebar}</aside>
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-deep-brown/15 bg-cream px-5 py-4 lg:hidden">
-        <span className="font-display text-2xl">Lily Admin</span>
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-deep-brown/10 bg-[#f6f5f2]/95 px-5 py-4 backdrop-blur lg:hidden">
+        <span className="text-lg font-semibold tracking-tight">Lily Admin</span>
         <button
           aria-expanded={open}
-          className="size-10 border border-deep-brown/30"
+          className="grid size-10 place-items-center rounded-xl border border-deep-brown/15 bg-white shadow-sm"
           onClick={toggle}
           type="button"
         >
@@ -162,14 +310,103 @@ export function AdminShell({ children }: { children: ReactNode }) {
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             aria-label="Close navigation"
-            className="absolute inset-0 bg-dark-maroon/45"
+            className="absolute inset-0 bg-deep-brown/45 backdrop-blur-sm"
             onClick={close}
             type="button"
           />
           <aside className="relative h-full w-[min(88vw,19rem)]">{sidebar}</aside>
         </div>
       ) : null}
-      <main className="min-w-0 px-5 py-8 md:px-10 md:py-12 xl:px-16 xl:py-14">{children}</main>
+      <main className="min-w-0 px-5 py-8 md:px-10 md:py-10 xl:px-14">{children}</main>
+      {creating ? (
+        <AdminModal onClose={() => setCreating(false)} title="Create a menu page">
+          <div className="grid gap-6">
+            <label className="grid gap-2">
+              <span className="text-sm font-medium">Page title</span>
+              <input
+                className={adminInput}
+                onChange={(event) => setNewPage({ ...newPage, title: event.currentTarget.value })}
+                placeholder="Dinner"
+                value={newPage.title}
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-medium">Hero description</span>
+              <textarea
+                className={`${adminInput} min-h-24 resize-y`}
+                onChange={(event) =>
+                  setNewPage({ ...newPage, description: event.currentTarget.value })
+                }
+                placeholder="A short introduction to this menu"
+                value={newPage.description}
+              />
+            </label>
+            <ImageField
+              label="Hero image"
+              onChange={(heroImage) => setNewPage({ ...newPage, heroImage })}
+              value={newPage.heroImage}
+            />
+            <div className="border-t border-deep-brown/10 pt-6">
+              <h3 className="text-base font-semibold">First section</h3>
+              <p className="mt-1 text-sm text-deep-brown/60">
+                Every menu page starts with one section.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <label className="grid gap-2 sm:col-span-2">
+                  <span className="text-sm font-medium">Section title</span>
+                  <input
+                    className={adminInput}
+                    onChange={(event) =>
+                      setNewPage({ ...newPage, firstTitle: event.currentTarget.value })
+                    }
+                    placeholder="From the garden"
+                    value={newPage.firstTitle}
+                  />
+                </label>
+                <div className="sm:col-span-2">
+                  <ImageField
+                    label="Section image"
+                    onChange={(firstImage) => setNewPage({ ...newPage, firstImage })}
+                    value={newPage.firstImage}
+                  />
+                </div>
+                {(["left", "right"] as const).map((side) => (
+                  <button
+                    className={`rounded-2xl border p-4 text-left transition-colors ${newPage.firstSide === side ? "border-deep-brown bg-deep-brown/5" : "border-deep-brown/15 bg-white hover:border-deep-brown/35"}`}
+                    key={side}
+                    onClick={() => setNewPage({ ...newPage, firstSide: side })}
+                    type="button"
+                  >
+                    <span className="mb-3 grid grid-cols-2 overflow-hidden rounded-lg border border-deep-brown/15">
+                      {side === "left" ? (
+                        <>
+                          <span className="h-12 bg-deep-brown/25" />
+                          <span className="h-12 bg-white" />
+                        </>
+                      ) : (
+                        <>
+                          <span className="h-12 bg-white" />
+                          <span className="h-12 bg-deep-brown/25" />
+                        </>
+                      )}
+                    </span>
+                    <span className="text-sm font-semibold">Image {side}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            {createError ? <p className="text-sm text-red-700">{createError}</p> : null}
+            <div className="flex justify-end gap-2">
+              <AdminButton kind="secondary" onClick={() => setCreating(false)}>
+                Cancel
+              </AdminButton>
+              <AdminButton disabled={saving} onClick={createPage}>
+                {saving ? "Creating…" : "Create page"}
+              </AdminButton>
+            </div>
+          </div>
+        </AdminModal>
+      ) : null}
     </div>
   )
 }

@@ -67,9 +67,9 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
           </select>
         </label>
       </div>
-      <div className="overflow-x-auto border border-deep-brown/15">
+      <div className="overflow-x-auto rounded-2xl border border-deep-brown/10 bg-white shadow-sm">
         <table className="w-full min-w-180 border-collapse text-left">
-          <thead className="bg-deep-brown text-xs text-cream uppercase">
+          <thead className="bg-deep-brown text-xs text-white">
             <tr>
               <th className="p-4">Status</th>
               <th className="p-4">Name</th>
@@ -83,7 +83,7 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
           <tbody>
             {filtered?.map((entry) => (
               <tr
-                className={`border-t border-deep-brown/10 ${entry.read ? "bg-white/10" : "bg-white/45 font-semibold"}`}
+                className={`border-t border-deep-brown/10 ${entry.read ? "bg-white" : "bg-stone-50 font-semibold"}`}
                 key={entry._id}
               >
                 <td className="p-4">
@@ -130,7 +130,7 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
                   }
                   key={key}
                 >
-                  <dt className="text-xs font-bold text-wine uppercase">
+                  <dt className="text-xs font-semibold text-deep-brown/55">
                     {key.replace(/([A-Z])/g, " $1")}
                   </dt>
                   <dd className="mt-1 text-sm whitespace-pre-wrap">

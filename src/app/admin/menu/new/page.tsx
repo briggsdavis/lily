@@ -1,5 +1,5 @@
-import { AdminMenuEditor } from "@/components/admin-menu-editor"
+import { redirect } from "next/navigation"
 
 export default function NewMenuPage() {
-  return <AdminMenuEditor />
+  redirect("/admin")
 }
