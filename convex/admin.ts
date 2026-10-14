@@ -20,3 +20,20 @@ export const viewer = query({
     return { email: user.email }
   },
 })
+
+export const signupStatus = query({
+  args: { email: v.string() },
+  returns: v.union(v.literal("available"), v.literal("denied"), v.literal("existing")),
+  handler: async (ctx, args) => {
+    const email = args.email.trim().toLowerCase()
+    if (!isAllowedAdminEmail(email)) return "denied"
+
+    const account = await ctx.db
+      .query("authAccounts")
+      .withIndex("providerAndAccountId", (q) =>
+        q.eq("provider", "password").eq("providerAccountId", email),
+      )
+      .unique()
+    return account === null ? "available" : "existing"
+  },
+})

@@ -13,7 +13,13 @@ const AdminRuntime = dynamic(
 
 export function AdminClient({ children }: { children?: ReactNode }) {
   if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
-    return <p className="max-w-md text-sm">The admin area is not configured in this environment.</p>
+    return (
+      <div className="grid min-h-dvh place-items-center bg-cream px-5 text-deep-brown">
+        <p className="max-w-md border border-deep-brown/20 p-8 text-sm">
+          The admin area is not configured in this environment.
+        </p>
+      </div>
+    )
   }
 
   return <AdminRuntime>{children}</AdminRuntime>
