@@ -274,7 +274,7 @@
 }
 
 .reserve-navigation-track {
-  animation: reserve-navigation-marquee 42s linear infinite;
+  animation: reserve-navigation-marquee 60s linear infinite;
   will-change: transform;
 }
 
