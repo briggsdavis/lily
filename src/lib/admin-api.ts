@@ -2,7 +2,7 @@ import { makeFunctionReference } from "convex/server"
 
 export type MenuItemRecord = { description: string; key: string; price: string; title: string }
 export type MenuSectionRecord = {
-  backgroundColor: "cream" | "espresso" | "mauve" | "dark-maroon"
+  backgroundColor: "cream" | "espresso" | "mauve" | "dark-maroon" | "deep-brown"
   image: string
   imageAlt: string
   imageSide: "left" | "right"

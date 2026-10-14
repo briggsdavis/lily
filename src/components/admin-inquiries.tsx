@@ -54,10 +54,10 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
             value={query}
           />
         </label>
-        <label>
+        <label className="relative">
           <span className="sr-only">Read status</span>
           <select
-            className={adminInput}
+            className={`${adminInput} appearance-none pr-11`}
             onChange={(e) => setFilter(e.currentTarget.value as typeof filter)}
             value={filter}
           >
@@ -65,6 +65,14 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
             <option value="unread">Unread</option>
             <option value="read">Read</option>
           </select>
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-deep-brown/55"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path d="m7 10 5 5 5-5" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+          </svg>
         </label>
       </div>
       <div className="overflow-x-auto rounded-2xl border border-deep-brown/10 bg-white shadow-sm">

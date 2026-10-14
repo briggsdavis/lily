@@ -15,6 +15,7 @@ const menuSection = v.object({
     v.literal("espresso"),
     v.literal("mauve"),
     v.literal("dark-maroon"),
+    v.literal("deep-brown"),
   ),
   image: v.string(),
   imageAlt: v.string(),

@@ -42,7 +42,7 @@ export function AdminButton({
         : "border-deep-brown/15 bg-white hover:border-deep-brown/30 hover:bg-stone-50"
   return (
     <button
-      className={`min-h-11 rounded-xl border px-4 text-sm font-semibold shadow-sm transition-colors ${tone} disabled:cursor-wait disabled:opacity-45`}
+      className={`min-h-11 cursor-pointer rounded-xl border px-4 text-sm font-semibold shadow-sm transition-colors ${tone} disabled:cursor-wait disabled:opacity-45`}
       {...props}
     >
       {children}
@@ -138,11 +138,18 @@ export function AdminModal({
           </h2>
           <button
             aria-label="Close dialog"
-            className="grid size-10 place-items-center rounded-full border border-deep-brown/15 bg-white text-xl shadow-sm hover:bg-stone-100"
+            className="grid size-10 cursor-pointer place-items-center rounded-full border border-deep-brown/15 bg-white shadow-sm hover:bg-stone-100"
             onClick={onClose}
             type="button"
           >
-            ×
+            <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24">
+              <path
+                d="m7 7 10 10M17 7 7 17"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2"
+              />
+            </svg>
           </button>
         </div>
         {children}

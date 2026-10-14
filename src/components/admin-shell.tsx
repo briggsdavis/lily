@@ -56,11 +56,11 @@ function NavLink({
   )
 }
 
-function Chevron() {
+function Chevron({ open }: { open: boolean }) {
   return (
     <svg
       aria-hidden="true"
-      className="size-4 text-white/45 transition-transform duration-200 group-open:rotate-180"
+      className={`size-4 text-white/45 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
       fill="none"
       viewBox="0 0 24 24"
     >
@@ -71,6 +71,7 @@ function Chevron() {
 
 type NewPage = {
   description: string
+  firstColor: "espresso" | "dark-maroon" | "deep-brown"
   firstImage: string
   firstSide: "left" | "right"
   firstTitle: string
@@ -79,6 +80,7 @@ type NewPage = {
 }
 const blankPage = (): NewPage => ({
   description: "",
+  firstColor: "espresso",
   firstImage: "",
   firstSide: "left",
   firstTitle: "",
@@ -95,6 +97,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const router = useRouter()
   const { signOut } = useAuthActions()
   const [open, setOpen] = useState(false)
+  const [pageEditorOpen, setPageEditorOpen] = useState(false)
+  const [menuEditorOpen, setMenuEditorOpen] = useState(true)
   const [orderedPages, setOrderedPages] = useState<MenuPageRecord[]>([])
   const [draggedId, setDraggedId] = useState<string | null>(null)
   const [creating, setCreating] = useState(false)
@@ -198,7 +202,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         order: orderedPages.length,
         sections: [
           {
-            backgroundColor: "cream",
+            backgroundColor: newPage.firstColor,
             image: newPage.firstImage,
             imageAlt: newPage.firstTitle,
             imageSide: newPage.firstSide,
@@ -228,23 +232,41 @@ export function AdminShell({ children }: { children: ReactNode }) {
       </div>
       <nav aria-label="Admin" className="flex-1 overflow-y-auto py-4">
         <NavLink href="/admin" label="Dashboard" onNavigate={close} />
-        <details className="group">
-          <summary className="mx-2 flex min-h-10 cursor-pointer list-none items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white">
-            Page editor <Chevron />
-          </summary>
-          <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-200 group-open:grid-rows-[1fr] group-open:opacity-100">
-            <div className="overflow-hidden pl-3">
+        <div>
+          <button
+            aria-expanded={pageEditorOpen}
+            className="mx-2 flex min-h-10 w-[calc(100%_-_1rem)] cursor-pointer items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white"
+            onClick={() => setPageEditorOpen((value) => !value)}
+            type="button"
+          >
+            Page editor <Chevron open={pageEditorOpen} />
+          </button>
+          <div
+            className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${pageEditorOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+          >
+            <div
+              className={`overflow-hidden pl-3 transition-transform duration-300 ease-out ${pageEditorOpen ? "translate-y-0" : "-translate-y-2"}`}
+            >
               <NavLink href="/admin/pages/home" label="Home" onNavigate={close} />
               <NavLink href="/admin/pages/about" label="About" onNavigate={close} />
             </div>
           </div>
-        </details>
-        <details className="group" open>
-          <summary className="mx-2 flex min-h-10 cursor-pointer list-none items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white">
-            Menu editor <Chevron />
-          </summary>
-          <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-200 group-open:grid-rows-[1fr] group-open:opacity-100">
-            <div className="overflow-hidden pl-3">
+        </div>
+        <div>
+          <button
+            aria-expanded={menuEditorOpen}
+            className="mx-2 flex min-h-10 w-[calc(100%_-_1rem)] cursor-pointer items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white"
+            onClick={() => setMenuEditorOpen((value) => !value)}
+            type="button"
+          >
+            Menu editor <Chevron open={menuEditorOpen} />
+          </button>
+          <div
+            className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${menuEditorOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+          >
+            <div
+              className={`overflow-hidden pl-3 transition-transform duration-300 ease-out ${menuEditorOpen ? "translate-y-0" : "-translate-y-2"}`}
+            >
               {orderedPages.map((page) => (
                 <div
                   className="group/page flex items-center gap-1 pr-3"
@@ -269,15 +291,22 @@ export function AdminShell({ children }: { children: ReactNode }) {
               ))}
               <button
                 aria-label="Add menu page"
-                className="mx-3 my-2 grid size-8 place-items-center rounded-lg border border-dashed border-white/25 text-lg text-white/65 transition-colors hover:border-white/50 hover:bg-white/8 hover:text-white"
+                className="mx-3 my-2 grid size-8 cursor-pointer place-items-center rounded-lg border border-dashed border-white/25 text-white/65 transition-[transform,color,background-color,border-color] hover:scale-105 hover:border-white/50 hover:bg-white/8 hover:text-white"
                 onClick={() => setCreating(true)}
                 type="button"
               >
-                +
+                <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24">
+                  <path
+                    d="M12 5v14M5 12h14"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                  />
+                </svg>
               </button>
             </div>
           </div>
-        </details>
+        </div>
         {links.slice(1).map((link) => (
           <NavLink {...link} key={link.href} onNavigate={close} />
         ))}
@@ -372,7 +401,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                 </div>
                 {(["left", "right"] as const).map((side) => (
                   <button
-                    className={`rounded-2xl border p-4 text-left transition-colors ${newPage.firstSide === side ? "border-deep-brown bg-deep-brown/5" : "border-deep-brown/15 bg-white hover:border-deep-brown/35"}`}
+                    className={`cursor-pointer rounded-2xl border p-4 text-left transition-colors ${newPage.firstSide === side ? "border-deep-brown bg-deep-brown/5" : "border-deep-brown/15 bg-white hover:border-deep-brown/35"}`}
                     key={side}
                     onClick={() => setNewPage({ ...newPage, firstSide: side })}
                     type="button"
@@ -393,6 +422,29 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     <span className="text-sm font-semibold">Image {side}</span>
                   </button>
                 ))}
+                <div className="sm:col-span-2">
+                  <p className="mb-2 text-sm font-medium">Background color</p>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {(
+                      [
+                        ["espresso", "Dark brown", "bg-espresso"],
+                        ["dark-maroon", "Wine", "bg-dark-maroon"],
+                        ["deep-brown", "Maroon", "bg-deep-brown"],
+                      ] as const
+                    ).map(([color, label, className]) => (
+                      <button
+                        aria-pressed={newPage.firstColor === color}
+                        className="cursor-pointer rounded-xl border border-deep-brown/15 bg-white p-2 text-left shadow-sm hover:border-deep-brown/35 aria-pressed:border-deep-brown aria-pressed:ring-2 aria-pressed:ring-deep-brown/15"
+                        key={color}
+                        onClick={() => setNewPage({ ...newPage, firstColor: color })}
+                        type="button"
+                      >
+                        <span className={`mb-2 block h-10 rounded-lg ${className}`} />
+                        <span className="text-xs font-semibold">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             {createError ? <p className="text-sm text-red-700">{createError}</p> : null}

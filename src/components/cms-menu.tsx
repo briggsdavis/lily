@@ -13,6 +13,7 @@ const tones = {
   espresso: "bg-espresso text-cream",
   mauve: "bg-mauve text-deep-brown",
   "dark-maroon": "bg-dark-maroon text-cream",
+  "deep-brown": "bg-deep-brown text-cream",
 } as const
 
 export function CmsMenuGallery() {
