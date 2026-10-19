@@ -81,8 +81,8 @@ export function MenuRotator() {
     <div>
       <div className="mb-7 grid items-end gap-8 md:mb-10 md:grid-cols-2 md:gap-12">
         <div data-reveal>
-          <h2 className="font-display text-4xl font-medium whitespace-nowrap text-warm-white lg:text-6xl">
-            Seasonal, by design.
+          <h2 className="font-header-stencil text-4xl tracking-[0.12em] whitespace-nowrap text-warm-white uppercase lg:text-6xl">
+            Seasonal
           </h2>
         </div>
         <div

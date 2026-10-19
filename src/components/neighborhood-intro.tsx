@@ -69,7 +69,7 @@ export function NeighborhoodIntro({ text = copy }: { text?: string }) {
 
   return (
     <p
-      className="relative max-w-[52ch] text-center font-display text-[1.35rem] leading-[1.18] font-normal text-balance md:text-[2rem] lg:text-[2.7rem]"
+      className="relative max-w-[52ch] text-center font-header text-[1.35rem] leading-[1.18] font-bold text-balance md:text-[2rem] lg:text-[2.7rem]"
       ref={ref}
     >
       {words.map(({ id, word }, index) => {

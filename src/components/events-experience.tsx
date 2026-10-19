@@ -514,13 +514,13 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
             <div>
               <EventsSectionHeader mode={mode} onChange={switchMode} sticky />
 
-              <div className="hidden grid-cols-[minmax(9rem,0.6fr)_minmax(28rem,1.8fr)_minmax(11rem,0.7fr)] items-start gap-10 lg:grid xl:grid-cols-[minmax(10rem,0.7fr)_minmax(24rem,1.45fr)_minmax(16rem,0.9fr)] xl:gap-16">
+              <div className="hidden grid-cols-[minmax(10rem,0.7fr)_minmax(28rem,1.8fr)_minmax(10rem,0.7fr)] items-start gap-10 lg:grid xl:grid-cols-[minmax(13rem,0.8fr)_minmax(24rem,1.45fr)_minmax(13rem,0.8fr)] xl:gap-16">
                 <div className="sticky top-40 flex h-[calc(100dvh-11rem)] items-center">
                   <EventImageStack
                     active={active}
-                    className="aspect-4/3 w-full max-w-[15rem]"
+                    className="aspect-4/5 w-full max-w-[16rem]"
                     side="left"
-                    sizes="15rem"
+                    sizes="16rem"
                     events={events}
                   />
                 </div>
@@ -539,9 +539,9 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                 <div className="sticky top-40 flex h-[calc(100dvh-11rem)] items-center justify-end">
                   <EventImageStack
                     active={active}
-                    className="aspect-4/5 w-full max-w-sm"
+                    className="aspect-4/5 w-full max-w-[16rem]"
                     side="right"
-                    sizes="24vw"
+                    sizes="16rem"
                     events={events}
                   />
                 </div>

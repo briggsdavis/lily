@@ -20,7 +20,7 @@ function MarqueeGroup({ copy = false }: { copy?: boolean }) {
         <div className="flex shrink-0 items-center gap-[0.22em]" key={route.href}>
           <TransitionLink
             aria-hidden={copy || undefined}
-            className="cursor-pointer font-display leading-[0.78] font-medium uppercase transition-opacity duration-300 ease-out hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-[0.08em] focus-visible:outline-current"
+            className="cursor-pointer font-header-stencil leading-[0.78] uppercase transition-opacity duration-300 ease-out hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-[0.08em] focus-visible:outline-current"
             href={route.href}
             tabIndex={copy ? -1 : undefined}
           >
