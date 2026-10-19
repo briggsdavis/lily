@@ -32,7 +32,7 @@ function MarqueeGroup({ copy = false }: { copy?: boolean }) {
             className="size-[0.72em] shrink-0 object-contain"
             height={1254}
             sizes="12vw"
-            src="/Social Work.png"
+            src="/images/social-work.png"
             width={1254}
           />
         </div>

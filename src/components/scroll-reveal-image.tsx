@@ -79,7 +79,7 @@ export function ScrollRevealImage() {
             className="object-cover"
             fill
             sizes="100vw"
-            src="/lily-romantic-interior-9x16.webp"
+            src="/images/lily-romantic-interior-9x16.webp"
           />
         </div>
 

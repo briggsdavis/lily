@@ -5,7 +5,7 @@ export function AboutHero() {
     <ParallaxHero
       alt="A warmly lit restaurant dining room set for service"
       imageClassName="object-center"
-      src="/about-hero-restaurant.webp"
+      src="/images/about-hero-restaurant.webp"
     >
       <div className="grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
         <div className="flex flex-col justify-end px-page pt-28 pb-8 md:pt-32 md:pb-14 lg:pb-16">

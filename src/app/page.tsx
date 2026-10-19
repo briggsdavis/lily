@@ -3,6 +3,7 @@ import { EventsShowcase } from "@/components/events-showcase"
 import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
 import { PillLink } from "@/components/pill-button"
+import { RotatingCrest } from "@/components/rotating-crest"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
 import { ScrollTilt } from "@/components/scroll-tilt"
 
@@ -21,7 +22,7 @@ export default function HomePage() {
               fill
               priority
               sizes="100vw"
-              src="/hero-restaurant-unsplash.jpg"
+              src="/images/hero-restaurant-unsplash.jpg"
             />
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.82)_0%,rgba(8,7,5,0.42)_48%,rgba(8,7,5,0.68)_100%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.38)_0%,transparent_38%,rgba(8,7,5,0.84)_100%)]" />
@@ -41,7 +42,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <p className="hero-stagger text-sm leading-7 text-cream/75 animate-delay-570 md:col-span-6 md:col-start-7 md:justify-self-end md:text-right lg:text-base lg:leading-8">
+              <p className="hero-stagger hero-intro-side text-sm leading-7 text-cream/75 animate-delay-570 md:col-span-6 md:col-start-7 md:justify-self-end md:text-right lg:text-base lg:leading-8">
                 <span className="lg:block">A neighborhood kitchen and cocktail bar</span>{" "}
                 <span className="lg:block">shaped by the seasons, with considered plates,</span>{" "}
                 <span className="lg:block">
@@ -57,7 +58,7 @@ export default function HomePage() {
                 height={767}
                 priority
                 sizes="(max-width: 640px) 16.5rem, (max-width: 768px) 21rem, (max-width: 1024px) 27rem, 30rem"
-                src="/PRIMARY-HORIZONTAL-CREAM.png"
+                src="/images/primary-horizontal-cream.png"
                 width={2329}
               />
               <p className="hero-stagger hidden text-right text-[0.65rem] font-bold tracking-[0.22em] text-cream/55 uppercase animate-delay-1050 sm:block">
@@ -75,7 +76,7 @@ export default function HomePage() {
             alt=""
             className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2 opacity-65"
             height={1004}
-            src="/stamp.svg"
+            src="/images/stamp-pink.svg"
             width={982}
           />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(201,168,178,0.08),transparent_32%),radial-gradient(circle_at_78%_65%,rgba(253,242,226,0.06),transparent_28%)]" />
@@ -87,14 +88,7 @@ export default function HomePage() {
         className="relative isolate overflow-hidden bg-mauve px-page pt-14 pb-24 text-warm-white md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
         data-nav-tone="dark"
       >
-        <Image
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 right-[-8%] h-auto w-[min(48vw,38rem)] -translate-y-1/2 opacity-50"
-          height={1196}
-          src="/CREST-MAROON.svg"
-          width={1235}
-        />
+        <RotatingCrest className="pointer-events-none absolute top-1/2 right-[-8%] h-auto w-[min(48vw,38rem)] -translate-y-1/2 opacity-50" />
         <div className="relative z-10">
           <MenuRotator />
         </div>
@@ -135,7 +129,7 @@ export default function HomePage() {
           className="absolute top-1/2 -right-[35vw] h-auto w-[85vw] -translate-y-1/2 opacity-85 md:-right-[6vw] md:w-[56vw]"
           data-reveal
           height={1004}
-          src="/STAMP-BROWN.svg"
+          src="/images/stamp-brown.svg"
           width={982}
         />
       </section>
@@ -150,7 +144,7 @@ export default function HomePage() {
           className="object-cover object-[52%_center]"
           fill
           sizes="100vw"
-          src="/contact-events-unsplash.jpg"
+          src="/images/contact-events-unsplash.jpg"
         />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,8,5,0.72)_0%,rgba(10,8,5,0.18)_48%,rgba(10,8,5,0.62)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,8,5,0.18)_0%,transparent_40%,rgba(10,8,5,0.55)_100%)]" />
@@ -195,7 +189,7 @@ export default function HomePage() {
           className="object-cover"
           fill
           sizes="100vw"
-          src="/lily-event-table-16x10.webp"
+          src="/images/lily-event-table-16x10.webp"
         />
         <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
           <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl" data-reveal>

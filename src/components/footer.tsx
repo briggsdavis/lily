@@ -61,7 +61,7 @@ export function Footer() {
                 height={767}
                 loading="eager"
                 sizes="(max-width: 768px) 12rem, 14rem"
-                src="/PRIMARY-HORIZONTAL-CREAM.png"
+                src="/images/primary-horizontal-cream.png"
                 width={2329}
               />
             </TransitionLink>

@@ -1,6 +1,6 @@
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 import type { Metadata } from "next"
-import { EB_Garamond, Noto_Sans } from "next/font/google"
+import { EB_Garamond } from "next/font/google"
 import { AnalyticsTracker } from "@/components/analytics-tracker"
 import { ConvexClientProvider } from "@/components/convex-client-provider"
 import { SiteFrame } from "@/components/site-frame"
@@ -10,7 +10,6 @@ import "lenis/dist/lenis.css"
 import "@/globals.css"
 
 const display = EB_Garamond({ variable: "--font-display-source", subsets: ["latin"] })
-const body = Noto_Sans({ variable: "--font-body-source", subsets: ["latin"] })
 const heroIntroScript = {
   __html: `try{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!sessionStorage.getItem("lily:hero-intro-seen")){document.documentElement.classList.add("hero-intro-pending")}}catch{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}`,
 }
@@ -23,11 +22,7 @@ export const metadata: Metadata = {
 
 export default async function Layout({ children }: LayoutProps<"/">) {
   const document = (
-    <html
-      lang="en"
-      className={`${display.variable} ${body.variable} bg-cream`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${display.variable} bg-cream`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={heroIntroScript} />
       </head>

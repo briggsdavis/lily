@@ -183,7 +183,7 @@ function EventList({
                 {event.dateLabel}
               </span>
               <span>
-                <span className="block font-display text-2xl leading-tight md:text-3xl">
+                <span className="block pt-2 font-display text-2xl leading-tight md:pt-3 md:text-3xl">
                   {event.title}
                 </span>
                 <span className="mt-1 block text-sm text-cream/60">{event.time}</span>
@@ -367,10 +367,10 @@ function ViewSelector({ mode, onChange }: { mode: ViewMode; onChange: (mode: Vie
   )
 
   return (
-    <div className="flex items-center gap-4 text-xs font-bold tracking-[0.08em] uppercase sm:gap-6">
+    <div className="flex items-center gap-5 text-lg font-bold tracking-[0.08em] sm:gap-6 md:text-xl lg:gap-8 lg:text-2xl">
       <button
         aria-pressed={mode === "events"}
-        className="animated-underline cursor-pointer pb-1 opacity-55 transition-opacity aria-pressed:opacity-100"
+        className="animated-underline cursor-pointer pb-1 uppercase opacity-55 transition-opacity aria-pressed:opacity-100"
         data-view-mode="events"
         onClick={selectView}
         type="button"
@@ -379,7 +379,7 @@ function ViewSelector({ mode, onChange }: { mode: ViewMode; onChange: (mode: Vie
       </button>
       <button
         aria-pressed={mode === "calendar"}
-        className="animated-underline cursor-pointer pb-1 opacity-55 transition-opacity aria-pressed:opacity-100"
+        className="animated-underline cursor-pointer pb-1 uppercase opacity-55 transition-opacity aria-pressed:opacity-100"
         data-view-mode="calendar"
         onClick={selectView}
         type="button"
@@ -484,7 +484,9 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
     const firstWeekday = new Date(year, month, 1).getDay()
     const daysInMonth = new Date(year, month + 1, 0).getDate()
 
-    return Array.from({ length: 42 }, (_, index) => {
+    // Only as many weeks as the month spans, so no row is entirely empty.
+    const cells = Math.ceil((firstWeekday + daysInMonth) / 7) * 7
+    return Array.from({ length: cells }, (_, index) => {
       const day = index - firstWeekday + 1
       return {
         day: day > 0 && day <= daysInMonth ? day : null,

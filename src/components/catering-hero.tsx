@@ -8,7 +8,7 @@ export function CateringHero() {
       imageClassName="object-center"
       parallax="strong"
       size="half"
-      src="/catering/catering-hero.webp"
+      src="/images/catering/catering-hero.webp"
     >
       <div className="grid h-full place-items-center px-page pt-24 pb-10 text-center">
         <div className="flex flex-col items-center gap-6">
@@ -19,7 +19,7 @@ export function CateringHero() {
             height={2062}
             loading="eager"
             sizes="(max-width: 767px) 7rem, (max-width: 1023px) 9rem, 10rem"
-            src="/PRIMARY-VERTICAL-WHITE.png"
+            src="/images/primary-vertical-white.png"
             width={1465}
           />
           <h1

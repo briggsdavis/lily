@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react"
+import { DoubleFrame } from "@/components/double-frame"
 import { LayeredMedia } from "@/components/layered-media"
 import { PillLink } from "@/components/pill-button"
 
@@ -17,28 +18,28 @@ const categories = [
     name: "Mains",
     description:
       "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
-    image: "/lily-seasonal-main-dish-4x5.webp",
+    image: "/images/lily-seasonal-main-dish-4x5.webp",
     alt: "A seasonal main dish plated at Lily",
   },
   {
     name: "Salads",
     description:
       "Crisp leaves, market vegetables, fresh herbs, and bright dressings composed with a light touch.",
-    image: "/menu-main-plated-unsplash.jpg",
+    image: "/images/menu-main-plated-unsplash.jpg",
     alt: "A bright plate of seasonal greens and vegetables",
   },
   {
     name: "Desserts",
     description:
       "Floral, fruit-forward finishes and quietly indulgent classics made for one more shared course.",
-    image: "/lily-floral-dessert-4x5.webp",
+    image: "/images/lily-floral-dessert-4x5.webp",
     alt: "A floral seasonal dessert",
   },
   {
     name: "Drinks",
     description:
       "Garden herbs, ripe fruit, thoughtful spirits, and cocktails designed to sit beautifully beside dinner.",
-    image: "/lily-botanical-cocktail-4x5.webp",
+    image: "/images/lily-botanical-cocktail-4x5.webp",
     alt: "A botanical cocktail in a coupe glass",
   },
 ] as const
@@ -95,16 +96,19 @@ export function MenuRotator() {
       </div>
 
       <div className="grid items-start gap-10 md:grid-cols-[5fr_7fr] lg:gap-16" style={listStyle}>
-        <LayeredMedia
-          active={active}
-          backgroundBlurClassName="blur-[9px]"
-          backgroundSizes="(max-width: 768px) 90vw, 40vw"
-          className="relative aspect-4/5 bg-mauve md:aspect-auto md:h-[var(--menu-list-height)]"
-          foregroundAspectClassName="aspect-4/5"
-          foregroundSizes="(max-width: 768px) 45vw, 20vw"
-          items={media}
-          priority
-        />
+        <div className="relative">
+          <LayeredMedia
+            active={active}
+            backgroundBlurClassName="blur-[9px]"
+            backgroundSizes="(max-width: 768px) 90vw, 40vw"
+            className="relative aspect-4/5 bg-mauve md:aspect-auto md:h-[var(--menu-list-height)]"
+            foregroundAspectClassName="aspect-4/5"
+            foregroundSizes="(max-width: 768px) 45vw, 20vw"
+            items={media}
+            priority
+          />
+          <DoubleFrame className="[--frame-inset:-22px]" />
+        </div>
 
         <ul ref={listRef}>
           {categories.map((category, index) => (

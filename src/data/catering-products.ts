@@ -43,7 +43,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "passed-bites",
     description:
       "Tender salmon with fresh herbs, citrus, and a delicate rye crisp. Designed to move easily through a room and disappear in a bite or two.",
-    image: "/catering/salmon-bites.webp",
+    image: "/images/catering/salmon-bites.webp",
     imageAlt: "Salmon bites arranged on small plates with greens",
     name: "Salmon Rye Bites",
     photo: {
@@ -59,7 +59,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "boards-platters",
     description:
       "A generous selection of cheeses, seasonal fruit, preserves, toasted nuts, and house crackers, composed for an effortless cocktail hour.",
-    image: "/catering/cheese-board.webp",
+    image: "/images/catering/cheese-board.webp",
     imageAlt: "Cheese board with crackers, fruit, and accompaniments",
     name: "Cellar Cheese Board",
     photo: {
@@ -75,7 +75,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "entrees",
     description:
       "Handmade pasta folded with roasted mushrooms, greens, herbs, and a restrained pan sauce. Rich enough for a main course, balanced enough for the whole table.",
-    image: "/catering/mushroom-pasta.webp",
+    image: "/images/catering/mushroom-pasta.webp",
     imageAlt: "Pasta with roasted mushrooms and herbs on a white plate",
     name: "Roasted Mushroom Cavatelli",
     photo: {
@@ -91,7 +91,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "passed-bites",
     description:
       "Creamy burrata with ripe tomatoes, tender greens, basil oil, and crisp bread. A bright opening plate for showers, lunches, and evening gatherings.",
-    image: "/catering/burrata.webp",
+    image: "/images/catering/burrata.webp",
     imageAlt: "Burrata with tomatoes and greens",
     name: "Burrata & Market Tomatoes",
     photo: {
@@ -107,7 +107,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "entrees",
     description:
       "Slow-roasted beef with pan jus, charred onions, and seasonal accompaniments. Carved before delivery and ready to anchor a generous table.",
-    image: "/catering/roasted-meat-platter.webp",
+    image: "/images/catering/roasted-meat-platter.webp",
     imageAlt: "Roasted meats arranged on a serving platter",
     name: "Herb-Roasted Beef",
     photo: {
@@ -123,7 +123,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "sides-salads",
     description:
       "A colorful market salad finished with pomegranate, tomatoes, tender leaves, and a bright house vinaigrette. Delivered dressed just before service.",
-    image: "/catering/pomegranate-salad.webp",
+    image: "/images/catering/pomegranate-salad.webp",
     imageAlt: "Fresh garden salad with tomatoes and pomegranate",
     name: "Pomegranate Garden Salad",
     photo: {
@@ -139,7 +139,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "entrees",
     description:
       "Silky pasta with brown butter, aged cheese, black pepper, and herbs. Familiar, polished, and built for passing around the table.",
-    image: "/catering/carbonara.webp",
+    image: "/images/catering/carbonara.webp",
     imageAlt: "Carbonara pasta with cheese and herbs",
     name: "Brown Butter Carbonara",
     photo: {
@@ -155,7 +155,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "boards-platters",
     description:
       "A vibrant table of seasonal fruit, crisp vegetables, herbs, and house dips. Built for all-day meetings, showers, and grazing before dinner.",
-    image: "/catering/garden-platter.webp",
+    image: "/images/catering/garden-platter.webp",
     imageAlt: "Colorful fruit and vegetable platter with dips",
     name: "Garden Crudités Board",
     photo: {
@@ -171,7 +171,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "sides-salads",
     description:
       "Roasted market vegetables with citrus, toasted seeds, and tender herbs. Equally at home beside a main course or at the center of a vegetarian table.",
-    image: "/catering/roasted-vegetables.webp",
+    image: "/images/catering/roasted-vegetables.webp",
     imageAlt: "Roasted vegetables with citrus and herbs",
     name: "Charred Market Vegetables",
     photo: {
@@ -187,7 +187,7 @@ export const cateringProducts: readonly CateringProduct[] = [
     category: "desserts",
     description:
       "A gently sweet cheesecake with caramel, cream, and a touch of sea salt. Delivered whole and ready to finish the table without fuss.",
-    image: "/catering/cheesecake.webp",
+    image: "/images/catering/cheesecake.webp",
     imageAlt: "Slice of caramel cheesecake served on a ceramic plate",
     name: "Salted Caramel Cheesecake",
     photo: {

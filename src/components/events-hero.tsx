@@ -1,13 +1,15 @@
 import { ParallaxHero } from "@/components/parallax-hero"
+import { Smoke } from "@/components/smoke"
 
 export function EventsHero() {
   return (
     <ParallaxHero
       alt="A candlelit table prepared for an evening gathering at Lily"
       imageClassName="object-[52%_center]"
-      src="/contact-events-unsplash.jpg"
+      src="/images/contact-events-unsplash.jpg"
     >
-      <div className="grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
+      <Smoke />
+      <div className="relative grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
         <div className="flex flex-col justify-end px-page pt-28 pb-8 md:pt-32 md:pb-14 lg:pb-16">
           <p className="mb-3 eyebrow text-cream/65" data-reveal>
             Gather at Lily

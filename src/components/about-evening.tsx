@@ -5,9 +5,21 @@ import { SyntheticEvent, useCallback, useState } from "react"
 import { PillLink } from "@/components/pill-button"
 
 const choices = [
-  { label: "Dinner", image: "/lily-seasonal-main-dish-4x5.webp", alt: "A seasonal main dish" },
-  { label: "Cocktails", image: "/lily-botanical-cocktail-4x5.webp", alt: "A botanical cocktail" },
-  { label: "Both", image: "/lily-event-table-16x10.webp", alt: "Shared plates across a table" },
+  {
+    label: "Dinner",
+    image: "/images/lily-seasonal-main-dish-4x5.webp",
+    alt: "A seasonal main dish",
+  },
+  {
+    label: "Cocktails",
+    image: "/images/lily-botanical-cocktail-4x5.webp",
+    alt: "A botanical cocktail",
+  },
+  {
+    label: "Both",
+    image: "/images/lily-event-table-16x10.webp",
+    alt: "Shared plates across a table",
+  },
 ] as const
 
 export function AboutEvening() {

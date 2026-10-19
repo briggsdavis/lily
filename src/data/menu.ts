@@ -31,14 +31,14 @@ export const menuCategories: readonly MenuCategory[] = [
     name: "Mains",
     description:
       "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
-    image: "/lily-seasonal-main-dish-4x5.webp",
+    image: "/images/lily-seasonal-main-dish-4x5.webp",
     imageAlt: "A seasonal main dish plated at Lily",
     sections: [
       {
         title: "From the garden",
         description:
           "Vegetable-led plates that move with the farms, finished with bright herbs and patient sauces.",
-        image: "/menu-main-plated-unsplash.jpg",
+        image: "/images/menu-main-plated-unsplash.jpg",
         imageAlt: "A composed plate of seasonal vegetables",
         items: [
           {
@@ -77,7 +77,7 @@ export const menuCategories: readonly MenuCategory[] = [
         title: "From the hearth",
         description:
           "Generous center-of-the-table cooking, shaped by smoke, the season, and our local producers.",
-        image: "/menu-main-pasta-unsplash.jpg",
+        image: "/images/menu-main-pasta-unsplash.jpg",
         imageAlt: "Fresh pasta served with a seasonal sauce",
         items: [
           {
@@ -119,14 +119,14 @@ export const menuCategories: readonly MenuCategory[] = [
     name: "Salads",
     description:
       "Crisp leaves, market vegetables, fresh herbs, and bright dressings composed with a light touch.",
-    image: "/menu-main-plated-unsplash.jpg",
+    image: "/images/menu-main-plated-unsplash.jpg",
     imageAlt: "A bright plate of seasonal greens and vegetables",
     sections: [
       {
         title: "Market leaves",
         description:
           "Tender greens and raw vegetables, dressed to order and built for a lively first course.",
-        image: "/catering/pomegranate-salad.webp",
+        image: "/images/catering/pomegranate-salad.webp",
         imageAlt: "Seasonal salad with pomegranate and fresh greens",
         items: [
           {
@@ -165,7 +165,7 @@ export const menuCategories: readonly MenuCategory[] = [
         title: "Composed salads",
         description:
           "More substantial plates layered with roasted produce, grains, cheese, and garden herbs.",
-        image: "/catering/garden-platter.webp",
+        image: "/images/catering/garden-platter.webp",
         imageAlt: "A generous platter of garden vegetables and herbs",
         items: [
           {
@@ -207,14 +207,14 @@ export const menuCategories: readonly MenuCategory[] = [
     name: "Desserts",
     description:
       "Floral, fruit-forward finishes and quietly indulgent classics made for one more shared course.",
-    image: "/lily-floral-dessert-4x5.webp",
+    image: "/images/lily-floral-dessert-4x5.webp",
     imageAlt: "A floral seasonal dessert finished for the table",
     sections: [
       {
         title: "From the pastry kitchen",
         description:
           "Seasonal fruit, deep chocolate, and delicate creams made in house each afternoon.",
-        image: "/menu-dessert-plated-unsplash.jpg",
+        image: "/images/menu-dessert-plated-unsplash.jpg",
         imageAlt: "An elegant plated dessert with seasonal fruit",
         items: [
           {
@@ -253,7 +253,7 @@ export const menuCategories: readonly MenuCategory[] = [
         title: "A little more",
         description:
           "Small, thoughtful endings for lingering over coffee or sharing around the table.",
-        image: "/menu-dessert-cake-unsplash.jpg",
+        image: "/images/menu-dessert-cake-unsplash.jpg",
         imageAlt: "A layered cake prepared for dessert service",
         items: [
           {
@@ -295,14 +295,14 @@ export const menuCategories: readonly MenuCategory[] = [
     name: "Drinks",
     description:
       "Garden herbs, ripe fruit, thoughtful spirits, and cocktails designed to sit beautifully beside dinner.",
-    image: "/lily-botanical-cocktail-4x5.webp",
+    image: "/images/lily-botanical-cocktail-4x5.webp",
     imageAlt: "A botanical cocktail mixed at Lily",
     sections: [
       {
         title: "Garden cocktails",
         description:
           "Bright, balanced drinks drawn from the greenhouse, orchard, and a carefully stocked back bar.",
-        image: "/menu-drink-golden-unsplash.jpg",
+        image: "/images/menu-drink-golden-unsplash.jpg",
         imageAlt: "A golden cocktail garnished for evening service",
         items: [
           {
@@ -341,7 +341,7 @@ export const menuCategories: readonly MenuCategory[] = [
         title: "Wine & zero-proof",
         description:
           "A short list of food-friendly pours alongside spirit-free drinks with equal depth and care.",
-        image: "/menu-drink-red-unsplash.jpg",
+        image: "/images/menu-drink-red-unsplash.jpg",
         imageAlt: "A red cocktail served in a stemmed glass",
         items: [
           {

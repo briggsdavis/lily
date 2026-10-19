@@ -2,30 +2,32 @@
 
 import { useMutation } from "convex/react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { flushSync } from "react-dom"
 import { LayeredMedia } from "@/components/layered-media"
 import { InquiryReason, ReservationForm } from "@/components/reservation-form"
+import { RotatingCrest } from "@/components/rotating-crest"
 import { submitContactRef } from "@/lib/admin-api"
 
 const visualTitles: Record<Exclude<InquiryReason, null>, string> = {
-  reservation: "Reservations",
-  events: "Event inquiry",
-  general: "General inquiry",
+  reservation: "Reservation",
+  events: "Event",
+  general: "Inquiry",
 }
 
 const inquiryVisuals = [
   {
     alt: "A dimly lit restaurant dining room with tables and chairs",
-    src: "/contact-reservation-unsplash.jpg",
+    src: "/images/contact-reservation-unsplash.jpg",
   },
   {
     alt: "A candlelit restaurant table set with plates for dinner",
-    src: "/contact-events-unsplash.jpg",
+    src: "/images/contact-events-unsplash.jpg",
   },
   {
     alt: "A cocktail with an orange garnish on a dark bar counter",
     foregroundImageClassName: "object-[72%_center]",
-    src: "/contact-cocktail-unsplash.jpg",
+    src: "/images/contact-cocktail-unsplash.jpg",
   },
 ] as const
 
@@ -35,11 +37,53 @@ const visualIndex: Record<Exclude<InquiryReason, null>, number> = {
   general: 2,
 }
 
+const indexReasons = Object.fromEntries(
+  Object.entries(visualIndex).map(([reason, index]) => [index, reason]),
+) as Record<number, Exclude<InquiryReason, null>>
+
 type ViewTransitionDocument = Document & {
   startViewTransition?: (update: () => Promise<void> | void) => void
 }
 
 type SubmitContact = Parameters<typeof ReservationForm>[0]["onSubmitInquiry"]
+
+// Vertical title, reading bottom to top, sized so its length matches the image height.
+function VerticalTitle({ children }: { children: string }) {
+  const boxRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+
+  useLayoutEffect(() => {
+    const box = boxRef.current
+    const title = titleRef.current
+    if (!box || !title) return
+
+    // The title is absolutely positioned so it never stretches the row while measuring;
+    // the box then takes the fitted title's width.
+    const fit = () => {
+      title.style.fontSize = "100px"
+      const length = title.getBoundingClientRect().height
+      if (!length) return
+      title.style.fontSize = `${(100 * box.clientHeight) / length}px`
+      box.style.width = `${title.getBoundingClientRect().width}px`
+    }
+    const observer = new ResizeObserver(fit)
+    observer.observe(box)
+    fit()
+    void document.fonts?.ready.then(fit)
+    return () => observer.disconnect()
+  }, [children])
+
+  return (
+    <div className="relative h-full" ref={boxRef}>
+      <h1
+        className="absolute top-0 right-0 rotate-180 font-header-stencil leading-none whitespace-nowrap [writing-mode:vertical-rl]"
+        ref={titleRef}
+      >
+        {children}
+      </h1>
+    </div>
+  )
+}
 
 export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: SubmitContact } = {}) {
   const router = useRouter()
@@ -50,8 +94,30 @@ export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: Submi
       ? queryReason
       : null
 
+  const formSectionRef = useRef<HTMLElement>(null)
+  const formRef = useRef<HTMLDivElement>(null)
+  // Centered on load. Once the reason changes, the form's top is pinned so it only grows or
+  // shrinks from the bottom. Resizing the window re-centers it.
+  const [pinnedTop, setPinnedTop] = useState<number | null>(null)
+
+  useEffect(() => {
+    const release = () => setPinnedTop(null)
+    window.addEventListener("resize", release)
+    return () => window.removeEventListener("resize", release)
+  }, [])
+
+  const pinFormTop = useCallback(() => {
+    const section = formSectionRef.current
+    const form = formRef.current
+    if (!section || !form || pinnedTop !== null) return
+    const paddingTop = Number.parseFloat(window.getComputedStyle(section).paddingTop)
+    const top = form.getBoundingClientRect().top - section.getBoundingClientRect().top - paddingTop
+    flushSync(() => setPinnedTop(Math.max(0, top)))
+  }, [pinnedTop])
+
   const updateInquiryReason = useCallback(
     (nextReason: Exclude<InquiryReason, null>) => {
+      pinFormTop()
       const navigate = () => router.replace(`/contact?reason=${nextReason}`, { scroll: false })
       const transitionDocument = document as ViewTransitionDocument
 
@@ -67,21 +133,19 @@ export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: Submi
         })
       })
     },
-    [router],
+    [pinFormTop, router],
   )
 
   const visualTitle = inquiryReason ? visualTitles[inquiryReason] : "Contact Lily"
   const activeVisual = inquiryReason ? visualIndex[inquiryReason] : visualIndex.general
-  const caption = useMemo(
-    () => (
-      <div key={visualTitle}>
-        <p className="eyebrow">Lily · Gibsonia</p>
-        <h1 className="mt-1 font-display text-3xl font-medium md:text-4xl lg:text-5xl">
-          {visualTitle}
-        </h1>
-      </div>
+  // Each photo gets its own fitted title, so switching crossfades instead of resizing.
+  const caption = useCallback(
+    (index: number) => (
+      <VerticalTitle>
+        {inquiryReason || index !== activeVisual ? visualTitles[indexReasons[index]] : visualTitle}
+      </VerticalTitle>
     ),
-    [visualTitle],
+    [activeVisual, inquiryReason, visualTitle],
   )
 
   return (
@@ -97,26 +161,37 @@ export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: Submi
             backgroundSizes="(max-width: 800px) 100vw, 50vw"
             backgroundTransitionClassName="duration-[1600ms] ease-in-out"
             caption={caption}
+            captionPlacement="beside"
             className="absolute inset-0"
             foregroundAspectClassName="aspect-4/5"
-            foregroundClassName="w-[43.5%] max-w-sm"
-            foregroundPositionClassName="left-6 md:left-10 lg:left-16"
+            foregroundClassName="w-[43.5vw] max-w-sm md:w-[21.75vw]"
+            foregroundHiddenClipClassName="[clip-path:inset(0_0_0_100%)]"
+            foregroundPositionClassName="left-1/2 -translate-x-1/2"
             foregroundSizes="(max-width: 800px) 58vw, 29vw"
-            foregroundTransitionDelayClassName="delay-[700ms]"
             items={inquiryVisuals}
             priority
           />
         </section>
 
         <section
-          className="flex flex-col justify-center bg-dark-maroon px-6 pt-20 pb-8 text-warm-white md:min-h-svh md:px-10 md:pt-24 lg:px-16"
+          className={`relative isolate flex flex-col overflow-hidden bg-dark-maroon px-6 pt-20 pb-8 text-warm-white md:min-h-svh md:px-10 md:pt-24 lg:px-16 ${
+            pinnedTop === null ? "justify-center" : "justify-start"
+          }`}
           data-nav-tone="dark"
+          ref={formSectionRef}
         >
-          <ReservationForm
-            inquiryReason={inquiryReason}
-            onInquiryReasonChange={updateInquiryReason}
-            onSubmitInquiry={onSubmitInquiry}
-          />
+          <RotatingCrest className="pointer-events-none absolute top-1/2 right-[-8%] h-auto w-[min(48vw,38rem)] -translate-y-1/2 opacity-50" />
+          <div
+            className="relative z-10"
+            ref={formRef}
+            style={pinnedTop === null ? undefined : { marginTop: pinnedTop }}
+          >
+            <ReservationForm
+              inquiryReason={inquiryReason}
+              onInquiryReasonChange={updateInquiryReason}
+              onSubmitInquiry={onSubmitInquiry}
+            />
+          </div>
         </section>
       </div>
     </>

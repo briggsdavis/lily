@@ -15,9 +15,11 @@ export function LayeredMedia({
   backgroundSizes,
   backgroundTransitionClassName = "duration-1000 ease-lily",
   caption,
+  captionPlacement = "below",
   className = "",
   foregroundAspectClassName = "aspect-4/5",
   foregroundClassName = "w-1/2",
+  foregroundHiddenClipClassName = "[clip-path:inset(100%_0_0_0)]",
   foregroundImageClassName = "",
   foregroundPositionClassName = "left-1/2 -translate-x-1/2",
   foregroundTransitionClassName = "duration-1000 ease-lily",
@@ -30,10 +32,19 @@ export function LayeredMedia({
   backgroundBlurClassName?: string
   backgroundSizes: string
   backgroundTransitionClassName?: string
-  caption?: ReactNode
+  /** One caption for every item, or a function returning each item's own caption. */
+  caption?: ReactNode | ((index: number) => ReactNode)
+  /**
+   * "below" stacks the caption under the image; "overlay" lays it over the image box;
+   * "beside" places it left of the image, matching its height. In "beside" mode
+   * foregroundClassName sizes the image itself, so use non-percentage widths.
+   */
+  captionPlacement?: "below" | "overlay" | "beside"
   className?: string
   foregroundAspectClassName?: string
   foregroundClassName?: string
+  /** Clip-path class for inactive images; animating from it to inset(0) is the reveal. */
+  foregroundHiddenClipClassName?: string
   foregroundImageClassName?: string
   foregroundPositionClassName?: string
   foregroundTransitionClassName?: string
@@ -66,12 +77,18 @@ export function LayeredMedia({
       {items.map((item, index) => (
         <div
           aria-hidden={index !== active}
-          className={`absolute top-1/2 -translate-y-1/2 ${foregroundPositionClassName} ${foregroundClassName} ${index === active ? "z-10" : "pointer-events-none z-0"}`}
+          className={`absolute top-1/2 -translate-y-1/2 ${foregroundPositionClassName} ${
+            captionPlacement === "beside"
+              ? "flex items-stretch gap-1.5 md:gap-2"
+              : foregroundClassName
+          } ${index === active ? "z-10" : "pointer-events-none z-0"}`}
           key={`foreground-${item.src}`}
         >
           <div
-            className={`relative overflow-hidden transition-[clip-path] ${foregroundTransitionClassName} ${foregroundTransitionDelayClassName} ${foregroundAspectClassName} ${
-              index === active ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(100%_0_0_0)]"
+            className={`relative overflow-hidden transition-[clip-path] ${
+              captionPlacement === "beside" ? `shrink-0 ${foregroundClassName}` : ""
+            } ${foregroundTransitionClassName} ${foregroundTransitionDelayClassName} ${foregroundAspectClassName} ${
+              index === active ? "[clip-path:inset(0_0_0_0)]" : foregroundHiddenClipClassName
             }`}
           >
             <Image
@@ -85,11 +102,15 @@ export function LayeredMedia({
           </div>
           {caption ? (
             <div
-              className={`pt-3 transition-[opacity,filter] duration-700 ease-lily ${
-                index === active ? "opacity-100 blur-none" : "opacity-0 blur-md"
-              }`}
+              className={`transition-[opacity,filter] duration-700 ease-lily ${
+                captionPlacement === "overlay"
+                  ? "pointer-events-none absolute inset-0 z-20"
+                  : captionPlacement === "beside"
+                    ? "pointer-events-none order-first"
+                    : "pt-3"
+              } ${index === active ? "opacity-100 blur-none" : "opacity-0 blur-md"}`}
             >
-              {caption}
+              {typeof caption === "function" ? caption(index) : caption}
             </div>
           ) : null}
         </div>

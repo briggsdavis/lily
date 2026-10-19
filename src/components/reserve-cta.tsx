@@ -29,7 +29,7 @@ export function ReserveCta() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-0 bg-cream/8 mask-[url(/stamp.svg)] mask-cover mask-center mask-no-repeat"
+        className="pointer-events-none absolute inset-0 -z-0 bg-cream/8 mask-[url(/images/stamp.svg)] mask-cover mask-center mask-no-repeat"
       />
       <div className="relative z-10 mx-auto flex min-h-[27rem] w-full max-w-7xl flex-col items-center justify-center overflow-hidden border border-current px-7 py-16 text-center md:min-h-[83svh] md:px-16 md:py-20 lg:px-24">
         <div

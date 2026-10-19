@@ -1,6 +1,16 @@
 "use client"
 
-import { FormEvent, MouseEvent, useCallback, useEffect, useMemo, useState } from "react"
+import {
+  FormEvent,
+  MouseEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { PillButton } from "@/components/pill-button"
 
 const guestOptions = Array.from({ length: 8 }, (_, index) => index + 1)
@@ -19,8 +29,8 @@ const timeOptions = [
 const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
 const inquiryOptions = [
   { label: "Reservation", value: "reservation" },
-  { label: "Events", value: "events" },
-  { label: "General inquiry", value: "general" },
+  { label: "Event", value: "events" },
+  { label: "Inquiry", value: "general" },
 ] as const
 
 export type InquiryReason = (typeof inquiryOptions)[number]["value"] | null
@@ -40,8 +50,7 @@ function dateValue(date: Date) {
   return `${date.getFullYear()}-${month}-${day}`
 }
 
-const inquiryFieldsClass =
-  "relative z-20 grid animate-inquiry-fields gap-5 [view-transition-name:inquiry-fields] md:gap-6"
+const inquiryFieldsClass = "relative z-20 grid animate-inquiry-fields gap-5 md:gap-6"
 const pickerTriggerClass =
   "field-input flex cursor-pointer items-center justify-between gap-3 text-left"
 const pickerMenuClass =
@@ -50,6 +59,56 @@ const pickerOptionClass =
   "cursor-pointer px-3 py-2 text-left outline-none hover:bg-cream hover:text-dark-maroon focus-visible:bg-cream focus-visible:text-dark-maroon aria-pressed:bg-cream aria-pressed:text-dark-maroon"
 const calendarNavClass =
   "grid size-8 cursor-pointer place-items-center border border-transparent outline-none enabled:hover:border-current enabled:focus-visible:border-current disabled:cursor-default disabled:opacity-25"
+
+// Smoothly animates height when the fields swap, so the centered form never jolts.
+function AnimatedHeight({
+  children,
+  transitionKey,
+}: {
+  children: ReactNode
+  transitionKey: string
+}) {
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [previousKey, setPreviousKey] = useState(transitionKey)
+  const [height, setHeight] = useState<number>()
+  const [animating, setAnimating] = useState(false)
+
+  if (previousKey !== transitionKey) {
+    setPreviousKey(transitionKey)
+    setAnimating(!matchMedia("(prefers-reduced-motion: reduce)").matches)
+  }
+
+  // Fallback for swaps that don't change height, where transitionend never fires.
+  useEffect(() => {
+    if (!animating) return
+    const timer = setTimeout(() => setAnimating(false), 720)
+    return () => clearTimeout(timer)
+  }, [animating, transitionKey])
+
+  useLayoutEffect(() => {
+    const inner = innerRef.current
+    if (!inner) return
+    const measure = () => setHeight(inner.offsetHeight)
+    const observer = new ResizeObserver(measure)
+    observer.observe(inner)
+    measure()
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div
+      className={`relative z-20 ${
+        animating ? "overflow-clip transition-[height] duration-[680ms] ease-lily" : ""
+      }`}
+      onTransitionEnd={(event) => {
+        if (event.target === event.currentTarget) setAnimating(false)
+      }}
+      style={{ height }}
+    >
+      <div ref={innerRef}>{children}</div>
+    </div>
+  )
+}
 
 export function ReservationForm({
   inquiryReason,
@@ -299,188 +358,190 @@ export function ReservationForm({
         />
       </div>
 
-      {inquiryReason === "reservation" ? (
-        <div className={inquiryFieldsClass} key="reservation">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
-            <div className="relative col-span-2 grid md:col-span-1" data-picker>
-              <input name="guests" type="hidden" value={guests} />
-              <button
-                aria-expanded={openPicker === "guests"}
-                className={pickerTriggerClass}
-                data-picker-trigger="guests"
-                onClick={togglePicker}
-                type="button"
-              >
-                <span>
-                  {guests} {guests === 1 ? "guest" : "guests"}
-                </span>
-                <span aria-hidden="true">&#9662;</span>
-              </button>
-              {openPicker === "guests" && (
-                <div aria-label="Number of guests" className={pickerMenuClass}>
-                  {guestOptions.map((option) => (
-                    <button
-                      aria-pressed={option === guests}
-                      className={pickerOptionClass}
-                      data-guests={option}
-                      key={option}
-                      onClick={chooseGuests}
-                      type="button"
-                    >
-                      {option} {option === 1 ? "guest" : "guests"}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="relative grid" data-picker>
-              <input
-                name="date"
-                type="hidden"
-                value={selectedDate ? dateValue(selectedDate) : ""}
-              />
-              <button
-                aria-expanded={openPicker === "date"}
-                className={`${pickerTriggerClass} ${dateError ? "border-current! shadow-[0_1px_0_currentColor]!" : ""}`}
-                data-picker-trigger="date"
-                onClick={togglePicker}
-                type="button"
-              >
-                <span>{formattedDate}</span>
-                <span aria-hidden="true">+</span>
-              </button>
-              {openPicker === "date" && (
-                <div className="absolute top-full left-0 z-50 mt-2 w-80 max-w-[calc(100vw-2.5rem)] border border-pink/50 bg-dark-maroon p-3 text-warm-white shadow-xl shadow-zinc-950/40">
-                  <div className="mb-2.5 grid grid-cols-[auto_1fr_auto] items-center text-center">
-                    <button
-                      aria-label="Previous month"
-                      className={calendarNavClass}
-                      data-month-offset="-1"
-                      disabled={
-                        calendarMonth.getFullYear() === today.getFullYear() &&
-                        calendarMonth.getMonth() === today.getMonth()
-                      }
-                      onClick={changeCalendarMonth}
-                      type="button"
-                    >
-                      &larr;
-                    </button>
-                    <strong>
-                      {new Intl.DateTimeFormat("en-US", {
-                        month: "long",
-                        year: "numeric",
-                      }).format(calendarMonth)}
-                    </strong>
-                    <button
-                      aria-label="Next month"
-                      className={calendarNavClass}
-                      data-month-offset="1"
-                      onClick={changeCalendarMonth}
-                      type="button"
-                    >
-                      &rarr;
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-7 gap-0.5">
-                    {weekdays.map((weekday) => (
-                      <span className="py-1 text-center eyebrow" key={weekday}>
-                        {weekday}
-                      </span>
+      <AnimatedHeight transitionKey={inquiryReason ?? "unselected"}>
+        {inquiryReason === "reservation" ? (
+          <div className={inquiryFieldsClass} key="reservation">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
+              <div className="relative col-span-2 grid md:col-span-1" data-picker>
+                <input name="guests" type="hidden" value={guests} />
+                <button
+                  aria-expanded={openPicker === "guests"}
+                  className={pickerTriggerClass}
+                  data-picker-trigger="guests"
+                  onClick={togglePicker}
+                  type="button"
+                >
+                  <span>
+                    {guests} {guests === 1 ? "guest" : "guests"}
+                  </span>
+                  <span aria-hidden="true">&#9662;</span>
+                </button>
+                {openPicker === "guests" && (
+                  <div aria-label="Number of guests" className={pickerMenuClass}>
+                    {guestOptions.map((option) => (
+                      <button
+                        aria-pressed={option === guests}
+                        className={pickerOptionClass}
+                        data-guests={option}
+                        key={option}
+                        onClick={chooseGuests}
+                        type="button"
+                      >
+                        {option} {option === 1 ? "guest" : "guests"}
+                      </button>
                     ))}
-                    {calendarDays.map(({ day, key }) => {
-                      if (!day) return <span aria-hidden="true" key={key} />
-
-                      const date = new Date(
-                        calendarMonth.getFullYear(),
-                        calendarMonth.getMonth(),
-                        day,
-                      )
-                      const disabled = date < today
-                      const selected = selectedDate ? sameDay(date, selectedDate) : false
-
-                      return (
-                        <button
-                          aria-label={date.toLocaleDateString("en-US")}
-                          className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none focus-visible:bg-cream focus-visible:text-dark-maroon enabled:hover:bg-cream enabled:hover:text-dark-maroon disabled:cursor-default disabled:opacity-25 ${selected ? "bg-cream text-dark-maroon" : ""}`}
-                          data-day={day}
-                          disabled={disabled}
-                          key={key}
-                          onClick={chooseDate}
-                          type="button"
-                        >
-                          {day}
-                        </button>
-                      )
-                    })}
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+
+              <div className="relative grid" data-picker>
+                <input
+                  name="date"
+                  type="hidden"
+                  value={selectedDate ? dateValue(selectedDate) : ""}
+                />
+                <button
+                  aria-expanded={openPicker === "date"}
+                  className={`${pickerTriggerClass} ${dateError ? "border-current! shadow-[0_1px_0_currentColor]!" : ""}`}
+                  data-picker-trigger="date"
+                  onClick={togglePicker}
+                  type="button"
+                >
+                  <span>{formattedDate}</span>
+                  <span aria-hidden="true">+</span>
+                </button>
+                {openPicker === "date" && (
+                  <div className="absolute top-full left-0 z-50 mt-2 w-80 max-w-[calc(100vw-2.5rem)] border border-pink/50 bg-dark-maroon p-3 text-warm-white shadow-xl shadow-zinc-950/40">
+                    <div className="mb-2.5 grid grid-cols-[auto_1fr_auto] items-center text-center">
+                      <button
+                        aria-label="Previous month"
+                        className={calendarNavClass}
+                        data-month-offset="-1"
+                        disabled={
+                          calendarMonth.getFullYear() === today.getFullYear() &&
+                          calendarMonth.getMonth() === today.getMonth()
+                        }
+                        onClick={changeCalendarMonth}
+                        type="button"
+                      >
+                        &larr;
+                      </button>
+                      <strong>
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "long",
+                          year: "numeric",
+                        }).format(calendarMonth)}
+                      </strong>
+                      <button
+                        aria-label="Next month"
+                        className={calendarNavClass}
+                        data-month-offset="1"
+                        onClick={changeCalendarMonth}
+                        type="button"
+                      >
+                        &rarr;
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-7 gap-0.5">
+                      {weekdays.map((weekday) => (
+                        <span className="py-1 text-center eyebrow" key={weekday}>
+                          {weekday}
+                        </span>
+                      ))}
+                      {calendarDays.map(({ day, key }) => {
+                        if (!day) return <span aria-hidden="true" key={key} />
+
+                        const date = new Date(
+                          calendarMonth.getFullYear(),
+                          calendarMonth.getMonth(),
+                          day,
+                        )
+                        const disabled = date < today
+                        const selected = selectedDate ? sameDay(date, selectedDate) : false
+
+                        return (
+                          <button
+                            aria-label={date.toLocaleDateString("en-US")}
+                            className={`grid aspect-square cursor-pointer place-items-center rounded-full text-xs outline-none focus-visible:bg-cream focus-visible:text-dark-maroon enabled:hover:bg-cream enabled:hover:text-dark-maroon disabled:cursor-default disabled:opacity-25 ${selected ? "bg-cream text-dark-maroon" : ""}`}
+                            data-day={day}
+                            disabled={disabled}
+                            key={key}
+                            onClick={chooseDate}
+                            type="button"
+                          >
+                            {day}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="relative grid" data-picker>
+                <input name="time" type="hidden" value={time} />
+                <button
+                  aria-expanded={openPicker === "time"}
+                  className={pickerTriggerClass}
+                  data-picker-trigger="time"
+                  onClick={togglePicker}
+                  type="button"
+                >
+                  <span>{time}</span>
+                  <span aria-hidden="true">&#9662;</span>
+                </button>
+                {openPicker === "time" && (
+                  <div aria-label="Reservation time" className={pickerMenuClass}>
+                    {timeOptions.map((option) => (
+                      <button
+                        aria-pressed={option === time}
+                        className={pickerOptionClass}
+                        data-time={option}
+                        key={option}
+                        onClick={chooseTime}
+                        type="button"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="relative grid" data-picker>
-              <input name="time" type="hidden" value={time} />
-              <button
-                aria-expanded={openPicker === "time"}
-                className={pickerTriggerClass}
-                data-picker-trigger="time"
-                onClick={togglePicker}
-                type="button"
-              >
-                <span>{time}</span>
-                <span aria-hidden="true">&#9662;</span>
-              </button>
-              {openPicker === "time" && (
-                <div aria-label="Reservation time" className={pickerMenuClass}>
-                  {timeOptions.map((option) => (
-                    <button
-                      aria-pressed={option === time}
-                      className={pickerOptionClass}
-                      data-time={option}
-                      key={option}
-                      onClick={chooseTime}
-                      type="button"
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
+            <div className="relative grid">
+              <label className="sr-only" htmlFor="special-requests">
+                Special requests
+              </label>
+              <textarea
+                className="field-input min-h-20 resize-y"
+                id="special-requests"
+                name="specialRequests"
+                placeholder="Special requests"
+                rows={2}
+              />
             </div>
           </div>
-
-          <div className="relative grid">
-            <label className="sr-only" htmlFor="special-requests">
-              Special requests
-            </label>
-            <textarea
-              className="field-input min-h-20 resize-y"
-              id="special-requests"
-              name="specialRequests"
-              placeholder="Special requests"
-              rows={2}
-            />
+        ) : (
+          <div className={inquiryFieldsClass} key={inquiryReason ?? "unselected"}>
+            <div className="relative grid">
+              <label className="sr-only" htmlFor="message">
+                Message
+              </label>
+              <textarea
+                className="field-input min-h-20 resize-y"
+                id="message"
+                name="message"
+                placeholder="Your message"
+                required
+                rows={3}
+              />
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className={inquiryFieldsClass} key={inquiryReason ?? "unselected"}>
-          <div className="relative grid">
-            <label className="sr-only" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              className="field-input min-h-20 resize-y"
-              id="message"
-              name="message"
-              placeholder="Your message"
-              required
-              rows={3}
-            />
-          </div>
-        </div>
-      )}
+        )}
+      </AnimatedHeight>
 
-      <div className="relative z-0 flex flex-col items-stretch gap-4 [view-transition-name:inquiry-footer] sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative z-0 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
         <PillButton
           className="w-full sm:w-auto sm:min-w-44"
           color="cream"

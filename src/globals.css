@@ -4,7 +4,174 @@
 
 @theme inline {
   --font-display: var(--font-display-source);
-  --font-body: var(--font-body-source);
+}
+
+@theme {
+  --font-header: "Masqualero W04", serif;
+  --font-header-stencil: "Masqualero Stencil", serif;
+  --font-subhead: "Masqualero", serif;
+  --font-subhead-groove: "Masqualero Groove", serif;
+  --font-body: "Gabriel Sans", sans-serif;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-thin-italic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-light-italic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-medium-italic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-bold-italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gabriel Sans";
+  src: url("/fonts/body/gabriel-sans-black-italic.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero W04";
+  src: url("/fonts/header/masqualero-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero Stencil";
+  src: url("/fonts/header/masqualero-stencil.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero";
+  src: url("/fonts/subhead/masqualero-light-italic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero";
+  src: url("/fonts/subhead/masqualero-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero";
+  src: url("/fonts/subhead/masqualero-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero";
+  src: url("/fonts/subhead/masqualero-black-italic.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero";
+  src: url("/fonts/subhead/masqualero-extra-black-italic.woff2") format("woff2");
+  font-weight: 950;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Masqualero Groove";
+  src: url("/fonts/subhead/masqualero-groove.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @theme {
@@ -198,11 +365,8 @@
   background-size: 96px 96px;
 }
 
-.hero-intro-pending .hero-intro-media,
-.hero-intro-pending .hero-intro-header,
 .hero-intro-pending .hero-stagger {
   opacity: 0;
-  filter: blur(28px);
 }
 
 .hero-intro-pending,
@@ -215,14 +379,44 @@
   opacity: 1;
 }
 
-.hero-intro-mark {
-  transform: translate3d(0, calc(50vh + 100%), 0);
-  will-change: transform;
-}
-
-.hero-intro-mark-path {
-  transform: translate3d(-50%, -50%, 0);
-  will-change: transform;
+/* Critically damped spring (bounce 0), sampled for CSS. */
+:root {
+  --ease-intro-spring: linear(
+    0,
+    0.0344 3.125%,
+    0.1144 6.25%,
+    0.215 9.375%,
+    0.3208 12.5%,
+    0.4228 15.625%,
+    0.5164 18.75%,
+    0.5993 21.875%,
+    0.6711 25%,
+    0.732 28.125%,
+    0.7831 31.25%,
+    0.8254 34.375%,
+    0.8601 37.5%,
+    0.8884 40.625%,
+    0.9113 43.75%,
+    0.9297 46.875%,
+    0.9445 50%,
+    0.9563 53.125%,
+    0.9656 56.25%,
+    0.973 59.375%,
+    0.9789 62.5%,
+    0.9835 65.625%,
+    0.9871 68.75%,
+    0.99 71.875%,
+    0.9922 75%,
+    0.994 78.125%,
+    0.9953 81.25%,
+    0.9964 84.375%,
+    0.9972 87.5%,
+    0.9978 90.625%,
+    0.9983 93.75%,
+    0.9987 96.875%,
+    1
+  );
+  --ease-intro-exit: cubic-bezier(0.9, 0, 0.19, 1);
 }
 
 .hero-intro-curtain {
@@ -231,45 +425,411 @@
   will-change: transform;
 }
 
+.hero-intro-mark-path {
+  will-change: transform;
+}
+
+.hero-intro-mark {
+  transform: translate3d(-50%, -50%, 0) translateY(800px);
+  opacity: 0.001;
+  will-change: transform, opacity;
+}
+
+/* 0s: mark rises 800px over 2s. */
 .hero-intro-running .hero-intro-mark {
-  animation: hero-intro-mark-arrive 1700ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  animation: hero-intro-mark-arrive 2000ms var(--ease-intro-spring) both;
+}
+
+/* 2s: curtain lifts 102.5% while the mark climbs ahead of it, 1s. */
+.hero-intro-running .hero-intro-curtain {
+  animation: hero-intro-curtain 1000ms 2000ms var(--ease-intro-exit) both;
 }
 
 .hero-intro-running .hero-intro-mark-path {
-  animation: hero-intro-mark-exit 550ms 2200ms cubic-bezier(0.7, 0, 1, 1) both;
+  animation: hero-intro-mark-exit 1000ms 2000ms var(--ease-intro-exit) both;
 }
 
-.hero-intro-running .hero-intro-curtain {
-  animation: hero-intro-curtain 900ms 2200ms var(--ease-curtain) both;
-}
-
-.hero-intro-running .hero-intro-media {
-  animation: first-load-focus 1350ms 2050ms var(--ease-lily) both;
-}
-
-.hero-intro-running .hero-intro-header {
-  animation: first-load-focus 1100ms 2250ms var(--ease-lily) both;
-}
-
+/* 3.2s: hero content rises 20px; side copy slides 20px at 3.4s. */
 .hero-intro-running .hero-stagger {
-  animation: first-load-focus 1050ms calc(2050ms + var(--animate-delay)) var(--ease-lily) both;
+  animation: hero-intro-rise 1000ms 3200ms var(--ease-intro-spring) both;
+}
+
+.hero-intro-running .hero-intro-side {
+  animation: hero-intro-slide 1000ms 3400ms var(--ease-intro-spring) both;
 }
 
 @keyframes hero-intro-mark-arrive {
   to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes hero-intro-mark-exit {
-  to {
-    transform: translate3d(-50%, calc(-50vh - 100%), 0);
+    transform: translate3d(-50%, -50%, 0);
+    opacity: 1;
   }
 }
 
 @keyframes hero-intro-curtain {
   to {
-    transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -102.5%, 0);
+  }
+}
+
+@keyframes hero-intro-mark-exit {
+  to {
+    transform: translate3d(0, calc(-50vh - 800px), 0);
+  }
+}
+
+@keyframes hero-intro-rise {
+  from {
+    opacity: 0.001;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-intro-slide {
+  from {
+    opacity: 0.001;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer components {
+  /* Double line frame with an open, tapered top and irregular, hand-drawn thickness.
+     The outer line grows outward and the inner line inward, so the gap stays constant.
+     Thickness profiles (--f0..--f12, 0 to 1) are set per piece by <DoubleFrame />.
+     Override any --frame-* var per use. */
+  .frame-double {
+    --frame-color: #8c775b;
+    --frame-outer-min: 1.5px;
+    --frame-outer-max: 5px;
+    --frame-inner-min: 1px;
+    --frame-inner-max: 2.75px;
+    --frame-gap: 6px;
+    --frame-inset: 12px;
+    --frame-opening: 45%;
+    --frame-taper: 48px;
+    position: absolute;
+    inset: var(--frame-inset);
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .frame-double-ring {
+    position: absolute;
+  }
+
+  .frame-double-ring > span {
+    position: absolute;
+    background: var(--frame-color);
+  }
+
+  .frame-double-outer {
+    --tmin: var(--frame-outer-min);
+    --tmax: var(--frame-outer-max);
+    inset: var(--frame-outer-max);
+  }
+
+  .frame-double-inner {
+    --tmin: var(--frame-inner-min);
+    --tmax: var(--frame-inner-max);
+    inset: calc(var(--frame-outer-max) + var(--frame-gap));
+  }
+
+  /* Outer ring: pieces sit outside the ring box and grow outward. */
+  .frame-double-outer > .frame-l {
+    right: 100%;
+    top: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) * -1);
+    bottom: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5)) * -1);
+    width: var(--tmax);
+    clip-path: polygon(
+      100% 0,
+      100% 100%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5))) 100%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f11, 0.5))) 91.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f10, 0.5))) 83.33%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f9, 0.5))) 75%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5))) 66.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5))) 58.33%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5))) 50%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5))) 41.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5))) 33.33%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5))) 25%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5))) 16.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5))) 8.333%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5))) 0%
+    );
+  }
+
+  .frame-double-outer > .frame-r {
+    left: 100%;
+    top: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) * -1);
+    bottom: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5)) * -1);
+    width: var(--tmax);
+    clip-path: polygon(
+      0 0,
+      0 100%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5)) 100%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f11, 0.5)) 91.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f10, 0.5)) 83.33%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f9, 0.5)) 75%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)) 66.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5)) 58.33%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5)) 50%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5)) 41.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5)) 33.33%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5)) 25%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5)) 16.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5)) 8.333%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) 0%
+    );
+  }
+
+  .frame-double-outer > .frame-b {
+    top: 100%;
+    left: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) * -1);
+    right: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5)) * -1);
+    height: var(--tmax);
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5)),
+      91.67% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f11, 0.5)),
+      83.33% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f10, 0.5)),
+      75% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f9, 0.5)),
+      66.67% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)),
+      58.33% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5)),
+      50% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5)),
+      41.67% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5)),
+      33.33% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5)),
+      25% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5)),
+      16.67% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5)),
+      8.333% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5)),
+      0% calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5))
+    );
+  }
+
+  .frame-double-outer > .frame-tl,
+  .frame-double-outer > .frame-tr {
+    bottom: 100%;
+    width: calc(
+      50% - var(--frame-opening) / 2 +
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5))
+    );
+    height: var(--tmax);
+  }
+
+  .frame-double-outer > .frame-tl {
+    left: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) * -1);
+    clip-path: polygon(
+      0 100%,
+      100% 100%,
+      calc(100% - var(--frame-taper) / 2)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)) * 0.4),
+      calc((100% - var(--frame-taper)) * 1)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.875)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.75)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.625)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.5)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.375)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.25)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5))),
+      calc((100% - var(--frame-taper)) * 0.125)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5))),
+      calc((100% - var(--frame-taper)) * 0)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)))
+    );
+  }
+
+  .frame-double-outer > .frame-tr {
+    right: calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) * -1);
+    clip-path: polygon(
+      100% 100%,
+      0 100%,
+      calc(var(--frame-taper) / 2)
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)) * 0.4),
+      calc(100% - calc((100% - var(--frame-taper)) * 1))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.875))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.75))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.625))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.5))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.375))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.25))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.125))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5))),
+      calc(100% - calc((100% - var(--frame-taper)) * 0))
+        calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)))
+    );
+  }
+
+  /* Inner ring: pieces sit inside the ring box and grow inward. */
+  .frame-double-inner > .frame-l {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--tmax);
+    clip-path: polygon(
+      0 0,
+      0 100%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5)) 100%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f11, 0.5)) 91.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f10, 0.5)) 83.33%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f9, 0.5)) 75%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)) 66.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5)) 58.33%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5)) 50%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5)) 41.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5)) 33.33%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5)) 25%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5)) 16.67%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5)) 8.333%,
+      calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)) 0%
+    );
+  }
+
+  .frame-double-inner > .frame-r {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--tmax);
+    clip-path: polygon(
+      100% 0,
+      100% 100%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5))) 100%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f11, 0.5))) 91.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f10, 0.5))) 83.33%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f9, 0.5))) 75%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5))) 66.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5))) 58.33%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5))) 50%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5))) 41.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5))) 33.33%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5))) 25%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5))) 16.67%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5))) 8.333%,
+      calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5))) 0%
+    );
+  }
+
+  .frame-double-inner > .frame-b {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--tmax);
+    clip-path: polygon(
+      0 100%,
+      100% 100%,
+      100% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f12, 0.5))),
+      91.67% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f11, 0.5))),
+      83.33% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f10, 0.5))),
+      75% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f9, 0.5))),
+      66.67% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5))),
+      58.33% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5))),
+      50% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5))),
+      41.67% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5))),
+      33.33% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5))),
+      25% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5))),
+      16.67% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5))),
+      8.333% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5))),
+      0% calc(100% - calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5)))
+    );
+  }
+
+  .frame-double-inner > .frame-tl,
+  .frame-double-inner > .frame-tr {
+    top: 0;
+    width: calc(50% - var(--frame-opening) / 2 - var(--frame-gap));
+    height: var(--tmax);
+  }
+
+  .frame-double-inner > .frame-tl {
+    left: 0;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      calc(100% - var(--frame-taper) / 2)
+        calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)) * 0.4),
+      calc((100% - var(--frame-taper)) * 1)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.875)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.75)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.625)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.5)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.375)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.25)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5)),
+      calc((100% - var(--frame-taper)) * 0.125)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5)),
+      calc((100% - var(--frame-taper)) * 0)
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5))
+    );
+  }
+
+  .frame-double-inner > .frame-tr {
+    right: 0;
+    clip-path: polygon(
+      100% 0,
+      0 0,
+      calc(var(--frame-taper) / 2)
+        calc(calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)) * 0.4),
+      calc(100% - calc((100% - var(--frame-taper)) * 1))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f8, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.875))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f7, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.75))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f6, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.625))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f5, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.5))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f4, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.375))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f3, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.25))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f2, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0.125))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f1, 0.5)),
+      calc(100% - calc((100% - var(--frame-taper)) * 0))
+        calc(var(--tmin) + (var(--tmax) - var(--tmin)) * var(--f0, 0.5))
+    );
+  }
+}
+
+.crest-ring {
+  animation: crest-ring-spin 60s linear infinite;
+}
+
+@keyframes crest-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crest-ring {
+    animation: none;
   }
 }
 
