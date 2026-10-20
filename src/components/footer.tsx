@@ -79,12 +79,9 @@ export function Footer() {
             </nav>
 
             <div className="flex shrink-0 flex-col items-start gap-1 text-xs lg:items-end lg:text-right">
-              <a className="animated-underline w-max" href="mailto:hello@lilyrestaurant.com">
-                hello@lilyrestaurant.com
-              </a>
-              <a className="animated-underline w-max" href="tel:+17245024572">
-                (724) 502-4572
-              </a>
+              <p>hello@lilyrestaurant.com</p>
+              <p>(724) 502-4572</p>
+              <p>Tue-Sat, 4:30-9:00 PM</p>
               <address className="not-italic">
                 500 Grandview Crossing Dr, Gibsonia, PA 15044
               </address>

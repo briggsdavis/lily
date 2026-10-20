@@ -1,4 +1,4 @@
-export const menuCategorySlugs = ["mains", "salads", "desserts", "drinks"] as const
+export const menuCategorySlugs = ["starters", "salads", "mains", "desserts"] as const
 
 export type MenuCategorySlug = (typeof menuCategorySlugs)[number]
 
@@ -27,88 +27,90 @@ export type MenuCategory = {
 
 export const menuCategories: readonly MenuCategory[] = [
   {
-    slug: "mains",
-    name: "Mains",
-    description:
-      "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
-    image: "/images/lily-seasonal-main-dish-4x5.webp",
-    imageAlt: "A seasonal main dish plated at Lily",
+    slug: "starters",
+    name: "Starters",
+    description: "Raw bar, small plates, and snacks to open the table, built for sharing.",
+    image: "/images/catering/burrata.webp",
+    imageAlt: "A starter plated at Lily",
     sections: [
       {
-        title: "From the garden",
-        description:
-          "Vegetable-led plates that move with the farms, finished with bright herbs and patient sauces.",
-        image: "/images/menu-main-plated-unsplash.jpg",
-        imageAlt: "A composed plate of seasonal vegetables",
+        title: "Raw & chilled",
+        description: "Oysters, crudo, and tartare, kept cold and dressed simply.",
+        image: "/images/catering/salmon-bites.webp",
+        imageAlt: "Chilled raw bar bites",
         items: [
           {
-            name: "Roasted Honeynut Squash",
-            description: "Brown butter, toasted hazelnut, sage, and cider glaze.",
-            price: "$24",
+            name: "Oysters*",
+            description: "Seasonal mignonette, horseradish.",
+            price: "MP",
           },
           {
-            name: "Charred Cauliflower",
-            description: "Sunflower tahini, golden raisin, caper, and preserved lemon.",
+            name: "Dry Aged Steak Tartare*",
+            description: "Dry aged steak, egg yolk jam, potato chips, fried oyster.",
             price: "$23",
           },
           {
-            name: "Wild Mushroom Mafaldine",
-            description: "Hand-cut pasta, roasted mushroom, thyme, and aged parmesan.",
-            price: "$29",
+            name: "Scallop Crudo*",
+            description: "Apple, celery, hazelnut chili crisp, tarragon.",
+            price: "$22",
           },
           {
-            name: "Ricotta Gnudi",
-            description: "Delicata squash, brown butter, pepita, and crispy rosemary.",
-            price: "$28",
+            name: "Shrimp Cocktail",
+            description: "Bloody mary cocktail sauce, lemon.",
+            price: "$21",
           },
           {
-            name: "Crispy Eggplant",
-            description: "Smoked tomato, whipped feta, basil, and chile honey.",
-            price: "$25",
-          },
-          {
-            name: "Farro Verde",
-            description: "Broccoli leaf pesto, grilled leek, pecorino, and lemon crumb.",
-            price: "$26",
+            name: "Marinated Olives",
+            description: "Castelvetrano olive, nduja, almond, grana padano.",
+            price: "$11",
           },
         ],
       },
       {
-        title: "From the hearth",
-        description:
-          "Generous center-of-the-table cooking, shaped by smoke, the season, and our local producers.",
-        image: "/images/menu-main-pasta-unsplash.jpg",
-        imageAlt: "Fresh pasta served with a seasonal sauce",
+        title: "From the kitchen",
+        description: "Hot small plates for the middle of the table.",
+        image: "/images/catering/cheese-board.webp",
+        imageAlt: "Small plates for sharing",
         items: [
           {
-            name: "Seared Market Fish",
-            description: "Celery root, braised fennel, mussel broth, and dill oil.",
-            price: "$36",
+            name: "Clam Chowder",
+            description: "Crispy clams, potato, pork belly, house made oyster cracker.",
+            price: "$14",
           },
           {
-            name: "Heritage Chicken",
-            description: "Roasted breast, confit leg, cipollini, and natural jus.",
-            price: "$34",
+            name: "Crispy Brussels Sprouts",
+            description: "Dijon vinaigrette, chives, gruyere.",
+            price: "$16",
           },
           {
-            name: "Short Rib Agnolotti",
-            description: "Braised beef, black garlic, charred onion, and parmesan brodo.",
-            price: "$32",
+            name: "Fritto Misto",
+            description: "Calamari, shrimp, oyster, calabrian chili aioli, lemon.",
+            price: "$22",
           },
           {
-            name: "Cider-Glazed Pork",
-            description: "Creamed cabbage, mustard seed, apple, and rosemary jus.",
-            price: "$35",
+            name: "Pork Belly",
+            description: "Lettuce cups, miso caramel, pickled radish.",
+            price: "$19",
           },
           {
-            name: "Dry-Aged Striploin",
-            description: "Potato pavé, roasted shallot, watercress, and bordelaise.",
-            price: "$46",
+            name: "Pimento Arancini",
+            description: "Pimento cheese, Benton's country ham, alabama white sauce.",
+            price: "$19",
           },
           {
-            name: "Whole Roasted Branzino",
-            description: "Fennel, green olive, preserved lemon, and saffron broth.",
-            price: "$42",
+            name: "Bone Marrow",
+            description: "Herb salad with brown butter vinaigrette.",
+            price: "$23",
+          },
+          {
+            name: "Octopus Tostada",
+            description: "Aji amarillo, salsa fresca, avocado.",
+            price: "$19",
+          },
+          {
+            name: "Sweet Potato",
+            description: "Onion soubise, hazelnut praline, chili crunch.",
+            price: "$17",
           },
         ],
       },
@@ -118,85 +120,121 @@ export const menuCategories: readonly MenuCategory[] = [
     slug: "salads",
     name: "Salads",
     description:
-      "Crisp leaves, market vegetables, fresh herbs, and bright dressings composed with a light touch.",
+      "Crisp leaves, market vegetables, and bright dressings composed with a light touch.",
     image: "/images/menu-main-plated-unsplash.jpg",
-    imageAlt: "A bright plate of seasonal greens and vegetables",
+    imageAlt: "A bright plate of seasonal greens",
     sections: [
       {
-        title: "Market leaves",
-        description:
-          "Tender greens and raw vegetables, dressed to order and built for a lively first course.",
+        title: "Salads",
+        description: "Classic and seasonal salads, dressed to order.",
         image: "/images/catering/pomegranate-salad.webp",
-        imageAlt: "Seasonal salad with pomegranate and fresh greens",
+        imageAlt: "A seasonal salad",
         items: [
           {
-            name: "Little Gem Caesar",
-            description: "Parmesan, sourdough crumb, white anchovy, and lemon.",
+            name: "Caesar",
+            description: "Romaine hearts, garlic bread crumb, crispy caper.",
+            price: "$14",
+          },
+          {
+            name: "Wedge",
+            description: "Pork belly, blue cheese, confit tomato, chive, green goddess.",
             price: "$16",
           },
           {
-            name: "Lily House Greens",
-            description: "Tender herbs, shaved radish, fines herbes, and champagne vinaigrette.",
+            name: "Lyonnaise*",
+            description: "Frisée, lardon, poached egg, dijon vinaigrette.",
+            price: "$16",
+          },
+          {
+            name: "Squash Salad",
+            description: "Stracciatella, endive, black pepper and apple vinaigrette.",
             price: "$15",
           },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "mains",
+    name: "Mains",
+    description: "Dry aged steaks, seafood, and generous plates built around local producers.",
+    image: "/images/lily-seasonal-main-dish-4x5.webp",
+    imageAlt: "A main dish plated at Lily",
+    sections: [
+      {
+        title: "From the land",
+        description: "Steaks, chops, and slow-cooked plates from the hearth.",
+        image: "/images/menu-main-pasta-unsplash.jpg",
+        imageAlt: "A plated main course",
+        items: [
           {
-            name: "Winter Chicories",
-            description: "Pear, walnut, blue cheese, and maple-sherry vinaigrette.",
-            price: "$17",
+            name: "Dry Aged Strip Steak*",
+            description: "Aligot potato, local mushroom, peppercorn sauce.",
+            price: "$65",
           },
           {
-            name: "Arugula & Fennel",
-            description: "Citrus, pecorino, toasted almond, and cracked pepper.",
-            price: "$16",
+            name: "Surf & Turf*",
+            description: "Filet, butter poached lobster tail, pave potato.",
+            price: "$69",
           },
           {
-            name: "Butter Lettuce",
-            description: "Green goddess, avocado, cucumber, and sunflower seed.",
-            price: "$17",
+            name: "Chicken Ballotine",
+            description: "Fondant potato, french beans, roasted chicken jus.",
+            price: "$37",
           },
           {
-            name: "Shaved Kale",
-            description: "Apple, aged cheddar, rye crumb, and mustard vinaigrette.",
-            price: "$16",
+            name: "Pork Chop*",
+            description: "Apple butter, brussels sprouts, fried potato, pickled apples.",
+            price: "$43",
+          },
+          {
+            name: "Veal Chop Milanese",
+            description: "Arugula, parmesan, charred lemon.",
+            price: "$71",
+          },
+          {
+            name: "Duck*",
+            description: "Pumpkin mole, masa spaetzle, fresh herb salad.",
+            price: "$39",
+          },
+          {
+            name: "House Burger*",
+            description: "House ground beef, cooper sharp, house pickles.",
+            price: "$29",
+          },
+          {
+            name: "Short Rib",
+            description:
+              "Bone in short rib, potato parsnip puree, baby carrots, cranberry chipotle demi.",
+            price: "$46",
+          },
+          {
+            name: "Sweet Potato Gnocchi",
+            description: "Duck ragu, brussels sprouts, gruyere.",
+            price: "$33",
           },
         ],
       },
       {
-        title: "Composed salads",
-        description:
-          "More substantial plates layered with roasted produce, grains, cheese, and garden herbs.",
-        image: "/images/catering/garden-platter.webp",
-        imageAlt: "A generous platter of garden vegetables and herbs",
+        title: "From the sea",
+        description: "Fish and shellfish, cooked simply and finished bright.",
+        image: "/images/menu-main-plated-unsplash.jpg",
+        imageAlt: "A seafood main course",
         items: [
           {
-            name: "Roasted Beet & Citrus",
-            description: "Cara cara orange, chèvre, pistachio, and tarragon.",
-            price: "$19",
+            name: "Pan Roasted Scallop*",
+            description: "Cauliflower, brown butter, olive, raisin.",
+            price: "$50",
           },
           {
-            name: "Burrata & Persimmon",
-            description: "Bitter greens, pumpkin seed, balsamic, and grilled bread.",
-            price: "$21",
+            name: "Maryland Crab Cake",
+            description: "Fall vegetable succotash, tartar sauce.",
+            price: "$44",
           },
           {
-            name: "Warm Farro",
-            description: "Roasted squash, kale, date, feta, and cumin vinaigrette.",
-            price: "$20",
-          },
-          {
-            name: "Endive & Smoked Trout",
-            description: "Potato, soft egg, dill, and horseradish crème fraîche.",
-            price: "$22",
-          },
-          {
-            name: "Charred Broccolini",
-            description: "White bean, pecorino, pickled chile, and lemon.",
-            price: "$19",
-          },
-          {
-            name: "Grilled Radicchio",
-            description: "Concord grape, taleggio, hazelnut, and rosemary honey.",
-            price: "$20",
+            name: "Branzino",
+            description: "Broiled, salsa verde, herb salad, charred lemon.",
+            price: "$42",
           },
         ],
       },
@@ -205,174 +243,35 @@ export const menuCategories: readonly MenuCategory[] = [
   {
     slug: "desserts",
     name: "Desserts",
-    description:
-      "Floral, fruit-forward finishes and quietly indulgent classics made for one more shared course.",
+    description: "Warm, comforting finishes made for one more shared course.",
     image: "/images/lily-floral-dessert-4x5.webp",
-    imageAlt: "A floral seasonal dessert finished for the table",
+    imageAlt: "A dessert finished for the table",
     sections: [
       {
-        title: "From the pastry kitchen",
-        description:
-          "Seasonal fruit, deep chocolate, and delicate creams made in house each afternoon.",
+        title: "Desserts",
+        description: "Made in house each afternoon.",
         image: "/images/menu-dessert-plated-unsplash.jpg",
-        imageAlt: "An elegant plated dessert with seasonal fruit",
+        imageAlt: "A plated dessert",
         items: [
           {
-            name: "Brown Butter Pear Cake",
-            description: "Poached pear, crème fraîche, oat streusel, and bay leaf.",
-            price: "$14",
-          },
-          {
-            name: "Dark Chocolate Crémeux",
-            description: "Cocoa nib, olive oil, sea salt, and malted milk sorbet.",
-            price: "$15",
-          },
-          {
-            name: "Meyer Lemon Tart",
-            description: "Toasted meringue, pistachio, and citrus blossom.",
-            price: "$14",
-          },
-          {
-            name: "Apple Tarte Tatin",
-            description: "Caramelized apple, buckwheat, and vanilla bean ice cream.",
-            price: "$15",
-          },
-          {
-            name: "Buttermilk Panna Cotta",
-            description: "Persimmon, ginger, almond, and orange marigold.",
+            name: "Olive Oil Cake",
+            description: "Bourbon caramel, apple italian meringue, compressed apples.",
             price: "$13",
           },
           {
-            name: "Espresso Semifreddo",
-            description: "Amaro caramel, hazelnut praline, and dark chocolate.",
-            price: "$14",
-          },
-        ],
-      },
-      {
-        title: "A little more",
-        description:
-          "Small, thoughtful endings for lingering over coffee or sharing around the table.",
-        image: "/images/menu-dessert-cake-unsplash.jpg",
-        imageAlt: "A layered cake prepared for dessert service",
-        items: [
-          {
-            name: "Lily Cake",
-            description: "Vanilla chiffon, raspberry, rose cream, and white chocolate.",
-            price: "$16",
+            name: "S'mores Crème Brulee",
+            description: "Chocolate brulee, toasted marshmallow, graham cracker.",
+            price: "$13",
           },
           {
-            name: "Warm Madeleines",
-            description: "Brown butter, lemon sugar, and seasonal preserve.",
-            price: "$11",
+            name: "Bread Pudding",
+            description: "Pumpkin espresso, vanilla cinnamon crème anglaise, toasted pecans.",
+            price: "$13",
           },
           {
-            name: "Affogato",
-            description: "Vanilla bean gelato, espresso, and cocoa nib brittle.",
-            price: "$10",
-          },
-          {
-            name: "Seasonal Sorbets",
-            description: "A daily trio made with market fruit and fresh herbs.",
-            price: "$12",
-          },
-          {
-            name: "Cheese Selection",
-            description: "Three artisan cheeses, fruit mostarda, and seeded crackers.",
-            price: "$18",
-          },
-          {
-            name: "Chocolate Truffles",
-            description: "Sea salt caramel, black tea, and toasted hazelnut.",
-            price: "$9",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    slug: "drinks",
-    name: "Drinks",
-    description:
-      "Garden herbs, ripe fruit, thoughtful spirits, and cocktails designed to sit beautifully beside dinner.",
-    image: "/images/lily-botanical-cocktail-4x5.webp",
-    imageAlt: "A botanical cocktail mixed at Lily",
-    sections: [
-      {
-        title: "Garden cocktails",
-        description:
-          "Bright, balanced drinks drawn from the greenhouse, orchard, and a carefully stocked back bar.",
-        image: "/images/menu-drink-golden-unsplash.jpg",
-        imageAlt: "A golden cocktail garnished for evening service",
-        items: [
-          {
-            name: "Lily Spritz",
-            description: "Elderflower, dry vermouth, sparkling wine, and lemon thyme.",
-            price: "$16",
-          },
-          {
-            name: "Velvet Season",
-            description: "Gin, concord grape, fino sherry, and rosemary.",
-            price: "$17",
-          },
-          {
-            name: "Orchard Old Fashioned",
-            description: "Bourbon, apple brandy, maple, and aromatic bitters.",
-            price: "$18",
-          },
-          {
-            name: "Garden Gimlet",
-            description: "Vodka, basil, cucumber, lime, and green peppercorn.",
-            price: "$16",
-          },
-          {
-            name: "Golden Hour",
-            description: "Aged rum, apricot, amontillado, and toasted spice.",
-            price: "$18",
-          },
-          {
-            name: "After the Rain",
-            description: "Mezcal, pear, gentian, lemon, and smoked salt.",
-            price: "$17",
-          },
-        ],
-      },
-      {
-        title: "Wine & zero-proof",
-        description:
-          "A short list of food-friendly pours alongside spirit-free drinks with equal depth and care.",
-        image: "/images/menu-drink-red-unsplash.jpg",
-        imageAlt: "A red cocktail served in a stemmed glass",
-        items: [
-          {
-            name: "Sparkling — Brut Rosé",
-            description: "Fine bubbles, wild strawberry, citrus peel, and chalk.",
-            price: "$17",
-          },
-          {
-            name: "White — Grüner Veltliner",
-            description: "Green pear, white pepper, alpine herbs, and mineral finish.",
-            price: "$15",
-          },
-          {
-            name: "Orange — Ribolla Gialla",
-            description: "Apricot skin, chamomile, citrus oil, and gentle tannin.",
-            price: "$16",
-          },
-          {
-            name: "Red — Pinot Noir",
-            description: "Tart cherry, forest floor, baking spice, and silky texture.",
-            price: "$17",
-          },
-          {
-            name: "Pear & Chamomile",
-            description: "Pear shrub, chamomile, verjus, and sparkling water.",
-            price: "$11",
-          },
-          {
-            name: "Rosemary & Grapefruit",
-            description: "Ruby grapefruit, rosemary, tonic, and sea salt.",
-            price: "$11",
+            name: "Apple Beignets",
+            description: "Brown butter bourbon ice cream, pickled apples, cider sugar.",
+            price: "$13",
           },
         ],
       },

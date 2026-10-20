@@ -15,6 +15,8 @@ import { PillButton } from "@/components/pill-button"
 
 const guestOptions = Array.from({ length: 8 }, (_, index) => index + 1)
 const timeOptions = [
+  "4:30 PM",
+  "5:00 PM",
   "5:30 PM",
   "6:00 PM",
   "6:30 PM",
@@ -23,8 +25,6 @@ const timeOptions = [
   "8:00 PM",
   "8:30 PM",
   "9:00 PM",
-  "9:30 PM",
-  "10:00 PM",
 ]
 const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
 const inquiryOptions = [
@@ -456,7 +456,7 @@ export function ReservationForm({
                           calendarMonth.getMonth(),
                           day,
                         )
-                        const disabled = date < today
+                        const disabled = date < today || date.getDay() === 0 || date.getDay() === 1
                         const selected = selectedDate ? sameDay(date, selectedDate) : false
 
                         return (

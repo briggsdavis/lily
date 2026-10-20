@@ -15,11 +15,11 @@ import { PillLink } from "@/components/pill-button"
 
 const categories = [
   {
-    name: "Mains",
+    name: "Starters",
     description:
-      "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
-    image: "/images/lily-seasonal-main-dish-4x5.webp",
-    alt: "A seasonal main dish plated at Lily",
+      "Small plates and snacks to open the table, built for sharing and a first round of drinks.",
+    image: "/images/catering/burrata.webp",
+    alt: "Burrata with seasonal accompaniments",
   },
   {
     name: "Salads",
@@ -29,18 +29,18 @@ const categories = [
     alt: "A bright plate of seasonal greens and vegetables",
   },
   {
+    name: "Mains",
+    description:
+      "Market-led plates built around pristine fish, handmade pasta, and vegetables at their seasonal peak.",
+    image: "/images/lily-seasonal-main-dish-4x5.webp",
+    alt: "A seasonal main dish plated at Lily",
+  },
+  {
     name: "Desserts",
     description:
       "Floral, fruit-forward finishes and quietly indulgent classics made for one more shared course.",
     image: "/images/lily-floral-dessert-4x5.webp",
     alt: "A floral seasonal dessert",
-  },
-  {
-    name: "Drinks",
-    description:
-      "Garden herbs, ripe fruit, thoughtful spirits, and cocktails designed to sit beautifully beside dinner.",
-    image: "/images/lily-botanical-cocktail-4x5.webp",
-    alt: "A botanical cocktail in a coupe glass",
   },
 ] as const
 
