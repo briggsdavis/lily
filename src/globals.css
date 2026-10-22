@@ -1071,9 +1071,21 @@
   filter: none !important;
   transform: none !important;
 }
-.visual-page-canvas [data-media-key] { cursor: pointer; }
-.visual-page-canvas [data-edit-field] { outline-offset: 4px; }
-.visual-page-canvas [data-edit-field]:hover { outline: 1px dashed currentColor; }
-.visual-page-canvas [data-marquee-row] { white-space: normal; width: auto; }
+.visual-page-canvas [data-media-key] {
+  cursor: pointer;
+}
+.visual-page-canvas [data-edit-field] {
+  outline-offset: 4px;
+}
+.visual-page-canvas [data-edit-field]:hover {
+  outline: 1px dashed currentColor;
+}
+.visual-page-canvas [data-marquee-row] {
+  white-space: normal;
+  width: auto;
+}
 
-.visual-page-canvas .sticky { position: relative !important; top: auto !important; }
+.visual-page-canvas .sticky {
+  position: relative !important;
+  top: auto !important;
+}
