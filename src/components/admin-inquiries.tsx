@@ -34,8 +34,8 @@ const valueLabels: Record<string, Record<string, string>> = {
 const fieldLabel = (key: string) => fieldLabels[key] ?? key.replace(/([A-Z])/g, " $1")
 const fieldValue = (key: string, value: unknown) =>
   Array.isArray(value)
-    ? value.join(", ") || "—"
-    : (valueLabels[key]?.[String(value)] ?? String(value || "—"))
+    ? value.join(", ") || "N/A"
+    : (valueLabels[key]?.[String(value)] ?? String(value || "N/A"))
 
 export function AdminInquiries({ kind }: { kind: Kind }) {
   const contact = useQuery(listContactRef, kind === "contact" ? { archived: false } : "skip")
@@ -143,7 +143,7 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
       {selected ? (
         <AdminModal
           onClose={() => setSelected(null)}
-          title={`${name(selected)} — ${selected.read ? "read" : "new"}`}
+          title={`${name(selected)} · ${selected.read ? "read" : "new"}`}
         >
           <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
             {Object.entries(selected)

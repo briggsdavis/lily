@@ -203,7 +203,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
         id: _id,
         sections: value.sections.map((section) => ({ ...section, imageAlt: section.title })),
       })
-      setNotice("Saved — these changes are now live.")
+      setNotice("Saved. These changes are now live.")
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Unable to save this menu page.")
     } finally {
@@ -348,7 +348,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                         ariaLabel="Item price"
                         className="text-right font-semibold"
                         onChange={(price) => patchItem(sectionIndex, itemIndex, { price })}
-                        placeholder="$—"
+                        placeholder="$0"
                         value={item.price}
                       />
                     </div>

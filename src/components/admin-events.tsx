@@ -80,7 +80,7 @@ export function AdminEvents() {
                     : "Date"}
                 </span>
                 <strong className="text-2xl font-semibold">
-                  {event.date ? Number(event.date.slice(-2)) : "—"}
+                  {event.date ? Number(event.date.slice(-2)) : "N/A"}
                 </strong>
               </div>
               <div>
