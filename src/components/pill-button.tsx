@@ -1,4 +1,6 @@
+"use client"
 import type { MouseEventHandler, ReactNode } from "react"
+import { usePageContent } from "@/components/page-content"
 import { TransitionLink } from "@/components/transition-link"
 
 const colorStyles = {
@@ -73,26 +75,52 @@ export function PillButton({
 
 export function PillLink({
   children,
+  field,
   color = "burgundy",
   href,
 }: {
+  field?: string
   children: ReactNode
   color?: PillButtonColor
   href: string
 }) {
+  const content = usePageContent()
   const styles = colorStyles[color]
+  const label = field && content?.fields[field] !== undefined ? content.fields[field] : children
+  const destination = field ? (content?.fields[field + ".href"] ?? href) : href
+  if (content?.editing)
+    return (
+      <button
+        type="button"
+        data-edit-field={field}
+        className={`inline-flex min-h-12 min-w-36 cursor-pointer items-center justify-center rounded-full border-[1.5px] border-current px-7 py-3 text-sm font-semibold uppercase ${styles.button}`}
+        onClick={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          if (field)
+            content.select?.({
+              key: field,
+              kind: "button",
+              value: typeof label === "string" ? label : event.currentTarget.innerText,
+              href: destination,
+            })
+        }}
+      >
+        {label}
+      </button>
+    )
 
   return (
     <TransitionLink
       className={`group relative isolate inline-flex min-h-12 min-w-36 items-center justify-center overflow-hidden rounded-full border-[1.5px] border-current px-7 py-3 text-sm font-semibold uppercase transition-transform duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] ${styles.button}`}
-      href={href}
+      href={destination}
     >
-      <span className="relative text-center">{children}</span>
+      <span className="relative text-center">{label}</span>
       <span
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit] px-7 py-3 text-center transition-[clip-path] duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0_0_0_0)] group-focus-visible:[clip-path:inset(0_0_0_0)] ${styles.fill} ${styles.text}`}
       >
-        {children}
+        {label}
       </span>
     </TransitionLink>
   )

@@ -1,6 +1,6 @@
 "use client"
-
 import { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
+import { EditableText, useEditorMode, usePageContent } from "@/components/page-content"
 
 const copy =
   "Lily is a neighborhood kitchen and cocktail bar in Gibsonia, cooking with the seasons and pouring drinks from the garden, for late lunches and evenings that ask you to stay a little longer."
@@ -19,6 +19,9 @@ function revealColor(progress: number) {
 }
 
 export function NeighborhoodIntro({ text = copy }: { text?: string }) {
+  const editing = useEditorMode()
+  const content = usePageContent()
+  text = content?.fields["home.intro.text"] ?? text
   const words = useMemo(() => toWords(text), [text])
   const ref = useRef<HTMLParagraphElement>(null)
   const [progress, setProgress] = useState(0)
@@ -38,11 +41,13 @@ export function NeighborhoodIntro({ text = copy }: { text?: string }) {
   )
 
   useEffect(() => {
+    if (editing) return
     const element = ref.current
     if (!element) return
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const reducedMotionFrame = window.requestAnimationFrame(() => setProgress(1))
+
       return () => window.cancelAnimationFrame(reducedMotionFrame)
     }
 
@@ -65,7 +70,14 @@ export function NeighborhoodIntro({ text = copy }: { text?: string }) {
       window.removeEventListener("scroll", schedule)
       window.removeEventListener("resize", schedule)
     }
-  }, [])
+  }, [editing])
+
+  if (editing)
+    return (
+      <p className="relative z-10 max-w-[52ch] text-center font-header text-[1.35rem] leading-[1.18] font-bold md:text-[2rem] lg:text-[2.7rem]">
+        <EditableText field="home.intro.text">{text}</EditableText>
+      </p>
+    )
 
   return (
     <p

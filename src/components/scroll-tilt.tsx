@@ -1,16 +1,26 @@
 "use client"
-
 import { ReactNode, useEffect, useRef } from "react"
+import { useEditorMode, ColorSection } from "@/components/page-content"
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => 1 - (1 - value) ** 2
 const maximumTilt = 10.8
 const initialTilt = { transform: `rotate(${maximumTilt}deg)` }
 
-export function ScrollTilt({ children, className }: { children: ReactNode; className?: string }) {
+export function ScrollTilt({
+  children,
+  className,
+  colorField,
+}: {
+  children: ReactNode
+  className?: string
+  colorField?: string
+}) {
+  const editing = useEditorMode()
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const element = ref.current
     if (!element) return
 
@@ -46,15 +56,17 @@ export function ScrollTilt({ children, className }: { children: ReactNode; class
       window.removeEventListener("scroll", schedule)
       window.removeEventListener("resize", schedule)
     }
-  }, [])
+  }, [editing])
 
   return (
-    <div
+    <ColorSection
+      as="div"
+      field={colorField ?? ""}
       className={`origin-top-left will-change-transform ${className ?? ""}`}
       ref={ref}
-      style={initialTilt}
+      style={editing ? undefined : initialTilt}
     >
       {children}
-    </div>
+    </ColorSection>
   )
 }

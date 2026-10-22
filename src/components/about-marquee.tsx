@@ -1,6 +1,11 @@
 "use client"
-
 import { useEffect, useRef } from "react"
+import {
+  EditableText,
+  ColorSection,
+  useEditorMode,
+  usePageContent,
+} from "@/components/page-content"
 
 const rows = [
   { text: "CHARMING · SEASONAL · WARM · CONSIDERED ·", direction: 1 },
@@ -8,9 +13,12 @@ const rows = [
 ] as const
 
 export function AboutMarquee() {
+  const editing = useEditorMode()
+  const content = usePageContent()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const section = sectionRef.current
     if (!section) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -39,10 +47,11 @@ export function AboutMarquee() {
       window.removeEventListener("scroll", schedule)
       window.removeEventListener("resize", schedule)
     }
-  }, [])
+  }, [editing])
 
   return (
-    <section
+    <ColorSection
+      field="about.marquee.color"
       className="group/marquee flex flex-col gap-2 overflow-hidden bg-dark-green py-7 text-pink md:gap-4 md:py-10"
       data-nav-tone="dark"
       ref={sectionRef}
@@ -53,19 +62,23 @@ export function AboutMarquee() {
             index === 0 ? "text-cream" : "text-pink/60 transition-colors hover:text-cream"
           }`}
           data-marquee-row
-          key={row.text}
+          key={index}
         >
-          {[0, 1, 2, 3].map((copy) => (
+          {(editing ? [0] : [0, 1, 2, 3]).map((copy) => (
             <span
               aria-hidden={copy > 0}
               className="pr-[0.6em] font-header-stencil text-6xl leading-none md:text-8xl lg:text-[9rem]"
               key={copy}
             >
-              {row.text}
+              {editing ? (
+                <EditableText field={`about.marquee.row${index}`}>{row.text}</EditableText>
+              ) : (
+                (content?.fields[`about.marquee.row${index}`] ?? row.text)
+              )}
             </span>
           ))}
         </div>
       ))}
-    </section>
+    </ColorSection>
   )
 }

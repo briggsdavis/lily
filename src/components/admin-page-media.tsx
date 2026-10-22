@@ -4,7 +4,8 @@ import { useMutation } from "convex/react"
 import Image from "next/image"
 import { useId, useRef, useState, type ChangeEvent } from "react"
 import { usePageMedia } from "@/components/page-media"
-import { mediaSlots } from "@/lib/page-media"
+import { useMediaUpload } from "@/components/use-media-upload"
+import { mediaSlots, imageLimitMb, videoLimitMb } from "@/lib/page-media"
 import { api } from "../../convex/_generated/api"
 
 export function AdminPageMedia({ page }: { page: (typeof mediaSlots)[number]["page"] }) {
@@ -15,7 +16,7 @@ export function AdminPageMedia({ page }: { page: (typeof mediaSlots)[number]["pa
   const input = useRef<HTMLInputElement>(null)
   const id = useId()
   const saved = usePageMedia()
-  const generate = useMutation(api.files.generateUploadUrl)
+  const uploadMedia = useMediaUpload()
   const save = useMutation(api.pageMedia.save)
   const slot = slots[active]
   const current = saved?.find((item) => item.key === slot.key)
@@ -23,32 +24,17 @@ export function AdminPageMedia({ page }: { page: (typeof mediaSlots)[number]["pa
     const file = event.currentTarget.files?.[0]
     event.currentTarget.value = ""
     if (!file) return
-    const video = file.type.startsWith("video/")
-    if (
-      (!file.type.startsWith("image/") && !(slot.video && video)) ||
-      file.size > (video ? 500 : 8) * 1024 * 1024
-    ) {
-      setMessage(
-        slot.video
-          ? "Choose an image up to 8 MB or a video up to 500 MB."
-          : "Choose an image up to 8 MB.",
-      )
-      return
-    }
     setBusy(true)
     setMessage("")
     try {
-      const response = await fetch(await generate({}), {
-        method: "POST",
-        body: file,
-        headers: { "Content-Type": file.type },
+      const uploaded = await uploadMedia(file, slot.video)
+      await save({
+        key: slot.key,
+        storageId: uploaded.storageId as import("../../convex/_generated/dataModel").Id<"_storage">,
       })
-      if (!response.ok) throw new Error("Upload failed. Please try again.")
-      const payload = await response.json()
-      await save({ key: slot.key, storageId: payload.storageId })
       setMessage("Saved. Your new media is now on the website.")
-    } catch {
-      setMessage("Could not save. Please try again.")
+    } catch (reason) {
+      setMessage(reason instanceof Error ? reason.message : "Could not save. Please try again.")
     } finally {
       setBusy(false)
     }
@@ -111,7 +97,8 @@ export function AdminPageMedia({ page }: { page: (typeof mediaSlots)[number]["pa
             Suggested aspect ratio: about {slot.ratio}. Cropping varies by screen size.
           </p>
           <p className="mt-1 text-xs text-deep-brown/60">
-            Images up to 8 MB{slot.video ? "; videos up to 500 MB (starts muted and loops)" : ""}.
+            Images up to {imageLimitMb} MB
+            {slot.video ? `; videos up to ${videoLimitMb} MB (starts muted and loops)` : ""}.
           </p>
           <input
             ref={input}

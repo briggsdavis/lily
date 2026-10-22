@@ -1,7 +1,14 @@
 "use client"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import { usePageMedia } from "@/components/page-media"
+import {
+  MediaEditControl,
+  EditableText,
+  ColorSection,
+  useEditorMode,
+  usePageContent,
+} from "@/components/page-content"
+import { usePageMedia, MediaImage } from "@/components/page-media"
 
 const defaultstages = [
   {
@@ -32,18 +39,26 @@ const stageAt = (progress: number) => (progress < 0.33 ? 0 : progress < 0.72 ? 1
 const initialProgressStyle = { transform: "scaleX(0)" }
 
 export function AboutTimeline() {
+  const editing = useEditorMode()
+  const content = usePageContent()
   const savedMedia = usePageMedia()
   const stages = defaultstages.map((item, index) => ({
     ...item,
+    label: content?.fields[`about.timeline${index + 1}.label`] ?? item.label,
+    title: content?.fields[`about.timeline${index + 1}.title`] ?? item.title,
+    text: content?.fields[`about.timeline${index + 1}.text`] ?? item.text,
     image:
       savedMedia?.find((media) => media.key === `about.timeline${index + 1}`)?.url ?? item.image,
   }))
+  const startYear = Number(stages[0].label) || 2001
+  const endYear = Number(stages[2].label) || 2026
   const ref = useRef<HTMLElement>(null)
   const barRef = useRef<HTMLSpanElement>(null)
   const [year, setYear] = useState(2001)
   const [stage, setStage] = useState(0)
 
   useEffect(() => {
+    if (editing) return
     const section = ref.current
     if (!section) return
 
@@ -52,7 +67,7 @@ export function AboutTimeline() {
       frame = 0
       const distance = section.offsetHeight - window.innerHeight
       const progress = clamp(-section.getBoundingClientRect().top / distance)
-      setYear(2001 + Math.round(clamp(progress / 0.9) * 25))
+      setYear(startYear + Math.round(clamp(progress / 0.9) * (endYear - startYear)))
       setStage(stageAt(progress))
       barRef.current?.style.setProperty("transform", `scaleX(${progress})`)
     }
@@ -68,10 +83,53 @@ export function AboutTimeline() {
       window.removeEventListener("scroll", schedule)
       window.removeEventListener("resize", schedule)
     }
-  }, [])
+  }, [editing, startYear, endYear])
+
+  if (editing)
+    return (
+      <ColorSection field="about.timeline.color" className="bg-burgundy px-page py-16 text-cream">
+        <div className="space-y-16">
+          {stages.map((item, index) => (
+            <article key={index} className="grid items-center gap-8 md:grid-cols-2">
+              <div>
+                <p className="font-header-stencil text-6xl text-blush">
+                  <EditableText field={`about.timeline${index + 1}.label`}>
+                    {item.label}
+                  </EditableText>
+                </p>
+                <h2 className="mt-6 font-display text-3xl">
+                  <EditableText field={`about.timeline${index + 1}.title`}>
+                    {item.title}
+                  </EditableText>
+                </h2>
+                <p className="mt-4 leading-7">
+                  <EditableText field={`about.timeline${index + 1}.text`}>{item.text}</EditableText>
+                </p>
+              </div>
+              <div className="relative aspect-4/5">
+                <MediaEditControl mediaKey={`about.timeline${index + 1}`} />
+                <MediaImage
+                  mediaKey={`about.timeline${index + 1}` as "about.timeline1"}
+                  src={item.image}
+                  alt={item.alt}
+                  fill
+                  sizes="50vw"
+                  className="object-cover"
+                />
+              </div>
+            </article>
+          ))}
+        </div>
+      </ColorSection>
+    )
 
   return (
-    <section className="relative h-[320svh] bg-burgundy text-cream" data-nav-tone="dark" ref={ref}>
+    <ColorSection
+      field="about.timeline.color"
+      className="relative h-[320svh] bg-burgundy text-cream"
+      data-nav-tone="dark"
+      ref={ref}
+    >
       <div className="sticky top-0 grid h-dvh grid-rows-[1fr_auto] px-page pt-28 pb-8">
         <div className="grid min-h-0 items-center gap-8 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-6">
@@ -90,7 +148,7 @@ export function AboutTimeline() {
                       ? "opacity-100"
                       : "pointer-events-none translate-y-3 opacity-0 blur-md"
                   } [grid-area:1/1]`}
-                  key={item.label}
+                  key={index}
                 >
                   <h2 className="mb-3 font-display text-3xl font-medium md:text-4xl">
                     {item.title}
@@ -128,7 +186,7 @@ export function AboutTimeline() {
         </div>
 
         <div className="mt-6 flex items-center gap-4 text-xs font-bold tracking-[0.2em] uppercase">
-          <span>2001</span>
+          <span>{startYear}</span>
           <span className="relative h-px grow bg-cream/30">
             <span
               className="absolute inset-0 origin-left bg-cream"
@@ -136,9 +194,9 @@ export function AboutTimeline() {
               style={initialProgressStyle}
             />
           </span>
-          <span>2026</span>
+          <span>{endYear}</span>
         </div>
       </div>
-    </section>
+    </ColorSection>
   )
 }

@@ -1,5 +1,6 @@
 "use client"
 import { CSSProperties, useEffect, useRef } from "react"
+import { EditableText, useEditorMode, MediaEditControl } from "@/components/page-content"
 import { MediaImage } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 
@@ -16,9 +17,11 @@ const reserveButtonStyle = {
 } as CSSProperties
 
 export function ScrollRevealImage() {
+  const editing = useEditorMode()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const section = sectionRef.current
     if (!section) return
 
@@ -59,19 +62,20 @@ export function ScrollRevealImage() {
       window.removeEventListener("scroll", schedule)
       window.removeEventListener("resize", schedule)
     }
-  }, [])
+  }, [editing])
 
   return (
     <section
-      className="relative h-[280svh] bg-mauve"
+      className={editing ? "relative h-svh bg-mauve" : "relative h-[280svh] bg-mauve"}
       data-nav-tone="image"
       ref={sectionRef}
       style={initialProgress}
     >
+      <MediaEditControl mediaKey="home.evening" />
       <div className="sticky top-0 h-dvh overflow-hidden">
         <div
           className="absolute inset-0 overflow-hidden will-change-[clip-path]"
-          style={revealClip}
+          style={editing ? undefined : revealClip}
         >
           <MediaImage
             mediaKey="home.evening"
@@ -84,19 +88,25 @@ export function ScrollRevealImage() {
         </div>
 
         <p className="absolute inset-0 flex flex-col items-center justify-center px-page text-center font-header-stencil text-4xl whitespace-nowrap text-cream md:text-6xl xl:flex-row xl:gap-[0.2em] 2xl:text-7xl">
-          <span className="block will-change-transform" style={leftWordPosition}>
-            Come for dinner,
+          <span
+            className="block will-change-transform"
+            style={editing ? undefined : leftWordPosition}
+          >
+            <EditableText field="home.evening.text1">Come for dinner,</EditableText>
           </span>
-          <span className="block will-change-transform" style={rightWordPosition}>
-            stay for the evening.
+          <span
+            className="block will-change-transform"
+            style={editing ? undefined : rightWordPosition}
+          >
+            <EditableText field="home.evening.text2">stay for the evening.</EditableText>
           </span>
         </p>
 
         <div
           className="absolute inset-x-0 top-[62%] z-10 flex justify-center will-change-[opacity,filter,transform]"
-          style={reserveButtonStyle}
+          style={editing ? undefined : reserveButtonStyle}
         >
-          <PillLink color="cream" href="/contact?reason=reservation">
+          <PillLink field="home.evening.button" color="cream" href="/contact?reason=reservation">
             Reserve a table
           </PillLink>
         </div>

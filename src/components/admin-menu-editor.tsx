@@ -5,16 +5,16 @@ import { useRouter } from "next/navigation"
 import type { ChangeEvent, PointerEvent, ReactNode } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { AdminButton, AdminModal } from "@/components/admin-ui"
+import { useMediaUpload } from "@/components/use-media-upload"
 import {
   adminMenuPagesRef,
-  generateUploadUrlRef,
-  resolveUploadRef,
   saveMenuPageRef,
   setMenuArchivedRef,
   type MenuItemRecord,
   type MenuPageRecord,
   type MenuSectionRecord,
 } from "@/lib/admin-api"
+import { menuSavePayload } from "@/lib/menu-save"
 
 const palette = ["espresso", "dark-maroon", "deep-brown"] as const
 const paletteLabels: Record<(typeof palette)[number], string> = {
@@ -88,26 +88,22 @@ function InlineImage({
   children: ReactNode
   onChange: (value: string) => void
 }) {
-  const generateUploadUrl = useMutation(generateUploadUrlRef)
-  const resolveUpload = useMutation(resolveUploadRef)
+  const uploadMedia = useMediaUpload()
+  const [error, setError] = useState("")
   const [uploading, setUploading] = useState(false)
   const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   async function upload(event: ChangeEvent<HTMLInputElement>) {
     const file = event.currentTarget.files?.[0]
-    if (!file || !file.type.startsWith("image/") || file.size > 8 * 1024 * 1024) return
+    event.currentTarget.value = ""
+    if (!file) return
+    setError("")
     setUploading(true)
     try {
-      const uploadUrl = await generateUploadUrl({})
-      const response = await fetch(uploadUrl, {
-        body: file,
-        headers: { "Content-Type": file.type },
-        method: "POST",
-      })
-      const { storageId } = (await response.json()) as { storageId?: string }
-      if (!storageId) throw new Error("Upload failed")
-      const url = await resolveUpload({ storageId })
-      if (url) onChange(url)
+      const { url } = await uploadMedia(file)
+      onChange(url)
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Upload failed. Please try again.")
     } finally {
       setUploading(false)
     }
@@ -139,6 +135,14 @@ function InlineImage({
         }
         type="button"
       />
+      {error && (
+        <output
+          className="absolute inset-x-2 bottom-2 z-20 rounded-lg bg-white p-3 text-sm text-red-800"
+          aria-live="polite"
+        >
+          {error}
+        </output>
+      )}
       {cursor ? (
         <span
           className="pointer-events-none fixed z-110 rounded-full bg-black/80 px-3 py-1.5 text-xs font-semibold text-white shadow-lg"
@@ -196,13 +200,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
     setSaving(true)
     setNotice("")
     try {
-      const { _id, updatedAt: _updatedAt, ...value } = page
-      await save({
-        ...value,
-        heroImageAlt: value.title,
-        id: _id,
-        sections: value.sections.map((section) => ({ ...section, imageAlt: section.title })),
-      })
+      await save(menuSavePayload(page))
       setNotice("Saved. These changes are now live.")
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Unable to save this menu page.")

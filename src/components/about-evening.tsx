@@ -1,8 +1,13 @@
 "use client"
-
 import Image from "next/image"
 import { SyntheticEvent, useCallback, useState } from "react"
-import { usePageMedia } from "@/components/page-media"
+import {
+  EditableText,
+  useEditorMode,
+  usePageContent,
+  MediaEditControl,
+} from "@/components/page-content"
+import { usePageMedia, MediaImage } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 import { TransitionLink } from "@/components/transition-link"
 
@@ -71,15 +76,36 @@ export function AboutEvening({
   mediaPrefix?: string | null
   secondary?: { href: string; label: string } | null
 }) {
+  const editing = useEditorMode()
+  const content = usePageContent()
+  const owned =
+    (content?.page === "about" && mediaPrefix === "about.evening") ||
+    (content?.page === "home" && mediaPrefix === null)
+  const prefix = content?.page === "home" ? "home.private" : "about.evening"
+  const resolvedMediaPrefix = owned && content?.page === "home" ? "home.private" : mediaPrefix
   const savedMedia = usePageMedia()
-  const choices = mediaPrefix
+  const choices = resolvedMediaPrefix
     ? baseChoices.map((item, index) => ({
         ...item,
         image:
-          savedMedia?.find((media) => media.key === `${mediaPrefix}${index + 1}`)?.url ??
+          savedMedia?.find((media) => media.key === `${resolvedMediaPrefix}${index + 1}`)?.url ??
           item.image,
       }))
     : baseChoices
+  const resolvedChoices = choices.map((choice, index) =>
+    owned
+      ? {
+          ...choice,
+          label: content?.fields[`${prefix}${index + 1}.label`] ?? choice.label,
+          href: content?.fields[`${prefix}${index + 1}.label.href`] ?? choice.href,
+          cta: content?.fields[`${prefix}${index + 1}.button`] ?? choice.cta,
+        }
+      : choice,
+  )
+  const resolvedLines =
+    owned && content?.fields[`${prefix}.lines`] !== undefined
+      ? content.fields[`${prefix}.lines`].split("\n")
+      : lines
   const [active, setActive] = useState(defaultActive)
   const select = useCallback(
     (event: SyntheticEvent<HTMLElement>) => {
@@ -89,19 +115,69 @@ export function AboutEvening({
     [baseChoices],
   )
 
+  if (editing && owned)
+    return (
+      <div className="space-y-1">
+        {resolvedChoices.map((choice, index) => (
+          <section
+            key={index}
+            className="relative isolate flex min-h-[38rem] flex-col justify-between overflow-hidden px-page py-16 text-cream"
+          >
+            <MediaEditControl mediaKey={`${prefix}${index + 1}`} />
+            <MediaImage
+              mediaKey={`${prefix}${index + 1}` as "about.evening1"}
+              src={choice.image}
+              alt={choice.alt}
+              fill
+              sizes="100vw"
+              className="-z-10 object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-black/50" />
+            <h2 className="font-header-stencil text-6xl">
+              {choice.href ? (
+                <PillLink field={`${prefix}${index + 1}.label`} color="cream" href={choice.href}>
+                  {choice.label}
+                </PillLink>
+              ) : (
+                <EditableText field={`${prefix}${index + 1}.label`}>{choice.label}</EditableText>
+              )}
+            </h2>
+            <div className="max-w-xl self-end">
+              <p className="mb-7 leading-7">
+                <EditableText field={`${prefix}.lines`}>{resolvedLines.join("\n")}</EditableText>
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <PillLink
+                  field={`${prefix}${index + 1}.button`}
+                  color="cream"
+                  href={choice.href ?? "/contact?reason=reservation"}
+                >
+                  {choice.cta ?? `Reserve for ${choice.label.toLowerCase()}`}
+                </PillLink>
+                {secondary && (
+                  <PillLink field={`${prefix}.secondary`} color="cream" href={secondary.href}>
+                    {secondary.label}
+                  </PillLink>
+                )}
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+    )
   return (
     <section
       className="relative isolate flex min-h-[80svh] flex-col justify-between gap-16 overflow-hidden px-page pt-14 pb-10 text-cream md:min-h-svh md:pt-20 md:pb-14"
       data-nav-tone="image"
     >
-      {choices.map((choice, index) => (
+      {resolvedChoices.map((choice, index) => (
         <Image
           alt=""
           className={`-z-10 object-cover transition-[opacity,filter] duration-1000 ease-lily ${
             index === active ? "opacity-100" : "opacity-0 blur-xl"
           }`}
           fill
-          key={choice.image}
+          key={index}
           sizes="100vw"
           src={choice.image}
         />
@@ -115,7 +191,7 @@ export function AboutEvening({
         aria-label={label}
         data-reveal
       >
-        {choices.map((choice, index) => {
+        {resolvedChoices.map((choice, index) => {
           const className = `cursor-pointer transition-[color,opacity] duration-500 ease-lily focus-visible:underline focus-visible:outline-none ${
             index === active ? "opacity-100" : "opacity-40 hover:opacity-80"
           }`
@@ -130,7 +206,7 @@ export function AboutEvening({
               className={className}
               data-index={index}
               href={choice.href}
-              key={choice.label}
+              key={index}
               onFocus={select}
               onMouseEnter={select}
             >
@@ -141,7 +217,7 @@ export function AboutEvening({
               aria-pressed={index === active}
               className={className}
               data-index={index}
-              key={choice.label}
+              key={index}
               onClick={select}
               onFocus={select}
               onMouseEnter={select}
@@ -155,18 +231,27 @@ export function AboutEvening({
 
       <div className="mt-auto max-w-xl self-end">
         <p className="mb-7 text-sm leading-7 text-cream/85 md:text-base md:leading-8" data-reveal>
-          {lines.map((line) => (
+          {resolvedLines.map((line) => (
             <span className="block" key={line}>
               {line}
             </span>
           ))}
         </p>
         <div className="flex flex-wrap items-center gap-4 reveal-delay-180" data-reveal>
-          <PillLink color="cream" href={choices[active].href ?? "/contact?reason=reservation"}>
-            {choices[active].cta ?? `Reserve for ${choices[active].label.toLowerCase()}`}
+          <PillLink
+            field={owned ? `${prefix}${active + 1}.button` : undefined}
+            color="cream"
+            href={resolvedChoices[active].href ?? "/contact?reason=reservation"}
+          >
+            {resolvedChoices[active].cta ??
+              `Reserve for ${resolvedChoices[active].label.toLowerCase()}`}
           </PillLink>
           {secondary ? (
-            <PillLink color="cream" href={secondary.href}>
+            <PillLink
+              field={owned ? `${prefix}.secondary` : undefined}
+              color="cream"
+              href={secondary.href}
+            >
               {secondary.label}
             </PillLink>
           ) : null}

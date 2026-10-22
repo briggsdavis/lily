@@ -1,8 +1,8 @@
 "use client"
-
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import type { ReactNode } from "react"
+import { useEditorMode, MediaEditControl } from "@/components/page-content"
 import { MediaImage, HeroSoundToggle } from "@/components/page-media"
 import type { MediaKey } from "@/lib/page-media"
 
@@ -30,10 +30,12 @@ export function ParallaxHero({
   mediaKey?: MediaKey
   src: string
 }) {
+  const editing = useEditorMode()
   const sectionRef = useRef<HTMLElement>(null)
   const mediaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const section = sectionRef.current
     const media = mediaRef.current
     if (!section || !media || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -80,7 +82,7 @@ export function ParallaxHero({
       observer.disconnect()
       stopListening()
     }
-  }, [parallax])
+  }, [parallax, editing])
 
   return (
     <section
@@ -133,7 +135,12 @@ export function ParallaxHero({
         </>
       )}
       <div className="relative h-full">{children}</div>
-      {mediaKey && <HeroSoundToggle mediaKey={mediaKey} />}
+      {mediaKey && (
+        <>
+          <MediaEditControl mediaKey={mediaKey} />
+          <HeroSoundToggle mediaKey={mediaKey} />
+        </>
+      )}
     </section>
   )
 }

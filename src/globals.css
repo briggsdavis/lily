@@ -1056,3 +1056,24 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* The editor shows deterministic, readable page content. Public motion is untouched. */
+.visual-page-canvas *,
+.visual-page-canvas *::before,
+.visual-page-canvas *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+.visual-page-canvas .hero-stagger,
+.visual-page-canvas [data-reveal] {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+.visual-page-canvas [data-media-key] { cursor: pointer; }
+.visual-page-canvas [data-edit-field] { outline-offset: 4px; }
+.visual-page-canvas [data-edit-field]:hover { outline: 1px dashed currentColor; }
+.visual-page-canvas [data-marquee-row] { white-space: normal; width: auto; }
+
+.visual-page-canvas .sticky { position: relative !important; top: auto !important; }

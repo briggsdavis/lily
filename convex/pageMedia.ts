@@ -1,5 +1,5 @@
-import { v } from "convex/values"
-import { mediaSlots } from "../src/lib/page-media"
+import { ConvexError, v } from "convex/values"
+import { mediaSlots, mediaFileKind } from "../src/lib/page-media"
 import { query, mutation } from "./_generated/server"
 import { requireAdmin } from "./adminGuard"
 
@@ -20,16 +20,11 @@ export const save = mutation({
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
     const slot = mediaSlots.find((slot) => slot.key === args.key)
-    if (!slot) throw new Error("Unknown image location")
+    if (!slot) throw new ConvexError("Unknown image location")
     const file = await ctx.db.system.get(args.storageId)
-    if (!file) throw new Error("Upload missing")
-    const kind: "image" | "video" | null = file.contentType?.startsWith("image/")
-      ? "image"
-      : file.contentType?.startsWith("video/") && slot.video
-        ? "video"
-        : null
-    if (!kind || file.size > (kind === "video" ? 500 : 8) * 1024 * 1024)
-      throw new Error("Invalid file type or size")
+    if (!file) throw new ConvexError("Upload missing")
+    const kind = mediaFileKind(file.contentType ?? "", file.size, slot.video)
+    if (!kind) throw new ConvexError("Invalid file type or size")
     const existing = await ctx.db
       .query("pageMedia")
       .withIndex("by_key", (q) => q.eq("key", args.key))

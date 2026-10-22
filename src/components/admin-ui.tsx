@@ -1,9 +1,8 @@
 "use client"
 
-import { useMutation } from "convex/react"
 import type { ButtonHTMLAttributes, ChangeEvent, ReactNode } from "react"
-import { useCallback, useState } from "react"
-import { generateUploadUrlRef, resolveUploadRef } from "@/lib/admin-api"
+import { useCallback, useEffect, useId, useRef, useState } from "react"
+import { useMediaUpload } from "@/components/use-media-upload"
 
 export const adminInput =
   "min-h-11 w-full rounded-xl border border-deep-brown/15 bg-white px-3.5 py-2.5 text-sm shadow-sm outline-none transition-[border-color,box-shadow] focus:border-deep-brown/45 focus:ring-4 focus:ring-deep-brown/8"
@@ -59,36 +58,36 @@ export function ImageField({
   onChange: (value: string) => void
   value: string
 }) {
-  const generateUploadUrl = useMutation(generateUploadUrlRef)
-  const resolveUpload = useMutation(resolveUploadRef)
+  const uploadMedia = useMediaUpload()
+  const [error, setError] = useState("")
   const [uploading, setUploading] = useState(false)
   const upload = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.currentTarget.files?.[0]
+      event.currentTarget.value = ""
       if (!file) return
-      if (!file.type.startsWith("image/") || file.size > 8 * 1024 * 1024) return
+      setError("")
       setUploading(true)
       try {
-        const uploadUrl = await generateUploadUrl({})
-        const response = await fetch(uploadUrl, {
-          body: file,
-          headers: { "Content-Type": file.type },
-          method: "POST",
-        })
-        const payload = (await response.json()) as { storageId?: string }
-        if (!payload.storageId) throw new Error("Upload failed")
-        const url = await resolveUpload({ storageId: payload.storageId })
-        if (url) onChange(url)
+        const { url } = await uploadMedia(file)
+        onChange(url)
+      } catch (reason) {
+        setError(reason instanceof Error ? reason.message : "Upload failed. Please try again.")
       } finally {
         setUploading(false)
       }
     },
-    [generateUploadUrl, onChange, resolveUpload],
+    [uploadMedia, onChange],
   )
 
   return (
     <label className="grid gap-2">
       <span className="text-sm font-medium text-deep-brown">{label}</span>
+      {error && (
+        <output className="text-sm text-red-800" aria-live="polite">
+          {error}
+        </output>
+      )}
       {value ? (
         <span
           className="block h-32 rounded-xl bg-cover bg-center shadow-sm"
@@ -118,11 +117,31 @@ export function AdminModal({
   onClose: () => void
   title: string
 }) {
+  const ref = useRef<HTMLDialogElement>(null)
+  const titleId = useId()
+  useEffect(() => {
+    const dialog = ref.current
+    if (!dialog) return
+    const previous = document.activeElement as HTMLElement | null
+    const overflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    dialog.showModal()
+    dialog.querySelector<HTMLElement>('textarea, input:not([type="file"])')?.focus()
+    return () => {
+      dialog.close()
+      document.body.style.overflow = overflow
+      previous?.focus()
+    }
+  }, [])
   return (
     <dialog
-      aria-labelledby="admin-modal-title"
+      ref={ref}
+      aria-labelledby={titleId}
+      onCancel={(event) => {
+        event.preventDefault()
+        onClose()
+      }}
       className="fixed inset-0 z-100 m-0 grid h-full max-h-none w-full max-w-none overflow-y-auto border-0 bg-deep-brown/55 p-4 text-deep-brown backdrop-blur-sm"
-      open
     >
       <button
         aria-label="Close dialog"
@@ -133,7 +152,7 @@ export function AdminModal({
       />
       <section className="relative z-10 m-auto w-full max-w-3xl rounded-3xl border border-white/50 bg-[#f8f7f4] p-5 shadow-2xl md:p-8">
         <div className="mb-6 flex items-start justify-between gap-6">
-          <h2 className="text-2xl font-semibold tracking-tight" id="admin-modal-title">
+          <h2 className="text-2xl font-semibold tracking-tight" id={titleId}>
             {title}
           </h2>
           <button

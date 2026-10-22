@@ -27,6 +27,12 @@ const menuSection = v.object({
 
 export default defineSchema({
   ...authTables,
+  pageDocuments: defineTable({
+    page: v.union(v.literal("home"), v.literal("about")),
+    fields: v.record(v.string(), v.string()),
+    revision: v.number(),
+  }).index("by_page", ["page"]),
+  pageColors: defineTable({ hex: v.string() }).index("by_hex", ["hex"]),
   pageMedia: defineTable({
     key: v.string(),
     storageId: v.id("_storage"),

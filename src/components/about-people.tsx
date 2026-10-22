@@ -1,7 +1,14 @@
 "use client"
 import Image from "next/image"
 import { SyntheticEvent, useCallback, useState } from "react"
-import { usePageMedia } from "@/components/page-media"
+import {
+  MediaEditControl,
+  EditableText,
+  ColorSection,
+  useEditorMode,
+  usePageContent,
+} from "@/components/page-content"
+import { usePageMedia, MediaImage } from "@/components/page-media"
 
 const defaultpeople = [
   {
@@ -34,9 +41,15 @@ const defaultpeople = [
 ] as const
 
 export function AboutPeople() {
+  const editing = useEditorMode()
+  const content = usePageContent()
   const savedMedia = usePageMedia()
   const people = defaultpeople.map((item, index) => ({
     ...item,
+    name: content?.fields[`about.person${index + 1}.name`] ?? item.name,
+    role: content?.fields[`about.person${index + 1}.role`] ?? item.role,
+    since: content?.fields[`about.person${index + 1}.since`] ?? item.since,
+    text: content?.fields[`about.person${index + 1}.text`] ?? item.text,
     image: savedMedia?.find((media) => media.key === `about.person${index + 1}`)?.url ?? item.image,
   }))
   const [active, setActive] = useState(0)
@@ -45,19 +58,85 @@ export function AboutPeople() {
     if (Number.isInteger(index) && defaultpeople[index]) setActive(index)
   }, [])
 
+  if (editing)
+    return (
+      <div>
+        {people.map((person, index) => (
+          <ColorSection
+            key={index}
+            field={`about.person${index + 1}.color`}
+            style={
+              content?.fields["about.people.color"]
+                ? { backgroundColor: content.fields["about.people.color"] }
+                : undefined
+            }
+            as="div"
+            className={`${person.color} relative`}
+          >
+            <div className="grid gap-8 p-8 md:grid-cols-2">
+              <div className="flex flex-col justify-between">
+                <p className="font-display text-6xl">
+                  <EditableText field={`about.person${index + 1}.since`}>
+                    {person.since}
+                  </EditableText>
+                </p>
+                <div>
+                  <h3 className="mt-6 font-display text-4xl">
+                    <EditableText field={`about.person${index + 1}.name`}>
+                      {person.name}
+                    </EditableText>
+                  </h3>
+                  <p className="mt-2">
+                    <EditableText field={`about.person${index + 1}.role`}>
+                      {person.role}
+                    </EditableText>
+                  </p>
+                  <p className="mt-4 leading-7">
+                    <EditableText field={`about.person${index + 1}.text`}>
+                      {person.text}
+                    </EditableText>
+                  </p>
+                </div>
+              </div>
+              <div className="relative aspect-4/5">
+                <MediaEditControl mediaKey={`about.person${index + 1}`} />
+                <MediaImage
+                  mediaKey={`about.person${index + 1}` as "about.person1"}
+                  src={person.image}
+                  alt={person.imageAlt}
+                  fill
+                  sizes="50vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </ColorSection>
+        ))}
+      </div>
+    )
   return (
     <div className="flex flex-col md:h-[36rem] md:flex-row lg:h-[40.8rem]">
       {people.map((person, index) => {
         const open = index === active
         return (
           <button
+            style={
+              content?.fields[`about.person${index + 1}.color`] ||
+              content?.fields["about.people.color"]
+                ? {
+                    backgroundColor:
+                      content.fields[`about.person${index + 1}.color`] ??
+                      content.fields["about.people.color"],
+                  }
+                : undefined
+            }
             aria-expanded={open}
             aria-label={`${person.name}, ${person.role}, since ${person.since}`}
             className={`group relative min-w-0 overflow-hidden text-left transition-[flex-grow] duration-[1100ms] ease-lily focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream motion-reduce:transition-none md:basis-0 ${person.color} ${
               open ? "min-h-[32rem] md:min-h-0 md:grow-[3]" : "min-h-28 md:min-h-0 md:grow-[1]"
             }`}
             data-index={index}
-            key={person.name}
+            key={index}
             onClick={select}
             onFocus={select}
             onMouseEnter={select}

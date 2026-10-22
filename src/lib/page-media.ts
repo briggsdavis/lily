@@ -206,6 +206,50 @@ export const mediaSlots = [
     ratio: "4:5",
     video: false,
   },
+  {
+    key: "home.private1",
+    page: "home",
+    title: "Private events - Events",
+    description: "The background for this choice in the homepage private-events section.",
+    src: "/images/lily-event-table-16x10.webp",
+    ratio: "16:9",
+    video: false,
+  },
+  {
+    key: "home.private2",
+    page: "home",
+    title: "Private events - Catering",
+    description: "The background for this choice in the homepage private-events section.",
+    src: "/images/catering/burrata.webp",
+    ratio: "16:9",
+    video: false,
+  },
+  {
+    key: "home.private3",
+    page: "home",
+    title: "Private events - Contact",
+    description: "The background for this choice in the homepage private-events section.",
+    src: "/images/contact-cocktail-unsplash.jpg",
+    ratio: "16:9",
+    video: false,
+  },
 ] as const
 export type MediaKey = (typeof mediaSlots)[number]["key"]
 export type PageMedia = { key: string; url: string; kind: "image" | "video" }
+
+export const imageLimitMb = 8
+export const videoLimitMb = 500
+export function mediaFileKind(
+  type: string,
+  size: number,
+  allowVideo: boolean,
+): "image" | "video" | null {
+  const kind = type.startsWith("image/")
+    ? "image"
+    : allowVideo && ["video/mp4", "video/webm"].includes(type)
+      ? "video"
+      : null
+  return kind && size > 0 && size <= (kind === "video" ? videoLimitMb : imageLimitMb) * 1024 * 1024
+    ? kind
+    : null
+}

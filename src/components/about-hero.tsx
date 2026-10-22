@@ -1,4 +1,5 @@
 "use client"
+import { EditableText } from "@/components/page-content"
 import { useMediaSource } from "@/components/page-media"
 import { ParallaxHero } from "@/components/parallax-hero"
 
@@ -17,20 +18,22 @@ export function AboutHero() {
             className="font-header-stencil text-5xl leading-none whitespace-nowrap text-blush reveal-delay-120 sm:text-6xl md:text-6xl lg:text-8xl"
             data-reveal
           >
-            A new chapter.
+            <EditableText field="about.hero.text1">A new chapter.</EditableText>
           </h1>
         </div>
         <p
           className="m-4 self-start justify-self-end text-right text-[0.7rem] leading-6 tracking-[-0.01em] text-cream/90 reveal-delay-240 sm:m-5 sm:text-sm md:mx-10 md:mt-0 md:mb-14 md:self-end md:text-base lg:mx-16 lg:mb-16 lg:leading-8"
           data-reveal
         >
-          <span className="block whitespace-nowrap">A dining room and cocktail bar at 500</span>
-          <span className="block whitespace-nowrap">
-            Grandview Crossing in Gibsonia, carried by a
-          </span>
-          <span className="block whitespace-nowrap">
-            team that has cooked and served here for years.
-          </span>
+          <EditableText field="about.hero.text2">
+            <span className="block whitespace-nowrap">A dining room and cocktail bar at 500</span>
+            <span className="block whitespace-nowrap">
+              Grandview Crossing in Gibsonia, carried by a
+            </span>
+            <span className="block whitespace-nowrap">
+              team that has cooked and served here for years.
+            </span>
+          </EditableText>
         </p>
       </div>
     </ParallaxHero>

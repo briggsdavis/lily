@@ -38,8 +38,22 @@ export function AdminEvents() {
     setSaving(true)
     setError("")
     try {
-      const { _id, ...value } = editing
-      await save({ ...value, id: _id, leftImageAlt: value.title, rightImageAlt: value.title })
+      await save({
+        id: editing._id,
+        active: editing.active,
+        archived: editing.archived,
+        buttonLabel: editing.buttonLabel,
+        buttonLink: editing.buttonLink,
+        date: editing.date,
+        description: editing.description,
+        leftImage: editing.leftImage,
+        leftImageAlt: editing.title,
+        recurrence: editing.recurrence,
+        rightImage: editing.rightImage,
+        rightImageAlt: editing.title,
+        time: editing.time,
+        title: editing.title,
+      })
       setEditing(null)
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Unable to save the event.")

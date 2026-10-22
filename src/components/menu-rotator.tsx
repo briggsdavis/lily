@@ -1,5 +1,6 @@
 "use client"
 import { useQuery } from "convex/react"
+import Image from "next/image"
 import {
   CSSProperties,
   SyntheticEvent,
@@ -11,6 +12,7 @@ import {
 } from "react"
 import { DoubleFrame } from "@/components/double-frame"
 import { LayeredMedia } from "@/components/layered-media"
+import { EditableText, useEditorMode } from "@/components/page-content"
 import { PillLink } from "@/components/pill-button"
 import { menuCategories } from "@/data/menu"
 import { publicMenuPagesRef } from "@/lib/admin-api"
@@ -54,6 +56,7 @@ const revealDelayClasses = [
 ] as const
 
 export function MenuRotator() {
+  const editing = useEditorMode()
   const pages = useQuery(publicMenuPagesRef, {})
   const categories = pages?.length
     ? pages.map((page) => ({
@@ -99,67 +102,100 @@ export function MenuRotator() {
       <div className="mb-7 grid items-end gap-8 md:mb-10 md:grid-cols-2 md:gap-12">
         <div data-reveal>
           <h2 className="font-header-stencil text-4xl tracking-[0.12em] whitespace-nowrap text-tan uppercase lg:text-6xl">
-            Seasonal
+            <EditableText field="home.menu.heading">Seasonal</EditableText>
           </h2>
         </div>
         <div
           className="flex flex-col items-start gap-6 reveal-delay-180 md:items-end md:text-right"
           data-reveal
         >
-          <PillLink color="cream" href="/menu">
+          <PillLink field="home.menu.button" color="cream" href="/menu">
             View the menu
           </PillLink>
         </div>
       </div>
 
-      <div className="grid items-start gap-10 md:grid-cols-[5fr_7fr] lg:gap-16" style={listStyle}>
-        <div className="relative">
-          <LayeredMedia
-            active={active}
-            backgroundBlurClassName="blur-[9px]"
-            backgroundSizes="(max-width: 768px) 90vw, 40vw"
-            className="relative aspect-4/5 bg-mauve md:aspect-auto md:h-[var(--menu-list-height)]"
-            foregroundAspectClassName="aspect-4/5"
-            foregroundSizes="(max-width: 768px) 45vw, 20vw"
-            items={media}
-            priority
-          />
-          <DoubleFrame className="[--frame-inset:-22px]" />
-        </div>
-
-        <ul ref={listRef}>
-          {categories.map((category, index) => (
-            <li
-              className={revealDelayClasses[index % revealDelayClasses.length]}
-              data-reveal
+      {editing ? (
+        <div className="space-y-6">
+          <p className="font-body text-sm">
+            Menu previews are shared across the site. Edit their images and descriptions in the Menu
+            editor.
+          </p>
+          {categories.map((category) => (
+            <div
               key={category.name}
+              className="grid gap-6 border-t border-current/20 py-6 md:grid-cols-2"
             >
-              <button
-                aria-pressed={index === active}
-                className={`group relative block w-full py-8 text-left focus-visible:outline-none md:pl-7 lg:py-10 lg:pl-9 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
-                data-category-index={index}
-                onClick={selectCategory}
-                onFocus={selectCategory}
-                onMouseEnter={selectCategory}
-                type="button"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-y-1 left-0 hidden h-[calc(100%-0.5rem)] w-full text-cream opacity-0 blur-[6px] transition-[opacity,filter] duration-500 ease-lily menu-l-hand-reveal group-hover:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-hover:opacity-100 group-hover:blur-none group-focus-visible:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-focus-visible:opacity-100 group-focus-visible:blur-none md:block"
-                >
-                  <span className="border-hand relative block h-full w-[calc(100%+12px)] rounded-[3px]" />
-                </span>
-                <span className="font-display text-3xl font-semibold text-warm-white uppercase md:text-4xl lg:text-5xl">
-                  {category.name}
-                </span>
-                <span className="mt-4 block max-w-xl text-sm md:text-base">
-                  {category.description}
-                </span>
-              </button>
-            </li>
+              <Image
+                width={600}
+                height={750}
+                src={category.image}
+                alt={category.alt}
+                className="aspect-4/5 w-full max-w-sm object-cover"
+              />
+              <div>
+                <h3 className="font-display text-3xl">{category.name}</h3>
+                <p className="mt-3">{category.description}</p>
+                <p className="mt-4 text-xs opacity-60">Managed in Menu</p>
+              </div>
+            </div>
           ))}
-        </ul>
-      </div>
+        </div>
+      ) : (
+        <>
+          <div
+            className="grid items-start gap-10 md:grid-cols-[5fr_7fr] lg:gap-16"
+            style={listStyle}
+          >
+            <div className="relative">
+              <LayeredMedia
+                active={active}
+                backgroundBlurClassName="blur-[9px]"
+                backgroundSizes="(max-width: 768px) 90vw, 40vw"
+                className="relative aspect-4/5 bg-mauve md:aspect-auto md:h-[var(--menu-list-height)]"
+                foregroundAspectClassName="aspect-4/5"
+                foregroundSizes="(max-width: 768px) 45vw, 20vw"
+                items={media}
+                priority
+              />
+              <DoubleFrame className="[--frame-inset:-22px]" />
+            </div>
+
+            <ul ref={listRef}>
+              {categories.map((category, index) => (
+                <li
+                  className={revealDelayClasses[index % revealDelayClasses.length]}
+                  data-reveal
+                  key={category.name}
+                >
+                  <button
+                    aria-pressed={index === active}
+                    className={`group relative block w-full py-8 text-left focus-visible:outline-none md:pl-7 lg:py-10 lg:pl-9 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
+                    data-category-index={index}
+                    onClick={selectCategory}
+                    onFocus={selectCategory}
+                    onMouseEnter={selectCategory}
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-y-1 left-0 hidden h-[calc(100%-0.5rem)] w-full text-cream opacity-0 blur-[6px] transition-[opacity,filter] duration-500 ease-lily menu-l-hand-reveal group-hover:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-hover:opacity-100 group-hover:blur-none group-focus-visible:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-focus-visible:opacity-100 group-focus-visible:blur-none md:block"
+                    >
+                      <span className="border-hand relative block h-full w-[calc(100%+12px)] rounded-[3px]" />
+                    </span>
+                    <span className="font-display text-3xl font-semibold text-warm-white uppercase md:text-4xl lg:text-5xl">
+                      {category.name}
+                    </span>
+                    <span className="mt-4 block max-w-xl text-sm md:text-base">
+                      {category.description}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   )
 }

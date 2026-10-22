@@ -1,10 +1,6 @@
 import type { Metadata } from "next"
-import { AboutEvening } from "@/components/about-evening"
-import { AboutHero } from "@/components/about-hero"
-import { AboutMarquee } from "@/components/about-marquee"
-import { AboutPeople } from "@/components/about-people"
-import { AboutTimeline } from "@/components/about-timeline"
-
+import { AboutContent } from "@/components/about-content"
+import { PublishedPage } from "@/components/page-content"
 export const metadata: Metadata = {
   title: "About",
   description:
@@ -13,18 +9,8 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div>
-      <AboutHero />
-
-      <AboutTimeline />
-
-      <AboutMarquee />
-
-      <section className="bg-dark-maroon text-warm-white" data-nav-tone="dark">
-        <AboutPeople />
-      </section>
-
-      <AboutEvening />
-    </div>
+    <PublishedPage page="about">
+      <AboutContent />
+    </PublishedPage>
   )
 }
