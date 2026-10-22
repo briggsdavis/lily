@@ -26,11 +26,11 @@ export function AdminPageMedia({ page }: { page: (typeof mediaSlots)[number]["pa
     const video = file.type.startsWith("video/")
     if (
       (!file.type.startsWith("image/") && !(slot.video && video)) ||
-      file.size > (video ? 100 : 8) * 1024 * 1024
+      file.size > (video ? 500 : 8) * 1024 * 1024
     ) {
       setMessage(
         slot.video
-          ? "Choose an image up to 8 MB or a video up to 100 MB."
+          ? "Choose an image up to 8 MB or a video up to 500 MB."
           : "Choose an image up to 8 MB.",
       )
       return
@@ -111,7 +111,7 @@ export function AdminPageMedia({ page }: { page: (typeof mediaSlots)[number]["pa
             Suggested aspect ratio: about {slot.ratio}. Cropping varies by screen size.
           </p>
           <p className="mt-1 text-xs text-deep-brown/60">
-            Images up to 8 MB{slot.video ? "; videos up to 100 MB (plays silently on a loop)" : ""}.
+            Images up to 8 MB{slot.video ? "; videos up to 500 MB (starts muted and loops)" : ""}.
           </p>
           <input
             ref={input}

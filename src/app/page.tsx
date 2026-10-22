@@ -3,7 +3,7 @@ import { PrivateEventCta } from "@/components/about-evening"
 import { EventsShowcase } from "@/components/events-showcase"
 import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
-import { MediaImage } from "@/components/page-media"
+import { MediaImage, HeroSoundToggle } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 import { RotatingCrest } from "@/components/rotating-crest"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
@@ -69,6 +69,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+          <HeroSoundToggle mediaKey="home.hero" />
         </section>
 
         <section
@@ -180,6 +181,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+        <HeroSoundToggle mediaKey="home.cooking" />
       </section>
 
       <EventsShowcase />

@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import type { ReactNode } from "react"
+import { MediaImage, HeroSoundToggle } from "@/components/page-media"
+import type { MediaKey } from "@/lib/page-media"
 
 const clamp = (value: number, minimum: number, maximum: number) =>
   Math.min(maximum, Math.max(minimum, value))
@@ -16,6 +18,7 @@ export function ParallaxHero({
   parallax = "standard",
   size = "standard",
   src,
+  mediaKey,
 }: {
   alt: string
   children: ReactNode
@@ -24,6 +27,7 @@ export function ParallaxHero({
   panelClassName?: string
   parallax?: "standard" | "strong"
   size?: "half" | "standard"
+  mediaKey?: MediaKey
   src: string
 }) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -94,7 +98,8 @@ export function ParallaxHero({
               className={`absolute inset-x-0 will-change-transform ${parallax === "strong" ? "-inset-y-[30%]" : "-inset-y-[18%]"}`}
               ref={mediaRef}
             >
-              <Image
+              <HeroMedia
+                mediaKey={mediaKey}
                 alt={alt}
                 className={`object-cover ${imageClassName}`}
                 fill
@@ -113,7 +118,8 @@ export function ParallaxHero({
             className={`absolute inset-x-0 will-change-transform ${parallax === "strong" ? "-inset-y-[30%]" : "-inset-y-[14%]"}`}
             ref={mediaRef}
           >
-            <Image
+            <HeroMedia
+              mediaKey={mediaKey}
               alt={alt}
               className={`object-cover ${imageClassName}`}
               fill
@@ -127,6 +133,14 @@ export function ParallaxHero({
         </>
       )}
       <div className="relative h-full">{children}</div>
+      {mediaKey && <HeroSoundToggle mediaKey={mediaKey} />}
     </section>
   )
+}
+
+function HeroMedia({
+  mediaKey,
+  ...props
+}: React.ComponentProps<typeof Image> & { mediaKey?: MediaKey }) {
+  return mediaKey ? <MediaImage mediaKey={mediaKey} {...props} /> : <Image {...props} />
 }

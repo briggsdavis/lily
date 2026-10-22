@@ -28,7 +28,7 @@ export const save = mutation({
       : file.contentType?.startsWith("video/") && slot.video
         ? "video"
         : null
-    if (!kind || file.size > (kind === "video" ? 100 : 8) * 1024 * 1024)
+    if (!kind || file.size > (kind === "video" ? 500 : 8) * 1024 * 1024)
       throw new Error("Invalid file type or size")
     const existing = await ctx.db
       .query("pageMedia")

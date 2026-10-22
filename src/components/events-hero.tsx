@@ -7,6 +7,7 @@ export function EventsHero() {
   const hero = useMediaSource("events.hero")
   return (
     <ParallaxHero
+      mediaKey="events.hero"
       alt="A candlelit table prepared for an evening gathering at Lily"
       imageClassName="object-[52%_center]"
       src={hero}

@@ -6,7 +6,7 @@ export const mediaSlots = [
     description: "The full-screen image at the top of the homepage.",
     src: "/images/hero-restaurant-unsplash.jpg",
     ratio: "16:9",
-    video: false,
+    video: true,
   },
   {
     key: "home.evening",
@@ -78,7 +78,7 @@ export const mediaSlots = [
     description: "The opening image behind \u201cA new chapter.\u201d",
     src: "/images/about-hero-restaurant.webp",
     ratio: "16:9",
-    video: false,
+    video: true,
   },
   {
     key: "about.timeline1",
@@ -168,7 +168,7 @@ export const mediaSlots = [
     description: "The opening image at the top of Events.",
     src: "/images/contact-events-unsplash.jpg",
     ratio: "16:9",
-    video: false,
+    video: true,
   },
   {
     key: "catering.hero",
@@ -177,7 +177,7 @@ export const mediaSlots = [
     description: "The opening image at the top of Catering.",
     src: "/images/catering/catering-hero.webp",
     ratio: "16:9",
-    video: false,
+    video: true,
   },
   {
     key: "contact.reservation",

@@ -7,6 +7,7 @@ export function CateringHero() {
   const hero = useMediaSource("catering.hero")
   return (
     <ParallaxHero
+      mediaKey="catering.hero"
       alt="A generous garden platter prepared for a catered gathering"
       imageClassName="object-center"
       parallax="strong"

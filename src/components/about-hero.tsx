@@ -6,6 +6,7 @@ export function AboutHero() {
   const hero = useMediaSource("about.hero")
   return (
     <ParallaxHero
+      mediaKey="about.hero"
       alt="A warmly lit restaurant dining room set for service"
       imageClassName="object-center"
       src={hero}
