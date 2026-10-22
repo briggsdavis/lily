@@ -48,7 +48,7 @@ function EventImageStack({
                 ? "z-10 [clip-path:inset(0_0_0_0)]"
                 : "z-0 [clip-path:inset(100%_0_0_0)]"
             }`}
-            key={`${side}-${src}`}
+            key={`${side}-${index}-${src}`}
           >
             <Image
               alt=""
@@ -172,7 +172,7 @@ function EventList({
             className="border-b border-pink/35"
             data-event-index={index}
             data-event-item
-            key={event.title}
+            key={`${event.title}-${event.year}-${event.month}-${event.day}-${index}`}
           >
             <button
               aria-controls={`event-details-${index}`}
@@ -408,7 +408,7 @@ function EventsSectionHeader({
     <header
       className={`flex flex-col gap-6 border-b border-pink/35 pb-7 sm:flex-row sm:items-end sm:justify-between ${
         sticky
-          ? "mb-10 lg:sticky lg:top-20 lg:z-30 lg:mb-0 lg:bg-dark-maroon lg:pt-4 lg:pb-5 lg:before:pointer-events-none lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-20 lg:before:bg-dark-maroon"
+          ? "mb-10 bg-dark-maroon lg:sticky lg:top-20 lg:z-30 lg:mb-0 lg:pt-4 lg:pb-5 lg:before:pointer-events-none lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-20 lg:before:[background:inherit]"
           : "mb-8"
       }`}
     >
@@ -537,10 +537,6 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                   </div>
                 </div>
                 <div className="relative">
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none sticky top-[11.5rem] z-20 -mb-16 h-16 bg-linear-to-b from-dark-maroon via-dark-maroon/80 to-transparent [mask-image:linear-gradient(to_bottom,black_0%,black_45%,transparent_100%)] backdrop-blur-[6px]"
-                  />
                   <EventList
                     events={events}
                     expanded={expanded}
@@ -638,7 +634,7 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                             aria-pressed={calendarEvent === index}
                             className="w-full cursor-pointer overflow-hidden border-l-2 border-pink bg-pink/10 px-1 py-1 text-left transition-colors hover:bg-pink hover:text-dark-green aria-pressed:bg-pink aria-pressed:text-dark-green sm:px-2 sm:py-1.5"
                             data-calendar-event={index}
-                            key={event.title}
+                            key={`${event.title}-${event.year}-${event.month}-${event.day}-${index}`}
                             onClick={selectCalendarEvent}
                             type="button"
                           >
@@ -672,6 +668,16 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
   )
 }
 
+const legacyEventImages = new Set(
+  fallbackEvents
+    .flatMap((event) => [event.leftImage, event.rightImage])
+    .map((src) => src.replace("/images/", "")),
+)
+
+function normalizeEventImage(src: string) {
+  return legacyEventImages.has(src.replace(/^\//, "")) ? `/images/${src.replace(/^\//, "")}` : src
+}
+
 function toLilyEvents(records: EventRecord[]): LilyEvent[] {
   const output: LilyEvent[] = []
   for (const record of records) {
@@ -693,9 +699,9 @@ function toLilyEvents(records: EventRecord[]): LilyEvent[] {
         }),
         day: cursor.getDate(),
         description: record.description,
-        leftImage: record.leftImage,
+        leftImage: normalizeEventImage(record.leftImage),
         month: cursor.getMonth(),
-        rightImage: record.rightImage,
+        rightImage: normalizeEventImage(record.rightImage),
         time: record.time,
         title: record.title,
         year: cursor.getFullYear(),
