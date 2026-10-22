@@ -140,7 +140,7 @@ function AdminAuthForm() {
   }, [])
 
   return (
-    <section className="relative grid min-h-dvh place-items-center overflow-hidden bg-[#f6f5f2] px-5 py-14 font-sans text-deep-brown sm:px-8">
+    <section className="relative grid min-h-dvh place-items-center overflow-hidden bg-[#f6f5f2] px-5 py-14 font-body text-deep-brown sm:px-8">
       <div
         aria-hidden="true"
         className="absolute -top-32 -left-24 size-80 rounded-full bg-mauve/12 blur-3xl"

@@ -105,7 +105,7 @@ export function CateringInquiryForm({
         <div className="mb-10 grid gap-5 md:mb-14 md:grid-cols-[0.8fr_1.2fr] md:items-end md:gap-16">
           <div>
             <p className="mb-3 eyebrow text-pink">Catering</p>
-            <h1 className="font-display text-5xl leading-none font-medium tracking-[0.04em] uppercase md:text-7xl lg:text-8xl">
+            <h1 className="font-header-stencil text-5xl leading-none tracking-[0.04em] uppercase md:text-7xl lg:text-8xl">
               Inquiry
             </h1>
           </div>
@@ -161,7 +161,7 @@ export function CateringInquiryForm({
               >
                 <div>
                   <p className="eyebrow text-pink">All three sections complete</p>
-                  <p className="mt-4 font-display text-4xl font-medium md:text-5xl">
+                  <p className="mt-4 font-header-stencil text-4xl md:text-5xl">
                     Your catering inquiry is ready.
                   </p>
                   <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-cream/65">

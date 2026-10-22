@@ -9,7 +9,7 @@ export default function NotFound() {
           Error 404
         </p>
         <h1
-          className="mt-2.5 mb-5 max-w-[8ch] font-display text-5xl font-medium text-burgundy reveal-delay-120 lg:text-7xl"
+          className="mt-2.5 mb-5 max-w-[8ch] font-header-stencil text-5xl text-burgundy reveal-delay-120 lg:text-7xl"
           data-reveal
         >
           This table is empty.

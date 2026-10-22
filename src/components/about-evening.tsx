@@ -4,6 +4,7 @@ import Image from "next/image"
 import { SyntheticEvent, useCallback, useState } from "react"
 import { usePageMedia } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
+import { TransitionLink } from "@/components/transition-link"
 
 type EveningChoice = {
   alt: string
@@ -81,7 +82,7 @@ export function AboutEvening({
     : baseChoices
   const [active, setActive] = useState(defaultActive)
   const select = useCallback(
-    (event: SyntheticEvent<HTMLButtonElement>) => {
+    (event: SyntheticEvent<HTMLElement>) => {
       const index = Number(event.currentTarget.dataset.index)
       if (Number.isInteger(index) && baseChoices[index]) setActive(index)
     },
@@ -114,23 +115,42 @@ export function AboutEvening({
         aria-label={label}
         data-reveal
       >
-        {choices.map((choice, index) => (
-          <button
-            aria-pressed={index === active}
-            className={`cursor-pointer transition-[color,opacity] duration-500 ease-lily focus-visible:underline focus-visible:outline-none ${
-              index === active ? "opacity-100" : "opacity-40 hover:opacity-80"
-            }`}
-            data-index={index}
-            key={choice.label}
-            onClick={select}
-            onFocus={select}
-            onMouseEnter={select}
-            type="button"
-          >
-            {choice.label}
-            {index < choices.length - 1 ? <span aria-hidden="true">,</span> : "."}
-          </button>
-        ))}
+        {choices.map((choice, index) => {
+          const className = `cursor-pointer transition-[color,opacity] duration-500 ease-lily focus-visible:underline focus-visible:outline-none ${
+            index === active ? "opacity-100" : "opacity-40 hover:opacity-80"
+          }`
+          const content = (
+            <>
+              {choice.label}
+              {index < choices.length - 1 ? <span aria-hidden="true">,</span> : "."}
+            </>
+          )
+          return choice.href ? (
+            <TransitionLink
+              className={className}
+              data-index={index}
+              href={choice.href}
+              key={choice.label}
+              onFocus={select}
+              onMouseEnter={select}
+            >
+              {content}
+            </TransitionLink>
+          ) : (
+            <button
+              aria-pressed={index === active}
+              className={className}
+              data-index={index}
+              key={choice.label}
+              onClick={select}
+              onFocus={select}
+              onMouseEnter={select}
+              type="button"
+            >
+              {content}
+            </button>
+          )
+        })}
       </div>
 
       <div className="mt-auto max-w-xl self-end">

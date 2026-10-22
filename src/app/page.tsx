@@ -34,7 +34,7 @@ export default function HomePage() {
           <div className="relative grid h-svh min-h-[44rem] grid-rows-[1fr_auto] px-page pt-28 pb-7 md:pt-32 md:pb-9 lg:pb-10">
             <div className="grid content-start gap-9 md:grid-cols-12 md:gap-8 lg:gap-12">
               <div className="md:col-span-7 lg:col-span-6">
-                <h1 className="hero-stagger font-display text-[1.9875rem] leading-[0.98] font-medium animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
+                <h1 className="hero-stagger font-header-stencil text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
                   <span className="block">The room glows</span>
                   <span className="block">into the evening.</span>
                 </h1>
@@ -106,7 +106,7 @@ export default function HomePage() {
       >
         <div className="relative z-10 flex max-w-3xl flex-col items-start md:max-w-[45vw]">
           <h2
-            className="mb-8 font-display text-5xl font-medium tracking-[0.04em] text-pink uppercase md:mb-10 lg:text-7xl"
+            className="mb-8 font-header-stencil text-5xl tracking-[0.04em] text-pink uppercase md:mb-10 lg:text-7xl"
             data-reveal
           >
             About
@@ -157,7 +157,7 @@ export default function HomePage() {
         <div className="relative flex h-full items-start">
           <div className="flex max-w-lg flex-col items-start">
             <h2
-              className="font-display text-[1.6875rem] leading-[1.02] font-light italic sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
+              className="font-header-stencil text-[1.6875rem] leading-[1.02] sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
               data-reveal
             >
               <span className="block">Season-led cooking,</span>
@@ -201,8 +201,8 @@ export default function HomePage() {
           src="/images/lily-event-table-16x10.webp"
         />
         <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
-          <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl" data-reveal>
-            Bring the table <em className="italic">home</em>.
+          <h2 className="max-w-[10ch] font-header-stencil text-4xl lg:text-6xl" data-reveal>
+            Bring the table home.
           </h2>
           <ul
             className="space-y-1 text-sm text-cream/75 reveal-delay-180 md:justify-self-end md:text-right"

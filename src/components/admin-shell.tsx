@@ -322,7 +322,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   )
 
   return (
-    <div className="min-h-dvh bg-[#f6f5f2] font-sans text-deep-brown lg:grid lg:grid-cols-[17rem_1fr]">
+    <div className="min-h-dvh bg-[#f6f5f2] font-body text-deep-brown lg:grid lg:grid-cols-[17rem_1fr]">
       <aside className="sticky top-0 hidden h-dvh lg:block">{sidebar}</aside>
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-deep-brown/10 bg-[#f6f5f2]/95 px-5 py-4 backdrop-blur lg:hidden">
         <span className="text-lg font-semibold tracking-tight">Lily Admin</span>

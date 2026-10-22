@@ -71,7 +71,7 @@ export function RotatingCrest({ className = "" }: { className?: string }) {
             </text>
           ))}
         </g>
-        <g fontFamily="SweetSansPro-Bold, 'Sweet Sans Pro'" fontSize="63.3" fontWeight="700">
+        <g fontFamily="'Gabriel Sans', sans-serif" fontSize="63.3" fontWeight="700">
           {smallLetters.map(([transform, letter]) => (
             <text key={transform} transform={transform}>
               {letter}

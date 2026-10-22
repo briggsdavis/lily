@@ -27,7 +27,7 @@ export function CateringHero() {
             width={1465}
           />
           <h1
-            className="font-display text-[clamp(2rem,8vw,3.6rem)] leading-none font-medium whitespace-nowrap reveal-delay-240"
+            className="font-header-stencil text-[clamp(2rem,8vw,3.6rem)] leading-none whitespace-nowrap reveal-delay-240"
             data-reveal
           >
             Catering for the table.

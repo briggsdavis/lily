@@ -56,7 +56,7 @@ export function EventsShowcase() {
     >
       <div className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-10">
         <h2
-          className="font-display text-4xl leading-tight font-medium md:text-5xl lg:text-6xl"
+          className="font-header-stencil text-4xl leading-tight md:text-5xl lg:text-6xl"
           data-reveal
         >
           EVENTS
@@ -105,8 +105,8 @@ export function EventsShowcase() {
                   className={`col-start-1 row-start-1 transition-[opacity,filter] duration-[1200ms] ease-lily ${index === active ? "opacity-100 blur-none" : "pointer-events-none opacity-0 blur-md"}`}
                   key={event.label}
                 >
-                  <p className="font-display text-3xl leading-[1.08] font-medium md:text-4xl lg:text-5xl">
-                    <span className="block italic">{event.description[0]}</span>
+                  <p className="font-header-stencil text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
+                    <span className="block">{event.description[0]}</span>
                     <span className="block">{event.description[1]}</span>
                   </p>
                 </div>

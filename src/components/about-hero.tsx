@@ -14,7 +14,7 @@ export function AboutHero() {
       <div className="grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
         <div className="flex flex-col justify-end px-page pt-28 pb-8 md:pt-32 md:pb-14 lg:pb-16">
           <h1
-            className="font-display text-5xl leading-none font-medium whitespace-nowrap text-blush reveal-delay-120 sm:text-6xl md:text-6xl lg:text-8xl"
+            className="font-header-stencil text-5xl leading-none whitespace-nowrap text-blush reveal-delay-120 sm:text-6xl md:text-6xl lg:text-8xl"
             data-reveal
           >
             A new chapter.

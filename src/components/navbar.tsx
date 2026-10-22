@@ -5,6 +5,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, SyntheticEvent } from "react"
+import { DoubleFrame } from "@/components/double-frame"
 import { TransitionLink } from "@/components/transition-link"
 import { menuCategories } from "@/data/menu"
 import { siteRoutes, topLevelPath } from "@/data/site-navigation"
@@ -93,7 +94,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
       >
         <nav
           aria-label="Main"
-          className={`border-hand relative isolate overflow-hidden rounded-[3px] bg-transparent px-3 py-3 text-cream [--hand-color:var(--color-tan)] md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-7 md:py-4 md:[&::-webkit-scrollbar]:hidden ${menuOpen ? "w-full max-w-sm" : "w-auto"}`}
+          className={`relative isolate overflow-hidden rounded-[3px] bg-transparent px-6 py-6 text-cream md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-10 md:py-6 md:[&::-webkit-scrollbar]:hidden ${menuOpen ? "w-full max-w-sm" : "w-auto"}`}
           data-site-chrome
         >
           <div
@@ -174,6 +175,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
               </li>
             ))}
           </ul>
+          <DoubleFrame className="[--frame-inset:0px] [--frame-opening:20%]" seed={3} />
         </nav>
 
         <nav
