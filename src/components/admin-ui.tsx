@@ -1,5 +1,6 @@
 "use client"
 
+import { XIcon } from "@phosphor-icons/react"
 import type { ButtonHTMLAttributes, ChangeEvent, ReactNode } from "react"
 import { useCallback, useEffect, useId, useRef, useState } from "react"
 import { useMediaUpload } from "@/components/use-media-upload"
@@ -161,14 +162,7 @@ export function AdminModal({
             onClick={onClose}
             type="button"
           >
-            <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24">
-              <path
-                d="m7 7 10 10M17 7 7 17"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="2"
-              />
-            </svg>
+            <XIcon aria-hidden="true" className="size-4" />
           </button>
         </div>
         {children}

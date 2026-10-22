@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowRightIcon } from "@phosphor-icons/react"
 import { useQuery } from "convex/react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
@@ -141,7 +142,10 @@ export function AdminDashboard() {
             <p className="text-xs font-bold text-cream/65 uppercase">New contact inquiries</p>
             <div className="mt-4 flex items-end justify-between">
               <span className="text-4xl font-semibold">{data?.newContact ?? "N/A"}</span>
-              <span className="group-hover:translate-x-1">→</span>
+              <ArrowRightIcon
+                aria-hidden="true"
+                className="size-5 transition-transform group-hover:translate-x-1"
+              />
             </div>
           </Link>
           <Link
@@ -151,7 +155,10 @@ export function AdminDashboard() {
             <p className="text-xs font-bold text-wine uppercase">New catering inquiries</p>
             <div className="mt-4 flex items-end justify-between">
               <span className="text-4xl font-semibold">{data?.newCatering ?? "N/A"}</span>
-              <span className="group-hover:translate-x-1">→</span>
+              <ArrowRightIcon
+                aria-hidden="true"
+                className="size-5 transition-transform group-hover:translate-x-1"
+              />
             </div>
           </Link>
         </aside>

@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowDownIcon, ArrowUpIcon, PlusIcon, XIcon } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import { useRouter } from "next/navigation"
 import type { ChangeEvent, PointerEvent, ReactNode } from "react"
@@ -15,6 +16,7 @@ import {
   type MenuSectionRecord,
 } from "@/lib/admin-api"
 import { menuSavePayload } from "@/lib/menu-save"
+import { randomId } from "@/lib/random-id"
 
 const palette = ["espresso", "dark-maroon", "deep-brown"] as const
 const paletteLabels: Record<(typeof palette)[number], string> = {
@@ -28,14 +30,6 @@ const tones: Record<MenuSectionRecord["backgroundColor"], string> = {
   espresso: "bg-espresso text-cream",
   "dark-maroon": "bg-dark-maroon text-cream",
   "deep-brown": "bg-deep-brown text-cream",
-}
-
-function PlusIcon() {
-  return (
-    <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24">
-      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-    </svg>
-  )
 }
 
 function move<T>(values: T[], from: number, to: number) {
@@ -221,7 +215,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
           imageAlt: "",
           imageSide: newSection.imageSide,
           items: [],
-          key: crypto.randomUUID(),
+          key: randomId(),
           title: "New section",
         },
       ],
@@ -372,7 +366,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                         }
                         type="button"
                       >
-                        ↑
+                        <ArrowUpIcon aria-hidden="true" className="size-3.5" />
                       </button>
                       <button
                         aria-label="Move item down"
@@ -385,7 +379,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                         }
                         type="button"
                       >
-                        ↓
+                        <ArrowDownIcon aria-hidden="true" className="size-3.5" />
                       </button>
                       <button
                         aria-label="Delete item"
@@ -397,7 +391,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                         }
                         type="button"
                       >
-                        ×
+                        <XIcon aria-hidden="true" className="size-3.5" />
                       </button>
                     </div>
                   </div>
@@ -409,13 +403,13 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                     patchSection(sectionIndex, {
                       items: [
                         ...section.items,
-                        { description: "", key: crypto.randomUUID(), price: "", title: "" },
+                        { description: "", key: randomId(), price: "", title: "" },
                       ],
                     })
                   }
                   type="button"
                 >
-                  <PlusIcon />
+                  <PlusIcon aria-hidden="true" className="size-4" />
                 </button>
               </div>
             </div>
@@ -449,7 +443,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                 }
                 type="button"
               >
-                ↑
+                <ArrowUpIcon aria-hidden="true" className="size-4" />
               </button>
               <button
                 aria-label="Move section down"
@@ -463,7 +457,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                 }
                 type="button"
               >
-                ↓
+                <ArrowDownIcon aria-hidden="true" className="size-4" />
               </button>
               <button
                 aria-label="Delete section"
@@ -477,7 +471,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                 }
                 type="button"
               >
-                ×
+                <XIcon aria-hidden="true" className="size-4" />
               </button>
             </div>
           </section>
@@ -489,7 +483,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
             onClick={() => setAddingSection(true)}
             type="button"
           >
-            <PlusIcon />
+            <PlusIcon aria-hidden="true" className="size-4" />
           </button>
         </div>
       </div>

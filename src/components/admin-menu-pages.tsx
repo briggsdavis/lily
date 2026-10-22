@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowDownIcon, ArrowUpIcon } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -62,14 +63,14 @@ export function AdminMenuPages() {
             </div>
             <div className="flex flex-wrap gap-2">
               <AdminButton disabled={index === 0} kind="secondary" onClick={() => shift(index, -1)}>
-                ↑
+                <ArrowUpIcon aria-label="Move up" className="size-4" />
               </AdminButton>
               <AdminButton
                 disabled={index === ordered.length - 1}
                 kind="secondary"
                 onClick={() => shift(index, 1)}
               >
-                ↓
+                <ArrowDownIcon aria-label="Move down" className="size-4" />
               </AdminButton>
               <Link
                 className="inline-flex min-h-11 items-center border border-deep-brown/30 px-4 text-sm font-bold hover:border-wine hover:bg-wine/5"

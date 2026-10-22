@@ -34,7 +34,7 @@ export function HomeContent() {
           </div>
 
           <div className="relative grid h-svh min-h-[44rem] grid-rows-[1fr_auto] px-page pt-28 pb-7 md:pt-32 md:pb-9 lg:pb-10">
-            <div className="grid content-start gap-9 md:grid-cols-12 md:gap-8 lg:gap-12">
+            <div className="grid content-start justify-items-center gap-9 text-center md:grid-cols-12 md:justify-items-stretch md:gap-8 md:text-left lg:gap-12">
               <div className="md:col-span-7 lg:col-span-6">
                 <h1 className="hero-stagger font-header-stencil text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
                   <EditableText field="home.hero.heading">
@@ -64,7 +64,7 @@ export function HomeContent() {
               </p>
             </div>
 
-            <div className="flex items-end justify-between gap-8">
+            <div className="flex flex-col items-center gap-8 md:flex-row md:items-end md:justify-between">
               <Image
                 alt="Lily Kitchen and Cocktails"
                 className="hero-stagger h-auto w-[16.5rem] animate-delay-900 sm:w-[21rem] md:w-[27rem] lg:w-[30rem]"
@@ -74,7 +74,7 @@ export function HomeContent() {
                 src="/images/primary-horizontal-cream.png"
                 width={2329}
               />
-              <p className="hero-stagger hidden text-right text-[0.65rem] font-bold tracking-[0.22em] text-cream/55 uppercase animate-delay-1050 sm:block">
+              <p className="hero-stagger hidden text-center text-[0.65rem] font-bold tracking-[0.22em] text-cream/55 uppercase animate-delay-1050 sm:block md:text-right">
                 <EditableText field="home.hero.tagline">
                   Seasonal kitchen · Considered cocktails
                 </EditableText>
@@ -107,7 +107,7 @@ export function HomeContent() {
         className="relative isolate overflow-hidden bg-mauve px-page pt-14 pb-24 text-warm-white md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
         data-nav-tone="dark"
       >
-        <RotatingCrest className="pointer-events-none absolute top-1/2 right-[-8%] h-auto w-[min(48vw,38rem)] -translate-y-1/2 opacity-50" />
+        <RotatingCrest className="pointer-events-none absolute top-1/2 right-[-8%] hidden h-auto w-[min(48vw,38rem)] -translate-y-1/2 opacity-50 md:block" />
         <div className="relative z-10">
           <MenuRotator />
         </div>
@@ -147,15 +147,19 @@ export function HomeContent() {
             </PillLink>
           </span>
         </div>
-        <Image
-          alt=""
+        <div
           aria-hidden="true"
-          className="absolute top-1/2 -right-[35vw] h-auto w-[85vw] -translate-y-1/2 opacity-85 md:-right-[6vw] md:w-[56vw]"
-          data-reveal
-          height={1004}
-          src="/images/stamp-pink.svg"
-          width={982}
-        />
+          className="pointer-events-none absolute top-1/2 -right-[35vw] w-[85vw] -translate-y-1/2 opacity-20 md:-right-[6vw] md:w-[56vw] md:opacity-85"
+        >
+          <Image
+            alt=""
+            className="h-auto w-full"
+            data-reveal
+            height={1004}
+            src="/images/stamp-pink.svg"
+            width={982}
+          />
+        </div>
       </ColorSection>
 
       <section

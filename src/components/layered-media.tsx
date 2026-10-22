@@ -36,7 +36,8 @@ export function LayeredMedia({
   caption?: ReactNode | ((index: number) => ReactNode)
   /**
    * "below" stacks the caption under the image; "overlay" lays it over the image box;
-   * "beside" places it left of the image, matching its height. In "beside" mode
+   * "beside" hangs the caption left of the image, matching its height, so every image
+   * shares one position regardless of caption width. In "beside" mode
    * foregroundClassName sizes the image itself, so use non-percentage widths.
    */
   captionPlacement?: "below" | "overlay" | "beside"
@@ -78,9 +79,7 @@ export function LayeredMedia({
         <div
           aria-hidden={index !== active}
           className={`absolute top-1/2 -translate-y-1/2 ${foregroundPositionClassName} ${
-            captionPlacement === "beside"
-              ? "flex items-stretch gap-1.5 md:gap-2"
-              : foregroundClassName
+            captionPlacement === "beside" ? "" : foregroundClassName
           } ${index === active ? "z-10" : "pointer-events-none z-0"}`}
           key={`foreground-${item.src}`}
         >
@@ -106,7 +105,7 @@ export function LayeredMedia({
                 captionPlacement === "overlay"
                   ? "pointer-events-none absolute inset-0 z-20"
                   : captionPlacement === "beside"
-                    ? "pointer-events-none order-first"
+                    ? "pointer-events-none absolute inset-y-0 right-full mr-1.5 md:mr-2"
                     : "pt-3"
               } ${index === active ? "opacity-100 blur-none" : "opacity-0 blur-md"}`}
             >

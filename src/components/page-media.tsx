@@ -1,4 +1,5 @@
 "use client"
+import { SpeakerHighIcon, SpeakerXIcon } from "@phosphor-icons/react"
 import { useQuery } from "convex/react"
 import Image, { type ImageProps } from "next/image"
 import { useEffect, useRef, useState } from "react"
@@ -152,26 +153,11 @@ function SoundButton({ mediaKey }: { mediaKey: MediaKey }) {
       aria-pressed={!muted}
       className="absolute right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-40 grid size-12 cursor-pointer touch-manipulation place-items-center rounded-full border border-white/40 bg-black/25 text-white backdrop-blur-sm transition-colors hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:right-8 md:bottom-8"
     >
-      <svg
-        aria-hidden="true"
-        className="size-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-        {muted ? (
-          <path d="m16 9 6 6m0-6-6 6" />
-        ) : (
-          <>
-            <path d="M15 8a6 6 0 0 1 0 8" />
-            <path d="M18 5a10 10 0 0 1 0 14" />
-          </>
-        )}
-      </svg>
+      {muted ? (
+        <SpeakerXIcon aria-hidden="true" className="size-5" />
+      ) : (
+        <SpeakerHighIcon aria-hidden="true" className="size-5" />
+      )}
     </button>
   )
 }

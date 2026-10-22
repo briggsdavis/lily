@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowLeftIcon } from "@phosphor-icons/react"
 import { useCallback, useState } from "react"
 import type { ChangeEvent, FormEvent, MouseEvent } from "react"
 import { DoubleFrame } from "@/components/double-frame"
@@ -8,7 +9,7 @@ import { PillButton } from "@/components/pill-button"
 const steps = ["Contact information", "Event basics", "Order details"] as const
 const stepShortLabels = ["Contact", "Event", "Order"] as const
 const progressWidths = ["w-1/3", "w-2/3", "w-full"] as const
-const progressLabels = ["⅓ complete", "⅔ complete", "Final step"] as const
+const progressLabels = ["1/3 complete", "2/3 complete", "Final step"] as const
 const locations = [
   { label: "On site (at Lily)", value: "onsite" },
   { label: "Off site", value: "offsite" },
@@ -104,7 +105,6 @@ export function CateringInquiryForm({
       <div className="relative mx-auto max-w-5xl">
         <div className="mb-10 grid gap-5 md:mb-14 md:grid-cols-[0.8fr_1.2fr] md:items-end md:gap-16">
           <div>
-            <p className="mb-3 eyebrow text-pink">Catering</p>
             <h1 className="font-header-stencil text-5xl leading-none tracking-[0.04em] uppercase md:text-7xl lg:text-8xl">
               Inquiry
             </h1>
@@ -350,7 +350,9 @@ export function CateringInquiryForm({
                       onClick={goBack}
                       type="button"
                     >
-                      ← Back
+                      <span className="inline-flex items-center gap-2">
+                        <ArrowLeftIcon aria-hidden="true" className="size-4" /> Back
+                      </span>
                     </button>
                   ) : (
                     <span />

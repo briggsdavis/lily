@@ -1,6 +1,7 @@
 "use client"
 
 import { useAuthActions } from "@convex-dev/auth/react"
+import { CaretDownIcon, ListIcon, PlusIcon, XIcon } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -17,6 +18,7 @@ import {
   saveMenuPageRef,
   type MenuPageRecord,
 } from "@/lib/admin-api"
+import { randomId } from "@/lib/random-id"
 
 const links = [
   { href: "/admin", label: "Dashboard" },
@@ -58,14 +60,10 @@ function NavLink({
 
 function Chevron({ open }: { open: boolean }) {
   return (
-    <svg
+    <CaretDownIcon
       aria-hidden="true"
       className={`size-4 text-white/45 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <path d="m7 10 5 5 5-5" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-    </svg>
+    />
   )
 }
 
@@ -129,11 +127,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
         imageSide: index % 2 ? ("right" as const) : ("left" as const),
         items: section.items.map((item) => ({
           description: item.description,
-          key: crypto.randomUUID(),
+          key: randomId(),
           price: item.price,
           title: item.name,
         })),
-        key: crypto.randomUUID(),
+        key: randomId(),
         title: section.title,
       })),
       slug: page.slug,
@@ -207,7 +205,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             imageAlt: newPage.firstTitle,
             imageSide: newPage.firstSide,
             items: [],
-            key: crypto.randomUUID(),
+            key: randomId(),
             title: newPage.firstTitle,
           },
         ],
@@ -295,14 +293,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                 onClick={() => setCreating(true)}
                 type="button"
               >
-                <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                  />
-                </svg>
+                <PlusIcon aria-hidden="true" className="size-4" />
               </button>
             </div>
           </div>
@@ -328,11 +319,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
         <span className="text-lg font-semibold tracking-tight">Lily Admin</span>
         <button
           aria-expanded={open}
+          aria-label={open ? "Close navigation" : "Open navigation"}
           className="grid size-10 place-items-center rounded-xl border border-deep-brown/15 bg-white shadow-sm"
           onClick={toggle}
           type="button"
         >
-          {open ? "×" : "☰"}
+          {open ? (
+            <XIcon aria-hidden="true" className="size-5" />
+          ) : (
+            <ListIcon aria-hidden="true" className="size-5" />
+          )}
         </button>
       </header>
       {open ? (

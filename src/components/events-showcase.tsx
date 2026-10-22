@@ -130,9 +130,9 @@ export function EventsShowcase() {
         </div>
       ) : (
         <>
-          <div className="relative">
+          <div className="relative mx-7 sm:mx-10 md:mx-0">
             <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
-            <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-cream md:min-h-[37rem]">
+            <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-tan md:min-h-[37rem]">
               {events.map((event, index) => (
                 <Image
                   alt={index === active ? event.alt : ""}
@@ -168,7 +168,7 @@ export function EventsShowcase() {
                 </div>
 
                 <div className="reveal-delay-180" data-reveal>
-                  <p className="mb-4 eyebrow text-cream/55">
+                  <p className="mb-4 eyebrow text-tan">
                     <EditableText field="home.events.prompt">Choose an evening</EditableText>
                   </p>
                   <div className="grid max-w-2xl grid-cols-4 gap-2 md:gap-4">

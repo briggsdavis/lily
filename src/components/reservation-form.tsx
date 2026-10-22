@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from "@phosphor-icons/react"
 import {
   FormEvent,
   MouseEvent,
@@ -408,7 +409,7 @@ export function ReservationForm({
                   type="button"
                 >
                   <span>{formattedDate}</span>
-                  <span aria-hidden="true">+</span>
+                  <PlusIcon aria-hidden="true" className="size-4" />
                 </button>
                 {openPicker === "date" && (
                   <div className="absolute top-full left-0 z-50 mt-2 w-80 max-w-[calc(100vw-2.5rem)] border border-pink/50 bg-dark-maroon p-3 text-warm-white shadow-xl shadow-zinc-950/40">
@@ -424,7 +425,7 @@ export function ReservationForm({
                         onClick={changeCalendarMonth}
                         type="button"
                       >
-                        &larr;
+                        <ArrowLeftIcon aria-hidden="true" className="size-4" />
                       </button>
                       <strong>
                         {new Intl.DateTimeFormat("en-US", {
@@ -439,7 +440,7 @@ export function ReservationForm({
                         onClick={changeCalendarMonth}
                         type="button"
                       >
-                        &rarr;
+                        <ArrowRightIcon aria-hidden="true" className="size-4" />
                       </button>
                     </div>
                     <div className="grid grid-cols-7 gap-0.5">

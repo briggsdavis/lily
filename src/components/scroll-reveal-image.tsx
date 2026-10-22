@@ -7,13 +7,15 @@ import { PillLink } from "@/components/pill-button"
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => value * value * (3 - 2 * value)
 const initialProgress = { "--open": 0, "--meet": 0, "--reserve": 0 } as CSSProperties
-const revealClip = { clipPath: "inset(0 calc((1 - var(--open)) * 50%))" }
-const leftWordPosition = { transform: "translateX(calc((1 - var(--meet)) * -100vw))" }
-const rightWordPosition = { transform: "translateX(calc((1 - var(--meet)) * 100vw))" }
+// The walls slide apart with transforms, which stay on the compositor. Animating clip-path
+// on the full-screen image forced a repaint every frame and stuttered on mobile Safari.
+const leftWallPosition = { transform: "translate3d(calc(var(--open) * -100%), 0, 0)" }
+const rightWallPosition = { transform: "translate3d(calc(var(--open) * 100%), 0, 0)" }
+const leftWordPosition = { transform: "translate3d(calc((1 - var(--meet)) * -100vw), 0, 0)" }
+const rightWordPosition = { transform: "translate3d(calc((1 - var(--meet)) * 100vw), 0, 0)" }
 const reserveButtonStyle = {
-  filter: "blur(calc((1 - var(--reserve)) * 12px))",
   opacity: "var(--reserve)",
-  transform: "translateY(calc((1 - var(--reserve)) * 1rem))",
+  transform: "translate3d(0, calc((1 - var(--reserve)) * 1rem), 0)",
 } as CSSProperties
 
 export function ScrollRevealImage() {
@@ -36,10 +38,13 @@ export function ScrollRevealImage() {
       return
     }
 
+    // iOS changes innerHeight as the toolbar collapses mid-scroll, which made progress jump.
+    // Only re-measure when the width changes (rotation or a real resize).
+    let viewport = window.innerHeight
+    let viewportWidth = window.innerWidth
     let frame = 0
     const update = () => {
       frame = 0
-      const viewport = window.innerHeight
       const sectionTop = section.getBoundingClientRect().top
       const revealStart = viewport * 0.88
       const scrolledIntoReveal = revealStart - sectionTop
@@ -56,11 +61,18 @@ export function ScrollRevealImage() {
 
     update()
     window.addEventListener("scroll", schedule, { passive: true })
-    window.addEventListener("resize", schedule)
+    const resize = () => {
+      if (window.innerWidth !== viewportWidth) {
+        viewportWidth = window.innerWidth
+        viewport = window.innerHeight
+      }
+      schedule()
+    }
+    window.addEventListener("resize", resize)
     return () => {
       window.cancelAnimationFrame(frame)
       window.removeEventListener("scroll", schedule)
-      window.removeEventListener("resize", schedule)
+      window.removeEventListener("resize", resize)
     }
   }, [editing])
 
@@ -72,11 +84,8 @@ export function ScrollRevealImage() {
       style={initialProgress}
     >
       <MediaEditControl mediaKey="home.evening" />
-      <div className="sticky top-0 h-dvh overflow-hidden">
-        <div
-          className="absolute inset-0 overflow-hidden will-change-[clip-path]"
-          style={editing ? undefined : revealClip}
-        >
+      <div className="sticky top-0 h-svh overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
           <MediaImage
             mediaKey="home.evening"
             alt="Lily's dining room in the evening"
@@ -86,6 +95,21 @@ export function ScrollRevealImage() {
             src="/images/lily-romantic-interior-9x16.webp"
           />
         </div>
+
+        {editing ? null : (
+          <>
+            <div
+              aria-hidden="true"
+              className="absolute inset-y-0 left-0 w-[calc(50%+1px)] bg-mauve will-change-transform"
+              style={leftWallPosition}
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-y-0 right-0 w-[calc(50%+1px)] bg-mauve will-change-transform"
+              style={rightWallPosition}
+            />
+          </>
+        )}
 
         <p className="absolute inset-0 flex flex-col items-center justify-center px-page text-center font-header-stencil text-4xl whitespace-nowrap text-cream md:text-6xl xl:flex-row xl:gap-[0.2em] 2xl:text-7xl">
           <span
@@ -103,7 +127,7 @@ export function ScrollRevealImage() {
         </p>
 
         <div
-          className="absolute inset-x-0 top-[62%] z-10 flex justify-center will-change-[opacity,filter,transform]"
+          className="absolute inset-x-0 top-[62%] z-10 flex justify-center will-change-[opacity,transform]"
           style={editing ? undefined : reserveButtonStyle}
         >
           <PillLink field="home.evening.button" color="cream" href="/contact?reason=reservation">

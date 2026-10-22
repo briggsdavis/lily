@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "@phosphor-icons/react"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -321,7 +322,7 @@ function CalendarEventModal({
           ref={closeButtonRef}
           type="button"
         >
-          <span aria-hidden="true">×</span>
+          <XIcon aria-hidden="true" className="size-5" />
         </button>
 
         <div className="relative min-h-64 overflow-hidden sm:min-h-80 md:min-h-[34rem]">
@@ -589,7 +590,7 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                 onClick={changeMonth}
                 type="button"
               >
-                &larr;
+                <ArrowLeftIcon aria-hidden="true" className="size-5" />
               </button>
               <h3 className="font-display text-2xl uppercase md:text-3xl">
                 {monthFormatter.format(calendarMonth)}
@@ -601,7 +602,7 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                 onClick={changeMonth}
                 type="button"
               >
-                &rarr;
+                <ArrowRightIcon aria-hidden="true" className="size-5" />
               </button>
             </div>
 

@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowUpRightIcon, ListIcon, XIcon } from "@phosphor-icons/react"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -84,26 +85,97 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
     return () => window.removeEventListener("keydown", closeOnEscape)
   }, [closeNavigation, menuOpen, menuPanelOpen])
 
+  useEffect(() => {
+    if (!menuOpen) return
+    const overflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    const desktop = window.matchMedia("(min-width: 48rem)")
+    const closeOnDesktop = () => desktop.matches && setMenuOpen(false)
+    desktop.addEventListener("change", closeOnDesktop)
+    return () => {
+      document.body.style.overflow = overflow
+      desktop.removeEventListener("change", closeOnDesktop)
+    }
+  }, [menuOpen])
+
   return (
-    <header className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-3 py-5 md:px-4">
+    <header className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-2 py-3 md:px-4 md:py-5">
       <div
-        className="pointer-events-auto relative flex w-full max-w-sm flex-col items-center md:w-auto md:max-w-none"
+        className={`pointer-events-auto fixed inset-0 flex flex-col bg-dark-maroon px-5 pt-24 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-cream transition-[opacity,visibility] duration-500 ease-lily md:hidden ${menuOpen ? "visible opacity-100" : "invisible opacity-0"}`}
+        id="mobile-navigation"
+        inert={!menuOpen}
+      >
+        <ul className="flex flex-1 flex-col justify-center divide-y divide-cream/15">
+          {siteRoutes.map((route, index) => (
+            <li
+              className={`transition-[opacity,transform] duration-700 ease-lily ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+              key={route.href}
+              style={{ transitionDelay: menuOpen ? `${120 + index * 60}ms` : "0ms" }}
+            >
+              <TransitionLink
+                aria-current={route.href === current ? "page" : undefined}
+                className="group flex items-center justify-between py-4 font-display text-4xl uppercase aria-[current=page]:text-pink"
+                href={route.href}
+                onNavigate={closeMenu}
+              >
+                <span className="flex items-baseline gap-4">
+                  <span className="font-sans text-xs font-bold tracking-[0.08em] text-cream/45">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {route.label}
+                </span>
+                <ArrowUpRightIcon
+                  aria-hidden="true"
+                  className="size-6 shrink-0 transition-transform duration-300 group-active:translate-x-0.5 group-active:-translate-y-0.5"
+                />
+              </TransitionLink>
+            </li>
+          ))}
+        </ul>
+        <TransitionLink
+          className={`flex min-h-12 items-center justify-center rounded-full bg-pink px-7 text-sm font-semibold text-dark-green uppercase transition-[opacity,transform] duration-700 ease-lily active:scale-[0.98] ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          href="/contact?reason=reservation"
+          onNavigate={closeMenu}
+          style={{ transitionDelay: menuOpen ? `${120 + siteRoutes.length * 60}ms` : "0ms" }}
+        >
+          Reserve a table
+        </TransitionLink>
+      </div>
+
+      <div
+        className="pointer-events-auto relative flex w-full flex-col items-center md:w-auto"
         onBlur={closePanelAfterBlur}
         onMouseLeave={closeMenuPanel}
       >
         <nav
           aria-label="Main"
-          className={`relative isolate overflow-hidden rounded-[3px] bg-transparent px-6 py-6 text-cream md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-10 md:py-6 md:[&::-webkit-scrollbar]:hidden ${menuOpen ? "w-full max-w-sm" : "w-auto"}`}
+          className="relative isolate w-full overflow-hidden rounded-[3px] bg-transparent py-1 pr-1 pl-3 text-cream md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-10 md:py-6 md:[&::-webkit-scrollbar]:hidden"
           data-site-chrome
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 rounded-[3px] backdrop-blur-md"
+            className={`pointer-events-none absolute inset-0 -z-10 rounded-[3px] backdrop-blur-md transition-opacity duration-500 ${menuOpen ? "opacity-0 md:opacity-100" : ""}`}
           />
-          <div className="flex items-center md:hidden">
-            <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center justify-between md:hidden">
+            <TransitionLink
+              aria-label="Lily home"
+              className="block"
+              href="/"
+              onNavigate={closeMenu}
+            >
+              <Image
+                alt=""
+                className="h-7 w-auto"
+                height={767}
+                priority
+                src="/images/primary-horizontal-cream.png"
+                width={2329}
+              />
+            </TransitionLink>
+            <div className="flex items-center gap-2">
               <TransitionLink
-                className="rounded-full border border-cream/70 px-3 py-2 text-[0.65rem] font-bold uppercase"
+                className={`rounded-full bg-cream px-4 py-2.5 text-[0.65rem] font-bold text-burgundy uppercase transition-opacity duration-300 ${menuOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
+                tabIndex={menuOpen ? -1 : undefined}
                 href="/contact?reason=reservation"
                 onNavigate={closeMenu}
               >
@@ -113,45 +185,18 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
                 aria-controls="mobile-navigation"
                 aria-expanded={menuOpen}
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
-                className="grid size-9 cursor-pointer place-items-center rounded-full border border-cream/70"
+                className="grid size-10 cursor-pointer place-items-center rounded-full active:bg-cream/10"
                 onClick={toggleMenu}
                 type="button"
               >
-                <span className="relative block h-3.5 w-4" aria-hidden="true">
-                  <span
-                    className={`absolute left-0 h-px w-4 bg-current transition-transform duration-300 ${menuOpen ? "top-1.5 rotate-45" : "top-0.5"}`}
-                  />
-                  <span
-                    className={`absolute top-1.5 left-0 h-px w-4 bg-current transition-opacity duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`}
-                  />
-                  <span
-                    className={`absolute left-0 h-px w-4 bg-current transition-transform duration-300 ${menuOpen ? "top-1.5 -rotate-45" : "top-2.5"}`}
-                  />
-                </span>
+                {menuOpen ? (
+                  <XIcon aria-hidden="true" className="size-6" />
+                ) : (
+                  <ListIcon aria-hidden="true" className="size-6" />
+                )}
               </button>
             </div>
           </div>
-
-          {menuOpen ? (
-            <ul
-              className="mt-3 grid gap-1 border-t border-cream/30 pt-3 md:hidden"
-              id="mobile-navigation"
-            >
-              {siteRoutes.map((route) => (
-                <li key={route.href}>
-                  <TransitionLink
-                    aria-current={route.href === current ? "page" : undefined}
-                    className="flex min-h-10 items-center justify-between py-1 font-display text-lg aria-[current=page]:text-pink"
-                    href={route.href}
-                    onNavigate={closeMenu}
-                  >
-                    {route.label}
-                    <span aria-hidden="true">↗</span>
-                  </TransitionLink>
-                </li>
-              ))}
-            </ul>
-          ) : null}
 
           <ul className="hidden w-max items-center gap-8 md:flex">
             {siteRoutes.map((route) => (
@@ -178,7 +223,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
           <img
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 size-full select-none"
+            className="pointer-events-none absolute inset-0 hidden size-full select-none md:block"
             src="/nav.svg"
           />
         </nav>
@@ -203,7 +248,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
                 onMouseEnter={selectMenuCategory}
                 onNavigate={closeNavigation}
               >
-                <span className="animated-underline block w-max font-display text-3xl font-medium tracking-[0.03em] uppercase group-hover:after:origin-left group-hover:after:scale-x-100 group-focus-visible:after:origin-left group-focus-visible:after:scale-x-100 lg:text-4xl">
+                <span className="animated-underline block w-max font-header text-3xl font-bold tracking-[0.03em] uppercase group-hover:after:origin-left group-hover:after:scale-x-100 group-focus-visible:after:origin-left group-focus-visible:after:scale-x-100 lg:text-4xl">
                   {category.name}
                 </span>
                 <span className="mt-1.5 line-clamp-2 max-w-[32ch] text-xs leading-5 text-cream/65">

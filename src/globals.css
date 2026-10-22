@@ -8,7 +8,165 @@
   --font-header-stencil: "Masqualero Stencil", serif;
   --font-subhead: "Masqualero", serif;
   --font-subhead-groove: "Masqualero Groove", serif;
-  --font-body: "Gabriel Sans", sans-serif;
+  --font-body: "Gabriel Sans Symbols", "Gabriel Sans", sans-serif;
+}
+
+/* Sweet Sans Pro covers glyphs the Gabriel Sans trial replaces with placeholders. */
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-thin-italic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-light-italic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-regular-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-medium-italic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-bold-italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-heavy.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+}
+
+@font-face {
+  font-family: "Gabriel Sans Symbols";
+  src: url("/fonts/symbols/sweet-sans-pro-heavy-italic.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0022-002B, U+002F, U+003C-003E, U+0040, U+005B-0060, U+007B-007E, U+00A1-00AA, U+00AC, U+00AE,
+    U+00B0-00BA, U+00BC-00DE, U+00E0-00FF, U+011E-011F, U+0130-0131, U+0141-0142, U+0152-0153,
+    U+015E-0161, U+0178, U+017D-017E, U+0192, U+02C6-02C7, U+02D8-02DD, U+201A, U+201E, U+2020-2022,
+    U+2030, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
 }
 
 @font-face {

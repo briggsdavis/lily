@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowLeftIcon, CaretDownIcon } from "@phosphor-icons/react"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useMemo, useState } from "react"
@@ -44,7 +45,7 @@ export function CateringProductDetail({ product }: { product: CateringProduct })
         className="animated-underline inline-flex items-center gap-2 text-xs font-bold tracking-[0.08em] text-cream/70 uppercase"
         href={backHref}
       >
-        <span aria-hidden="true">←</span> Back to catering
+        <ArrowLeftIcon aria-hidden="true" className="size-4" /> Back to catering
       </TransitionLink>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(24rem,0.95fr)] lg:items-start lg:gap-16 xl:gap-24">
@@ -128,14 +129,10 @@ export function CateringProductDetail({ product }: { product: CateringProduct })
                   </option>
                 ))}
               </select>
-              <svg
+              <CaretDownIcon
                 aria-hidden="true"
                 className="pointer-events-none absolute top-1/2 right-6 size-4 -translate-y-1/2 text-cream"
-                fill="none"
-                viewBox="0 0 16 16"
-              >
-                <path d="m3 6 5 5 5-5" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
+              />
             </span>
           </label>
 
