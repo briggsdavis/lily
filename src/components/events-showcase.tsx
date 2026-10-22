@@ -80,69 +80,69 @@ export function EventsShowcase() {
       </div>
 
       <div className="relative">
-      <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
-      <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-cream md:min-h-[37rem]">
-        {events.map((event, index) => (
-          <Image
-            alt={index === active ? event.alt : ""}
-            aria-hidden={index !== active}
-            className={`object-cover transition-opacity duration-500 ease-lily ${event.imageClassName} ${index === active ? "opacity-100" : "opacity-0"}`}
-            fill
-            key={event.src}
-            sizes="(max-width: 768px) calc(100vw - 2.5rem), calc(100vw - 8rem)"
-            src={event.src}
-          />
-        ))}
+        <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
+        <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-cream md:min-h-[37rem]">
+          {events.map((event, index) => (
+            <Image
+              alt={index === active ? event.alt : ""}
+              aria-hidden={index !== active}
+              className={`object-cover transition-opacity duration-500 ease-lily ${event.imageClassName} ${index === active ? "opacity-100" : "opacity-0"}`}
+              fill
+              key={event.src}
+              sizes="(max-width: 768px) calc(100vw - 2.5rem), calc(100vw - 8rem)"
+              src={event.src}
+            />
+          ))}
 
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.9)_0%,rgba(8,7,5,0.62)_38%,rgba(8,7,5,0.08)_72%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.04)_25%,rgba(8,7,5,0.28)_55%,rgba(8,7,5,0.94)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,5,0.9)_0%,rgba(8,7,5,0.62)_38%,rgba(8,7,5,0.08)_72%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,7,5,0.04)_25%,rgba(8,7,5,0.28)_55%,rgba(8,7,5,0.94)_100%)]" />
 
-        <div className="relative flex min-h-[34rem] flex-col justify-between p-6 md:min-h-[37rem] md:p-10 lg:p-14">
-          <div className="grid max-w-xl" aria-live="polite" data-reveal>
-            {events.map((event, index) => (
-              <div
-                aria-hidden={index !== active}
-                className={`col-start-1 row-start-1 transition-[opacity,filter] duration-[1200ms] ease-lily ${index === active ? "opacity-100 blur-none" : "pointer-events-none opacity-0 blur-md"}`}
-                key={event.label}
-              >
-                <p className="font-display text-3xl leading-[1.08] font-medium md:text-4xl lg:text-5xl">
-                  <span className="block italic">{event.description[0]}</span>
-                  <span className="block">{event.description[1]}</span>
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="reveal-delay-180" data-reveal>
-            <p className="mb-4 eyebrow text-cream/55">Choose an evening</p>
-            <div className="grid max-w-2xl grid-cols-4 gap-2 md:gap-4">
+          <div className="relative flex min-h-[34rem] flex-col justify-between p-6 md:min-h-[37rem] md:p-10 lg:p-14">
+            <div className="grid max-w-xl" aria-live="polite" data-reveal>
               {events.map((event, index) => (
-                <button
-                  aria-label={`Show ${event.label}`}
-                  aria-pressed={active === index}
-                  className="relative aspect-4/3 cursor-pointer overflow-hidden opacity-70 transition-opacity duration-300 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 aria-pressed:opacity-100"
-                  data-event-index={index}
-                  key={event.src}
-                  onClick={selectEvent}
-                  type="button"
+                <div
+                  aria-hidden={index !== active}
+                  className={`col-start-1 row-start-1 transition-[opacity,filter] duration-[1200ms] ease-lily ${index === active ? "opacity-100 blur-none" : "pointer-events-none opacity-0 blur-md"}`}
+                  key={event.label}
                 >
-                  <Image
-                    alt=""
-                    className={`object-cover ${event.imageClassName}`}
-                    fill
-                    sizes="(max-width: 768px) 22vw, 14vw"
-                    src={event.src}
-                  />
-                  <span
-                    aria-hidden="true"
-                    className={`absolute inset-0 bg-zinc-950 transition-opacity duration-300 ${active === index ? "opacity-0" : "opacity-45"}`}
-                  />
-                </button>
+                  <p className="font-display text-3xl leading-[1.08] font-medium md:text-4xl lg:text-5xl">
+                    <span className="block italic">{event.description[0]}</span>
+                    <span className="block">{event.description[1]}</span>
+                  </p>
+                </div>
               ))}
+            </div>
+
+            <div className="reveal-delay-180" data-reveal>
+              <p className="mb-4 eyebrow text-cream/55">Choose an evening</p>
+              <div className="grid max-w-2xl grid-cols-4 gap-2 md:gap-4">
+                {events.map((event, index) => (
+                  <button
+                    aria-label={`Show ${event.label}`}
+                    aria-pressed={active === index}
+                    className="relative aspect-4/3 cursor-pointer overflow-hidden opacity-70 transition-opacity duration-300 outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-pink focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 aria-pressed:opacity-100"
+                    data-event-index={index}
+                    key={event.src}
+                    onClick={selectEvent}
+                    type="button"
+                  >
+                    <Image
+                      alt=""
+                      className={`object-cover ${event.imageClassName}`}
+                      fill
+                      sizes="(max-width: 768px) 22vw, 14vw"
+                      src={event.src}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={`absolute inset-0 bg-zinc-950 transition-opacity duration-300 ${active === index ? "opacity-0" : "opacity-45"}`}
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
   )

@@ -83,7 +83,7 @@ export function ScrollRevealImage() {
           />
         </div>
 
-        <p className="absolute inset-0 flex flex-col items-center justify-center px-page text-center font-display text-4xl font-black italic whitespace-nowrap text-cream md:text-6xl xl:flex-row xl:gap-[0.2em] 2xl:text-7xl">
+        <p className="absolute inset-0 flex flex-col items-center justify-center px-page text-center font-display text-4xl font-black whitespace-nowrap text-cream italic md:text-6xl xl:flex-row xl:gap-[0.2em] 2xl:text-7xl">
           <span className="block will-change-transform" style={leftWordPosition}>
             Come for dinner,
           </span>

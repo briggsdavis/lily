@@ -46,12 +46,8 @@ export default function HomePage() {
               </div>
 
               <p className="hero-stagger hero-intro-side text-sm leading-7 text-cream/75 animate-delay-570 md:col-span-6 md:col-start-7 md:justify-self-end md:text-right lg:text-base lg:leading-8">
-                <span className="lg:block">
-                  A neighborhood kitchen and cocktail bar
-                </span>{" "}
-                <span className="lg:block">
-                  shaped by the seasons, with considered plates,
-                </span>{" "}
+                <span className="lg:block">A neighborhood kitchen and cocktail bar</span>{" "}
+                <span className="lg:block">shaped by the seasons, with considered plates,</span>{" "}
                 <span className="lg:block">
                   garden-led drinks, and warm service made for long evenings.
                 </span>
@@ -116,14 +112,12 @@ export default function HomePage() {
           </h2>
           <div className="mb-10 grid w-full gap-x-12 gap-y-7 md:grid-cols-2 lg:gap-x-20">
             <p className="reveal-delay-180" data-reveal>
-              Lily is a dining room shaped by the seasons. The kitchen cooks
-              with precision and restraint, letting exceptional ingredients lead
-              each plate.
+              Lily is a dining room shaped by the seasons. The kitchen cooks with precision and
+              restraint, letting exceptional ingredients lead each plate.
             </p>
             <p className="reveal-delay-320" data-reveal>
-              The bar holds the same standard: classic technique, seasonal fruit
-              and herbs, fine spirits, and cocktails composed to sit beautifully
-              beside dinner.
+              The bar holds the same standard: classic technique, seasonal fruit and herbs, fine
+              spirits, and cocktails composed to sit beautifully beside dinner.
             </p>
           </div>
           <span className="reveal-delay-600" data-reveal>
@@ -172,15 +166,9 @@ export default function HomePage() {
               className="mt-8 mb-7 max-w-[38ch] text-sm leading-7 text-cream/85 reveal-delay-180 md:mt-10 md:text-base md:leading-8"
               data-reveal
             >
-              <span className="md:block">
-                Market-led plates and considered cocktails,
-              </span>{" "}
-              <span className="md:block">
-                grounded in generous hospitality and made
-              </span>{" "}
-              <span className="md:block">
-                for sharing over an unhurried evening.
-              </span>
+              <span className="md:block">Market-led plates and considered cocktails,</span>{" "}
+              <span className="md:block">grounded in generous hospitality and made</span>{" "}
+              <span className="md:block">for sharing over an unhurried evening.</span>
             </p>
             <div className="flex flex-wrap gap-3 reveal-delay-320" data-reveal>
               <PillLink color="cream" href="/contact?reason=reservation">
@@ -211,10 +199,7 @@ export default function HomePage() {
           src="/images/lily-event-table-16x10.webp"
         />
         <ScrollTilt className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14">
-          <h2
-            className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl"
-            data-reveal
-          >
+          <h2 className="max-w-[10ch] font-display text-4xl font-medium lg:text-6xl" data-reveal>
             Bring the table <em className="italic">home</em>.
           </h2>
           <ul
@@ -229,13 +214,10 @@ export default function HomePage() {
             className="max-w-[34ch] self-end text-pretty text-cream/75 reveal-delay-320 lg:text-lg"
             data-reveal
           >
-            From executive lunches to private celebrations, we bring Lily's
-            seasonal menus and polished service to gatherings across Gibsonia.
+            From executive lunches to private celebrations, we bring Lily's seasonal menus and
+            polished service to gatherings across Gibsonia.
           </p>
-          <div
-            className="reveal-delay-460 md:self-end md:justify-self-end"
-            data-reveal
-          >
+          <div className="reveal-delay-460 md:self-end md:justify-self-end" data-reveal>
             <PillLink color="cream" href="/catering">
               Explore catering
             </PillLink>
@@ -243,5 +225,5 @@ export default function HomePage() {
         </ScrollTilt>
       </section>
     </div>
-  );
+  )
 }

@@ -160,12 +160,8 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
                   }
                   key={key}
                 >
-                  <dt className="text-xs font-semibold text-deep-brown/55">
-                    {fieldLabel(key)}
-                  </dt>
-                  <dd className="mt-1 text-sm whitespace-pre-wrap">
-                    {fieldValue(key, value)}
-                  </dd>
+                  <dt className="text-xs font-semibold text-deep-brown/55">{fieldLabel(key)}</dt>
+                  <dd className="mt-1 text-sm whitespace-pre-wrap">{fieldValue(key, value)}</dd>
                 </div>
               ))}
           </dl>

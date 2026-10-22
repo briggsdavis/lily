@@ -46,7 +46,12 @@ export default defineSchema({
     email: v.string(),
     eventDate: v.string(),
     // "delivery" and "pickup" are kept for inquiries sent before the on site/off site change.
-    fulfillment: v.union(v.literal("onsite"), v.literal("offsite"), v.literal("delivery"), v.literal("pickup")),
+    fulfillment: v.union(
+      v.literal("onsite"),
+      v.literal("offsite"),
+      v.literal("delivery"),
+      v.literal("pickup"),
+    ),
     fullName: v.string(),
     guestCount: v.number(),
     menuSelection: v.string(),

@@ -93,7 +93,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
       >
         <nav
           aria-label="Main"
-          className={`border-hand relative isolate [--hand-color:var(--color-tan)] overflow-hidden rounded-[3px] bg-transparent px-3 py-3 text-cream md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-7 md:py-4 md:[&::-webkit-scrollbar]:hidden ${menuOpen ? "w-full max-w-sm" : "w-auto"}`}
+          className={`border-hand relative isolate overflow-hidden rounded-[3px] bg-transparent px-3 py-3 text-cream [--hand-color:var(--color-tan)] md:w-auto md:max-w-full md:[scrollbar-width:none] md:overflow-x-auto md:px-7 md:py-4 md:[&::-webkit-scrollbar]:hidden ${menuOpen ? "w-full max-w-sm" : "w-auto"}`}
           data-site-chrome
         >
           <div

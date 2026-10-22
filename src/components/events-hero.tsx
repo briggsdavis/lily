@@ -29,5 +29,5 @@ export function EventsHero() {
         </p>
       </div>
     </ParallaxHero>
-  );
+  )
 }

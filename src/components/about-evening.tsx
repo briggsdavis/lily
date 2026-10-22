@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { SyntheticEvent, useCallback, useState } from "react";
-import { usePageMedia } from "@/components/page-media";
-import { PillLink } from "@/components/pill-button";
+import Image from "next/image"
+import { SyntheticEvent, useCallback, useState } from "react"
+import { usePageMedia } from "@/components/page-media"
+import { PillLink } from "@/components/pill-button"
 
 type EveningChoice = {
-  alt: string;
-  cta?: string;
-  href?: string;
-  image: string;
-  label: string;
-};
+  alt: string
+  cta?: string
+  href?: string
+  image: string
+  label: string
+}
 
 const eveningChoices: readonly EveningChoice[] = [
   {
@@ -29,7 +29,7 @@ const eveningChoices: readonly EveningChoice[] = [
     image: "/images/lily-event-table-16x10.webp",
     alt: "Shared plates across a table",
   },
-];
+]
 
 const privateEventChoices: readonly EveningChoice[] = [
   {
@@ -53,7 +53,7 @@ const privateEventChoices: readonly EveningChoice[] = [
     href: "/contact",
     cta: "Get in touch",
   },
-];
+]
 
 export function AboutEvening({
   choices: baseChoices = eveningChoices,
@@ -63,30 +63,30 @@ export function AboutEvening({
   mediaPrefix = "about.evening",
   secondary = { href: "/menu", label: "View the menu" },
 }: {
-  choices?: readonly EveningChoice[];
-  defaultActive?: number;
-  label?: string;
-  lines?: readonly string[];
-  mediaPrefix?: string | null;
-  secondary?: { href: string; label: string } | null;
+  choices?: readonly EveningChoice[]
+  defaultActive?: number
+  label?: string
+  lines?: readonly string[]
+  mediaPrefix?: string | null
+  secondary?: { href: string; label: string } | null
 }) {
-  const savedMedia = usePageMedia();
+  const savedMedia = usePageMedia()
   const choices = mediaPrefix
     ? baseChoices.map((item, index) => ({
         ...item,
         image:
-          savedMedia?.find((media) => media.key === `${mediaPrefix}${index + 1}`)
-            ?.url ?? item.image,
+          savedMedia?.find((media) => media.key === `${mediaPrefix}${index + 1}`)?.url ??
+          item.image,
       }))
-    : baseChoices;
-  const [active, setActive] = useState(defaultActive);
+    : baseChoices
+  const [active, setActive] = useState(defaultActive)
   const select = useCallback(
     (event: SyntheticEvent<HTMLButtonElement>) => {
-      const index = Number(event.currentTarget.dataset.index);
-      if (Number.isInteger(index) && baseChoices[index]) setActive(index);
+      const index = Number(event.currentTarget.dataset.index)
+      if (Number.isInteger(index) && baseChoices[index]) setActive(index)
     },
     [baseChoices],
-  );
+  )
 
   return (
     <section
@@ -128,36 +128,22 @@ export function AboutEvening({
             type="button"
           >
             {choice.label}
-            {index < choices.length - 1 ? (
-              <span aria-hidden="true">,</span>
-            ) : (
-              "."
-            )}
+            {index < choices.length - 1 ? <span aria-hidden="true">,</span> : "."}
           </button>
         ))}
       </div>
 
       <div className="mt-auto max-w-xl self-end">
-        <p
-          className="mb-7 text-sm leading-7 text-cream/85 md:text-base md:leading-8"
-          data-reveal
-        >
+        <p className="mb-7 text-sm leading-7 text-cream/85 md:text-base md:leading-8" data-reveal>
           {lines.map((line) => (
             <span className="block" key={line}>
               {line}
             </span>
           ))}
         </p>
-        <div
-          className="flex flex-wrap items-center gap-4 reveal-delay-180"
-          data-reveal
-        >
-          <PillLink
-            color="cream"
-            href={choices[active].href ?? "/contact?reason=reservation"}
-          >
-            {choices[active].cta ??
-              `Reserve for ${choices[active].label.toLowerCase()}`}
+        <div className="flex flex-wrap items-center gap-4 reveal-delay-180" data-reveal>
+          <PillLink color="cream" href={choices[active].href ?? "/contact?reason=reservation"}>
+            {choices[active].cta ?? `Reserve for ${choices[active].label.toLowerCase()}`}
           </PillLink>
           {secondary ? (
             <PillLink color="cream" href={secondary.href}>
@@ -167,7 +153,7 @@ export function AboutEvening({
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 export function PrivateEventCta() {
@@ -177,11 +163,8 @@ export function PrivateEventCta() {
       defaultActive={0}
       label="Plan a private event"
       mediaPrefix={null}
-      lines={[
-        "Book a private event, bring Lily to your table,",
-        "or simply say hello.",
-      ]}
+      lines={["Book a private event, bring Lily to your table,", "or simply say hello."]}
       secondary={null}
     />
-  );
+  )
 }

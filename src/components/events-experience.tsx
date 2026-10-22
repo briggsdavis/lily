@@ -1,30 +1,26 @@
-"use client";
+"use client"
 
-import { useQuery } from "convex/react";
-import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { MouseEvent, SyntheticEvent } from "react";
-import { flushSync } from "react-dom";
-import { DoubleFrame } from "@/components/double-frame";
-import { PillLink } from "@/components/pill-button";
-import { RotatingCrest } from "@/components/rotating-crest";
-import {
-  events as fallbackEvents,
-  weekdays,
-  type LilyEvent,
-} from "@/data/events";
-import { publicEventsRef, type EventRecord } from "@/lib/admin-api";
+import { useQuery } from "convex/react"
+import Image from "next/image"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import type { MouseEvent, SyntheticEvent } from "react"
+import { flushSync } from "react-dom"
+import { DoubleFrame } from "@/components/double-frame"
+import { PillLink } from "@/components/pill-button"
+import { RotatingCrest } from "@/components/rotating-crest"
+import { events as fallbackEvents, weekdays, type LilyEvent } from "@/data/events"
+import { publicEventsRef, type EventRecord } from "@/lib/admin-api"
 
-type ViewMode = "events" | "calendar";
+type ViewMode = "events" | "calendar"
 
 const monthFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long",
   year: "numeric",
-});
+})
 
 type ViewTransitionDocument = Document & {
-  startViewTransition?: (update: () => void) => void;
-};
+  startViewTransition?: (update: () => void) => void
+}
 
 function EventImageStack({
   active,
@@ -34,17 +30,17 @@ function EventImageStack({
   sizes,
   events,
 }: {
-  active: number;
-  className: string;
-  imageClassName?: string;
-  side: "left" | "right";
-  sizes: string;
-  events: readonly LilyEvent[];
+  active: number
+  className: string
+  imageClassName?: string
+  side: "left" | "right"
+  sizes: string
+  events: readonly LilyEvent[]
 }) {
   return (
     <div aria-hidden="true" className={`relative overflow-hidden ${className}`}>
       {events.map((event, index) => {
-        const src = side === "left" ? event.leftImage : event.rightImage;
+        const src = side === "left" ? event.leftImage : event.rightImage
         return (
           <div
             className={`absolute inset-0 transition-[clip-path] duration-900 ease-lily ${
@@ -62,10 +58,10 @@ function EventImageStack({
               src={src}
             />
           </div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
 function EventList({
@@ -74,31 +70,30 @@ function EventList({
   onActivate,
   onToggle,
 }: {
-  events: readonly LilyEvent[];
-  expanded: number | null;
-  onActivate: (index: number) => void;
-  onToggle: (index: number) => void;
+  events: readonly LilyEvent[]
+  expanded: number | null
+  onActivate: (index: number) => void
+  onToggle: (index: number) => void
 }) {
-  const listRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const desktopQuery = window.matchMedia("(min-width: 64rem)");
+    const desktopQuery = window.matchMedia("(min-width: 64rem)")
     const eventItems = Array.from(
       listRef.current?.querySelectorAll<HTMLElement>("[data-event-item]") ?? [],
-    );
-    let pointerPosition: { x: number; y: number } | null = null;
-    let frame = 0;
+    )
+    let pointerPosition: { x: number; y: number } | null = null
+    let frame = 0
 
     const updateActiveEvent = () => {
-      frame = 0;
-      if (!desktopQuery.matches || !listRef.current?.getClientRects().length)
-        return;
+      frame = 0
+      if (!desktopQuery.matches || !listRef.current?.getClientRects().length) return
 
       if (pointerPosition) {
         const hoveredItem = document
           .elementFromPoint(pointerPosition.x, pointerPosition.y)
-          ?.closest<HTMLElement>("[data-event-item]");
-        const hoveredIndex = Number(hoveredItem?.dataset.eventIndex);
+          ?.closest<HTMLElement>("[data-event-item]")
+        const hoveredIndex = Number(hoveredItem?.dataset.eventIndex)
 
         if (
           hoveredItem &&
@@ -106,72 +101,72 @@ function EventList({
           Number.isInteger(hoveredIndex) &&
           events[hoveredIndex]
         ) {
-          onActivate(hoveredIndex);
-          return;
+          onActivate(hoveredIndex)
+          return
         }
       }
 
-      const viewportFocus = window.innerHeight * 0.5;
-      let closestIndex = 0;
-      let closestDistance = Number.POSITIVE_INFINITY;
+      const viewportFocus = window.innerHeight * 0.5
+      let closestIndex = 0
+      let closestDistance = Number.POSITIVE_INFINITY
 
       eventItems.forEach((item, index) => {
-        const bounds = item.getBoundingClientRect();
-        const itemCenter = bounds.top + bounds.height / 2;
-        const distance = Math.abs(itemCenter - viewportFocus);
+        const bounds = item.getBoundingClientRect()
+        const itemCenter = bounds.top + bounds.height / 2
+        const distance = Math.abs(itemCenter - viewportFocus)
         if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
+          closestDistance = distance
+          closestIndex = index
         }
-      });
+      })
 
-      onActivate(closestIndex);
-    };
+      onActivate(closestIndex)
+    }
 
     const queueUpdate = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(updateActiveEvent);
-    };
+      if (frame) return
+      frame = window.requestAnimationFrame(updateActiveEvent)
+    }
     const trackPointer = (event: PointerEvent) => {
       if (event.pointerType === "mouse") {
-        pointerPosition = { x: event.clientX, y: event.clientY };
+        pointerPosition = { x: event.clientX, y: event.clientY }
       }
-    };
+    }
 
-    updateActiveEvent();
-    window.addEventListener("pointermove", trackPointer, { passive: true });
-    window.addEventListener("scroll", queueUpdate, { passive: true });
-    window.addEventListener("resize", queueUpdate);
-    desktopQuery.addEventListener("change", queueUpdate);
+    updateActiveEvent()
+    window.addEventListener("pointermove", trackPointer, { passive: true })
+    window.addEventListener("scroll", queueUpdate, { passive: true })
+    window.addEventListener("resize", queueUpdate)
+    desktopQuery.addEventListener("change", queueUpdate)
 
     return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener("pointermove", trackPointer);
-      window.removeEventListener("scroll", queueUpdate);
-      window.removeEventListener("resize", queueUpdate);
-      desktopQuery.removeEventListener("change", queueUpdate);
-    };
-  }, [events, onActivate]);
+      if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener("pointermove", trackPointer)
+      window.removeEventListener("scroll", queueUpdate)
+      window.removeEventListener("resize", queueUpdate)
+      desktopQuery.removeEventListener("change", queueUpdate)
+    }
+  }, [events, onActivate])
 
   const activateEvent = useCallback(
     (event: SyntheticEvent<HTMLButtonElement>) => {
-      const index = Number(event.currentTarget.dataset.eventIndex);
-      if (Number.isInteger(index) && events[index]) onActivate(index);
+      const index = Number(event.currentTarget.dataset.eventIndex)
+      if (Number.isInteger(index) && events[index]) onActivate(index)
     },
     [events, onActivate],
-  );
+  )
   const toggleSelectedEvent = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      const index = Number(event.currentTarget.dataset.eventIndex);
-      if (Number.isInteger(index) && events[index]) onToggle(index);
+      const index = Number(event.currentTarget.dataset.eventIndex)
+      if (Number.isInteger(index) && events[index]) onToggle(index)
     },
     [events, onToggle],
-  );
+  )
 
   return (
     <div ref={listRef}>
       {events.map((event, index) => {
-        const isExpanded = expanded === index;
+        const isExpanded = expanded === index
         return (
           <article
             className="border-b border-pink/35"
@@ -196,9 +191,7 @@ function EventList({
                 <span className="block pt-2 font-display text-2xl leading-tight md:pt-3 md:text-3xl">
                   {event.title}
                 </span>
-                <span className="mt-1 block text-sm text-cream/60">
-                  {event.time}
-                </span>
+                <span className="mt-1 block text-sm text-cream/60">{event.time}</span>
               </span>
               <span
                 aria-hidden="true"
@@ -211,9 +204,7 @@ function EventList({
             <div
               aria-hidden={!isExpanded}
               className={`grid transition-[grid-template-rows,opacity] duration-500 ease-lily ${
-                isExpanded
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
+                isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
               id={`event-details-${index}`}
               inert={!isExpanded}
@@ -232,10 +223,10 @@ function EventList({
               </div>
             </div>
           </article>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
 function CalendarEventModal({
@@ -244,56 +235,56 @@ function CalendarEventModal({
   open,
   onClose,
 }: {
-  events: readonly LilyEvent[];
-  eventIndex: number;
-  open: boolean;
-  onClose: () => void;
+  events: readonly LilyEvent[]
+  eventIndex: number
+  open: boolean
+  onClose: () => void
 }) {
-  const event = events[eventIndex];
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLElement>(null);
-  const dialogTitleId = `calendar-event-title-${eventIndex}`;
+  const event = events[eventIndex]
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLElement>(null)
+  const dialogTitleId = `calendar-event-title-${eventIndex}`
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
 
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
+    const previouslyFocused = document.activeElement as HTMLElement | null
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    closeButtonRef.current?.focus()
 
     const handleDialogKeyboard = (keyboardEvent: KeyboardEvent) => {
       if (keyboardEvent.key === "Escape") {
-        onClose();
-        return;
+        onClose()
+        return
       }
-      if (keyboardEvent.key !== "Tab") return;
+      if (keyboardEvent.key !== "Tab") return
 
       const focusable = Array.from(
         dialogRef.current?.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
         ) ?? [],
-      );
-      const first = focusable[0];
-      const last = focusable.at(-1);
-      if (!first || !last) return;
+      )
+      const first = focusable[0]
+      const last = focusable.at(-1)
+      if (!first || !last) return
 
       if (keyboardEvent.shiftKey && document.activeElement === first) {
-        keyboardEvent.preventDefault();
-        last.focus();
+        keyboardEvent.preventDefault()
+        last.focus()
       } else if (!keyboardEvent.shiftKey && document.activeElement === last) {
-        keyboardEvent.preventDefault();
-        first.focus();
+        keyboardEvent.preventDefault()
+        first.focus()
       }
-    };
+    }
 
-    window.addEventListener("keydown", handleDialogKeyboard);
+    window.addEventListener("keydown", handleDialogKeyboard)
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleDialogKeyboard);
-      previouslyFocused?.focus();
-    };
-  }, [onClose, open]);
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", handleDialogKeyboard)
+      previouslyFocused?.focus()
+    }
+  }, [onClose, open])
 
   return (
     <dialog
@@ -368,23 +359,17 @@ function CalendarEventModal({
         </div>
       </section>
     </dialog>
-  );
+  )
 }
 
-function ViewSelector({
-  mode,
-  onChange,
-}: {
-  mode: ViewMode;
-  onChange: (mode: ViewMode) => void;
-}) {
+function ViewSelector({ mode, onChange }: { mode: ViewMode; onChange: (mode: ViewMode) => void }) {
   const selectView = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      const nextMode = event.currentTarget.dataset.viewMode;
-      if (nextMode === "events" || nextMode === "calendar") onChange(nextMode);
+      const nextMode = event.currentTarget.dataset.viewMode
+      if (nextMode === "events" || nextMode === "calendar") onChange(nextMode)
     },
     [onChange],
-  );
+  )
 
   return (
     <div className="flex items-center gap-5 text-lg font-medium tracking-[0.08em] sm:gap-6 md:text-xl lg:gap-8 lg:text-2xl">
@@ -407,7 +392,7 @@ function ViewSelector({
         Calendar
       </button>
     </div>
-  );
+  )
 }
 
 function EventsSectionHeader({
@@ -415,9 +400,9 @@ function EventsSectionHeader({
   onChange,
   sticky = false,
 }: {
-  mode: ViewMode;
-  onChange: (mode: ViewMode) => void;
-  sticky?: boolean;
+  mode: ViewMode
+  onChange: (mode: ViewMode) => void
+  sticky?: boolean
 }) {
   return (
     <header
@@ -432,95 +417,88 @@ function EventsSectionHeader({
       </h2>
       <ViewSelector mode={mode} onChange={onChange} />
     </header>
-  );
+  )
 }
 
 function EventsView({ events }: { events: readonly LilyEvent[] }) {
-  const [mode, setMode] = useState<ViewMode>("events");
-  const [active, setActive] = useState(0);
-  const [expanded, setExpanded] = useState<number | null>(null);
-  const [calendarMonth, setCalendarMonth] = useState(
-    () => new Date(2026, 9, 1),
-  );
-  const [calendarEvent, setCalendarEvent] = useState<number | null>(null);
-  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
-  const calendarModalTimer = useRef<number | null>(null);
+  const [mode, setMode] = useState<ViewMode>("events")
+  const [active, setActive] = useState(0)
+  const [expanded, setExpanded] = useState<number | null>(null)
+  const [calendarMonth, setCalendarMonth] = useState(() => new Date(2026, 9, 1))
+  const [calendarEvent, setCalendarEvent] = useState<number | null>(null)
+  const [calendarModalOpen, setCalendarModalOpen] = useState(false)
+  const calendarModalTimer = useRef<number | null>(null)
 
   const switchMode = useCallback(
     (nextMode: ViewMode) => {
-      if (nextMode === mode) return;
-      const transitionDocument = document as ViewTransitionDocument;
-      const update = () => flushSync(() => setMode(nextMode));
+      if (nextMode === mode) return
+      const transitionDocument = document as ViewTransitionDocument
+      const update = () => flushSync(() => setMode(nextMode))
 
       if (transitionDocument.startViewTransition) {
-        transitionDocument.startViewTransition(update);
+        transitionDocument.startViewTransition(update)
       } else {
-        update();
+        update()
       }
     },
     [mode],
-  );
+  )
 
   const toggleEvent = useCallback((index: number) => {
-    setActive(index);
-    setExpanded((current) => (current === index ? null : index));
-  }, []);
+    setActive(index)
+    setExpanded((current) => (current === index ? null : index))
+  }, [])
 
   const changeMonth = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    const offset = Number(event.currentTarget.dataset.monthOffset);
-    if (!Number.isInteger(offset)) return;
-    setCalendarMonth(
-      (current) =>
-        new Date(current.getFullYear(), current.getMonth() + offset, 1),
-    );
-    setCalendarModalOpen(false);
-    setCalendarEvent(null);
-  }, []);
+    const offset = Number(event.currentTarget.dataset.monthOffset)
+    if (!Number.isInteger(offset)) return
+    setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + offset, 1))
+    setCalendarModalOpen(false)
+    setCalendarEvent(null)
+  }, [])
 
   const selectCalendarEvent = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      const index = Number(event.currentTarget.dataset.calendarEvent);
-      if (!Number.isInteger(index) || !events[index]) return;
-      if (calendarModalTimer.current)
-        window.clearTimeout(calendarModalTimer.current);
-      setCalendarEvent(index);
-      window.requestAnimationFrame(() => setCalendarModalOpen(true));
+      const index = Number(event.currentTarget.dataset.calendarEvent)
+      if (!Number.isInteger(index) || !events[index]) return
+      if (calendarModalTimer.current) window.clearTimeout(calendarModalTimer.current)
+      setCalendarEvent(index)
+      window.requestAnimationFrame(() => setCalendarModalOpen(true))
     },
     [events],
-  );
+  )
 
   const closeCalendarEvent = useCallback(() => {
-    setCalendarModalOpen(false);
+    setCalendarModalOpen(false)
     calendarModalTimer.current = window.setTimeout(() => {
-      setCalendarEvent(null);
-      calendarModalTimer.current = null;
-    }, 700);
-  }, []);
+      setCalendarEvent(null)
+      calendarModalTimer.current = null
+    }, 700)
+  }, [])
 
   useEffect(
     () => () => {
-      if (calendarModalTimer.current)
-        window.clearTimeout(calendarModalTimer.current);
+      if (calendarModalTimer.current) window.clearTimeout(calendarModalTimer.current)
     },
     [],
-  );
+  )
 
   const calendarDays = useMemo(() => {
-    const year = calendarMonth.getFullYear();
-    const month = calendarMonth.getMonth();
-    const firstWeekday = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const year = calendarMonth.getFullYear()
+    const month = calendarMonth.getMonth()
+    const firstWeekday = new Date(year, month, 1).getDay()
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
 
     // Only as many weeks as the month spans, so no row is entirely empty.
-    const cells = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
+    const cells = Math.ceil((firstWeekday + daysInMonth) / 7) * 7
     return Array.from({ length: cells }, (_, index) => {
-      const day = index - firstWeekday + 1;
+      const day = index - firstWeekday + 1
       return {
         day: day > 0 && day <= daysInMonth ? day : null,
         key: `calendar-${year}-${month}-${index}`,
-      };
-    });
-  }, [calendarMonth]);
+      }
+    })
+  }, [calendarMonth])
 
   const monthEvents = useMemo(
     () =>
@@ -528,11 +506,10 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
         .map((event, index) => ({ event, index }))
         .filter(
           ({ event }) =>
-            event.year === calendarMonth.getFullYear() &&
-            event.month === calendarMonth.getMonth(),
+            event.year === calendarMonth.getFullYear() && event.month === calendarMonth.getMonth(),
         ),
     [calendarMonth, events],
-  );
+  )
 
   return (
     <section
@@ -649,15 +626,13 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                   {calendarDays.map(({ day, key }) => {
                     const dayEvents = day
                       ? monthEvents.filter(({ event }) => event.day === day)
-                      : [];
+                      : []
                     return (
                       <div
                         className="min-h-20 border-r border-b border-pink/35 p-1 sm:min-h-28 sm:p-2 md:p-3 xl:min-h-32"
                         key={key}
                       >
-                        {day ? (
-                          <p className="mb-2 text-xs text-cream/55">{day}</p>
-                        ) : null}
+                        {day ? <p className="mb-2 text-xs text-cream/55">{day}</p> : null}
                         {dayEvents.map(({ event, index }) => (
                           <button
                             aria-pressed={calendarEvent === index}
@@ -676,7 +651,7 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                           </button>
                         ))}
                       </div>
-                    );
+                    )
                   })}
                 </div>
               </div>
@@ -694,17 +669,17 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
         )}
       </div>
     </section>
-  );
+  )
 }
 
 function toLilyEvents(records: EventRecord[]): LilyEvent[] {
-  const output: LilyEvent[] = [];
+  const output: LilyEvent[] = []
   for (const record of records) {
-    const start = new Date(`${record.date}T12:00:00`);
-    if (Number.isNaN(start.valueOf())) continue;
-    const limit = new Date(start);
-    limit.setMonth(limit.getMonth() + 18);
-    let cursor = new Date(start);
+    const start = new Date(`${record.date}T12:00:00`)
+    if (Number.isNaN(start.valueOf())) continue
+    const limit = new Date(start)
+    limit.setMonth(limit.getMonth() + 18)
+    let cursor = new Date(start)
     do {
       output.push({
         action:
@@ -724,36 +699,27 @@ function toLilyEvents(records: EventRecord[]): LilyEvent[] {
         time: record.time,
         title: record.title,
         year: cursor.getFullYear(),
-      });
+      })
       if (record.recurrence === "weekly")
-        cursor = new Date(
-          cursor.getFullYear(),
-          cursor.getMonth(),
-          cursor.getDate() + 7,
-        );
+        cursor = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate() + 7)
       else if (record.recurrence === "monthly")
-        cursor = new Date(
-          cursor.getFullYear(),
-          cursor.getMonth() + 1,
-          cursor.getDate(),
-        );
-      else break;
-    } while (cursor <= limit);
+        cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, cursor.getDate())
+      else break
+    } while (cursor <= limit)
   }
   return output.toSorted(
     (a, b) =>
-      new Date(a.year, a.month, a.day).valueOf() -
-      new Date(b.year, b.month, b.day).valueOf(),
-  );
+      new Date(a.year, a.month, a.day).valueOf() - new Date(b.year, b.month, b.day).valueOf(),
+  )
 }
 
 function ConnectedEventsExperience() {
-  const records = useQuery(publicEventsRef, {});
+  const records = useQuery(publicEventsRef, {})
   const events = useMemo(
     () => (records?.length ? toLilyEvents(records) : [...fallbackEvents]),
     [records],
-  );
-  return <EventsView events={events} />;
+  )
+  return <EventsView events={events} />
 }
 
 export function EventsExperience() {
@@ -761,5 +727,5 @@ export function EventsExperience() {
     <ConnectedEventsExperience />
   ) : (
     <EventsView events={fallbackEvents} />
-  );
+  )
 }
