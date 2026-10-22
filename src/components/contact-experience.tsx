@@ -10,9 +10,9 @@ import { RotatingCrest } from "@/components/rotating-crest"
 import { submitContactRef } from "@/lib/admin-api"
 
 const visualTitles: Record<Exclude<InquiryReason, null>, string> = {
-  reservation: "Reservation",
-  events: "Event",
-  general: "Inquiry",
+  reservation: "Reservations",
+  events: "Events",
+  general: "Inquiries",
 }
 
 const defaultinquiryVisuals = [

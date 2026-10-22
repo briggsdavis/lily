@@ -28,9 +28,9 @@ const timeOptions = [
 ]
 const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
 const inquiryOptions = [
-  { label: "Reservation", value: "reservation" },
-  { label: "Event", value: "events" },
-  { label: "Inquiry", value: "general" },
+  { label: "Reservations", value: "reservation" },
+  { label: "Events", value: "events" },
+  { label: "Inquiries", value: "general" },
 ] as const
 
 export type InquiryReason = (typeof inquiryOptions)[number]["value"] | null
@@ -292,7 +292,7 @@ export function ReservationForm({
           {inquiryOptions.map((option) => (
             <button
               aria-pressed={inquiryReason === option.value}
-              className={`group relative isolate inline-flex min-h-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[0.75px] border-current px-3 py-2.5 text-xs font-bold uppercase outline-none ${reasonError ? "ring-1 ring-pink" : ""}`}
+              className={`group relative isolate inline-flex min-h-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[1.5px] border-current px-3 py-2.5 text-xs font-bold uppercase outline-none ${reasonError ? "ring-1 ring-pink" : ""}`}
               data-reason={option.value}
               key={option.value}
               onClick={chooseReason}
@@ -324,7 +324,7 @@ export function ReservationForm({
             className="field-input"
             id="name"
             name="name"
-            placeholder="Your name"
+            placeholder="NAME"
             required
             type="text"
           />
@@ -337,7 +337,7 @@ export function ReservationForm({
             className="field-input"
             id="email"
             name="email"
-            placeholder="Email address"
+            placeholder="EMAIL"
             required
             type="email"
           />
@@ -352,7 +352,7 @@ export function ReservationForm({
           className="field-input"
           id="phone"
           name="phone"
-          placeholder="+1 (724) 555-0100"
+          placeholder="PHONE"
           required
           type="tel"
         />
@@ -511,13 +511,13 @@ export function ReservationForm({
 
             <div className="relative grid">
               <label className="sr-only" htmlFor="special-requests">
-                Special requests
+                Requests
               </label>
               <textarea
                 className="field-input min-h-20 resize-y"
                 id="special-requests"
                 name="specialRequests"
-                placeholder="Special requests"
+                placeholder="REQUESTS"
                 rows={2}
               />
             </div>
@@ -532,7 +532,7 @@ export function ReservationForm({
                 className="field-input min-h-20 resize-y"
                 id="message"
                 name="message"
-                placeholder="Your message"
+                placeholder="MESSAGE"
                 required
                 rows={3}
               />

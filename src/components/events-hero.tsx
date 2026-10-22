@@ -14,11 +14,8 @@ export function EventsHero() {
       <Smoke />
       <div className="relative grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
         <div className="flex flex-col justify-end px-page pt-28 pb-8 md:pt-32 md:pb-14 lg:pb-16">
-          <p className="mb-3 eyebrow text-cream/65" data-reveal>
-            Gather at Lily
-          </p>
           <h1
-            className="max-w-[8ch] font-display text-6xl leading-none font-medium reveal-delay-120 md:text-8xl lg:text-9xl"
+            className="max-w-[8ch] font-header text-6xl leading-none font-bold uppercase reveal-delay-120 md:text-8xl lg:text-9xl"
             data-reveal
           >
             Events
@@ -32,5 +29,5 @@ export function EventsHero() {
         </p>
       </div>
     </ParallaxHero>
-  )
+  );
 }

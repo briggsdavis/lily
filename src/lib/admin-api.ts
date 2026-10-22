@@ -63,10 +63,11 @@ export type CateringInquiry = {
   dietaryRestrictions: string[]
   email: string
   eventDate: string
-  fulfillment: "delivery" | "pickup"
+  fulfillment: "onsite" | "offsite" | "delivery" | "pickup"
   fullName: string
   guestCount: number
   menuSelection: string
+  occasion?: string
   phone: string
   read: boolean
   serviceTime: string

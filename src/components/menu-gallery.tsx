@@ -32,7 +32,7 @@ export function MenuGallery() {
 
       <div className="flex max-w-3xl flex-col items-center">
         <h1
-          className="font-display text-6xl leading-none font-medium tracking-[0.03em] uppercase md:text-8xl lg:text-9xl"
+          className="font-header text-6xl leading-none font-bold tracking-[0.03em] uppercase md:text-8xl lg:text-9xl"
           data-reveal
         >
           {activeCategory.name}

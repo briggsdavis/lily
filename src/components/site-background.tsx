@@ -6,7 +6,7 @@ import type { ReactNode } from "react"
 const tones: Record<string, string> = {
   menu: "bg-espresso text-pink",
   events: "bg-dark-maroon text-cream",
-  catering: "bg-espresso text-cream",
+  catering: "bg-grey text-cream",
   contact: "bg-burgundy text-pink",
 }
 

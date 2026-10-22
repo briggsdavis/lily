@@ -20,7 +20,7 @@ const defaultpeople = [
     text: "After thirty years in information technology, Paul turned to hospitality and brought a steady hand to the business side of the room.",
     image: "/images/about-paul-kitchen.webp",
     imageAlt: "A chef carefully seasoning a finished plate",
-    color: "bg-dark-maroon text-pink",
+    color: "bg-[color-mix(in_oklab,var(--color-dark-maroon),white_5%)] text-pink",
   },
   {
     name: "Ron Jelinek",
@@ -29,7 +29,7 @@ const defaultpeople = [
     text: "Ron works the grill with a practiced hand, turning out steaks and chops, and a few of the desserts too.",
     image: "/images/about-ron-kitchen.webp",
     imageAlt: "A chef spooning sauce over a plated lobster dish",
-    color: "bg-dark-maroon text-cream",
+    color: "bg-[color-mix(in_oklab,var(--color-dark-maroon),white_10%)] text-cream",
   },
 ] as const
 
@@ -54,7 +54,7 @@ export function AboutPeople() {
             aria-expanded={open}
             aria-label={`${person.name}, ${person.role}, since ${person.since}`}
             className={`group relative min-w-0 overflow-hidden text-left transition-[flex-grow] duration-[1100ms] ease-lily focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream motion-reduce:transition-none md:basis-0 ${person.color} ${
-              open ? "min-h-[32rem] md:min-h-0 md:grow-[5]" : "min-h-28 md:min-h-0 md:grow-[1]"
+              open ? "min-h-[32rem] md:min-h-0 md:grow-[3]" : "min-h-28 md:min-h-0 md:grow-[1]"
             }`}
             data-index={index}
             key={person.name}

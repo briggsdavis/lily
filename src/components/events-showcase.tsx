@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image"
 import { MouseEvent, useCallback, useState } from "react"
+import { DoubleFrame } from "@/components/double-frame"
 import { usePageMedia } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 
@@ -61,7 +62,7 @@ export function EventsShowcase() {
           EVENTS
         </h2>
         <p
-          className="max-w-none text-base leading-relaxed text-warm-white reveal-delay-180 lg:justify-self-center xl:text-lg"
+          className="max-w-none text-base leading-relaxed text-tan reveal-delay-180 lg:justify-self-center xl:text-lg"
           data-reveal
         >
           <span className="lg:block lg:whitespace-nowrap">
@@ -78,6 +79,8 @@ export function EventsShowcase() {
         </div>
       </div>
 
+      <div className="relative">
+      <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
       <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-cream md:min-h-[37rem]">
         {events.map((event, index) => (
           <Image
@@ -103,7 +106,7 @@ export function EventsShowcase() {
                 key={event.label}
               >
                 <p className="font-display text-3xl leading-[1.08] font-medium md:text-4xl lg:text-5xl">
-                  <span className="block">{event.description[0]}</span>
+                  <span className="block italic">{event.description[0]}</span>
                   <span className="block">{event.description[1]}</span>
                 </p>
               </div>
@@ -139,6 +142,7 @@ export function EventsShowcase() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   )

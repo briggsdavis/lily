@@ -43,7 +43,7 @@ export function AboutMarquee() {
 
   return (
     <section
-      className="group/marquee flex flex-col gap-2 overflow-hidden bg-dark-green py-14 text-pink md:gap-4 md:py-20"
+      className="group/marquee flex flex-col gap-2 overflow-hidden bg-dark-green py-7 text-pink md:gap-4 md:py-10"
       data-nav-tone="dark"
       ref={sectionRef}
     >

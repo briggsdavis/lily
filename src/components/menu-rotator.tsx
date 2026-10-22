@@ -98,7 +98,7 @@ export function MenuRotator() {
     <div>
       <div className="mb-7 grid items-end gap-8 md:mb-10 md:grid-cols-2 md:gap-12">
         <div data-reveal>
-          <h2 className="font-header-stencil text-4xl tracking-[0.12em] whitespace-nowrap text-warm-white uppercase lg:text-6xl">
+          <h2 className="font-header-stencil text-4xl tracking-[0.12em] whitespace-nowrap text-tan uppercase lg:text-6xl">
             Seasonal
           </h2>
         </div>
@@ -149,7 +149,7 @@ export function MenuRotator() {
                 >
                   <span className="border-hand relative block h-full w-[calc(100%+12px)] rounded-[3px]" />
                 </span>
-                <span className="font-display text-3xl text-warm-white uppercase md:text-4xl lg:text-5xl">
+                <span className="font-display text-3xl font-semibold text-warm-white uppercase md:text-4xl lg:text-5xl">
                   {category.name}
                 </span>
                 <span className="mt-4 block max-w-xl text-sm md:text-base">

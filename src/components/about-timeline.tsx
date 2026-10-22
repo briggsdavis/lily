@@ -77,7 +77,7 @@ export function AboutTimeline() {
           <div className="md:col-span-6">
             <p
               aria-label="Years at this table"
-              className="font-display text-[5.5rem] leading-none font-medium text-blush tabular-nums sm:text-[8rem] lg:text-[12rem]"
+              className="font-header-stencil text-[5.5rem] leading-none text-blush tabular-nums sm:text-[8rem] lg:text-[12rem]"
             >
               {year}
             </p>

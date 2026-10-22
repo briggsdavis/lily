@@ -40,7 +40,7 @@ export function CmsMenuGallery() {
       }}
     >
       <div className="flex max-w-3xl flex-col items-center">
-        <h1 className="font-display text-6xl leading-none font-medium tracking-[0.03em] uppercase md:text-8xl lg:text-9xl">
+        <h1 className="font-header text-6xl leading-none font-bold tracking-[0.03em] uppercase md:text-8xl lg:text-9xl">
           {active.title}
         </h1>
         <p className="mt-5 line-clamp-2 max-w-[56ch] text-sm leading-7 text-cream/80 md:text-base">
@@ -121,7 +121,7 @@ export function CmsMenuPage({ slug }: { slug: string }) {
                         {item.title}
                       </h3>
                       <p className="ml-auto shrink-0 text-sm font-semibold opacity-75">
-                        {item.price}
+                        {item.price.replace(/\$/g, "")}
                       </p>
                     </div>
                     <p className="mt-1.5 text-sm leading-6 opacity-65">{item.description}</p>

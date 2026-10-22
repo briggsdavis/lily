@@ -34,7 +34,7 @@ export function MenuSections({ category }: { category: MenuCategory }) {
                             {item.name}
                           </h3>
                           <p className="ml-auto shrink-0 text-sm font-semibold text-pink">
-                            {item.price}
+                            {item.price.replace(/\$/g, "")}
                           </p>
                         </div>
                         <p className="mt-1.5 w-full text-sm leading-6 text-pink/65">

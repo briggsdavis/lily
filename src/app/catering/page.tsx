@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function CateringPage() {
   return (
-    <div className="bg-espresso">
+    <div className="bg-grey">
       <CateringHero />
       {process.env.NEXT_PUBLIC_CONVEX_URL ? <ConnectedCateringForm /> : <CateringInquiryForm />}
     </div>

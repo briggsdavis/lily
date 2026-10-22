@@ -4,7 +4,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef } from "react"
 import { TransitionLink } from "@/components/transition-link"
-import { hasReserveCta, siteRoutes, topLevelSection } from "@/data/site-navigation"
+import { hasReserveCta, siteRoutes } from "@/data/site-navigation"
 
 const year = new Date().getFullYear()
 
@@ -13,7 +13,6 @@ export function Footer() {
   const footerRef = useRef<HTMLElement>(null)
   const pathname = usePathname()
   const overlapsReserve = hasReserveCta(pathname)
-  const usesMauveBackground = topLevelSection(pathname) === "contact"
 
   useEffect(() => {
     const footer = footerRef.current
@@ -48,12 +47,12 @@ export function Footer() {
   return (
     <div className={`relative z-20 ${overlapsReserve ? "-mt-10 md:-mt-14" : ""}`} ref={wrapperRef}>
       <footer
-        className={`${usesMauveBackground ? "bg-mauve" : "bg-deep-brown"} px-page py-10 text-cream will-change-transform md:py-12`}
+        className="bg-grey px-page py-10 text-cream will-change-transform md:py-12"
         data-nav-tone="dark"
         ref={footerRef}
       >
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-9 border-y border-cream/30 py-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+          <div className="flex flex-col items-center gap-9 border-y border-cream/30 py-8 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:text-left">
             <TransitionLink aria-label="Lily home" className="block w-48 shrink-0 md:w-56" href="/">
               <Image
                 alt="Lily Kitchen and Cocktails"
@@ -66,10 +65,10 @@ export function Footer() {
               />
             </TransitionLink>
 
-            <nav aria-label="Footer" className="flex flex-wrap gap-x-7 gap-y-3 lg:justify-center">
+            <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-7 gap-y-3">
               {siteRoutes.map((route) => (
                 <TransitionLink
-                  className="animated-underline w-max font-display text-xl md:text-2xl"
+                  className="animated-underline w-max font-body text-sm font-semibold tracking-[0.14em] text-pink uppercase md:text-base"
                   href={route.href}
                   key={route.href}
                 >
@@ -78,7 +77,7 @@ export function Footer() {
               ))}
             </nav>
 
-            <div className="flex shrink-0 flex-col items-start gap-1 text-xs lg:items-end lg:text-right">
+            <div className="flex shrink-0 flex-col items-center gap-1 text-xs lg:items-end lg:text-right">
               <p>hello@lilyrestaurant.com</p>
               <p>(724) 502-4572</p>
               <p>Tue-Sat, 4:30-9:00 PM</p>
@@ -88,9 +87,9 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 pt-5 text-xs text-cream/65 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col items-center gap-2 pt-5 text-center text-xs text-cream/65 sm:flex-row sm:justify-between sm:text-left">
             <p>© {year} Lily. All rights reserved.</p>
-            <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-1">
               <TransitionLink className="animated-underline" href="/privacy">
                 Privacy
               </TransitionLink>

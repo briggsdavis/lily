@@ -41,11 +41,11 @@ function MarqueeGroup({ copy = false }: { copy?: boolean }) {
   )
 }
 
-export function ReserveNavigationMarquee() {
+export function ReserveNavigationMarquee({ size = "standard" }: { size?: "large" | "standard" }) {
   return (
     <nav
       aria-label="Explore Lily"
-      className="relative z-10 -mx-5 overflow-hidden py-5 text-[16vw] text-cream md:-mx-10 md:py-7 lg:-mx-16"
+      className={`relative z-10 -mx-5 overflow-hidden text-cream md:-mx-10 lg:-mx-16 ${size === "large" ? "pt-5 pb-10 text-[22vw] md:pt-7 md:pb-14" : "py-5 text-[16vw] md:py-7"}`}
     >
       <div className="reserve-navigation-track flex w-max items-center motion-reduce:w-auto">
         <MarqueeGroup />

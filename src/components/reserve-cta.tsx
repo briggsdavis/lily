@@ -1,6 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
+import { DoubleFrame } from "@/components/double-frame"
 import { PillLink } from "@/components/pill-button"
 import { ReserveNavigationMarquee } from "@/components/reserve-navigation-marquee"
 import { hasReserveCta, topLevelSection } from "@/data/site-navigation"
@@ -24,18 +25,15 @@ export function ReserveCta() {
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-mauve px-page py-16 text-cream md:py-20 lg:py-24"
+      className="relative isolate overflow-hidden bg-mauve px-page pt-16 text-cream md:pt-20 lg:pt-24"
       data-nav-tone="dark"
     >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-0 bg-cream/8 mask-[url(/images/stamp.svg)] mask-cover mask-center mask-no-repeat"
       />
-      <div className="relative z-10 mx-auto flex min-h-[27rem] w-full max-w-7xl flex-col items-center justify-center overflow-hidden border border-current px-7 py-16 text-center md:min-h-[83svh] md:px-16 md:py-20 lg:px-24">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-2 border border-current md:inset-3"
-        />
+      <div className="relative z-10 mx-auto flex min-h-[27rem] w-full max-w-7xl flex-col items-center justify-center overflow-hidden px-7 py-16 text-center md:min-h-[83svh] md:px-16 md:py-20 lg:px-24">
+        <DoubleFrame className="[--frame-inset:0px]" seed={3} />
         <h2
           className="relative mb-5 font-display text-5xl font-medium text-balance md:text-6xl lg:text-8xl"
           data-reveal
@@ -55,7 +53,7 @@ export function ReserveCta() {
         </span>
       </div>
       <div className="mt-14 md:mt-20">
-        <ReserveNavigationMarquee />
+        <ReserveNavigationMarquee size="large" />
       </div>
     </section>
   )

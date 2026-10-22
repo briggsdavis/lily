@@ -15,6 +15,28 @@ import {
 type Kind = "contact" | "catering"
 type Inquiry = ContactInquiry | CateringInquiry
 
+const fieldLabels: Record<string, string> = {
+  deliveryAddress: "Event address",
+  fulfillment: "Location",
+  guestCount: "People",
+  serviceTime: "Event time",
+  specialRequests: "Requests",
+}
+const valueLabels: Record<string, Record<string, string>> = {
+  fulfillment: {
+    delivery: "Delivery (legacy)",
+    offsite: "Off site",
+    onsite: "On site (at Lily)",
+    pickup: "Pickup (legacy)",
+  },
+  reason: { events: "Events", general: "Inquiries", reservation: "Reservations" },
+}
+const fieldLabel = (key: string) => fieldLabels[key] ?? key.replace(/([A-Z])/g, " $1")
+const fieldValue = (key: string, value: unknown) =>
+  Array.isArray(value)
+    ? value.join(", ") || "—"
+    : (valueLabels[key]?.[String(value)] ?? String(value || "—"))
+
 export function AdminInquiries({ kind }: { kind: Kind }) {
   const contact = useQuery(listContactRef, kind === "contact" ? { archived: false } : "skip")
   const catering = useQuery(listCateringRef, kind === "catering" ? { archived: false } : "skip")
@@ -139,10 +161,10 @@ export function AdminInquiries({ kind }: { kind: Kind }) {
                   key={key}
                 >
                   <dt className="text-xs font-semibold text-deep-brown/55">
-                    {key.replace(/([A-Z])/g, " $1")}
+                    {fieldLabel(key)}
                   </dt>
                   <dd className="mt-1 text-sm whitespace-pre-wrap">
-                    {Array.isArray(value) ? value.join(", ") || "—" : String(value || "—")}
+                    {fieldValue(key, value)}
                   </dd>
                 </div>
               ))}

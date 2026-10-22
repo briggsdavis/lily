@@ -45,10 +45,12 @@ export default defineSchema({
     dietaryRestrictions: v.array(v.string()),
     email: v.string(),
     eventDate: v.string(),
-    fulfillment: v.union(v.literal("delivery"), v.literal("pickup")),
+    // "delivery" and "pickup" are kept for inquiries sent before the on site/off site change.
+    fulfillment: v.union(v.literal("onsite"), v.literal("offsite"), v.literal("delivery"), v.literal("pickup")),
     fullName: v.string(),
     guestCount: v.number(),
     menuSelection: v.string(),
+    occasion: v.optional(v.string()),
     phone: v.string(),
     read: v.boolean(),
     serviceTime: v.string(),
