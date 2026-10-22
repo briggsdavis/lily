@@ -1,7 +1,6 @@
 "use client"
-
-import Image from "next/image"
 import { CSSProperties, useEffect, useRef } from "react"
+import { MediaImage } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
@@ -74,7 +73,8 @@ export function ScrollRevealImage() {
           className="absolute inset-0 overflow-hidden will-change-[clip-path]"
           style={revealClip}
         >
-          <Image
+          <MediaImage
+            mediaKey="home.evening"
             alt="Lily's dining room in the evening"
             className="object-cover"
             fill

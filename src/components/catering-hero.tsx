@@ -1,14 +1,17 @@
+"use client"
 import Image from "next/image"
+import { useMediaSource } from "@/components/page-media"
 import { ParallaxHero } from "@/components/parallax-hero"
 
 export function CateringHero() {
+  const hero = useMediaSource("catering.hero")
   return (
     <ParallaxHero
       alt="A generous garden platter prepared for a catered gathering"
       imageClassName="object-center"
       parallax="strong"
       size="half"
-      src="/images/catering/catering-hero.webp"
+      src={hero}
     >
       <div className="grid h-full place-items-center px-page pt-24 pb-10 text-center">
         <div className="flex flex-col items-center gap-6">

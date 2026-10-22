@@ -17,6 +17,7 @@ import type * as cms from "../cms.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as inquiries from "../inquiries.js";
+import type * as pageMedia from "../pageMedia.js";
 
 import type {
   ApiFromModules,
@@ -34,6 +35,7 @@ declare const fullApi: ApiFromModules<{
   files: typeof files;
   http: typeof http;
   inquiries: typeof inquiries;
+  pageMedia: typeof pageMedia;
 }>;
 
 /**

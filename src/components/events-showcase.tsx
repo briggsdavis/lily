@@ -1,10 +1,10 @@
 "use client"
-
 import Image from "next/image"
 import { MouseEvent, useCallback, useState } from "react"
+import { usePageMedia } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 
-const events = [
+const defaultevents = [
   {
     alt: "A celebration table dressed with flowers and shared plates",
     description: ["The season at its peak,", "shared around the table."],
@@ -36,10 +36,15 @@ const events = [
 ] as const
 
 export function EventsShowcase() {
+  const savedMedia = usePageMedia()
+  const events = defaultevents.map((item, index) => ({
+    ...item,
+    src: savedMedia?.find((media) => media.key === `home.event${index + 1}`)?.url ?? item.src,
+  }))
   const [active, setActive] = useState(0)
   const selectEvent = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     const index = Number(event.currentTarget.dataset.eventIndex)
-    if (Number.isInteger(index) && events[index]) setActive(index)
+    if (Number.isInteger(index) && defaultevents[index]) setActive(index)
   }, [])
 
   return (

@@ -1,12 +1,15 @@
+"use client"
+import { useMediaSource } from "@/components/page-media"
 import { ParallaxHero } from "@/components/parallax-hero"
 import { Smoke } from "@/components/smoke"
 
 export function EventsHero() {
+  const hero = useMediaSource("events.hero")
   return (
     <ParallaxHero
       alt="A candlelit table prepared for an evening gathering at Lily"
       imageClassName="object-[52%_center]"
-      src="/images/contact-events-unsplash.jpg"
+      src={hero}
     >
       <Smoke />
       <div className="relative grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">

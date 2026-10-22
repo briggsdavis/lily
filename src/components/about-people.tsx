@@ -1,9 +1,9 @@
 "use client"
-
 import Image from "next/image"
 import { SyntheticEvent, useCallback, useState } from "react"
+import { usePageMedia } from "@/components/page-media"
 
-const people = [
+const defaultpeople = [
   {
     name: "Rick Rivero",
     role: "Chef and co-owner",
@@ -34,10 +34,15 @@ const people = [
 ] as const
 
 export function AboutPeople() {
+  const savedMedia = usePageMedia()
+  const people = defaultpeople.map((item, index) => ({
+    ...item,
+    image: savedMedia?.find((media) => media.key === `about.person${index + 1}`)?.url ?? item.image,
+  }))
   const [active, setActive] = useState(0)
   const select = useCallback((event: SyntheticEvent<HTMLButtonElement>) => {
     const index = Number(event.currentTarget.dataset.index)
-    if (Number.isInteger(index) && people[index]) setActive(index)
+    if (Number.isInteger(index) && defaultpeople[index]) setActive(index)
   }, [])
 
   return (

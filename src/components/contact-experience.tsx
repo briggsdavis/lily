@@ -1,10 +1,10 @@
 "use client"
-
 import { useMutation } from "convex/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { flushSync } from "react-dom"
 import { LayeredMedia } from "@/components/layered-media"
+import { usePageMedia } from "@/components/page-media"
 import { InquiryReason, ReservationForm } from "@/components/reservation-form"
 import { RotatingCrest } from "@/components/rotating-crest"
 import { submitContactRef } from "@/lib/admin-api"
@@ -15,7 +15,7 @@ const visualTitles: Record<Exclude<InquiryReason, null>, string> = {
   general: "Inquiry",
 }
 
-const inquiryVisuals = [
+const defaultinquiryVisuals = [
   {
     alt: "A dimly lit restaurant dining room with tables and chairs",
     src: "/images/contact-reservation-unsplash.jpg",
@@ -86,6 +86,15 @@ function VerticalTitle({ children }: { children: string }) {
 }
 
 export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: SubmitContact } = {}) {
+  const savedMedia = usePageMedia()
+  const inquiryVisuals = defaultinquiryVisuals.map((item, index) => ({
+    ...item,
+    src:
+      savedMedia?.find(
+        (media) =>
+          media.key === ["contact.reservation", "contact.events", "contact.general"][index],
+      )?.url ?? item.src,
+  }))
   const router = useRouter()
   const searchParams = useSearchParams()
   const queryReason = searchParams.get("reason")

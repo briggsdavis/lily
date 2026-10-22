@@ -1,11 +1,14 @@
+"use client"
+import { useMediaSource } from "@/components/page-media"
 import { ParallaxHero } from "@/components/parallax-hero"
 
 export function AboutHero() {
+  const hero = useMediaSource("about.hero")
   return (
     <ParallaxHero
       alt="A warmly lit restaurant dining room set for service"
       imageClassName="object-center"
-      src="/images/about-hero-restaurant.webp"
+      src={hero}
     >
       <div className="grid h-full grid-rows-[58%_42%] md:grid-cols-2 md:grid-rows-1">
         <div className="flex flex-col justify-end px-page pt-28 pb-8 md:pt-32 md:pb-14 lg:pb-16">

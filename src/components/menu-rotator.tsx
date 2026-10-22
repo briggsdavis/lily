@@ -1,5 +1,5 @@
 "use client"
-
+import { useQuery } from "convex/react"
 import {
   CSSProperties,
   SyntheticEvent,
@@ -12,8 +12,10 @@ import {
 import { DoubleFrame } from "@/components/double-frame"
 import { LayeredMedia } from "@/components/layered-media"
 import { PillLink } from "@/components/pill-button"
+import { menuCategories } from "@/data/menu"
+import { publicMenuPagesRef } from "@/lib/admin-api"
 
-const categories = [
+const fallbackCategories = [
   {
     name: "Starters",
     description:
@@ -44,7 +46,6 @@ const categories = [
   },
 ] as const
 
-const media = categories.map(({ alt, image }) => ({ alt, src: image }))
 const revealDelayClasses = [
   "reveal-delay-120",
   "reveal-delay-220",
@@ -53,6 +54,19 @@ const revealDelayClasses = [
 ] as const
 
 export function MenuRotator() {
+  const pages = useQuery(publicMenuPagesRef, {})
+  const categories = pages?.length
+    ? pages.map((page) => ({
+        name: page.title,
+        description: page.description,
+        image: page.heroImage,
+        alt: page.heroImageAlt,
+      }))
+    : fallbackCategories.map((item) => {
+        const shared = menuCategories.find((category) => category.name === item.name)
+        return { ...item, image: shared?.image ?? item.image, alt: shared?.imageAlt ?? item.alt }
+      })
+  const media = categories.map(({ alt, image }) => ({ alt, src: image }))
   const [active, setActive] = useState(0)
   const listRef = useRef<HTMLUListElement>(null)
   const [listHeight, setListHeight] = useState(0)
@@ -72,10 +86,13 @@ export function MenuRotator() {
     () => ({ "--menu-list-height": `${listHeight}px` }) as CSSProperties,
     [listHeight],
   )
-  const selectCategory = useCallback((event: SyntheticEvent<HTMLButtonElement>) => {
-    const index = Number(event.currentTarget.dataset.categoryIndex)
-    if (Number.isInteger(index) && categories[index]) setActive(index)
-  }, [])
+  const selectCategory = useCallback(
+    (event: SyntheticEvent<HTMLButtonElement>) => {
+      const index = Number(event.currentTarget.dataset.categoryIndex)
+      if (Number.isInteger(index) && categories[index]) setActive(index)
+    },
+    [categories],
+  )
 
   return (
     <div>
@@ -112,7 +129,11 @@ export function MenuRotator() {
 
         <ul ref={listRef}>
           {categories.map((category, index) => (
-            <li className={revealDelayClasses[index]} data-reveal key={category.name}>
+            <li
+              className={revealDelayClasses[index % revealDelayClasses.length]}
+              data-reveal
+              key={category.name}
+            >
               <button
                 aria-pressed={index === active}
                 className={`group relative block w-full py-8 text-left focus-visible:outline-none md:pl-7 lg:py-10 lg:pl-9 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}

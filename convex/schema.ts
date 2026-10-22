@@ -27,6 +27,11 @@ const menuSection = v.object({
 
 export default defineSchema({
   ...authTables,
+  pageMedia: defineTable({
+    key: v.string(),
+    storageId: v.id("_storage"),
+    kind: v.union(v.literal("image"), v.literal("video")),
+  }).index("by_key", ["key"]),
   analyticsEvents: defineTable({
     path: v.string(),
     sessionId: v.string(),

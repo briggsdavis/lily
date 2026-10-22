@@ -1,10 +1,10 @@
 "use client"
-
 import Image from "next/image"
 import { SyntheticEvent, useCallback, useState } from "react"
+import { usePageMedia } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 
-const choices = [
+const defaultchoices = [
   {
     label: "Dinner",
     image: "/images/lily-seasonal-main-dish-4x5.webp",
@@ -23,10 +23,16 @@ const choices = [
 ] as const
 
 export function AboutEvening() {
+  const savedMedia = usePageMedia()
+  const choices = defaultchoices.map((item, index) => ({
+    ...item,
+    image:
+      savedMedia?.find((media) => media.key === `about.evening${index + 1}`)?.url ?? item.image,
+  }))
   const [active, setActive] = useState(2)
   const select = useCallback((event: SyntheticEvent<HTMLButtonElement>) => {
     const index = Number(event.currentTarget.dataset.index)
-    if (Number.isInteger(index) && choices[index]) setActive(index)
+    if (Number.isInteger(index) && defaultchoices[index]) setActive(index)
   }, [])
 
   return (

@@ -1,9 +1,9 @@
 "use client"
-
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
+import { usePageMedia } from "@/components/page-media"
 
-const stages = [
+const defaultstages = [
   {
     label: "2001",
     title: "Cala Lily opens.",
@@ -32,6 +32,12 @@ const stageAt = (progress: number) => (progress < 0.33 ? 0 : progress < 0.72 ? 1
 const initialProgressStyle = { transform: "scaleX(0)" }
 
 export function AboutTimeline() {
+  const savedMedia = usePageMedia()
+  const stages = defaultstages.map((item, index) => ({
+    ...item,
+    image:
+      savedMedia?.find((media) => media.key === `about.timeline${index + 1}`)?.url ?? item.image,
+  }))
   const ref = useRef<HTMLElement>(null)
   const barRef = useRef<HTMLSpanElement>(null)
   const [year, setYear] = useState(2001)

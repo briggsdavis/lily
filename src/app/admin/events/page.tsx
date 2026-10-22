@@ -1,5 +1,11 @@
 import { AdminEvents } from "@/components/admin-events"
+import { AdminPageMedia } from "@/components/admin-page-media"
 
 export default function EventsAdminPage() {
-  return <AdminEvents />
+  return (
+    <>
+      <AdminPageMedia page="events" />
+      <AdminEvents />
+    </>
+  )
 }

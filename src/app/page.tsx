@@ -2,6 +2,7 @@ import Image from "next/image"
 import { EventsShowcase } from "@/components/events-showcase"
 import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
+import { MediaImage } from "@/components/page-media"
 import { PillLink } from "@/components/pill-button"
 import { RotatingCrest } from "@/components/rotating-crest"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
@@ -16,7 +17,8 @@ export default function HomePage() {
           data-nav-tone="image"
         >
           <div className="hero-intro-media absolute inset-0">
-            <Image
+            <MediaImage
+              mediaKey="home.hero"
               alt="Lily's warmly lit dining room set for the evening"
               className="object-cover object-[58%_center] md:object-center"
               fill
@@ -139,7 +141,8 @@ export default function HomePage() {
         data-nav-tone="image"
         id="home-story"
       >
-        <Image
+        <MediaImage
+          mediaKey="home.cooking"
           alt="Candlelit tables prepared for an evening at Lily"
           className="object-cover object-[52%_center]"
           fill
@@ -184,7 +187,8 @@ export default function HomePage() {
         className="relative grid h-svh place-items-center overflow-hidden px-page"
         data-nav-tone="image"
       >
-        <Image
+        <MediaImage
+          mediaKey="home.catering"
           alt="Shared plates spread across a table"
           className="object-cover"
           fill

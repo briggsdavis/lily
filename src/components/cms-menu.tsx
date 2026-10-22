@@ -28,13 +28,7 @@ export function CmsMenuGallery() {
     slug: page.slug,
     title: page.name,
   }))
-  const items =
-    pages === undefined
-      ? fallback
-      : [
-          ...fallback.filter((page) => !pages.some((saved) => saved.slug === page.slug)),
-          ...pages,
-        ].toSorted((a, b) => a.order - b.order)
+  const items = pages?.length ? pages : fallback
   const slug = pathname.split("/")[2] ?? items[0]?.slug
   const active = items.find((page) => page.slug === slug) ?? items[0]
   if (!active) return null
