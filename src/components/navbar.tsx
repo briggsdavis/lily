@@ -5,7 +5,6 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, SyntheticEvent } from "react"
-import { DoubleFrame } from "@/components/double-frame"
 import { TransitionLink } from "@/components/transition-link"
 import { menuCategories } from "@/data/menu"
 import { siteRoutes, topLevelPath } from "@/data/site-navigation"
@@ -175,7 +174,13 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
               </li>
             ))}
           </ul>
-          <DoubleFrame className="[--frame-inset:0px] [--frame-opening:20%]" seed={3} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 size-full select-none"
+            src="/nav.svg"
+          />
         </nav>
 
         <nav
