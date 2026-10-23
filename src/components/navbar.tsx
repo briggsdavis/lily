@@ -114,7 +114,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
             >
               <TransitionLink
                 aria-current={route.href === current ? "page" : undefined}
-                className="group flex items-center justify-between py-4 font-display text-4xl uppercase aria-[current=page]:text-pink"
+                className="group flex items-center justify-between py-4 font-body text-4xl uppercase aria-[current=page]:text-pink"
                 href={route.href}
                 onNavigate={closeMenu}
               >
@@ -206,7 +206,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
                   aria-controls={route.href === "/menu" ? "menu-navigation-panel" : undefined}
                   aria-expanded={route.href === "/menu" ? menuPanelOpen : undefined}
                   aria-haspopup={route.href === "/menu" ? "true" : undefined}
-                  className="animated-underline font-display text-[0.6rem] font-bold uppercase md:text-base"
+                  className="animated-underline font-body text-[0.6rem] font-semibold tracking-[0.14em] uppercase md:text-base"
                   href={route.href}
                   id={route.href === "/menu" ? "menu-navigation-trigger" : undefined}
                   onFocus={closeMenuPanel}
@@ -231,7 +231,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
         <nav
           aria-label="Menu categories"
           aria-hidden={!menuPanelOpen}
-          className={`absolute top-[calc(100%+0.75rem)] left-1/2 hidden w-[min(92vw,68rem)] -translate-x-1/2 grid-cols-[minmax(16rem,0.8fr)_minmax(24rem,1.2fr)] gap-8 bg-deep-brown p-8 text-cream transition-[opacity,transform,filter,box-shadow] duration-500 ease-lily before:absolute before:inset-x-0 before:bottom-full before:h-3 before:content-[''] md:grid lg:gap-12 lg:p-10 ${menuPanelOpen ? "pointer-events-auto translate-y-0 opacity-100 shadow-[0_32px_72px_rgba(8,7,5,0.48)] blur-none" : "pointer-events-none -translate-y-2 opacity-0 shadow-none blur-sm"}`}
+          className={`absolute top-[calc(100%+0.75rem)] left-1/2 hidden w-[min(92vw,68rem)] -translate-x-1/2 grid-cols-[minmax(16rem,0.8fr)_minmax(24rem,1.2fr)] gap-8 bg-dark-maroon p-8 text-cream transition-[opacity,transform,filter,box-shadow] duration-500 ease-lily before:absolute before:inset-x-0 before:bottom-full before:h-3 before:content-[''] md:grid lg:gap-12 lg:p-10 ${menuPanelOpen ? "pointer-events-auto translate-y-0 opacity-100 shadow-[0_32px_72px_rgba(8,7,5,0.48)] blur-none" : "pointer-events-none -translate-y-2 opacity-0 shadow-none blur-sm"}`}
           id="menu-navigation-panel"
           inert={!menuPanelOpen}
         >

@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "convex/react"
-import Link from "next/link"
+import Link from "@/components/site-link"
 import { usePathname } from "next/navigation"
 import { MenuParallaxSection } from "@/components/menu-parallax-section"
 import { MenuSectionImage } from "@/components/menu-section-image"

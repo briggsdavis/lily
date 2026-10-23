@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import Link from "@/components/site-link"
 import { usePathname } from "next/navigation"
 import { menuCategories } from "@/data/menu"
 

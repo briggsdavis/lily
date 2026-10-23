@@ -37,9 +37,9 @@ export function HomeContent() {
             <div className="grid content-start justify-items-center gap-9 text-center md:grid-cols-12 md:justify-items-stretch md:gap-8 md:text-left lg:gap-12">
               <div className="md:col-span-7 lg:col-span-6">
                 <h1 className="hero-stagger font-header-stencil text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
-                  <EditableText field="home.hero.heading">
+                  <EditableText field="home.hero.heading" italicWord="stay for the evening">
                     <span className="block">Come for dinner,</span>
-                    <span className="block">stay for the evening.</span>
+                    <em className="block italic">stay for the evening.</em>
                   </EditableText>
                 </h1>
                 <div className="hero-stagger mt-8 animate-delay-720 md:mt-10">
@@ -90,9 +90,19 @@ export function HomeContent() {
           className="relative z-10 grid min-h-svh place-items-center overflow-hidden bg-deep-brown px-page text-pink"
           data-nav-tone="dark"
         >
+          <MediaImage
+            mediaKey="home.intro"
+            alt=""
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=85"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-deep-brown/70" />
+          <MediaEditControl mediaKey="home.intro" />
           <Image
             alt=""
-            className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2 opacity-65"
+            className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2 opacity-[0.455]"
             height={1004}
             src="/images/stamp-pink.svg"
             width={982}
@@ -184,11 +194,11 @@ export function HomeContent() {
               className="font-header-stencil text-[1.6875rem] leading-[1.02] sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
               data-reveal
             >
-              <EditableText field="home.cooking.heading" italicWord="Season-led">
+              <EditableText field="home.cooking.heading" italicWord="served with warmth">
                 <span className="block">
-                  <em className="italic">Season-led</em> cooking,
+                  Season-led cooking,
                 </span>
-                <span className="block">served with warmth.</span>
+                <em className="block italic">served with warmth.</em>
               </EditableText>
             </h2>
             <p
@@ -238,27 +248,13 @@ export function HomeContent() {
         <MediaEditControl mediaKey="home.catering" />
         <ScrollTilt
           colorField="home.catering.color"
-          className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14"
+          className="@container relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14"
         >
-          <h2 className="max-w-[10ch] font-header-stencil text-4xl lg:text-6xl" data-reveal>
+          <h2 className="w-full font-header-stencil text-[7.8cqw] md:col-span-2" data-reveal>
             <EditableText field="home.catering.heading" italicWord="home">
               Bring the table <em className="italic">home</em>.
             </EditableText>
           </h2>
-          <ul
-            className="space-y-1 text-sm text-cream/75 reveal-delay-180 md:justify-self-end md:text-right"
-            data-reveal
-          >
-            <li>
-              <EditableText field="home.catering.service1">Corporate dining</EditableText>
-            </li>
-            <li>
-              <EditableText field="home.catering.service2">Private celebrations</EditableText>
-            </li>
-            <li>
-              <EditableText field="home.catering.service3">Full-service events</EditableText>
-            </li>
-          </ul>
           <p
             className="max-w-[34ch] self-end text-pretty text-cream/75 reveal-delay-320 lg:text-lg"
             data-reveal

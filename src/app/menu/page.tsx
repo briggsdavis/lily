@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation"
+import { MenuLanding } from "@/components/menu-landing"
 
 export default function MenuPage() {
-  redirect("/menu/starters")
+  return <MenuLanding />
 }

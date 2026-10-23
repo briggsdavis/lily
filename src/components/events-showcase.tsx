@@ -134,7 +134,7 @@ export function EventsShowcase() {
         <>
           <div className="relative mx-7 sm:mx-10 md:mx-0">
             <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
-            <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-tan md:min-h-[37rem]">
+            <div className="relative min-h-[34rem] overflow-hidden bg-zinc-950 text-cream md:min-h-[37rem]">
               {events.map((event, index) => (
                 <Image
                   alt={index === active ? event.alt : ""}
@@ -161,17 +161,7 @@ export function EventsShowcase() {
                       <p className="font-header-stencil text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
                         {event.description.map((line, index) => (
                           <span className="block" key={index}>
-                            {line
-                              .split(new RegExp(`(${event.italic})`, "gi"))
-                              .map((part, partIndex) =>
-                                part.toLowerCase() === event.italic.toLowerCase() ? (
-                                  <em className="italic" key={partIndex}>
-                                    {part}
-                                  </em>
-                                ) : (
-                                  part
-                                ),
-                              )}
+                            {index === 0 ? line : <em className="italic">{line}</em>}
                           </span>
                         ))}
                       </p>
