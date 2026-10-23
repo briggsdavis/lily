@@ -22,16 +22,19 @@ type EveningChoice = {
 const eveningChoices: readonly EveningChoice[] = [
   {
     label: "Dinner",
+    href: "/menu/mains",
     image: "/images/lily-seasonal-main-dish-4x5.webp",
     alt: "A seasonal main dish",
   },
   {
     label: "Cocktails",
+    href: "/menu/desserts",
     image: "/images/lily-botanical-cocktail-4x5.webp",
     alt: "A botanical cocktail",
   },
   {
     label: "Both",
+    href: "/menu/mains",
     image: "/images/lily-event-table-16x10.webp",
     alt: "Shared plates across a table",
   },

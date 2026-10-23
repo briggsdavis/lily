@@ -1247,3 +1247,26 @@
   position: relative !important;
   top: auto !important;
 }
+
+/* Page navigation reuses the intro curtain's upward exit and easing. */
+.page-transition {
+  transform: translate3d(0, 100%, 0);
+  visibility: hidden;
+}
+.page-transition[data-phase="enter"] {
+  visibility: visible;
+  animation: page-curtain-enter 624ms var(--ease-intro-exit) both;
+}
+.page-transition[data-phase="exit"] {
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  animation: hero-intro-curtain 780ms var(--ease-intro-exit) both;
+}
+@keyframes page-curtain-enter {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}

@@ -34,18 +34,25 @@ export function TransitionLink({
 
       event.preventDefault()
       onNavigate?.()
-      document.documentElement.classList.add("route-leaving")
-
-      window.setTimeout(() => {
-        router.push(href)
-        window.setTimeout(() => document.documentElement.classList.remove("route-leaving"), 320)
-      }, 260)
+      const url = new URL(href, window.location.href)
+      if (url.origin !== window.location.origin) {
+        window.location.assign(url.href)
+        return
+      }
+      const request = new CustomEvent("lily:navigate", { detail: href, cancelable: true })
+      if (
+        url.pathname !== window.location.pathname &&
+        !url.pathname.startsWith("/admin") &&
+        window.dispatchEvent(request) === false
+      )
+        return
+      router.push(href)
     },
     [href, onNavigate, router],
   )
 
   return (
-    <Link className={className} href={href} onClick={handleClick} {...props}>
+    <Link data-transition-link className={className} href={href} onClick={handleClick} {...props}>
       {children}
     </Link>
   )

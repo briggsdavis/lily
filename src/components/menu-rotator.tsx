@@ -14,6 +14,7 @@ import { DoubleFrame } from "@/components/double-frame"
 import { LayeredMedia } from "@/components/layered-media"
 import { EditableText, useEditorMode } from "@/components/page-content"
 import { PillLink } from "@/components/pill-button"
+import { TransitionLink } from "@/components/transition-link"
 import { menuCategories } from "@/data/menu"
 import { publicMenuPagesRef } from "@/lib/admin-api"
 
@@ -56,18 +57,42 @@ const revealDelayClasses = [
 ] as const
 
 export function MenuRotator() {
-  const editing = useEditorMode()
+  return process.env.NEXT_PUBLIC_CONVEX_URL ? <ConnectedMenuRotator /> : <MenuRotatorContent />
+}
+
+function ConnectedMenuRotator() {
   const pages = useQuery(publicMenuPagesRef, {})
+  return <MenuRotatorContent pages={pages} />
+}
+
+function MenuRotatorContent({
+  pages,
+}: {
+  pages?: {
+    slug: string
+    title: string
+    description: string
+    heroImage: string
+    heroImageAlt: string
+  }[]
+}) {
+  const editing = useEditorMode()
   const categories = pages?.length
     ? pages.map((page) => ({
         name: page.title,
+        slug: page.slug,
         description: page.description,
         image: page.heroImage,
         alt: page.heroImageAlt,
       }))
     : fallbackCategories.map((item) => {
         const shared = menuCategories.find((category) => category.name === item.name)
-        return { ...item, image: shared?.image ?? item.image, alt: shared?.imageAlt ?? item.alt }
+        return {
+          ...item,
+          slug: shared?.slug ?? item.name.toLowerCase(),
+          image: shared?.image ?? item.image,
+          alt: shared?.imageAlt ?? item.alt,
+        }
       })
   const media = categories.map(({ alt, image }) => ({ alt, src: image }))
   const [active, setActive] = useState(0)
@@ -90,7 +115,7 @@ export function MenuRotator() {
     [listHeight],
   )
   const selectCategory = useCallback(
-    (event: SyntheticEvent<HTMLButtonElement>) => {
+    (event: SyntheticEvent<HTMLAnchorElement>) => {
       const index = Number(event.currentTarget.dataset.categoryIndex)
       if (Number.isInteger(index) && categories[index]) setActive(index)
     },
@@ -168,20 +193,19 @@ export function MenuRotator() {
                   data-reveal
                   key={category.name}
                 >
-                  <button
-                    aria-pressed={index === active}
-                    className={`group relative block w-full py-8 pl-6 text-left focus-visible:outline-none md:pl-7 lg:py-10 lg:pl-9 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
+                  <TransitionLink
+                    href={`/menu/${category.slug}`}
+                    data-active={index === active}
+                    className={`group relative block w-full cursor-pointer py-8 pl-6 text-left focus-visible:outline-none md:pl-7 lg:py-10 lg:pl-9 ${index === 0 ? "pt-0 lg:pt-0" : ""}`}
                     data-category-index={index}
-                    onClick={selectCategory}
                     onFocus={selectCategory}
                     onMouseEnter={selectCategory}
-                    type="button"
                   >
                     <span
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-y-1 left-0 block h-[calc(100%-0.5rem)] w-full text-cream opacity-0 blur-[6px] transition-[opacity,filter] duration-500 ease-lily menu-l-hand-reveal group-hover:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-hover:opacity-100 group-hover:blur-none group-focus-visible:animate-[menu-l-hand-draw_900ms_ease-lily_both] group-focus-visible:opacity-100 group-focus-visible:blur-none max-md:group-aria-pressed:animate-[menu-l-hand-draw_900ms_ease-lily_both] max-md:group-aria-pressed:opacity-100 max-md:group-aria-pressed:blur-none"
+                      className="pointer-events-none absolute inset-y-1 left-0 w-full opacity-0 transition-[opacity,clip-path] duration-[1400ms] ease-lily [clip-path:inset(0_100%_100%_0)] group-hover:opacity-100 group-hover:[clip-path:inset(0)] group-focus-visible:opacity-100 group-focus-visible:[clip-path:inset(0)] motion-reduce:transition-none max-md:group-data-[active=true]:opacity-100 max-md:group-data-[active=true]:[clip-path:inset(0)]"
                     >
-                      <span className="border-hand relative block h-full w-[calc(100%+12px)] rounded-[3px]" />
+                      <DoubleFrame variant="l" className="[--frame-inset:0px]" />
                     </span>
                     <span className="font-display text-3xl font-semibold text-warm-white uppercase md:text-4xl lg:text-5xl">
                       {category.name}
@@ -189,7 +213,7 @@ export function MenuRotator() {
                     <span className="mt-4 block max-w-xl text-sm md:text-base">
                       {category.description}
                     </span>
-                  </button>
+                  </TransitionLink>
                 </li>
               ))}
             </ul>

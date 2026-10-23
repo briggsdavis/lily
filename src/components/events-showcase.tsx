@@ -14,6 +14,7 @@ import { PillLink } from "@/components/pill-button"
 
 const defaultevents = [
   {
+    italic: "season",
     alt: "A celebration table dressed with flowers and shared plates",
     description: ["The season at its peak,", "shared around the table."],
     imageClassName: "object-center",
@@ -21,6 +22,7 @@ const defaultevents = [
     src: "/images/lily-event-table-16x10.webp",
   },
   {
+    italic: "Plates",
     alt: "Lily's candlelit dining room prepared for a wine dinner",
     description: ["Plates for each pour,", "served without hurry."],
     imageClassName: "object-center",
@@ -28,6 +30,7 @@ const defaultevents = [
     src: "/images/lily-romantic-interior-9x16.webp",
   },
   {
+    italic: "evening",
     alt: "A long candlelit table ready for an evening at Lily",
     description: ["Pull up a chair,", "and enjoy the evening."],
     imageClassName: "object-[52%_center]",
@@ -35,6 +38,7 @@ const defaultevents = [
     src: "/images/contact-events-unsplash.jpg",
   },
   {
+    italic: "drinks",
     alt: "A botanical cocktail prepared for an evening at Lily",
     description: ["Garden-led drinks,", "and one more round."],
     imageClassName: "object-center",
@@ -66,7 +70,7 @@ export function EventsShowcase() {
       data-nav-tone="dark"
       id="home-events"
     >
-      <div className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-10">
+      <div className="mb-12 grid gap-6 md:mb-16 lg:items-center lg:gap-10 xl:grid-cols-[auto_minmax(0,1fr)_auto]">
         <h2
           className="font-header-stencil text-4xl leading-tight md:text-5xl lg:text-6xl"
           data-reveal
@@ -78,12 +82,10 @@ export function EventsShowcase() {
           data-reveal
         >
           <EditableText field="home.events.intro">
-            <span className="lg:block lg:whitespace-nowrap">
+            <span className="lg:block">
               Join us for wine dinners, seasonal suppers, and cocktail evenings.
             </span>{" "}
-            <span className="lg:block lg:whitespace-nowrap">
-              See what's coming up and find your next night out.
-            </span>
+            <span className="lg:block">See what's coming up and find your next night out.</span>
           </EditableText>
         </p>
         <div className="reveal-delay-320 lg:justify-self-end" data-reveal>
@@ -159,7 +161,17 @@ export function EventsShowcase() {
                       <p className="font-header-stencil text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
                         {event.description.map((line, index) => (
                           <span className="block" key={index}>
-                            {line}
+                            {line
+                              .split(new RegExp(`(${event.italic})`, "gi"))
+                              .map((part, partIndex) =>
+                                part.toLowerCase() === event.italic.toLowerCase() ? (
+                                  <em className="italic" key={partIndex}>
+                                    {part}
+                                  </em>
+                                ) : (
+                                  part
+                                ),
+                              )}
                           </span>
                         ))}
                       </p>

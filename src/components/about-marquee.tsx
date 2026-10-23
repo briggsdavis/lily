@@ -67,7 +67,7 @@ export function AboutMarquee() {
           {(editing ? [0] : [0, 1, 2, 3]).map((copy) => (
             <span
               aria-hidden={copy > 0}
-              className="pr-[0.6em] font-header-stencil text-6xl leading-none md:text-8xl lg:text-[9rem]"
+              className={`pr-[0.6em] font-header-stencil leading-none ${editing ? "text-sm md:text-base" : "text-6xl md:text-8xl lg:text-[9rem]"}`}
               key={copy}
             >
               {editing ? (

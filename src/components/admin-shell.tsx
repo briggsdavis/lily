@@ -342,7 +342,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <aside className="relative h-full w-[min(88vw,19rem)]">{sidebar}</aside>
         </div>
       ) : null}
-      <main className="min-w-0 px-5 py-8 md:px-10 md:py-10 xl:px-14">{children}</main>
+      <main className="min-w-0 px-2.5 py-4 md:px-5 md:py-5 xl:px-7">{children}</main>
       {creating ? (
         <AdminModal onClose={() => setCreating(false)} title="Create a menu page">
           <div className="grid gap-6">

@@ -19,18 +19,23 @@ export const metadata: Metadata = {
 }
 
 export default async function Layout({ children }: LayoutProps<"/">) {
+  const content = (
+    <ConvexClientProvider>
+      {process.env.NEXT_PUBLIC_CONVEX_URL ? <AnalyticsTracker /> : null}
+      <SiteFrame>{children}</SiteFrame>
+    </ConvexClientProvider>
+  )
   const document = (
     <html lang="en" className="bg-cream" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={heroIntroScript} />
       </head>
       <body className="flex min-h-dvh flex-col font-body antialiased">
-        <ConvexAuthNextjsServerProvider>
-          <ConvexClientProvider>
-            {process.env.NEXT_PUBLIC_CONVEX_URL ? <AnalyticsTracker /> : null}
-            <SiteFrame>{children}</SiteFrame>
-          </ConvexClientProvider>
-        </ConvexAuthNextjsServerProvider>
+        {process.env.NEXT_PUBLIC_CONVEX_URL ? (
+          <ConvexAuthNextjsServerProvider>{content}</ConvexAuthNextjsServerProvider>
+        ) : (
+          content
+        )}
       </body>
     </html>
   )

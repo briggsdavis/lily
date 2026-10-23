@@ -38,8 +38,8 @@ export function HomeContent() {
               <div className="md:col-span-7 lg:col-span-6">
                 <h1 className="hero-stagger font-header-stencil text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
                   <EditableText field="home.hero.heading">
-                    <span className="block">The room glows</span>
-                    <span className="block">into the evening.</span>
+                    <span className="block">Come for dinner,</span>
+                    <span className="block">stay for the evening.</span>
                   </EditableText>
                 </h1>
                 <div className="hero-stagger mt-8 animate-delay-720 md:mt-10">
@@ -104,7 +104,7 @@ export function HomeContent() {
 
       <ColorSection
         field="home.menu.color"
-        className="relative isolate overflow-hidden bg-mauve px-page pt-14 pb-24 text-warm-white md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
+        className="relative isolate overflow-hidden bg-dark-maroon px-page pt-14 pb-24 text-warm-white md:pt-20 md:pb-32 lg:pt-24 lg:pb-40"
         data-nav-tone="dark"
       >
         <RotatingCrest className="pointer-events-none absolute top-1/2 right-[-8%] hidden h-auto w-[min(48vw,38rem)] -translate-y-1/2 opacity-50 md:block" />
@@ -184,8 +184,10 @@ export function HomeContent() {
               className="font-header-stencil text-[1.6875rem] leading-[1.02] sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
               data-reveal
             >
-              <EditableText field="home.cooking.heading">
-                <span className="block">Season-led cooking,</span>
+              <EditableText field="home.cooking.heading" italicWord="Season-led">
+                <span className="block">
+                  <em className="italic">Season-led</em> cooking,
+                </span>
                 <span className="block">served with warmth.</span>
               </EditableText>
             </h2>
@@ -239,7 +241,9 @@ export function HomeContent() {
           className="relative flex min-h-3/5 w-full max-w-md flex-col justify-between gap-10 bg-espresso p-8 text-cream md:grid md:w-3/5 md:max-w-none md:grid-cols-2 md:p-12 lg:p-14"
         >
           <h2 className="max-w-[10ch] font-header-stencil text-4xl lg:text-6xl" data-reveal>
-            <EditableText field="home.catering.heading">Bring the table home.</EditableText>
+            <EditableText field="home.catering.heading" italicWord="home">
+              Bring the table <em className="italic">home</em>.
+            </EditableText>
           </h2>
           <ul
             className="space-y-1 text-sm text-cream/75 reveal-delay-180 md:justify-self-end md:text-right"

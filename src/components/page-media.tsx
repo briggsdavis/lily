@@ -7,8 +7,17 @@ import { usePageContent, useEditorMode } from "@/components/page-content"
 import { mediaSlots, type MediaKey } from "@/lib/page-media"
 import { api } from "../../convex/_generated/api"
 
+function useOfflinePageMedia() {
+  return undefined
+}
+const usePublishedMedia = process.env.NEXT_PUBLIC_CONVEX_URL
+  ? function useConnectedPageMedia() {
+      return useQuery(api.pageMedia.list, {})
+    }
+  : useOfflinePageMedia
+
 export function usePageMedia() {
-  const published = useQuery(api.pageMedia.list, {})
+  const published = usePublishedMedia()
   const content = usePageContent()
   return published === undefined
     ? undefined

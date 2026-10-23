@@ -60,7 +60,15 @@ function ring(next: () => number, base?: Record<string, number[]>) {
   ) as Record<keyof typeof pieces, number[]>
 }
 
-export function DoubleFrame({ className = "", seed = 7 }: { className?: string; seed?: number }) {
+export function DoubleFrame({
+  className = "",
+  seed = 7,
+  variant = "double",
+}: {
+  className?: string
+  seed?: number
+  variant?: "double" | "l"
+}) {
   const next = random(seed)
   const outer = ring(next)
   const inner = ring(next, outer)
@@ -70,13 +78,15 @@ export function DoubleFrame({ className = "", seed = 7 }: { className?: string; 
       {(
         [
           ["frame-double-outer", outer],
-          ["frame-double-inner", inner],
+          ...(variant === "double" ? [["frame-double-inner", inner] as const] : []),
         ] as const
       ).map(([name, pieces]) => (
         <div className={`frame-double-ring ${name}`} key={name}>
-          {Object.entries(pieces).map(([piece, values]) => (
-            <span className={piece} key={piece} style={vars(values)} />
-          ))}
+          {Object.entries(pieces)
+            .filter(([piece]) => variant === "double" || piece === "frame-l" || piece === "frame-b")
+            .map(([piece, values]) => (
+              <span className={piece} key={piece} style={vars(values)} />
+            ))}
         </div>
       ))}
     </div>

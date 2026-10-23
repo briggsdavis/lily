@@ -73,7 +73,6 @@ export function VisualPage({
   const saveInFlight = useRef(false)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
-  const [mobile, setMobile] = useState(false)
   const [generation, setGeneration] = useState(0)
   const dirty = JSON.stringify(fields) !== JSON.stringify(baseline.fields) || media.length > 0
   const conflict = latest !== undefined && latest.revision !== baseline.revision
@@ -166,7 +165,7 @@ export function VisualPage({
   }
   return (
     <>
-      <header className="sticky top-0 z-50 -mx-5 mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-deep-brown/15 bg-[#f6f5f2]/95 px-5 py-4 backdrop-blur-sm md:-mx-8 md:px-8">
+      <header className="sticky top-0 z-50 -mx-2.5 mb-2.5 flex flex-wrap items-center justify-between gap-2 bg-[#f6f5f2]/95 px-2.5 py-2 backdrop-blur-sm md:-mx-4 md:px-4">
         <div>
           <h1 className="text-2xl font-semibold">{page === "home" ? "Home" : "About"}</h1>
           <p className="mt-1 text-xs opacity-65">
@@ -174,9 +173,6 @@ export function VisualPage({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <AdminButton kind="secondary" onClick={() => setMobile((value) => !value)}>
-            {mobile ? "Desktop preview" : "Mobile preview"}
-          </AdminButton>
           <AdminButton kind="secondary" onClick={discard} disabled={saving}>
             {conflict ? "Reload published page" : "Discard changes"}
           </AdminButton>
@@ -194,13 +190,13 @@ export function VisualPage({
           avoid overwriting someone else’s changes.
         </p>
       )}
-      <output className="mb-3 block text-sm" aria-live="polite">
+      <output className="block text-sm empty:hidden" aria-live="polite">
         {message}
       </output>
       <PageContentContext.Provider
         value={{ page, fields, media, editing: true, select: saving ? undefined : select }}
       >
-        <PreviewFrame mobile={mobile}>
+        <PreviewFrame>
           <div
             key={generation}
             inert={saving}
@@ -248,7 +244,7 @@ export function VisualPage({
 }
 
 // An iframe gives the preview its own responsive viewport and isolates all page styles.
-function PreviewFrame({ mobile, children }: { mobile: boolean; children: ReactNode }) {
+function PreviewFrame({ children }: { children: ReactNode }) {
   const frame = useRef<HTMLIFrameElement>(null)
   const [target, setTarget] = useState<HTMLElement | null>(null)
   useEffect(() => {
@@ -264,11 +260,11 @@ function PreviewFrame({ mobile, children }: { mobile: boolean; children: ReactNo
     setTarget(root)
   }, [])
   return (
-    <div className="overflow-x-auto rounded-xl border border-deep-brown/15 bg-stone-200 p-2">
+    <div className="overflow-hidden rounded-t-xl">
       <iframe
         ref={frame}
         title="Editable page preview"
-        className={`mx-auto block h-[80dvh] border-0 bg-cream ${mobile ? "w-[390px] max-w-none" : "w-full"}`}
+        className="block h-[80dvh] w-full border-0 bg-cream"
       />
       {target && createPortal(children, target)}
     </div>

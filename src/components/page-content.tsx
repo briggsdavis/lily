@@ -33,10 +33,31 @@ function ConnectedPage({ page, children }: { page: EditablePage; children: React
     </PageContentContext.Provider>
   )
 }
-export function EditableText({ field, children }: { field: string; children: ReactNode }) {
+export function EditableText({
+  field,
+  children,
+  italicWord,
+}: {
+  field: string
+  children: ReactNode
+  italicWord?: string
+}) {
   const content = usePageContent()
   const value = content?.fields[field]
-  if (!content?.editing) return <span className="whitespace-pre-line">{value ?? children}</span>
+  const text = value ?? children
+  const formatted =
+    italicWord && typeof text === "string"
+      ? text.split(new RegExp(`(\\b${italicWord}\\b)`, "gi")).map((part, index) =>
+          part.toLowerCase() === italicWord.toLowerCase() ? (
+            <em className="italic" key={index}>
+              {part}
+            </em>
+          ) : (
+            part
+          ),
+        )
+      : text
+  if (!content?.editing) return <span className="whitespace-pre-line">{formatted}</span>
   return (
     <button
       type="button"
@@ -52,7 +73,7 @@ export function EditableText({ field, children }: { field: string; children: Rea
         })
       }}
     >
-      {value ?? children}
+      {formatted}
     </button>
   )
 }
@@ -88,7 +109,7 @@ export function ColorSection({
         <button
           type="button"
           data-editor-control="color"
-          className="absolute top-3 left-3 z-40 cursor-pointer rounded-full border border-black/15 bg-white px-3 py-2 font-body text-xs font-semibold text-deep-brown shadow-sm"
+          className="absolute top-3 left-3 z-40 cursor-pointer rounded-full border border-black/15 bg-white px-3 py-2 font-body text-xs font-semibold text-deep-brown shadow-sm transition-colors hover:border-white hover:bg-black hover:text-white focus-visible:border-white focus-visible:bg-black focus-visible:text-white"
           onClick={(event) => {
             event.preventDefault()
             event.stopPropagation()
@@ -126,7 +147,7 @@ export function MediaEditControl({ mediaKey }: { mediaKey: string }) {
       type="button"
       data-editor-control="media"
       aria-label={`Change ${mediaKey} media`}
-      className="absolute top-3 right-3 z-40 cursor-pointer rounded-full border border-black/15 bg-white px-3 py-2 font-body text-xs font-semibold text-deep-brown shadow-sm"
+      className="absolute top-3 right-3 z-40 cursor-pointer rounded-full border border-black/15 bg-white px-3 py-2 font-body text-xs font-semibold text-deep-brown shadow-sm transition-colors hover:border-white hover:bg-black hover:text-white focus-visible:border-white focus-visible:bg-black focus-visible:text-white"
       onClick={(event) => {
         event.preventDefault()
         event.stopPropagation()
