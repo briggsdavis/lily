@@ -27,7 +27,9 @@ const menuSection = v.object({
 
 export default defineSchema({
   ...authTables,
-  pageVisibility: defineTable({ path: v.string(), enabled: v.boolean() }).index("by_path", ["path"]),
+  pageVisibility: defineTable({ path: v.string(), enabled: v.boolean() }).index("by_path", [
+    "path",
+  ]),
   pageDocuments: defineTable({
     page: v.union(v.literal("home"), v.literal("about")),
     fields: v.record(v.string(), v.string()),

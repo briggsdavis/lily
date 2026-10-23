@@ -36,7 +36,7 @@ export function HomeContent() {
           <div className="relative grid h-svh min-h-[44rem] grid-rows-[1fr_auto] px-page pt-28 pb-7 md:pt-32 md:pb-9 lg:pb-10">
             <div className="grid content-start justify-items-center gap-9 text-center md:grid-cols-12 md:justify-items-stretch md:gap-8 md:text-left lg:gap-12">
               <div className="md:col-span-7 lg:col-span-6">
-                <h1 className="hero-stagger font-demibold font-semibold uppercase text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
+                <h1 className="hero-stagger font-demibold text-[1.9875rem] leading-[0.98] font-semibold uppercase animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
                   <EditableText field="home.hero.heading" italicWord="stay for the evening">
                     <span className="block">Come for dinner,</span>
                     <em className="block italic">stay for the evening.</em>
@@ -203,9 +203,7 @@ export function HomeContent() {
               data-reveal
             >
               <EditableText field="home.cooking.heading" italicWord="served with warmth">
-                <span className="block">
-                  Season-led cooking,
-                </span>
+                <span className="block">Season-led cooking,</span>
                 <em className="block italic">served with warmth.</em>
               </EditableText>
             </h2>

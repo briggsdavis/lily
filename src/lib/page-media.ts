@@ -3,7 +3,8 @@ export const mediaSlots = [
     key: "home.intro",
     page: "home",
     title: "Introduction background",
-    description: "The background image beneath the stamp in the section immediately below the homepage hero.",
+    description:
+      "The background image beneath the stamp in the section immediately below the homepage hero.",
     src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2400&q=85&exp=-35&sat=-15",
     ratio: "16:9",
     video: false,

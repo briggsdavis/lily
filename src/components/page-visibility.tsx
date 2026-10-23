@@ -1,7 +1,7 @@
 "use client"
 
-import { createContext, useContext, type ReactNode } from "react"
 import { useQuery } from "convex/react"
+import { createContext, useContext, type ReactNode } from "react"
 import { visibilityRef } from "@/lib/page-visibility"
 
 const VisibilityContext = createContext<readonly string[]>([])
@@ -13,5 +13,9 @@ function ConnectedVisibility({ children }: { children: ReactNode }) {
 }
 
 export function PageVisibilityProvider({ children }: { children: ReactNode }) {
-  return process.env.NEXT_PUBLIC_CONVEX_URL ? <ConnectedVisibility>{children}</ConnectedVisibility> : children
+  return process.env.NEXT_PUBLIC_CONVEX_URL ? (
+    <ConnectedVisibility>{children}</ConnectedVisibility>
+  ) : (
+    children
+  )
 }

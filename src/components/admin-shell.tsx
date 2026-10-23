@@ -7,6 +7,7 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import type { DragEvent, ReactNode } from "react"
 import { useCallback, useEffect, useState } from "react"
+import { AdminPageToggle } from "@/components/admin-page-toggle"
 import { AdminButton, AdminModal, ImageField, adminInput } from "@/components/admin-ui"
 import { events as initialEvents } from "@/data/events"
 import { menuCategories } from "@/data/menu"
@@ -19,8 +20,6 @@ import {
   type MenuPageRecord,
 } from "@/lib/admin-api"
 import { randomId } from "@/lib/random-id"
-
-import { AdminPageToggle } from "@/components/admin-page-toggle"
 
 const links = [
   { href: "/admin", label: "Dashboard" },
@@ -51,14 +50,19 @@ function NavLink({
   const pathname = usePathname()
   const active = href === "/admin" ? pathname === href : pathname.startsWith(href)
   return (
-    <div className="flex items-center"><div className="min-w-0 flex-1"><Link
-      aria-current={active ? "page" : undefined}
-      className="mx-2 flex min-h-10 items-center rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white aria-[current=page]:bg-white/14 aria-[current=page]:text-white"
-      href={href}
-      onClick={onNavigate}
-    >
-      {label}
-    </Link></div>{publicPath && <AdminPageToggle path={publicPath} label={label} />}</div>
+    <div className="flex items-center">
+      <div className="min-w-0 flex-1">
+        <Link
+          aria-current={active ? "page" : undefined}
+          className="mx-2 flex min-h-10 items-center rounded-lg px-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/8 hover:text-white aria-[current=page]:bg-white/14 aria-[current=page]:text-white"
+          href={href}
+          onClick={onNavigate}
+        >
+          {label}
+        </Link>
+      </div>
+      {publicPath && <AdminPageToggle path={publicPath} label={label} />}
+    </div>
   )
 }
 
@@ -250,7 +254,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
               className={`overflow-hidden pl-3 transition-transform duration-300 ease-out ${pageEditorOpen ? "translate-y-0" : "-translate-y-2"}`}
             >
               <NavLink href="/admin/pages/home" label="Home" publicPath="/" onNavigate={close} />
-              <NavLink href="/admin/pages/about" label="About" publicPath="/about" onNavigate={close} />
+              <NavLink
+                href="/admin/pages/about"
+                label="About"
+                publicPath="/about"
+                onNavigate={close}
+              />
             </div>
           </div>
         </div>
@@ -282,7 +291,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
                   <span className="cursor-grab text-white/25 select-none group-hover/page:text-white/55">
                     ⋮⋮
                   </span>
-                  <div className="min-w-0 flex-1" draggable={false} onDragStart={(event) => event.stopPropagation()}>
+                  <div
+                    className="min-w-0 flex-1"
+                    draggable={false}
+                    onDragStart={(event) => event.stopPropagation()}
+                  >
                     <NavLink
                       href={`/admin/menu/${page._id}`}
                       label={page.title}
@@ -304,7 +317,14 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
         </div>
         {links.slice(1).map((link) => (
-          <NavLink {...link} publicPath={link.href === "/admin/archive" ? undefined : link.href.replace("/admin", "")} key={link.href} onNavigate={close} />
+          <NavLink
+            {...link}
+            publicPath={
+              link.href === "/admin/archive" ? undefined : link.href.replace("/admin", "")
+            }
+            key={link.href}
+            onNavigate={close}
+          />
         ))}
       </nav>
       <button

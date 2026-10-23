@@ -117,14 +117,10 @@ export function ScrollRevealImage() {
           className="absolute inset-0 flex flex-col items-center justify-center gap-[0.15em] px-page text-center font-demibold text-[5vw] leading-tight font-semibold text-cream uppercase will-change-[opacity,transform] xl:flex-row xl:gap-[0.3em] xl:text-[2.6vw]"
           style={editing ? undefined : headingStyle}
         >
-          <span
-            className="block shrink-0 whitespace-nowrap"
-          >
+          <span className="block shrink-0 whitespace-nowrap">
             <EditableText field="home.evening.text1">Come for dinner,</EditableText>
           </span>
-          <span
-            className="block shrink-0 whitespace-nowrap italic"
-          >
+          <span className="block shrink-0 whitespace-nowrap italic">
             <EditableText field="home.evening.text2">stay for the evening.</EditableText>
           </span>
         </p>

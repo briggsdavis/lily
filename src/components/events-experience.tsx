@@ -404,9 +404,7 @@ function EventsSectionHeader({
   onChange: (mode: ViewMode) => void
 }) {
   return (
-    <header
-      className="mb-8 flex shrink-0 flex-col gap-6 border-b border-pink/35 pb-7 sm:flex-row sm:items-end sm:justify-between"
-    >
+    <header className="mb-8 flex shrink-0 flex-col gap-6 border-b border-pink/35 pb-7 sm:flex-row sm:items-end sm:justify-between">
       <h2 className="font-header-stencil text-4xl tracking-[0.04em] text-pink uppercase md:text-5xl lg:text-6xl">
         Happenings
       </h2>
@@ -431,7 +429,9 @@ function PinnedEvents({ children }: { children: ReactNode }) {
       const offset = Math.min(distance, Math.max(0, -element.getBoundingClientRect().top))
       list.style.transform = `translate3d(0, ${-offset}px, 0)`
     }
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(update) }
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
     const measure = () => {
       distance = Math.max(0, list.scrollHeight - viewport.clientHeight)
       element.style.height = desktop.matches ? `${stage.offsetHeight + distance}px` : ""
@@ -451,9 +451,13 @@ function PinnedEvents({ children }: { children: ReactNode }) {
       desktop.removeEventListener("change", measure)
     }
   }, [])
-  return <div ref={root} className="hidden lg:block">
-    <div data-events-stage className="sticky top-0 flex h-dvh flex-col pt-28 pb-8">{children}</div>
-  </div>
+  return (
+    <div ref={root} className="hidden lg:block">
+      <div data-events-stage className="sticky top-0 flex h-dvh flex-col pt-28 pb-8">
+        {children}
+      </div>
+    </div>
+  )
 }
 
 function EventsView({ events }: { events: readonly LilyEvent[] }) {
@@ -557,45 +561,48 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
         {mode === "events" ? (
           <div className="min-h-dvh px-page pt-20 lg:pt-0">
             <div>
-              <div className="lg:hidden"><EventsSectionHeader mode={mode} onChange={switchMode} /></div>
+              <div className="lg:hidden">
+                <EventsSectionHeader mode={mode} onChange={switchMode} />
+              </div>
               <PinnedEvents>
                 <EventsSectionHeader mode={mode} onChange={switchMode} />
 
-              <div className="hidden grid-cols-[minmax(10rem,0.7fr)_minmax(28rem,1.8fr)_minmax(10rem,0.7fr)] min-h-0 flex-1 items-stretch gap-10 lg:grid xl:grid-cols-[minmax(13rem,0.8fr)_minmax(24rem,1.45fr)_minmax(13rem,0.8fr)] xl:gap-16">
-                <div className="flex min-h-0 items-center">
-                  <div className="relative w-full max-w-[16rem]">
-                    <EventImageStack
-                      active={active}
-                      className="aspect-4/5 w-full"
-                      side="left"
-                      sizes="16rem"
-                      events={events}
-                    />
-                    <DoubleFrame className="[--frame-inset:-22px]" />
+                <div className="hidden min-h-0 flex-1 grid-cols-[minmax(10rem,0.7fr)_minmax(28rem,1.8fr)_minmax(10rem,0.7fr)] items-stretch gap-10 lg:grid xl:grid-cols-[minmax(13rem,0.8fr)_minmax(24rem,1.45fr)_minmax(13rem,0.8fr)] xl:gap-16">
+                  <div className="flex min-h-0 items-center">
+                    <div className="relative w-full max-w-[16rem]">
+                      <EventImageStack
+                        active={active}
+                        className="aspect-4/5 w-full"
+                        side="left"
+                        sizes="16rem"
+                        events={events}
+                      />
+                      <DoubleFrame className="[--frame-inset:-22px]" />
+                    </div>
+                  </div>
+                  <div data-events-viewport className="relative min-h-0 overflow-hidden">
+                    <div data-events-scroll className="will-change-transform">
+                      <EventList
+                        events={events}
+                        expanded={expanded}
+                        onActivate={setActive}
+                        onToggle={toggleEvent}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex min-h-0 items-center justify-end">
+                    <div className="relative w-full max-w-[16rem]">
+                      <EventImageStack
+                        active={active}
+                        className="aspect-4/5 w-full"
+                        side="right"
+                        sizes="16rem"
+                        events={events}
+                      />
+                      <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
+                    </div>
                   </div>
                 </div>
-                <div data-events-viewport className="relative min-h-0 overflow-hidden">
-                  <div data-events-scroll className="will-change-transform"><EventList
-                    events={events}
-                    expanded={expanded}
-                    onActivate={setActive}
-                    onToggle={toggleEvent}
-                  /></div>
-                </div>
-                <div className="flex min-h-0 items-center justify-end">
-                  <div className="relative w-full max-w-[16rem]">
-                    <EventImageStack
-                      active={active}
-                      className="aspect-4/5 w-full"
-                      side="right"
-                      sizes="16rem"
-                      events={events}
-                    />
-                    <DoubleFrame className="[--frame-inset:-22px]" seed={11} />
-                  </div>
-                </div>
-              </div>
-
               </PinnedEvents>
               <div className="lg:hidden">
                 <EventImageStack

@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import Link from "@/components/site-link"
 import { usePathname } from "next/navigation"
+import Link from "@/components/site-link"
 import { menuCategories } from "@/data/menu"
 
 export function MenuGallery() {

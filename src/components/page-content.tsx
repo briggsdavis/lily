@@ -50,19 +50,21 @@ export function EditableText({
   const formatted =
     italicAfterFirstLine && typeof text === "string"
       ? text.split("\n").map((line, index) => (
-          <span className="block" key={index}>{index === 0 ? line : <em className="italic">{line}</em>}</span>
+          <span className="block" key={index}>
+            {index === 0 ? line : <em className="italic">{line}</em>}
+          </span>
         ))
       : italicWord && typeof text === "string"
-      ? text.split(new RegExp(`(\\b${italicWord}\\b)`, "gi")).map((part, index) =>
-          part.toLowerCase() === italicWord.toLowerCase() ? (
-            <em className="italic" key={index}>
-              {part}
-            </em>
-          ) : (
-            part
-          ),
-        )
-      : text
+        ? text.split(new RegExp(`(\\b${italicWord}\\b)`, "gi")).map((part, index) =>
+            part.toLowerCase() === italicWord.toLowerCase() ? (
+              <em className="italic" key={index}>
+                {part}
+              </em>
+            ) : (
+              part
+            ),
+          )
+        : text
   if (!content?.editing) return <span className="whitespace-pre-line">{formatted}</span>
   return (
     <button
