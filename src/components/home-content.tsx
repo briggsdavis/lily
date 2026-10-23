@@ -199,7 +199,7 @@ export function HomeContent() {
         <div className="relative flex h-full items-start">
           <div className="flex max-w-lg flex-col items-start">
             <h2
-              className="font-header-stencil text-[1.6875rem] leading-[1.02] sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
+              className="font-demibold text-[1.6875rem] leading-[1.02] font-semibold uppercase sm:text-4xl md:text-[2.8125rem] lg:text-[3.375rem]"
               data-reveal
             >
               <EditableText field="home.cooking.heading" italicWord="served with warmth">

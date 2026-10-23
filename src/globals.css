@@ -3,7 +3,7 @@
 @custom-variant route-leaving (:where(.route-leaving) &);
 
 @theme {
-  --font-demibold: "Masqualero DemiBold", serif;
+  --font-demibold: var(--font-masqualero-demibold), serif;
   --font-display: "Masqualero", serif;
   --font-header: "Masqualero W04", serif;
   --font-header-stencil: "Masqualero Stencil", serif;
@@ -12,13 +12,6 @@
   --font-body: "Gabriel Sans Symbols", "Gabriel Sans", sans-serif;
 }
 
-@font-face {
-  font-family: "Masqualero DemiBold";
-  src: url("/fonts/subhead/fonnts.com-Masqualero-Demi-Bold.otf") format("opentype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* Sweet Sans Pro covers glyphs the Gabriel Sans trial replaces with placeholders. */
 

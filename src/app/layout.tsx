@@ -1,5 +1,6 @@
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 import type { Metadata } from "next"
+import localFont from "next/font/local"
 import { AnalyticsTracker } from "@/components/analytics-tracker"
 import { ConvexClientProvider } from "@/components/convex-client-provider"
 import { SiteFrame } from "@/components/site-frame"
@@ -7,6 +8,15 @@ import { SiteFrame } from "@/components/site-frame"
 import "lenis/dist/lenis.css"
 // oxlint-disable-next-line import/no-unassigned-import
 import "@/globals.css"
+
+const masqualeroDemiBold = localFont({
+  src: "../../public/fonts/subhead/fonnts.com-Masqualero-Demi-Bold.otf",
+  variable: "--font-masqualero-demibold",
+  weight: "600",
+  style: "normal",
+  display: "swap",
+  preload: true,
+})
 
 const heroIntroScript = {
   __html: `try{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!sessionStorage.getItem("lily:hero-intro-seen")){document.documentElement.classList.add("hero-intro-pending")}}catch{if(location.pathname==="/"&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("hero-intro-pending")}}`,
@@ -26,7 +36,7 @@ export default async function Layout({ children }: LayoutProps<"/">) {
     </ConvexClientProvider>
   )
   const document = (
-    <html lang="en" className="bg-cream" suppressHydrationWarning>
+    <html lang="en" className={`${masqualeroDemiBold.variable} bg-cream`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={heroIntroScript} />
       </head>
