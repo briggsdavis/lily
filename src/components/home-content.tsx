@@ -36,7 +36,7 @@ export function HomeContent() {
           <div className="relative grid h-svh min-h-[44rem] grid-rows-[1fr_auto] px-page pt-28 pb-7 md:pt-32 md:pb-9 lg:pb-10">
             <div className="grid content-start justify-items-center gap-9 text-center md:grid-cols-12 md:justify-items-stretch md:gap-8 md:text-left lg:gap-12">
               <div className="md:col-span-7 lg:col-span-6">
-                <h1 className="hero-stagger font-header-stencil text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
+                <h1 className="hero-stagger font-demibold font-semibold uppercase text-[1.9875rem] leading-[0.98] animate-delay-420 sm:text-4xl md:text-[2.55rem] lg:text-[2.8125rem]">
                   <EditableText field="home.hero.heading" italicWord="stay for the evening">
                     <span className="block">Come for dinner,</span>
                     <em className="block italic">stay for the evening.</em>
@@ -93,16 +93,16 @@ export function HomeContent() {
           <MediaImage
             mediaKey="home.intro"
             alt=""
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=85"
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2400&q=85&exp=-35&sat=-15"
             fill
             sizes="100vw"
             className="object-cover"
           />
-          <div className="pointer-events-none absolute inset-0 bg-deep-brown/70" />
+          <div className="pointer-events-none absolute inset-0 bg-deep-brown/10" />
           <MediaEditControl mediaKey="home.intro" />
           <Image
             alt=""
-            className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2 opacity-[0.455]"
+            className="absolute top-1/2 left-1/2 h-auto w-[min(80vw,40rem)] -translate-1/2 opacity-[0.3185]"
             height={1004}
             src="/images/stamp-pink.svg"
             width={982}
@@ -130,6 +130,14 @@ export function HomeContent() {
         className="relative isolate grid min-h-svh items-center gap-14 overflow-hidden bg-grey section-pad text-pink md:grid-cols-2 md:gap-20 lg:gap-32"
         data-nav-tone="dark"
       >
+        <Image
+          alt=""
+          aria-hidden="true"
+          src="/images/Shadow.png"
+          fill
+          sizes="100vw"
+          className="pointer-events-none z-20 object-cover opacity-30 mix-blend-multiply"
+        />
         <div className="relative z-10 flex max-w-3xl flex-col items-start md:max-w-[45vw]">
           <h2
             className="mb-8 font-header-stencil text-5xl tracking-[0.04em] text-pink uppercase md:mb-10 lg:text-7xl"

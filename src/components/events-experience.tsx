@@ -4,7 +4,7 @@ import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "@phosphor-icons/react"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import type { MouseEvent, SyntheticEvent } from "react"
+import type { MouseEvent, SyntheticEvent, ReactNode } from "react"
 import { flushSync } from "react-dom"
 import { DoubleFrame } from "@/components/double-frame"
 import { PillLink } from "@/components/pill-button"
@@ -373,7 +373,7 @@ function ViewSelector({ mode, onChange }: { mode: ViewMode; onChange: (mode: Vie
   )
 
   return (
-    <div className="flex items-center gap-5 text-lg font-medium tracking-[0.08em] sm:gap-6 md:text-xl lg:gap-8 lg:text-2xl">
+    <div className="flex items-center gap-5 text-[0.84375rem] font-medium tracking-[0.08em] sm:gap-6 md:text-[0.9375rem] lg:gap-8 lg:text-lg">
       <button
         aria-pressed={mode === "events"}
         className="animated-underline cursor-pointer pb-1 uppercase opacity-55 transition-opacity aria-pressed:opacity-100"
@@ -399,19 +399,13 @@ function ViewSelector({ mode, onChange }: { mode: ViewMode; onChange: (mode: Vie
 function EventsSectionHeader({
   mode,
   onChange,
-  sticky = false,
 }: {
   mode: ViewMode
   onChange: (mode: ViewMode) => void
-  sticky?: boolean
 }) {
   return (
     <header
-      className={`flex flex-col gap-6 border-b border-pink/35 pb-7 sm:flex-row sm:items-end sm:justify-between ${
-        sticky
-          ? "mb-10 bg-dark-maroon lg:sticky lg:top-20 lg:z-30 lg:mb-0 lg:pt-4 lg:pb-5 lg:before:pointer-events-none lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-20 lg:before:[background:inherit]"
-          : "mb-8"
-      }`}
+      className="mb-8 flex shrink-0 flex-col gap-6 border-b border-pink/35 pb-7 sm:flex-row sm:items-end sm:justify-between"
     >
       <h2 className="font-header-stencil text-4xl tracking-[0.04em] text-pink uppercase md:text-5xl lg:text-6xl">
         Happenings
@@ -419,6 +413,47 @@ function EventsSectionHeader({
       <ViewSelector mode={mode} onChange={onChange} />
     </header>
   )
+}
+
+function PinnedEvents({ children }: { children: ReactNode }) {
+  const root = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const element = root.current!
+    const stage = element.querySelector<HTMLElement>("[data-events-stage]")!
+    const viewport = element.querySelector<HTMLElement>("[data-events-viewport]")!
+    const list = element.querySelector<HTMLElement>("[data-events-scroll]")!
+    const desktop = matchMedia("(min-width: 64rem)")
+    let distance = 0
+    let frame = 0
+    const update = () => {
+      frame = 0
+      if (!desktop.matches) return
+      const offset = Math.min(distance, Math.max(0, -element.getBoundingClientRect().top))
+      list.style.transform = `translate3d(0, ${-offset}px, 0)`
+    }
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update) }
+    const measure = () => {
+      distance = Math.max(0, list.scrollHeight - viewport.clientHeight)
+      element.style.height = desktop.matches ? `${stage.offsetHeight + distance}px` : ""
+      schedule()
+    }
+    const observer = new ResizeObserver(measure)
+    observer.observe(list)
+    observer.observe(stage)
+    observer.observe(viewport)
+    window.addEventListener("scroll", schedule, { passive: true })
+    desktop.addEventListener("change", measure)
+    measure()
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+      window.removeEventListener("scroll", schedule)
+      desktop.removeEventListener("change", measure)
+    }
+  }, [])
+  return <div ref={root} className="hidden lg:block">
+    <div data-events-stage className="sticky top-0 flex h-dvh flex-col pt-28 pb-8">{children}</div>
+  </div>
 }
 
 function EventsView({ events }: { events: readonly LilyEvent[] }) {
@@ -520,12 +555,14 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
       <RotatingCrest className="pointer-events-none absolute right-[-8%] bottom-[-6rem] h-auto w-[min(48vw,38rem)] opacity-50" />
       <div className="relative z-10 [view-transition-name:events-view]">
         {mode === "events" ? (
-          <div className="min-h-dvh px-page pt-20 lg:pt-28">
+          <div className="min-h-dvh px-page pt-20 lg:pt-0">
             <div>
-              <EventsSectionHeader mode={mode} onChange={switchMode} sticky />
+              <div className="lg:hidden"><EventsSectionHeader mode={mode} onChange={switchMode} /></div>
+              <PinnedEvents>
+                <EventsSectionHeader mode={mode} onChange={switchMode} />
 
-              <div className="hidden grid-cols-[minmax(10rem,0.7fr)_minmax(28rem,1.8fr)_minmax(10rem,0.7fr)] items-start gap-10 lg:grid xl:grid-cols-[minmax(13rem,0.8fr)_minmax(24rem,1.45fr)_minmax(13rem,0.8fr)] xl:gap-16">
-                <div className="sticky top-40 flex h-[calc(100dvh-11rem)] items-center">
+              <div className="hidden grid-cols-[minmax(10rem,0.7fr)_minmax(28rem,1.8fr)_minmax(10rem,0.7fr)] min-h-0 flex-1 items-stretch gap-10 lg:grid xl:grid-cols-[minmax(13rem,0.8fr)_minmax(24rem,1.45fr)_minmax(13rem,0.8fr)] xl:gap-16">
+                <div className="flex min-h-0 items-center">
                   <div className="relative w-full max-w-[16rem]">
                     <EventImageStack
                       active={active}
@@ -537,15 +574,15 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                     <DoubleFrame className="[--frame-inset:-22px]" />
                   </div>
                 </div>
-                <div className="relative">
-                  <EventList
+                <div data-events-viewport className="relative min-h-0 overflow-hidden">
+                  <div data-events-scroll className="will-change-transform"><EventList
                     events={events}
                     expanded={expanded}
                     onActivate={setActive}
                     onToggle={toggleEvent}
-                  />
+                  /></div>
                 </div>
-                <div className="sticky top-40 flex h-[calc(100dvh-11rem)] items-center justify-end">
+                <div className="flex min-h-0 items-center justify-end">
                   <div className="relative w-full max-w-[16rem]">
                     <EventImageStack
                       active={active}
@@ -559,6 +596,7 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                 </div>
               </div>
 
+              </PinnedEvents>
               <div className="lg:hidden">
                 <EventImageStack
                   active={active}
@@ -576,7 +614,7 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                 />
               </div>
             </div>
-            <div aria-hidden="true" className="h-64 lg:h-80" />
+            <div aria-hidden="true" className="h-64 lg:hidden" />
           </div>
         ) : (
           <div className="min-h-dvh px-page pt-20 pb-64 lg:pt-28 lg:pb-80">

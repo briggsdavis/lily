@@ -407,6 +407,9 @@ function EditDialog({
                 />
               )}
             </label>
+            {/^home\.events\.item\d+\.copy$/.test(selection.key) && (
+              <p className="text-sm text-deep-brown/70">Put the opening clause on the first line. Following lines appear in italics.</p>
+            )}
             {selection.kind === "button" && (
               <label className="grid gap-2 text-sm font-medium">
                 Link

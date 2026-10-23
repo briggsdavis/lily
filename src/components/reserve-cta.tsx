@@ -35,7 +35,7 @@ export function ReserveCta() {
       <div className="relative z-10 mx-auto flex min-h-[27rem] w-full max-w-7xl flex-col items-center justify-center overflow-hidden px-7 py-16 text-center md:min-h-[83svh] md:px-16 md:py-20 lg:px-24">
         <DoubleFrame className="[--frame-inset:0px]" seed={3} />
         <h2
-          className="relative mb-5 font-header-stencil text-5xl italic text-balance md:text-6xl lg:text-8xl"
+          className="relative mb-5 font-demibold text-5xl font-semibold italic uppercase text-balance md:text-6xl lg:text-8xl"
           data-reveal
         >
           Reserve your table.

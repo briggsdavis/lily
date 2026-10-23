@@ -37,16 +37,22 @@ export function EditableText({
   field,
   children,
   italicWord,
+  italicAfterFirstLine = false,
 }: {
   field: string
   children: ReactNode
   italicWord?: string
+  italicAfterFirstLine?: boolean
 }) {
   const content = usePageContent()
   const value = content?.fields[field]
   const text = value ?? children
   const formatted =
-    italicWord && typeof text === "string"
+    italicAfterFirstLine && typeof text === "string"
+      ? text.split("\n").map((line, index) => (
+          <span className="block" key={index}>{index === 0 ? line : <em className="italic">{line}</em>}</span>
+        ))
+      : italicWord && typeof text === "string"
       ? text.split(new RegExp(`(\\b${italicWord}\\b)`, "gi")).map((part, index) =>
           part.toLowerCase() === italicWord.toLowerCase() ? (
             <em className="italic" key={index}>

@@ -116,8 +116,8 @@ export function EventsShowcase() {
               />
               <div className="pointer-events-none absolute inset-0 bg-black/50" />
               <div className="relative z-10 p-8">
-                <h3 className="font-header-stencil text-4xl">
-                  <EditableText field={`home.events.item${index}.copy`}>
+                <h3 className="font-header-stencil text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
+                  <EditableText field={`home.events.item${index}.copy`} italicAfterFirstLine>
                     {event.description.join("\n")}
                   </EditableText>
                 </h3>
