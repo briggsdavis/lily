@@ -78,7 +78,7 @@ export function ScrollRevealImage() {
 
   return (
     <section
-      className={editing ? "relative h-svh bg-mauve" : "relative h-[280svh] bg-mauve"}
+      className={editing ? "relative h-svh bg-dark-maroon" : "relative h-[280svh] bg-dark-maroon"}
       data-nav-tone="image"
       ref={sectionRef}
       style={initialProgress}
@@ -100,12 +100,12 @@ export function ScrollRevealImage() {
           <>
             <div
               aria-hidden="true"
-              className="absolute inset-y-0 left-0 w-[calc(50%+1px)] bg-mauve will-change-transform"
+              className="absolute inset-y-0 left-0 w-[calc(50%+1px)] bg-dark-maroon will-change-transform"
               style={leftWallPosition}
             />
             <div
               aria-hidden="true"
-              className="absolute inset-y-0 right-0 w-[calc(50%+1px)] bg-mauve will-change-transform"
+              className="absolute inset-y-0 right-0 w-[calc(50%+1px)] bg-dark-maroon will-change-transform"
               style={rightWallPosition}
             />
           </>
