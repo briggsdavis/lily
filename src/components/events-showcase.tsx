@@ -116,7 +116,7 @@ export function EventsShowcase() {
               />
               <div className="pointer-events-none absolute inset-0 bg-black/50" />
               <div className="relative z-10 p-8">
-                <h3 className="font-header-stencil text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
+                <h3 className="font-demibold text-3xl leading-[1.08] font-semibold uppercase md:text-4xl lg:text-5xl">
                   <EditableText field={`home.events.item${index}.copy`} italicAfterFirstLine>
                     {event.description.join("\n")}
                   </EditableText>
@@ -158,7 +158,7 @@ export function EventsShowcase() {
                       className={`col-start-1 row-start-1 transition-[opacity,filter] duration-[1200ms] ease-lily ${index === active ? "opacity-100 blur-none" : "pointer-events-none opacity-0 blur-md"}`}
                       key={index}
                     >
-                      <p className="font-header-stencil text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
+                      <p className="font-demibold text-3xl leading-[1.08] font-semibold uppercase md:text-4xl lg:text-5xl">
                         {event.description.map((line, index) => (
                           <span className="block" key={index}>
                             {index === 0 ? line : <em className="italic">{line}</em>}
