@@ -4,14 +4,16 @@ import { AboutHero } from "@/components/about-hero"
 import { AboutMarquee } from "@/components/about-marquee"
 import { AboutPeople } from "@/components/about-people"
 import { AboutTimeline } from "@/components/about-timeline"
-import { ColorSection } from "@/components/page-content"
+import { ColorSection, usePageContent } from "@/components/page-content"
 
 export function AboutContent() {
+  const content = usePageContent()
+  const timelineVisible = content?.fields["about.timeline.visible"] !== "false"
   return (
     <div>
       <AboutHero />
 
-      <AboutTimeline />
+      {(content?.editing || timelineVisible) && <AboutTimeline />}
 
       <AboutMarquee />
 

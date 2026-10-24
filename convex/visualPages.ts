@@ -50,6 +50,8 @@ export const save = mutation({
         : undefined
       if (!kind || (key.endsWith(".href") && kind !== "button"))
         throw new ConvexError("Unknown page field")
+      if (kind === "toggle" && value !== "true" && value !== "false")
+        throw new ConvexError("Invalid section visibility")
       if (kind === "button" && !key.endsWith(".href") && !value.trim())
         throw new ConvexError("Button text cannot be empty")
       if (value.length > 10000) throw new ConvexError("Text is too long")

@@ -1,7 +1,7 @@
 export type EditablePage = "home" | "about"
 export type PageFields = Record<string, string>
 export type DraftMedia = { key: string; storageId: string; url: string; kind: "image" | "video" }
-export type FieldKind = "text" | "button" | "color"
+export type FieldKind = "text" | "button" | "color" | "toggle"
 export const pageFieldKinds: Record<EditablePage, Record<string, FieldKind>> = {
   home: {
     "home.hero.heading": "text",
@@ -54,6 +54,7 @@ export const pageFieldKinds: Record<EditablePage, Record<string, FieldKind>> = {
     "home.private3.button": "button",
   },
   about: {
+    "about.timeline.visible": "toggle",
     "about.people.color": "color",
     "about.hero.text1": "text",
     "about.hero.text2": "text",

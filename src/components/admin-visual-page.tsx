@@ -172,7 +172,27 @@ export function VisualPage({
             {dirty ? "Unsaved changes" : "Published page"} · Click text, buttons, or images to edit.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {page === "about" && (
+            <label className="mr-3 flex items-center gap-2 text-sm">
+              <span>Timeline section</span>
+              <button
+                type="button"
+                role="switch"
+                aria-label="Show timeline on the public About page"
+                aria-checked={fields["about.timeline.visible"] !== "false"}
+                disabled={saving || conflict}
+                onClick={() => setFields((current) => ({
+                  ...current,
+                  "about.timeline.visible": current["about.timeline.visible"] === "false" ? "true" : "false",
+                }))}
+                className={`flex h-6 w-11 items-center rounded-full p-1 transition-colors disabled:opacity-50 ${fields["about.timeline.visible"] !== "false" ? "bg-dark-maroon" : "bg-deep-brown/25"}`}
+              >
+                <span className={`size-4 rounded-full bg-white transition-transform ${fields["about.timeline.visible"] !== "false" ? "translate-x-5" : "translate-x-0"}`} />
+              </button>
+              <span>{fields["about.timeline.visible"] === "false" ? "Off" : "On"}</span>
+            </label>
+          )}
           <AdminButton kind="secondary" onClick={discard} disabled={saving}>
             {conflict ? "Reload published page" : "Discard changes"}
           </AdminButton>
@@ -184,6 +204,11 @@ export function VisualPage({
           </AdminButton>
         </div>
       </header>
+      {page === "about" && fields["about.timeline.visible"] === "false" && (
+        <p className="mb-4 rounded-lg bg-deep-brown/5 p-3 text-sm">
+          The timeline is hidden on the public page after saving. It remains visible here so you can edit it.
+        </p>
+      )}
       {conflict && (
         <p className="mb-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm">
           This page has been updated since you opened it. Reload the published page before saving to
