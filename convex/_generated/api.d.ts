@@ -14,6 +14,7 @@ import type * as adminGuard from "../adminGuard.js";
 import type * as analytics from "../analytics.js";
 import type * as auth from "../auth.js";
 import type * as cms from "../cms.js";
+import type * as emails from "../emails.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as inquiries from "../inquiries.js";
@@ -34,6 +35,7 @@ declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   auth: typeof auth;
   cms: typeof cms;
+  emails: typeof emails;
   files: typeof files;
   http: typeof http;
   inquiries: typeof inquiries;
@@ -68,4 +70,6 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
+};

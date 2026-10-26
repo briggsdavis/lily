@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAdmin } from "./adminGuard"
+import { notifyInbox } from "./emails"
 
 export const submitContact = mutation({
   args: {
@@ -14,13 +15,31 @@ export const submitContact = mutation({
     specialRequests: v.optional(v.string()),
     time: v.optional(v.string()),
   },
-  handler: async (ctx, args) =>
-    ctx.db.insert("contactInquiries", {
+  handler: async (ctx, args) => {
+    const id = await ctx.db.insert("contactInquiries", {
       ...args,
       archived: false,
       createdAt: Date.now(),
       read: false,
-    }),
+    })
+    await notifyInbox(ctx, {
+      fields: [
+        ["Reason", args.reason],
+        ["Name", args.name],
+        ["Email", args.email],
+        ["Phone", args.phone],
+        ["Date", args.date],
+        ["Time", args.time],
+        ["Guests", args.guests],
+        ["Message", args.message],
+        ["Special requests", args.specialRequests],
+      ],
+      idempotencyKey: `contact:${id}`,
+      replyTo: args.email,
+      subject: `New ${args.reason} inquiry from ${args.name}`,
+    })
+    return id
+  },
 })
 
 export const submitCatering = mutation({
@@ -39,13 +58,35 @@ export const submitCatering = mutation({
     serviceTime: v.string(),
     specialInstructions: v.optional(v.string()),
   },
-  handler: async (ctx, args) =>
-    ctx.db.insert("cateringInquiries", {
+  handler: async (ctx, args) => {
+    const id = await ctx.db.insert("cateringInquiries", {
       ...args,
       archived: false,
       createdAt: Date.now(),
       read: false,
-    }),
+    })
+    await notifyInbox(ctx, {
+      fields: [
+        ["Name", args.fullName],
+        ["Email", args.email],
+        ["Phone", args.phone],
+        ["Event date", args.eventDate],
+        ["Service time", args.serviceTime],
+        ["Guests", args.guestCount],
+        ["Occasion", args.occasion],
+        ["Fulfillment", args.fulfillment === "onsite" ? "On site" : "Off site"],
+        ["Delivery address", args.deliveryAddress],
+        ["Menu", args.menuSelection],
+        ["Dietary restrictions", args.dietaryRestrictions.join(", ")],
+        ["Dietary notes", args.dietaryNotes],
+        ["Special instructions", args.specialInstructions],
+      ],
+      idempotencyKey: `catering:${id}`,
+      replyTo: args.email,
+      subject: `New catering inquiry from ${args.fullName}`,
+    })
+    return id
+  },
 })
 
 export const listContact = query({
