@@ -182,13 +182,18 @@ export function VisualPage({
                 aria-label="Show timeline on the public About page"
                 aria-checked={fields["about.timeline.visible"] !== "false"}
                 disabled={saving || conflict}
-                onClick={() => setFields((current) => ({
-                  ...current,
-                  "about.timeline.visible": current["about.timeline.visible"] === "false" ? "true" : "false",
-                }))}
+                onClick={() =>
+                  setFields((current) => ({
+                    ...current,
+                    "about.timeline.visible":
+                      current["about.timeline.visible"] === "false" ? "true" : "false",
+                  }))
+                }
                 className={`flex h-6 w-11 items-center rounded-full p-1 transition-colors disabled:opacity-50 ${fields["about.timeline.visible"] !== "false" ? "bg-dark-maroon" : "bg-deep-brown/25"}`}
               >
-                <span className={`size-4 rounded-full bg-white transition-transform ${fields["about.timeline.visible"] !== "false" ? "translate-x-5" : "translate-x-0"}`} />
+                <span
+                  className={`size-4 rounded-full bg-white transition-transform ${fields["about.timeline.visible"] !== "false" ? "translate-x-5" : "translate-x-0"}`}
+                />
               </button>
               <span>{fields["about.timeline.visible"] === "false" ? "Off" : "On"}</span>
             </label>
@@ -206,7 +211,8 @@ export function VisualPage({
       </header>
       {page === "about" && fields["about.timeline.visible"] === "false" && (
         <p className="mb-4 rounded-lg bg-deep-brown/5 p-3 text-sm">
-          The timeline is hidden on the public page after saving. It remains visible here so you can edit it.
+          The timeline is hidden on the public page after saving. It remains visible here so you can
+          edit it.
         </p>
       )}
       {conflict && (
