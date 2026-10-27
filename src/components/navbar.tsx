@@ -9,6 +9,8 @@ import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, SyntheticEvent } 
 import { TransitionLink } from "@/components/transition-link"
 import { menuCategories } from "@/data/menu"
 import { siteRoutes, topLevelPath } from "@/data/site-navigation"
+import { useDisabledPages } from "@/components/page-visibility"
+import { isPageEnabled } from "@/lib/page-visibility"
 import { publicMenuPagesRef } from "@/lib/admin-api"
 
 type NavCategory = {
@@ -19,7 +21,13 @@ type NavCategory = {
   slug: string
 }
 
-export function Navbar({ categories = menuCategories }: { categories?: readonly NavCategory[] }) {
+export function Navbar({ categories: allCategories = menuCategories }: { categories?: readonly NavCategory[] }) {
+  const disabled = useDisabledPages()
+  const categories = useMemo(
+    () => allCategories.filter((category) => isPageEnabled(`/menu/${category.slug}`, disabled)),
+    [allCategories, disabled],
+  )
+  const routes = siteRoutes.filter((route) => isPageEnabled(route.href, disabled))
   const pathname = usePathname()
   const current = topLevelPath(pathname)
   const routeMenuCategory = Math.max(
@@ -106,7 +114,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
         inert={!menuOpen}
       >
         <ul className="flex flex-1 flex-col justify-center divide-y divide-cream/15">
-          {siteRoutes.map((route, index) => (
+          {routes.map((route, index) => (
             <li
               className={`transition-[opacity,transform] duration-700 ease-lily ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
               key={route.href}
@@ -131,7 +139,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
           className={`flex min-h-12 items-center justify-center rounded-full bg-pink px-7 text-sm font-semibold text-dark-green uppercase transition-[opacity,transform] duration-700 ease-lily active:scale-[0.98] ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
           href="/contact?reason=reservation"
           onNavigate={closeMenu}
-          style={{ transitionDelay: menuOpen ? `${120 + siteRoutes.length * 60}ms` : "0ms" }}
+          style={{ transitionDelay: menuOpen ? `${120 + routes.length * 60}ms` : "0ms" }}
         >
           Reserve a table
         </TransitionLink>
@@ -194,7 +202,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
           </div>
 
           <ul className="hidden w-max items-center gap-8 md:flex">
-            {siteRoutes.map((route) => (
+            {routes.map((route) => (
               <li className="shrink-0" key={route.href}>
                 <TransitionLink
                   aria-current={route.href === current ? "page" : undefined}

@@ -12,6 +12,8 @@ import {
   useRef,
   useState,
 } from "react"
+import { useDisabledPages } from "@/components/page-visibility"
+import { isPageEnabled } from "@/lib/page-visibility"
 import { PillButton } from "@/components/pill-button"
 
 const guestOptions = Array.from({ length: 8 }, (_, index) => index + 1)
@@ -130,6 +132,10 @@ export function ReservationForm({
     time?: string
   }) => Promise<unknown>
 }) {
+  const disabledPages = useDisabledPages()
+  const eventsEnabled = isPageEnabled("/events", disabledPages)
+  const availableInquiryOptions = inquiryOptions.filter((option) => option.value !== "events" || eventsEnabled)
+
   const [today] = useState(() => {
     const value = new Date()
     value.setHours(0, 0, 0, 0)
@@ -289,8 +295,8 @@ export function ReservationForm({
         className="min-w-0"
       >
         <legend className="mb-3 eyebrow">Reason for inquiry</legend>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:gap-3">
-          {inquiryOptions.map((option) => (
+        <div className={`grid grid-cols-1 gap-2 lg:gap-3 ${eventsEnabled ? "sm:grid-cols-3" : ""}`}>
+          {availableInquiryOptions.map((option) => (
             <button
               aria-pressed={inquiryReason === option.value}
               className={`group relative isolate inline-flex min-h-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[1.5px] border-current px-3 py-2.5 text-xs font-bold uppercase outline-none ${reasonError ? "ring-1 ring-pink" : ""}`}

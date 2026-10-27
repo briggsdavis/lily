@@ -14,11 +14,7 @@ export default function SiteLink({
   const disabled = useDisabledPages()
   const path = typeof href === "string" ? href : (href.pathname ?? "")
   if (path.startsWith("/") && !path.startsWith("//") && !isPageEnabled(path, disabled)) {
-    return (
-      <span aria-disabled="true" className={className}>
-        {children}
-      </span>
-    )
+    return null
   }
   return (
     <Link href={href} className={className} {...props}>

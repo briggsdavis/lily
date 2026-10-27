@@ -23,6 +23,7 @@ const heroIntroScript = {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://lilykitchenandcocktails.com"),
   title: { default: "Lily", template: "%s • Lily" },
   description:
     "Lily is an intimate dining room and cocktail bar in Gibsonia, serving seasonal cooking and considered cocktails with polished service.",

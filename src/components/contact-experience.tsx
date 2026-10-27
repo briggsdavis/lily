@@ -3,6 +3,8 @@ import { useMutation } from "convex/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { flushSync } from "react-dom"
+import { useDisabledPages } from "@/components/page-visibility"
+import { isPageEnabled } from "@/lib/page-visibility"
 import { LayeredMedia } from "@/components/layered-media"
 import { usePageMedia } from "@/components/page-media"
 import { InquiryReason, ReservationForm } from "@/components/reservation-form"
@@ -86,6 +88,8 @@ function VerticalTitle({ children }: { children: string }) {
 }
 
 export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: SubmitContact } = {}) {
+  const disabledPages = useDisabledPages()
+  const eventsEnabled = isPageEnabled("/events", disabledPages)
   const savedMedia = usePageMedia()
   const inquiryVisuals = defaultinquiryVisuals.map((item, index) => ({
     ...item,
@@ -99,7 +103,7 @@ export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: Submi
   const searchParams = useSearchParams()
   const queryReason = searchParams.get("reason")
   const inquiryReason: InquiryReason =
-    queryReason === "reservation" || queryReason === "events" || queryReason === "general"
+    queryReason === "reservation" || (queryReason === "events" && eventsEnabled) || queryReason === "general"
       ? queryReason
       : null
 

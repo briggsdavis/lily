@@ -16,8 +16,8 @@ export function AdminPageToggle({ path, label }: { path: string; label: string }
         type="button"
         role="switch"
         aria-checked={enabled}
-        aria-label={`${label} page links`}
-        title={`${enabled ? "Disable" : "Enable"} ${label} page links`}
+        aria-label={`${label} page`}
+        title={`${enabled ? "Disable" : "Enable"} ${label} page`}
         disabled={busy || disabled === undefined}
         onClick={async () => {
           setBusy(true)
