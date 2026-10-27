@@ -54,9 +54,9 @@ export default function PrivacyPage() {
         <Section title="Your choices">
           <p>
             You may ask to access, correct, or delete your personal information by contacting us at
-            <a className="border-b border-current" href="mailto:hello@lilyrestaurant.com">
+            <a className="border-b border-current" href="mailto:lily@neverskiphg.com">
               {" "}
-              hello@lilyrestaurant.com
+              lily@neverskiphg.com
             </a>
             .
           </p>

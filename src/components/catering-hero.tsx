@@ -15,7 +15,7 @@ export function CateringHero() {
       src={hero}
     >
       <div className="grid h-full place-items-center px-page pt-24 pb-10 text-center">
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex w-full max-w-full flex-col items-center gap-6">
           <Image
             alt="Lily Kitchen and Cocktails"
             className="h-auto w-28 reveal-delay-120 md:w-36 lg:w-40"
@@ -27,7 +27,7 @@ export function CateringHero() {
             width={1465}
           />
           <h1
-            className="font-header-stencil text-[clamp(2rem,8vw,3.6rem)] leading-none whitespace-nowrap reveal-delay-240"
+            className="max-w-full font-header-stencil text-[clamp(2rem,8vw,3.6rem)] leading-none text-balance reveal-delay-240 md:whitespace-nowrap"
             data-reveal
           >
             Catering for the table.

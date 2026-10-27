@@ -118,12 +118,7 @@ export function Navbar({ categories = menuCategories }: { categories?: readonly 
                 href={route.href}
                 onNavigate={closeMenu}
               >
-                <span className="flex items-baseline gap-4">
-                  <span className="font-sans text-xs font-bold tracking-[0.08em] text-cream/45">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {route.label}
-                </span>
+                <span>{route.label}</span>
                 <ArrowUpRightIcon
                   aria-hidden="true"
                   className="size-6 shrink-0 transition-transform duration-300 group-active:translate-x-0.5 group-active:-translate-y-0.5"

@@ -78,7 +78,7 @@ export function Footer() {
             </nav>
 
             <div className="flex shrink-0 flex-col items-center gap-1 text-xs lg:items-end lg:text-right">
-              <p>hello@lilyrestaurant.com</p>
+              <p>lily@neverskiphg.com</p>
               <p>(724) 502-4572</p>
               <p>Tue-Sat, 4:30-9:00 PM</p>
               <address className="not-italic">

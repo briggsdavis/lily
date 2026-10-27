@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "@phosphor-icons/react"
+import { ArrowLeftIcon, ArrowRightIcon, PlusIcon, XIcon } from "@phosphor-icons/react"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -194,12 +194,11 @@ function EventList({
                 </span>
                 <span className="mt-1 block text-sm text-cream/60">{event.time}</span>
               </span>
-              <span
+              <PlusIcon
                 aria-hidden="true"
-                className={`text-xl transition-transform duration-500 ${isExpanded ? "rotate-45" : "rotate-0"}`}
-              >
-                +
-              </span>
+                className="size-5 shrink-0 origin-center transition-transform duration-500 will-change-transform"
+                style={{ transform: isExpanded ? "rotate(45deg)" : "rotate(0deg)" }}
+              />
             </button>
 
             <div
@@ -671,14 +670,33 @@ function EventsView({ events }: { events: readonly LilyEvent[] }) {
                       : []
                     return (
                       <div
-                        className="min-h-20 border-r border-b border-pink/35 p-1 sm:min-h-28 sm:p-2 md:p-3 xl:min-h-32"
+                        className="relative min-h-14 border-r border-b border-pink/35 sm:min-h-28 sm:p-2 md:p-3 xl:min-h-32"
                         key={key}
                       >
-                        {day ? <p className="mb-2 text-xs text-cream/55">{day}</p> : null}
+                        {day ? (
+                          <button
+                            aria-label={`${monthFormatter.format(calendarMonth)} ${day}, ${dayEvents.length} ${dayEvents.length === 1 ? "event" : "events"}`}
+                            aria-pressed={dayEvents.some(({ index }) => index === calendarEvent)}
+                            className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-1.5 text-sm text-cream/70 transition-colors disabled:cursor-default aria-pressed:bg-pink aria-pressed:text-dark-green sm:hidden"
+                            data-calendar-event={dayEvents[0]?.index}
+                            disabled={dayEvents.length === 0}
+                            onClick={selectCalendarEvent}
+                            type="button"
+                          >
+                            {day}
+                            <span
+                              aria-hidden="true"
+                              className={`size-1.5 rounded-full ${dayEvents.length ? "bg-pink in-aria-pressed:bg-dark-green" : "bg-transparent"}`}
+                            />
+                          </button>
+                        ) : null}
+                        {day ? (
+                          <p className="mb-2 hidden text-xs text-cream/55 sm:block">{day}</p>
+                        ) : null}
                         {dayEvents.map(({ event, index }) => (
                           <button
                             aria-pressed={calendarEvent === index}
-                            className="w-full cursor-pointer overflow-hidden border-l-2 border-pink bg-pink/10 px-1 py-1 text-left transition-colors hover:bg-pink hover:text-dark-green aria-pressed:bg-pink aria-pressed:text-dark-green sm:px-2 sm:py-1.5"
+                            className="hidden w-full cursor-pointer overflow-hidden border-l-2 border-pink bg-pink/10 px-1 py-1 text-left transition-colors hover:bg-pink hover:text-dark-green aria-pressed:bg-pink aria-pressed:text-dark-green sm:block sm:px-2 sm:py-1.5"
                             data-calendar-event={index}
                             key={`${event.title}-${event.year}-${event.month}-${event.day}-${index}`}
                             onClick={selectCalendarEvent}

@@ -2,6 +2,8 @@ import { Resend } from "@convex-dev/resend"
 import { components } from "./_generated/api"
 import { env, type MutationCtx } from "./_generated/server"
 
+const INQUIRY_RECIPIENTS = ["lily@neverskiphg.com", "events@neverskiphg.com"]
+
 function formatLines(fields: [string, string | number | undefined][]) {
   return fields
     .filter(([, value]) => value !== undefined && value !== "")
@@ -18,9 +20,9 @@ export async function notifyInbox(
     subject: string
   },
 ) {
-  const { EMAIL_FROM: from, INQUIRY_EMAIL: to, RESEND_API_KEY: apiKey } = env
-  if (!apiKey || !from || !to) {
-    console.warn("Skipping inquiry email: missing RESEND_API_KEY, EMAIL_FROM, or INQUIRY_EMAIL")
+  const { EMAIL_FROM: from, RESEND_API_KEY: apiKey } = env
+  if (!apiKey || !from) {
+    console.warn("Skipping inquiry email: missing RESEND_API_KEY or EMAIL_FROM")
     return
   }
 
@@ -31,6 +33,6 @@ export async function notifyInbox(
     replyTo: [args.replyTo],
     subject: args.subject,
     text: formatLines(args.fields),
-    to,
+    to: INQUIRY_RECIPIENTS,
   })
 }
