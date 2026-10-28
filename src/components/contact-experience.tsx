@@ -3,13 +3,13 @@ import { useMutation } from "convex/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { flushSync } from "react-dom"
-import { useDisabledPages } from "@/components/page-visibility"
-import { isPageEnabled } from "@/lib/page-visibility"
 import { LayeredMedia } from "@/components/layered-media"
 import { usePageMedia } from "@/components/page-media"
+import { useDisabledPages } from "@/components/page-visibility"
 import { InquiryReason, ReservationForm } from "@/components/reservation-form"
 import { RotatingCrest } from "@/components/rotating-crest"
 import { submitContactRef } from "@/lib/admin-api"
+import { isPageEnabled } from "@/lib/page-visibility"
 
 const visualTitles: Record<Exclude<InquiryReason, null>, string> = {
   reservation: "Reservations",
@@ -103,7 +103,9 @@ export function ContactExperience({ onSubmitInquiry }: { onSubmitInquiry?: Submi
   const searchParams = useSearchParams()
   const queryReason = searchParams.get("reason")
   const inquiryReason: InquiryReason =
-    queryReason === "reservation" || (queryReason === "events" && eventsEnabled) || queryReason === "general"
+    queryReason === "reservation" ||
+    (queryReason === "events" && eventsEnabled) ||
+    queryReason === "general"
       ? queryReason
       : null
 

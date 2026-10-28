@@ -6,12 +6,12 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, SyntheticEvent } from "react"
+import { useDisabledPages } from "@/components/page-visibility"
 import { TransitionLink } from "@/components/transition-link"
 import { menuCategories } from "@/data/menu"
 import { siteRoutes, topLevelPath } from "@/data/site-navigation"
-import { useDisabledPages } from "@/components/page-visibility"
-import { isPageEnabled } from "@/lib/page-visibility"
 import { publicMenuPagesRef } from "@/lib/admin-api"
+import { isPageEnabled } from "@/lib/page-visibility"
 
 type NavCategory = {
   description: string
@@ -21,7 +21,11 @@ type NavCategory = {
   slug: string
 }
 
-export function Navbar({ categories: allCategories = menuCategories }: { categories?: readonly NavCategory[] }) {
+export function Navbar({
+  categories: allCategories = menuCategories,
+}: {
+  categories?: readonly NavCategory[]
+}) {
   const disabled = useDisabledPages()
   const categories = useMemo(
     () => allCategories.filter((category) => isPageEnabled(`/menu/${category.slug}`, disabled)),

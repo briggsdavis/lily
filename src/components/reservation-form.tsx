@@ -13,8 +13,8 @@ import {
   useState,
 } from "react"
 import { useDisabledPages } from "@/components/page-visibility"
-import { isPageEnabled } from "@/lib/page-visibility"
 import { PillButton } from "@/components/pill-button"
+import { isPageEnabled } from "@/lib/page-visibility"
 
 const guestOptions = Array.from({ length: 8 }, (_, index) => index + 1)
 const timeOptions = [
@@ -134,7 +134,9 @@ export function ReservationForm({
 }) {
   const disabledPages = useDisabledPages()
   const eventsEnabled = isPageEnabled("/events", disabledPages)
-  const availableInquiryOptions = inquiryOptions.filter((option) => option.value !== "events" || eventsEnabled)
+  const availableInquiryOptions = inquiryOptions.filter(
+    (option) => option.value !== "events" || eventsEnabled,
+  )
 
   const [today] = useState(() => {
     const value = new Date()
