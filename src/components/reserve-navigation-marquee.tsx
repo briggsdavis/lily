@@ -1,5 +1,9 @@
+"use client"
+
 import Image from "next/image"
+import { useDisabledPages } from "@/components/page-visibility"
 import { TransitionLink } from "@/components/transition-link"
+import { isPageEnabled } from "@/lib/page-visibility"
 
 const marqueeRoutes = [
   { href: "/", label: "Home" },
@@ -11,12 +15,14 @@ const marqueeRoutes = [
 ] as const
 
 function MarqueeGroup({ copy = false }: { copy?: boolean }) {
+  const disabled = useDisabledPages()
+  const routes = marqueeRoutes.filter((route) => isPageEnabled(route.href, disabled))
   return (
     <div
       aria-hidden={copy || undefined}
       className={`reserve-navigation-group flex shrink-0 items-center gap-[0.22em] pr-[0.22em] ${copy ? "reserve-navigation-copy" : ""}`}
     >
-      {marqueeRoutes.map((route) => (
+      {routes.map((route) => (
         <div className="flex shrink-0 items-center gap-[0.22em]" key={route.href}>
           <TransitionLink
             aria-hidden={copy || undefined}
