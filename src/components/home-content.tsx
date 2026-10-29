@@ -10,8 +10,12 @@ import { PillLink } from "@/components/pill-button"
 import { RotatingCrest } from "@/components/rotating-crest"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
 import { ScrollTilt } from "@/components/scroll-tilt"
+import { useDisabledPages } from "@/components/page-visibility"
+import { isPageEnabled } from "@/lib/page-visibility"
 
 export function HomeContent() {
+  const disabledPages = useDisabledPages()
+
   return (
     <div>
       <div className="relative">
@@ -235,7 +239,7 @@ export function HomeContent() {
         <HeroSoundToggle mediaKey="home.cooking" />
       </section>
 
-      <EventsShowcase />
+      {isPageEnabled("/events", disabledPages) && <EventsShowcase />}
 
       <PrivateEventCta />
 
