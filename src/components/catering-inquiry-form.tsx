@@ -82,7 +82,7 @@ export function CateringInquiryForm({
         })
         setSubmitted(true)
       } catch {
-        setSubmitError("We could not send your inquiry. Please try again.")
+        setSubmitError("Something went wrong.\nPlease try again or call us at (724) 502-4572.")
       } finally {
         setSubmitting(false)
       }
@@ -160,16 +160,12 @@ export function CateringInquiryForm({
                 aria-live="polite"
               >
                 <div>
-                  <p className="eyebrow text-pink">All three sections complete</p>
-                  <p className="mt-4 font-header-stencil text-4xl md:text-5xl">
-                    Your catering inquiry is ready.
-                  </p>
-                  <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-cream/65">
-                    Thank you for sharing the details of your gathering with Lily.
-                  </p>
-                  <PillButton className="mt-8" color="cream" onClick={restart}>
+                  <PillButton color="cream" onClick={restart}>
                     Start another
                   </PillButton>
+                  <output className="mx-auto mt-4 block max-w-md text-sm leading-7 whitespace-pre-line text-cream/65">
+                    {"Thanks for telling us about your event.\nWe’ll be in touch within two business days to talk through the menu and timing.\nNeed us sooner? Call (724) 502-4572."}
+                  </output>
                 </div>
               </div>
             ) : (
@@ -366,7 +362,7 @@ export function CateringInquiryForm({
                   </PillButton>
                 </div>
                 {submitError ? (
-                  <p className="text-sm text-pink" role="alert">
+                  <p className="text-sm whitespace-pre-line text-pink" role="alert">
                     {submitError}
                   </p>
                 ) : null}

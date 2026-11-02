@@ -225,7 +225,7 @@ export function ReservationForm({
         setSubmitted(true)
         form.reset()
       } catch {
-        setSubmitError("We could not send your inquiry. Please try again.")
+        setSubmitError("Something went wrong.\nPlease try again or call us at (724) 502-4572.")
       } finally {
         setSubmitting(false)
       }
@@ -562,16 +562,16 @@ export function ReservationForm({
       </div>
 
       {submitError ? (
-        <p className="text-sm text-pink" role="alert">
+        <p className="text-sm whitespace-pre-line text-pink" role="alert">
           {submitError}
         </p>
       ) : null}
 
       {submitted && (
-        <output className="border-l-2 border-current pl-3 text-sm">
+        <output className="border-l-2 border-current pl-3 text-sm whitespace-pre-line">
           {inquiryReason === "reservation"
-            ? "Thank you. Your reservation request is ready to send."
-            : "Thank you. Your inquiry is ready to send."}
+            ? "Thanks, we’ll be in touch.\nWe’ll confirm by email within one business day. Your table is confirmed once you hear from us.\nNeed us sooner? Call (724) 502-4572."
+            : "Thanks for reaching out.\nWe’ll reply within one business day.\nNeed us sooner? Call (724) 502-4572."}
         </output>
       )}
     </form>
