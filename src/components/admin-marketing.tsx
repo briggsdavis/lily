@@ -394,28 +394,46 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
                   {popup.layout !== "none" && (
                     <div className="grid gap-4">
                       <Field label="Image upload">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          disabled={uploading || busy}
-                          onChange={async (e) => {
-                            const file = e.target.files?.[0]
-                            e.target.value = ""
-                            if (!file) return
-                            setUploading(true)
-                            await task(async () => {
-                              const result = await upload(file)
-                              setPopup((current) => ({
-                                ...current,
-                                imageId: result.storageId as Id<"_storage">,
-                              }))
-                              setImageUrl(result.url)
-                            })
-                            setUploading(false)
-                          }}
-                          className={adminInput}
-                        />
+                        <span className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                          <input
+                            type="file"
+                            aria-describedby="popup-image-guidance"
+                            accept="image/*"
+                            disabled={uploading || busy}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0]
+                              e.target.value = ""
+                              if (!file) return
+                              setUploading(true)
+                              await task(async () => {
+                                const result = await upload(file)
+                                setPopup((current) => ({
+                                  ...current,
+                                  imageId: result.storageId as Id<"_storage">,
+                                }))
+                                setImageUrl(result.url)
+                              })
+                              setUploading(false)
+                            }}
+                            className={`${adminInput} min-w-0 flex-1`}
+                          />
+                          <span
+                            id="popup-image-guidance"
+                            className="shrink-0 text-xs font-normal text-deep-brown/65"
+                          >
+                            Suggested ratio:{" "}
+                            {popup.layout === "top"
+                              ? "about 2:1 (landscape)"
+                              : "about 3:4 (portrait)"}
+                          </span>
+                        </span>
                       </Field>
+                      {(popup.layout === "left" || popup.layout === "right") && (
+                        <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-900">
+                          Aspect ratio changes depending on how much you write. The image is cropped
+                          to fit the pop-up.
+                        </p>
+                      )}
                       {uploading && <output>Uploading…</output>}
                     </div>
                   )}
