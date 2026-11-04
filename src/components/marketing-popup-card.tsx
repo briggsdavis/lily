@@ -65,7 +65,7 @@ export function MarketingPopupCard({
           type="button"
           aria-label="Close pop-up"
           onClick={onClose}
-          className="absolute top-3 right-3 z-10 grid size-11 cursor-pointer place-items-center rounded-full border-0 bg-cream bg-none p-0 text-wine shadow-none outline-none"
+          className="absolute top-3 right-3 z-10 grid size-11 cursor-pointer place-items-center rounded-full border-0 bg-cream bg-none p-0 text-wine shadow-none outline-none transition-colors duration-200 hover:bg-wine hover:text-cream motion-reduce:transition-none"
         >
           <XIcon aria-hidden="true" className="block size-5 shrink-0" />
         </button>
