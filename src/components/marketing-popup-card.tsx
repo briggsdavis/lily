@@ -1,4 +1,5 @@
 "use client"
+import { XIcon } from "@phosphor-icons/react"
 import Image from "next/image"
 import type { ReactNode } from "react"
 import { PillLink } from "@/components/pill-button"
@@ -35,7 +36,7 @@ export function MarketingPopupCard({
           {popup.imageUrl && (
             <Image
               src={popup.imageUrl}
-              alt={popup.imageAlt}
+              alt={popup.imageAlt || popup.title}
               fill
               sizes="(max-width: 768px) 92vw, 400px"
               className="object-cover"
@@ -64,9 +65,9 @@ export function MarketingPopupCard({
           type="button"
           aria-label="Close pop-up"
           onClick={onClose}
-          className="absolute top-3 right-3 z-10 grid size-11 cursor-pointer place-items-center rounded-full border border-wine/20 bg-cream text-2xl leading-none text-wine shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+          className="absolute top-3 right-3 z-10 grid size-11 cursor-pointer place-items-center rounded-full border border-wine/20 bg-cream p-0 text-wine shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
         >
-          ×
+          <XIcon aria-hidden="true" className="block size-5 shrink-0" />
         </button>
       )}
     </article>

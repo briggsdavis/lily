@@ -97,10 +97,11 @@ test("editing an active pop-up preserves its identity and supports all image lay
     ...popup,
     layout: "top",
     imageId,
-    imageAlt: "A table",
+    imageAlt: "",
     buttonText: "  View menu  ",
     buttonLink: "/menu",
   })
+  assert.equal((await t.query(api.marketing.published, {})).popup?.imageAlt, popup.title)
   for (const layout of ["left", "right", "top"] as const) {
     await admin.mutation(api.marketing.savePopup, {
       ...popup,

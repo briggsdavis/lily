@@ -80,8 +80,7 @@ export const savePopup = mutation({
     )
       throw new Error("A button needs both text and a valid link.")
     if (value.layout !== "none") {
-      if (!value.imageId || !value.imageAlt.trim())
-        throw new Error("Upload an image and enter its alt text.")
+      if (!value.imageId) throw new Error("Upload an image.")
       const file = await ctx.db.system.get(value.imageId)
       if (!file || mediaFileKind(file.contentType ?? "", file.size, false) !== "image")
         throw new Error(`Choose an uploaded image up to ${imageLimitMb} MB.`)
@@ -96,6 +95,7 @@ export const savePopup = mutation({
     const data = {
       ...value,
       imageId: value.layout === "none" ? undefined : value.imageId,
+      imageAlt: value.imageAlt.trim() || value.title.trim(),
       title: value.title.trim(),
       body: value.body.trim(),
       buttonText: value.buttonText.trim(),

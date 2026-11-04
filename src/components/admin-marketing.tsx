@@ -95,6 +95,7 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
     [id, setId] = useState<string | undefined>()
   const [announcement, setAnnouncement] = useState(blankAnnouncement),
     [popup, setPopup] = useState(blankPopup)
+  const [buttonEnabled, setButtonEnabled] = useState(false)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
@@ -118,6 +119,7 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
     setId(undefined)
     setAnnouncement(blankAnnouncement)
     setPopup(blankPopup)
+    setButtonEnabled(false)
     setImageUrl(null)
     setError("")
     setEditing(true)
@@ -134,6 +136,7 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
         active: row.active,
       })
     else {
+      setButtonEnabled(Boolean(row.buttonText && row.buttonLink))
       setPopup({
         title: row.title,
         body: row.body,
@@ -290,7 +293,13 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
                     ...announcement,
                     id: id as Id<"announcements"> | undefined,
                   })
-                else await savePopup({ ...popup, id: id as Id<"popups"> | undefined })
+                else
+                  await savePopup({
+                    ...popup,
+                    buttonText: buttonEnabled ? popup.buttonText : "",
+                    buttonLink: buttonEnabled ? popup.buttonLink : "",
+                    id: id as Id<"popups"> | undefined,
+                  })
                 setEditing(false)
               })
             }}
@@ -408,14 +417,6 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
                         />
                       </Field>
                       {uploading && <output>Uploading…</output>}
-                      <Field label="Image alt text">
-                        <input
-                          required
-                          className={adminInput}
-                          value={popup.imageAlt}
-                          onChange={(e) => setPopup({ ...popup, imageAlt: e.target.value })}
-                        />
-                      </Field>
                     </div>
                   )}
                   <Field label="Title">
@@ -437,24 +438,36 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
                       onChange={(e) => setPopup({ ...popup, body: e.target.value })}
                     />
                   </Field>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <Field label="Button text (optional)">
-                      <input
-                        required={Boolean(popup.buttonLink)}
-                        className={adminInput}
-                        value={popup.buttonText}
-                        onChange={(e) => setPopup({ ...popup, buttonText: e.target.value })}
-                      />
-                    </Field>
-                    <Field label="Button link">
-                      <input
-                        required={Boolean(popup.buttonText)}
-                        className={adminInput}
-                        value={popup.buttonLink}
-                        onChange={(e) => setPopup({ ...popup, buttonLink: e.target.value })}
-                      />
-                    </Field>
-                  </div>
+                  <label className="flex items-center gap-3 text-sm">
+                    <input
+                      type="checkbox"
+                      role="switch"
+                      aria-checked={buttonEnabled}
+                      checked={buttonEnabled}
+                      onChange={(e) => setButtonEnabled(e.target.checked)}
+                    />
+                    Enable button
+                  </label>
+                  {buttonEnabled && (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <Field label="Button text">
+                        <input
+                          required
+                          className={adminInput}
+                          value={popup.buttonText}
+                          onChange={(e) => setPopup({ ...popup, buttonText: e.target.value })}
+                        />
+                      </Field>
+                      <Field label="Button link">
+                        <input
+                          required
+                          className={adminInput}
+                          value={popup.buttonLink}
+                          onChange={(e) => setPopup({ ...popup, buttonLink: e.target.value })}
+                        />
+                      </Field>
+                    </div>
+                  )}
                   <label className="flex items-center gap-3 text-sm">
                     <input
                       type="checkbox"
@@ -467,7 +480,15 @@ export function AdminMarketing({ kind }: { kind: "announcements" | "popups" }) {
                     <p className="mb-3 text-xs font-semibold tracking-wide uppercase">
                       Live preview
                     </p>
-                    <MarketingPopupCard popup={{ ...popup, imageUrl }} onClose={() => {}}>
+                    <MarketingPopupCard
+                      popup={{
+                        ...popup,
+                        imageUrl,
+                        buttonText: buttonEnabled ? popup.buttonText : "",
+                        buttonLink: buttonEnabled ? popup.buttonLink : "",
+                      }}
+                      onClose={() => {}}
+                    >
                       {popup.captureEmail && (
                         <div className="flex flex-wrap gap-2">
                           <input
