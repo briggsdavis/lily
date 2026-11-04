@@ -4,6 +4,7 @@ import { usePageContent } from "@/components/page-content"
 import { TransitionLink } from "@/components/transition-link"
 
 const colorStyles = {
+  wineCream: { button: "text-cream", text: "text-wine", fill: "bg-cream" },
   burgundy: {
     button: "text-burgundy",
     text: "text-cream",
@@ -78,7 +79,9 @@ export function PillLink({
   field,
   color = "burgundy",
   href,
+  onNavigate,
 }: {
+  onNavigate?: () => void
   field?: string
   children: ReactNode
   color?: PillButtonColor
@@ -114,6 +117,7 @@ export function PillLink({
     <TransitionLink
       className={`group relative isolate inline-flex min-h-12 min-w-36 items-center justify-center overflow-hidden rounded-full border-[1.5px] border-current px-7 py-3 text-sm font-semibold uppercase transition-transform duration-700 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current active:scale-[0.98] ${styles.button}`}
       href={destination}
+      onNavigate={onNavigate}
     >
       <span className="relative text-center">{label}</span>
       <span

@@ -111,7 +111,10 @@ export function Navbar({
   }, [menuOpen])
 
   return (
-    <header className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-2 py-3 md:px-4 md:py-5">
+    <header
+      style={{ top: "var(--announcement-height, 0px)" }}
+      className="hero-intro-header pointer-events-none fixed inset-x-0 top-0 z-60 flex justify-center px-2 py-3 md:px-4 md:py-5"
+    >
       <div
         className={`pointer-events-auto fixed inset-0 flex flex-col bg-dark-maroon px-5 pt-24 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-cream transition-[opacity,visibility] duration-500 ease-lily md:hidden ${menuOpen ? "visible opacity-100" : "invisible opacity-0"}`}
         id="mobile-navigation"

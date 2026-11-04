@@ -103,6 +103,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const router = useRouter()
   const { signOut } = useAuthActions()
   const [open, setOpen] = useState(false)
+  const [marketingOpen, setMarketingOpen] = useState(true)
   const [pageEditorOpen, setPageEditorOpen] = useState(false)
   const [menuEditorOpen, setMenuEditorOpen] = useState(true)
   const [orderedPages, setOrderedPages] = useState<MenuPageRecord[]>([])
@@ -315,6 +316,26 @@ export function AdminShell({ children }: { children: ReactNode }) {
               </button>
             </div>
           </div>
+        </div>
+        <div>
+          <button
+            type="button"
+            aria-expanded={marketingOpen}
+            onClick={() => setMarketingOpen((value) => !value)}
+            className="mx-2 flex min-h-10 w-[calc(100%_-_1rem)] items-center justify-between rounded-lg px-3 text-sm font-medium text-white/75 hover:bg-white/8 hover:text-white"
+          >
+            Marketing <Chevron open={marketingOpen} />
+          </button>
+          {marketingOpen && (
+            <div className="pl-3">
+              <NavLink
+                href="/admin/marketing/announcements"
+                label="Announcement Bar"
+                onNavigate={close}
+              />
+              <NavLink href="/admin/marketing/popups" label="Pop-Ups" onNavigate={close} />
+            </div>
+          )}
         </div>
         {links.slice(1).map((link) => (
           <NavLink

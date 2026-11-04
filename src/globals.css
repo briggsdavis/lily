@@ -330,7 +330,8 @@
   font-display: swap;
 }
 
-@theme {
+/* Keep the full brand palette available to the admin color pickers. */
+@theme static {
   --color-burgundy: #614046;
   --color-pink: #c9a8b2;
   --color-dark-green: #3d494d;

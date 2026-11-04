@@ -26,9 +26,13 @@ export function TransitionLink({
         event.ctrlKey ||
         event.shiftKey ||
         event.altKey ||
-        typeof href !== "string" ||
-        href.startsWith("#")
+        typeof href !== "string"
       ) {
+        return
+      }
+
+      if (href.startsWith("#")) {
+        onNavigate?.()
         return
       }
 

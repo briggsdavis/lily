@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer"
 import { HeroIntroController } from "@/components/hero-intro-controller"
 import { ConnectedNavbar, Navbar } from "@/components/navbar"
 import { PageTransition } from "@/components/page-transition"
+import { PublicMarketing } from "@/components/public-marketing"
 import { ReserveCta } from "@/components/reserve-cta"
 import { ScrollEffects } from "@/components/scroll-effects"
 import { SiteBackground } from "@/components/site-background"
@@ -18,6 +19,7 @@ export function SiteFrame({ children }: { children: ReactNode }) {
 
   return (
     <SiteBackground>
+      {process.env.NEXT_PUBLIC_CONVEX_URL && <PublicMarketing />}
       <HeroIntroController />
       <PageTransition />
       <SmoothScroll />

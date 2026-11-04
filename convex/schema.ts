@@ -1,6 +1,7 @@
 import { authTables } from "@convex-dev/auth/server"
 import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
+import { announcementFields, popupFields } from "./marketingModel"
 
 const menuItem = v.object({
   description: v.string(),
@@ -27,6 +28,15 @@ const menuSection = v.object({
 
 export default defineSchema({
   ...authTables,
+  announcements: defineTable({ ...announcementFields, updatedAt: v.number() }).index("by_active", [
+    "active",
+  ]),
+  popups: defineTable({ ...popupFields, updatedAt: v.number() }).index("by_active", ["active"]),
+  marketingEmails: defineTable({
+    popupId: v.id("popups"),
+    popupTitle: v.string(),
+    email: v.string(),
+  }).index("by_popupId_and_email", ["popupId", "email"]),
   pageVisibility: defineTable({ path: v.string(), enabled: v.boolean() }).index("by_path", [
     "path",
   ]),

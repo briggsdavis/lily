@@ -18,6 +18,8 @@ import type * as emails from "../emails.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as inquiries from "../inquiries.js";
+import type * as marketing from "../marketing.js";
+import type * as marketingModel from "../marketingModel.js";
 import type * as pageMedia from "../pageMedia.js";
 import type * as pageVisibility from "../pageVisibility.js";
 import type * as visualPages from "../visualPages.js";
@@ -39,6 +41,8 @@ declare const fullApi: ApiFromModules<{
   files: typeof files;
   http: typeof http;
   inquiries: typeof inquiries;
+  marketing: typeof marketing;
+  marketingModel: typeof marketingModel;
   pageMedia: typeof pageMedia;
   pageVisibility: typeof pageVisibility;
   visualPages: typeof visualPages;
