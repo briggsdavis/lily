@@ -199,6 +199,24 @@ export const saveEvent = mutation({
   },
 })
 
+export const setEventActive = mutation({
+  args: { active: v.boolean(), id: v.id("events") },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx)
+    await ctx.db.patch(args.id, { active: args.active, updatedAt: Date.now() })
+    return null
+  },
+})
+
+export const deleteEvent = mutation({
+  args: { id: v.id("events") },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx)
+    await ctx.db.delete(args.id)
+    return null
+  },
+})
+
 export const setEventArchived = mutation({
   args: { archived: v.boolean(), id: v.id("events") },
   handler: async (ctx, args) => {

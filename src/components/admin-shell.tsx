@@ -347,6 +347,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
             onNavigate={close}
           />
         ))}
+        <hr className="mx-5 my-4 border-white/15" />
+        <NavLink href="/admin/faq" label="FAQ" onNavigate={close} />
       </nav>
       <button
         className="m-4 min-h-10 rounded-lg border border-white/15 px-3 text-left text-sm font-medium text-white/70 transition-colors hover:bg-white/8 hover:text-white"

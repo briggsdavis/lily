@@ -6,7 +6,8 @@ import { AdminButton, AdminHeader, AdminModal, ImageField, adminInput } from "@/
 import {
   adminEventsRef,
   saveEventRef,
-  setEventArchivedRef,
+  setEventActiveRef,
+  deleteEventRef,
   type EventRecord,
 } from "@/lib/admin-api"
 
@@ -28,10 +29,27 @@ const blankEvent = (): EditableEvent => ({
 export function AdminEvents() {
   const events = useQuery(adminEventsRef, { archived: false })
   const save = useMutation(saveEventRef)
-  const archive = useMutation(setEventArchivedRef)
+  const setActive = useMutation(setEventActiveRef)
+  const remove = useMutation(deleteEventRef)
+  const [pendingId, setPendingId] = useState<string | null>(null)
   const [editing, setEditing] = useState<(EditableEvent & { _id?: string }) | null>(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+
+  async function updateEvent(event: EventRecord, deleting = false) {
+    if (deleting && !window.confirm(`Permanently delete "${event.title}"? This cannot be undone.`))
+      return
+    setPendingId(event._id)
+    setError("")
+    try {
+      if (deleting) await remove({ id: event._id })
+      else await setActive({ id: event._id, active: !event.active })
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Unable to update the event.")
+    } finally {
+      setPendingId(null)
+    }
+  }
 
   async function submit() {
     if (!editing) return
@@ -69,6 +87,11 @@ export function AdminEvents() {
         title="Events"
         actions={<AdminButton onClick={() => setEditing(blankEvent())}>Create event</AdminButton>}
       />
+      {error && !editing ? (
+        <p role="alert" className="mb-4 text-sm text-red-800">
+          {error}
+        </p>
+      ) : null}
       <div className="grid gap-3">
         {events === undefined ? (
           <p>Loading events…</p>
@@ -113,15 +136,23 @@ export function AdminEvents() {
                 </div>
                 <p className="mt-1 line-clamp-2 text-sm opacity-70">{event.description}</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <AdminButton kind="secondary" onClick={() => setEditing(event)}>
                   Edit
                 </AdminButton>
                 <AdminButton
-                  kind="danger"
-                  onClick={() => archive({ archived: true, id: event._id })}
+                  kind="secondary"
+                  disabled={pendingId !== null}
+                  onClick={() => updateEvent(event)}
                 >
-                  Archive
+                  {event.active ? "Deactivate" : "Activate"}
+                </AdminButton>
+                <AdminButton
+                  kind="danger"
+                  disabled={pendingId !== null}
+                  onClick={() => updateEvent(event, true)}
+                >
+                  Delete
                 </AdminButton>
               </div>
             </article>

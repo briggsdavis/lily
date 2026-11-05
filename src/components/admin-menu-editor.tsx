@@ -413,7 +413,7 @@ export function AdminMenuEditor({ id }: { id?: string }) {
                 </button>
               </div>
             </div>
-            <div className="absolute top-4 right-4 flex flex-wrap items-center gap-1 rounded-xl bg-white/95 p-1.5 text-deep-brown shadow-lg">
+            <div className="absolute top-4 right-4 z-10 flex flex-wrap items-center gap-1 rounded-xl bg-white/95 p-1.5 text-deep-brown shadow-lg">
               <select
                 aria-label="Section background"
                 className="h-8 rounded-lg border-0 bg-stone-100 px-2 text-xs outline-none"

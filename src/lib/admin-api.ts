@@ -135,6 +135,14 @@ export const saveEventRef = makeFunctionReference<
   Omit<EventRecord, "_id" | "updatedAt"> & { id?: string },
   string
 >("cms:saveEvent")
+export const setEventActiveRef = makeFunctionReference<
+  "mutation",
+  { active: boolean; id: string },
+  null
+>("cms:setEventActive")
+export const deleteEventRef = makeFunctionReference<"mutation", { id: string }, null>(
+  "cms:deleteEvent",
+)
 export const setEventArchivedRef = makeFunctionReference<
   "mutation",
   { archived: boolean; id: string },
