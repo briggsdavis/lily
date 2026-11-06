@@ -6,11 +6,11 @@ import { MenuRotator } from "@/components/menu-rotator"
 import { NeighborhoodIntro } from "@/components/neighborhood-intro"
 import { EditableText, ColorSection, MediaEditControl } from "@/components/page-content"
 import { MediaImage, HeroSoundToggle } from "@/components/page-media"
+import { useDisabledPages } from "@/components/page-visibility"
 import { PillLink } from "@/components/pill-button"
 import { RotatingCrest } from "@/components/rotating-crest"
 import { ScrollRevealImage } from "@/components/scroll-reveal-image"
 import { ScrollTilt } from "@/components/scroll-tilt"
-import { useDisabledPages } from "@/components/page-visibility"
 import { isPageEnabled } from "@/lib/page-visibility"
 
 export function HomeContent() {

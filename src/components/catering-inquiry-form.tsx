@@ -164,7 +164,9 @@ export function CateringInquiryForm({
                     Start another
                   </PillButton>
                   <output className="mx-auto mt-4 block max-w-md text-sm leading-7 whitespace-pre-line text-cream/65">
-                    {"Thanks for telling us about your event.\nWe’ll be in touch within two business days to talk through the menu and timing.\nNeed us sooner? Call (724) 502-4572."}
+                    {
+                      "Thanks for telling us about your event.\nWe’ll be in touch within two business days to talk through the menu and timing.\nNeed us sooner? Call (724) 502-4572."
+                    }
                   </output>
                 </div>
               </div>
