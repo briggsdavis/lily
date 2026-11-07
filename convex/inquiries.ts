@@ -1,7 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAdmin } from "./adminGuard"
-import { notifyInbox } from "./emails"
+import { INBOXES, notifyInbox } from "./emails"
 
 export const submitContact = mutation({
   args: {
@@ -37,6 +37,7 @@ export const submitContact = mutation({
       idempotencyKey: `contact:${id}`,
       replyTo: args.email,
       subject: `New ${args.reason} inquiry from ${args.name}`,
+      to: args.reason === "events" ? INBOXES.events : INBOXES.lily,
     })
     return id
   },
@@ -84,6 +85,7 @@ export const submitCatering = mutation({
       idempotencyKey: `catering:${id}`,
       replyTo: args.email,
       subject: `New catering inquiry from ${args.fullName}`,
+      to: INBOXES.events,
     })
     return id
   },

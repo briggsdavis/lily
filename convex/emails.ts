@@ -2,7 +2,10 @@ import { Resend } from "@convex-dev/resend"
 import { components } from "./_generated/api"
 import { env, type MutationCtx } from "./_generated/server"
 
-const INQUIRY_RECIPIENTS = ["lily@neverskiphg.com", "events@neverskiphg.com"]
+export const INBOXES = {
+  events: "events@neverskiphg.com",
+  lily: "lily@neverskiphg.com",
+} as const
 
 function formatLines(fields: [string, string | number | undefined][]) {
   return fields
@@ -18,6 +21,7 @@ export async function notifyInbox(
     idempotencyKey: string
     replyTo: string
     subject: string
+    to: string
   },
 ) {
   const { EMAIL_FROM: from, RESEND_API_KEY: apiKey } = env
@@ -33,6 +37,6 @@ export async function notifyInbox(
     replyTo: [args.replyTo],
     subject: args.subject,
     text: formatLines(args.fields),
-    to: INQUIRY_RECIPIENTS,
+    to: [args.to],
   })
 }
