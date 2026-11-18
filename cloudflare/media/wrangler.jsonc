@@ -1,9 +1,0 @@
-{
-  "$schema": "../../node_modules/wrangler/config-schema.json",
-  "name": "lily-media",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-11-01",
-  "routes": [{ "pattern": "media.ntedvs.com", "custom_domain": true }],
-  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "lily-media" }],
-  "vars": { "CONVEX_ORIGIN": "https://acrobatic-raven-925.convex.cloud" }
-}
