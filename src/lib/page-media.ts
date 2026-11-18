@@ -248,7 +248,7 @@ export type MediaKey = (typeof mediaSlots)[number]["key"]
 export type PageMedia = { key: string; url: string; kind: "image" | "video" }
 
 export const imageLimitMb = 8
-export const videoLimitMb = 500
+export const videoLimitMb = 15
 export function mediaFileKind(
   type: string,
   size: number,

@@ -5,6 +5,7 @@ import { normalizeHex, validPageLink } from "../src/lib/visual-page"
 import { mutation, query } from "./_generated/server"
 import { requireAdmin } from "./adminGuard"
 import { announcementFields, popupFields } from "./marketingModel"
+import { mediaUrl } from "./mediaUrl"
 
 export const list = query({
   args: {},
@@ -30,7 +31,7 @@ export const published = query({
     return {
       announcement,
       popup: popup
-        ? { ...popup, imageUrl: popup.imageId ? await ctx.storage.getUrl(popup.imageId) : null }
+        ? { ...popup, imageUrl: popup.imageId ? await mediaUrl(ctx, popup.imageId) : null }
         : null,
     }
   },
@@ -166,6 +167,6 @@ export const imageUrl = query({
   args: { id: v.id("_storage") },
   handler: async (ctx, { id }) => {
     await requireAdmin(ctx)
-    return ctx.storage.getUrl(id)
+    return mediaUrl(ctx, id)
   },
 })

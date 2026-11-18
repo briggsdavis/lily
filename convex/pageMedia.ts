@@ -2,6 +2,7 @@ import { ConvexError, v } from "convex/values"
 import { mediaSlots, mediaFileKind } from "../src/lib/page-media"
 import { query, mutation } from "./_generated/server"
 import { requireAdmin } from "./adminGuard"
+import { mediaUrl } from "./mediaUrl"
 
 export const list = query({
   args: {},
@@ -10,7 +11,7 @@ export const list = query({
       (await ctx.db.query("pageMedia").collect()).map(async (row) => ({
         key: row.key,
         kind: row.kind,
-        url: await ctx.storage.getUrl(row.storageId),
+        url: await mediaUrl(ctx, row.storageId),
       })),
     )
   },
