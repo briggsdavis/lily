@@ -1,4 +1,3 @@
-import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { AnalyticsTracker } from "@/components/analytics-tracker"
@@ -29,27 +28,18 @@ export const metadata: Metadata = {
     "Lily is an intimate dining room and cocktail bar in Gibsonia, serving seasonal cooking and considered cocktails with polished service.",
 }
 
-export default async function Layout({ children }: LayoutProps<"/">) {
-  const content = (
-    <ConvexClientProvider>
-      {process.env.NEXT_PUBLIC_CONVEX_URL ? <AnalyticsTracker /> : null}
-      <SiteFrame>{children}</SiteFrame>
-    </ConvexClientProvider>
-  )
-  const document = (
+export default function Layout({ children }: LayoutProps<"/">) {
+  return (
     <html lang="en" className={`${masqualeroDemiBold.variable} bg-cream`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={heroIntroScript} />
       </head>
       <body className="flex min-h-dvh flex-col font-body antialiased">
-        {process.env.NEXT_PUBLIC_CONVEX_URL ? (
-          <ConvexAuthNextjsServerProvider>{content}</ConvexAuthNextjsServerProvider>
-        ) : (
-          content
-        )}
+        <ConvexClientProvider>
+          {process.env.NEXT_PUBLIC_CONVEX_URL ? <AnalyticsTracker /> : null}
+          <SiteFrame>{children}</SiteFrame>
+        </ConvexClientProvider>
       </body>
     </html>
   )
-
-  return document
 }

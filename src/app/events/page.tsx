@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { PrivateEventCta } from "@/components/about-evening"
 import { EventsExperience } from "@/components/events-experience"
 import { EventsHero } from "@/components/events-hero"
+import { requirePageEnabled } from "@/lib/page-gate"
 
 export const metadata: Metadata = {
   title: "Events",
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
     "Discover seasonal suppers, wine dinners, cocktail evenings, and private gatherings at Lily in Gibsonia.",
 }
 
-export default function EventsPage() {
+export const revalidate = 60
+
+export default async function EventsPage() {
+  await requirePageEnabled("/events")
   return (
     <div className="bg-dark-maroon">
       <EventsHero />

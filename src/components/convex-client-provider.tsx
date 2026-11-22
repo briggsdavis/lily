@@ -1,7 +1,7 @@
 "use client"
 
 import { ConvexAuthNextjsProvider } from "@convex-dev/auth/nextjs"
-import { ConvexReactClient } from "convex/react"
+import { ConvexProvider, ConvexReactClient } from "convex/react"
 import { ReactNode } from "react"
 import { PageVisibilityProvider } from "@/components/page-visibility"
 
@@ -12,8 +12,14 @@ export function ConvexClientProvider({ children }: { children: ReactNode }) {
   if (!convex) return children
 
   return (
-    <ConvexAuthNextjsProvider client={convex}>
+    <ConvexProvider client={convex}>
       <PageVisibilityProvider>{children}</PageVisibilityProvider>
-    </ConvexAuthNextjsProvider>
+    </ConvexProvider>
   )
+}
+
+export function ConvexAuthClientProvider({ children }: { children: ReactNode }) {
+  if (!convex) return children
+
+  return <ConvexAuthNextjsProvider client={convex}>{children}</ConvexAuthNextjsProvider>
 }

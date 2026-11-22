@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import { CateringProductDetail } from "@/components/catering-product-detail"
 import { cateringProducts, getCateringProduct } from "@/data/catering-products"
+import { requirePageEnabled } from "@/lib/page-gate"
 
 export const dynamicParams = false
 
@@ -35,6 +36,8 @@ function DetailFallback() {
 
 const detailFallback = <DetailFallback />
 
+export const revalidate = 60
+
 export default async function CateringProductPage({
   params,
 }: {
@@ -43,6 +46,7 @@ export default async function CateringProductPage({
   const { slug } = await params
   const product = getCateringProduct(slug)
   if (!product) notFound()
+  await requirePageEnabled(`/catering/${slug}`)
 
   return (
     <Suspense fallback={detailFallback}>

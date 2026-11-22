@@ -8,6 +8,7 @@ import {
   menuCategorySlugs,
   type MenuCategorySlug,
 } from "@/data/menu"
+import { requirePageEnabled } from "@/lib/page-gate"
 
 type MenuCategoryPageProps = {
   params: Promise<{ category: string }>
@@ -36,8 +37,11 @@ export async function generateMetadata({ params }: MenuCategoryPageProps): Promi
   }
 }
 
+export const revalidate = 60
+
 export default async function MenuCategoryPage({ params }: MenuCategoryPageProps) {
   const { category: slug } = await params
+  await requirePageEnabled(`/menu/${slug}`)
   if (process.env.NEXT_PUBLIC_CONVEX_URL) return <CmsMenuPage slug={slug} />
   const category = resolveCategory(slug)
 
